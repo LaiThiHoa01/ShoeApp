@@ -1,9 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.ShoeApp" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
+    <style name="Theme.SoleStep" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+
+        <!-- ─── Màu hệ thống Material ─── -->
+        <item name="colorPrimary">@color/brand_orange</item>
+        <item name="colorPrimaryVariant">@color/brand_orange_dark</item>
+        <item name="colorPrimaryDark">@color/brand_orange_dark</item>
+        <item name="colorOnPrimary">@color/brand_white</item>
+
+        <item name="colorSecondary">@color/brand_black</item>
+        <item name="colorSecondaryVariant">@color/bg_dark_surface_2</item>
+        <item name="colorOnSecondary">@color/brand_white</item>
+
+        <item name="colorSurface">@color/bg_primary</item>
+        <item name="colorOnSurface">@color/text_primary</item>
+
+        <item name="android:colorBackground">@color/bg_secondary</item>
+        <item name="colorOnBackground">@color/text_primary</item>
+
+        <item name="colorError">@color/status_error</item>
+        <item name="colorOnError">@color/brand_white</item>
+
+        <!-- ─── Status bar & Navigation bar ─── -->
+        <item name="android:statusBarColor">@color/brand_white</item>
+        <item name="android:navigationBarColor">@color/brand_white</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+
+        <!-- ─── Window ─── -->
+        <item name="android:windowBackground">@color/bg_secondary</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">false</item>
+
+        <!-- ─── Shapes ─── -->
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.SoleStep.Small</item>
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.SoleStep.Medium</item>
+        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.SoleStep.Large</item>
+
+        <!-- ─── Typography ─── -->
+        <item name="textAppearanceHeadline1">@style/TextAppearance.SoleStep.Display</item>
+        <item name="textAppearanceHeadline2">@style/TextAppearance.SoleStep.TitleLarge</item>
+        <item name="textAppearanceHeadline3">@style/TextAppearance.SoleStep.Title</item>
+        <item name="textAppearanceHeadline4">@style/TextAppearance.SoleStep.Headline</item>
+        <item name="textAppearanceHeadline5">@style/TextAppearance.SoleStep.Subheading</item>
+        <item name="textAppearanceHeadline6">@style/TextAppearance.SoleStep.Label</item>
+        <item name="textAppearanceBody1">@style/TextAppearance.SoleStep.Body</item>
+        <item name="textAppearanceBody2">@style/TextAppearance.SoleStep.BodySmall</item>
+        <item name="textAppearanceCaption">@style/TextAppearance.SoleStep.Caption</item>
+        <item name="textAppearanceOverline">@style/TextAppearance.SoleStep.Overline</item>
+        <item name="textAppearanceButton">@style/TextAppearance.SoleStep.Button</item>
+
+        <!-- ─── Components ─── -->
+        <item name="bottomNavigationStyle">@style/Widget.SoleStep.BottomNavigationView</item>
+        <item name="materialButtonStyle">@style/Widget.SoleStep.Button.Primary</item>
+        <item name="textInputStyle">@style/Widget.SoleStep.TextInputLayout</item>
+        <item name="chipStyle">@style/Widget.SoleStep.Chip</item>
+        <item name="cardViewStyle">@style/Widget.SoleStep.CardView</item>
+        <item name="toolbarStyle">@style/Widget.SoleStep.Toolbar</item>
+        <item name="floatingActionButtonStyle">@style/Widget.SoleStep.FAB</item>
     </style>
 
-    <style name="Theme.ShoeApp" parent="Base.Theme.ShoeApp" />
+<!--admin theme-->
+    <style name="Theme.SoleStep.Admin" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+
+        <item name="colorPrimary">@color/brand_orange</item>
+        <item name="colorPrimaryVariant">@color/brand_orange_light</item>
+        <item name="colorOnPrimary">@color/brand_white</item>
+
+        <item name="colorSecondary">@color/brand_indigo</item>
+        <item name="colorOnSecondary">@color/brand_white</item>
+
+        <item name="colorSurface">@color/bg_dark_surface_2</item>
+        <item name="colorOnSurface">@color/brand_white</item>
+
+        <item name="android:colorBackground">@color/bg_dark_primary</item>
+        <item name="colorOnBackground">@color/brand_white</item>
+
+        <item name="colorError">@color/status_error</item>
+        <item name="colorOnError">@color/brand_white</item>
+
+        <item name="android:statusBarColor">@color/bg_dark_surface_1</item>
+        <item name="android:navigationBarColor">@color/bg_dark_primary</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+
+        <item name="android:windowBackground">@color/bg_dark_primary</item>
+
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.SoleStep.Small</item>
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.SoleStep.Medium</item>
+        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.SoleStep.Large</item>
+
+        <item name="bottomNavigationStyle">@style/Widget.SoleStep.BottomNavigationView.Admin</item>
+        <item name="materialButtonStyle">@style/Widget.SoleStep.Button.Primary</item>
+        <item name="textInputStyle">@style/Widget.SoleStep.TextInputLayout.Dark</item>
+    </style>
+
+
+    <style name="Theme.SoleStep.Splash" parent="Theme.SoleStep">
+        <item name="android:windowBackground">@color/brand_black</item>
+        <item name="android:statusBarColor">@color/brand_black</item>
+        <item name="android:navigationBarColor">@color/brand_black</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+    </style>
+
+    <style name="ShapeAppearance.SoleStep.Small" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/radius_sm</item>
+    </style>
+
+    <style name="ShapeAppearance.SoleStep.Medium" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/radius_lg</item>
+    </style>
+
+    <style name="ShapeAppearance.SoleStep.Large" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/radius_2xl</item>
+    </style>
+
+    <style name="ShapeAppearance.SoleStep.Pill" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/radius_pill</item>
+    </style>
+
+    <style name="ShapeAppearance.SoleStep.BottomSheet" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">@dimen/radius_bottom_sheet</item>
+        <item name="cornerSizeTopRight">@dimen/radius_bottom_sheet</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+    </style>
+
+
+    <!-- Display — Hero title (Home banner, App name) -->
+    <style name="TextAppearance.SoleStep.Display" parent="TextAppearance.MaterialComponents.Headline1">
+        <item name="android:textSize">@dimen/font_display</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="android:textColor">@color/text_primary</item>
+    </style>
+
+    <!-- TitleLarge — Screen title, Section header -->
+    <style name="TextAppearance.SoleStep.TitleLarge" parent="TextAppearance.MaterialComponents.Headline2">
+        <item name="android:textSize">@dimen/font_title_large</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/text_primary</item>
+    </style>
+
+    <!-- Title — Dialog title, card title -->
+    <style name="TextAppearance.SoleStep.Title" parent="TextAppearance.MaterialComponents.Headline3">
+        <item name="android:textSize">@dimen/font_title</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/text_primary</item>
+    </style>
+
+    <!-- Headline — Subheading, card head -->
+    <style name="TextAppearance.SoleStep.Headline" parent="TextAppearance.MaterialComponents.Headline4">
+        <item name="android:textSize">@dimen/font_headline</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/text_primary</item>
+    </style>
+
+    <!-- Subheading — Section subtitle -->
+    <style name="TextAppearance.SoleStep.Subheading" parent="TextAppearance.MaterialComponents.Headline5">
+        <item name="android:textSize">@dimen/font_subheading</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/text_primary</item>
+    </style>
+
+    <!-- Label — Form labels, nav labels -->
+    <style name="TextAppearance.SoleStep.Label" parent="TextAppearance.MaterialComponents.Headline6">
+        <item name="android:textSize">@dimen/font_label</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/text_secondary</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+    <!-- Body — Descriptions, review text -->
+    <style name="TextAppearance.SoleStep.Body" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:textSize">@dimen/font_body</item>
+        <item name="android:textColor">@color/text_secondary</item>
+        <item name="android:lineSpacingMultiplier">1.5</item>
+    </style>
+
+    <!-- BodySmall — Hint text, secondary info -->
+    <style name="TextAppearance.SoleStep.BodySmall" parent="TextAppearance.MaterialComponents.Body2">
+        <item name="android:textSize">@dimen/font_caption</item>
+        <item name="android:textColor">@color/text_tertiary</item>
+    </style>
+
+    <!-- Caption — Date, ref ID, small labels -->
+    <style name="TextAppearance.SoleStep.Caption" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="android:textSize">@dimen/font_caption_small</item>
+        <item name="android:textColor">@color/text_muted</item>
+    </style>
+
+    <!-- Overline — Section header uppercase -->
+    <style name="TextAppearance.SoleStep.Overline" parent="TextAppearance.MaterialComponents.Overline">
+        <item name="android:textSize">@dimen/font_overline</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/text_muted</item>
+    </style>
+
+    <!-- Button text -->
+    <style name="TextAppearance.SoleStep.Button" parent="TextAppearance.MaterialComponents.Button">
+        <item name="android:textSize">@dimen/font_label</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <!-- Price text — Large orange price -->
+    <style name="TextAppearance.SoleStep.PriceLarge" parent="TextAppearance.SoleStep.TitleLarge">
+        <item name="android:textSize">@dimen/font_price_large</item>
+        <item name="android:textColor">@color/brand_orange</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- Price text — Medium -->
+    <style name="TextAppearance.SoleStep.PriceMedium" parent="TextAppearance.SoleStep.Title">
+        <item name="android:textSize">@dimen/font_price_medium</item>
+        <item name="android:textColor">@color/brand_orange</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- Price text — Small (product card) -->
+    <style name="TextAppearance.SoleStep.PriceSmall" parent="TextAppearance.SoleStep.Body">
+        <item name="android:textSize">@dimen/font_price_small</item>
+        <item name="android:textColor">@color/brand_orange</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
 </resources>

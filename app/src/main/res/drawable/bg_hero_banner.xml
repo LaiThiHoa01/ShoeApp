@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Hero Banner — gradient đen, góc bo 3xl
+  Tương đương: bg-[#0A0A0A] rounded-3xl overflow-hidden
+  (gradient chỉ dùng GradientDrawable qua code hoặc layer-list)
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <gradient
+        android:startColor="@color/brand_black"
+        android:endColor="@color/bg_dark_surface_3"
+        android:angle="135"
+        android:type="linear" />
+    <corners android:radius="@dimen/radius_3xl" />
+</shape>

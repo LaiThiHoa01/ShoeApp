@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Nút Primary — Nền cam neon, bo tròn
+  Tương đương: bg-[#FF5500] rounded-2xl
+  Shadow: 0 8dp 24dp rgba(255,85,0,0.35)  →  elevation + colorPrimary
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/brand_orange" />
+    <corners android:radius="@dimen/radius_button" />
+</shape>

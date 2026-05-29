@@ -1,7 +1,38 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.ShoeApp" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ╔══════════════════════════════════════════════════════════════╗
+  ║    SoleStep — Themes (Dark Mode — values-night)              ║
+  ║  Tự động áp dụng khi người dùng bật Dark Mode trên thiết bị  ║
+  ╚══════════════════════════════════════════════════════════════╝
+-->
+<resources>
+
+    <style name="Theme.SoleStep" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+
+        <!-- Material colors — dark remapping -->
+        <item name="colorPrimary">@color/brand_orange</item>
+        <item name="colorPrimaryVariant">@color/brand_orange_dark</item>
+        <item name="colorOnPrimary">@color/brand_white</item>
+
+        <item name="colorSecondary">@color/brand_orange_light</item>
+        <item name="colorOnSecondary">@color/brand_white</item>
+
+        <item name="colorSurface">@color/bg_dark_surface_2</item>
+        <item name="colorOnSurface">@color/brand_white</item>
+
+        <item name="android:colorBackground">@color/bg_dark_primary</item>
+        <item name="colorOnBackground">@color/brand_white</item>
+
+        <item name="colorError">@color/status_error</item>
+        <item name="colorOnError">@color/brand_white</item>
+
+        <!-- Status bar -->
+        <item name="android:statusBarColor">@color/bg_dark_surface_1</item>
+        <item name="android:navigationBarColor">@color/bg_dark_primary</item>
+        <item name="android:windowLightStatusBar">false</item>
+
+        <!-- Window -->
+        <item name="android:windowBackground">@color/bg_dark_primary</item>
     </style>
+
 </resources>

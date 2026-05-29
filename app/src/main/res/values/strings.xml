@@ -1,3 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">ShoeApp</string>
+
+    <!-- App -->
+    <string name="app_name">SoleStep</string>
+    <string name="app_tagline">Step Into Style</string>
+    <string name="app_admin_portal">Admin Portal</string>
+
+    <!-- ─── Auth screens ─── -->
+    <string name="auth_welcome_back">Welcome back</string>
+    <string name="auth_sign_in_subtitle">Sign in to your account</string>
+    <string name="auth_sign_up_title">Create account</string>
+    <string name="auth_sign_up_subtitle">Join SoleStep and step into style</string>
+    <string name="auth_change_password_title">Change Password</string>
+    <string name="auth_btn_sign_in">Sign In</string>
+    <string name="auth_btn_sign_up">Sign Up</string>
+    <string name="auth_btn_continue">Continue</string>
+    <string name="auth_btn_update_password">Update Password</string>
+    <string name="auth_forgot_password">Forgot password?</string>
+    <string name="auth_no_account">Don\'t have an account? Sign Up</string>
+    <string name="auth_have_account">Already a member? Sign In</string>
+    <string name="auth_google">Continue with Google</string>
+    <string name="auth_label_email">Email</string>
+    <string name="auth_label_password">Password</string>
+    <string name="auth_label_current_password">Current Password</string>
+    <string name="auth_label_new_password">New Password</string>
+    <string name="auth_label_confirm_password">Confirm New Password</string>
+    <string name="auth_label_first_name">First Name</string>
+    <string name="auth_label_last_name">Last Name</string>
+    <string name="auth_label_phone">Phone Number</string>
+    <string name="auth_passwords_match">Passwords match</string>
+    <string name="auth_secure_update">Secure Password Update</string>
+    <string name="auth_admin_notice">Restricted access — authorized personnel only</string>
+    <string name="auth_admin_2fa">2FA Code</string>
+    <string name="auth_btn_access_dashboard">Access Dashboard</string>
+    <string name="auth_security_notice_title">Security Notice</string>
+    <string name="auth_security_notice_body">All admin actions are logged and monitored. Unauthorized access attempts will be reported.</string>
+
+    <!-- ─── Home screen ─── -->
+    <string name="home_greeting">Good morning </string>
+    <string name="home_search_hint">Search shoes, brands…</string>
+    <string name="home_categories_title">Categories</string>
+    <string name="home_trending_title">Trending Now</string>
+    <string name="home_brands_title">Featured Brands</string>
+    <string name="home_see_all">See all</string>
+    <string name="home_banner_label">New Drop</string>
+    <string name="home_banner_offer">Up to 30% off today only</string>
+    <string name="home_banner_cta">Shop Now</string>
+
+    <!-- ─── Catalog & filter ─── -->
+    <string name="catalog_search_hint">Search…</string>
+    <string name="catalog_filter_title">Filters</string>
+    <string name="catalog_sort_popular">Popular</string>
+    <string name="catalog_sort_price_low">Price: Low to High</string>
+    <string name="catalog_sort_price_high">Price: High to Low</string>
+    <string name="catalog_sort_newest">Newest</string>
+    <string name="catalog_filter_price">Price Range</string>
+    <string name="catalog_filter_size">Size (US)</string>
+    <string name="catalog_filter_brand">Brand</string>
+    <string name="catalog_btn_apply">Apply Filters</string>
+    <string name="catalog_btn_reset">Reset</string>
+    <string name="catalog_items_count">%d items</string>
+
+    <!-- ─── Product detail ─── -->
+    <string name="detail_label_brand">Brand</string>
+    <string name="detail_label_color">Color</string>
+    <string name="detail_label_size">Size (US)</string>
+    <string name="detail_label_description">Description</string>
+    <string name="detail_label_reviews">Reviews</string>
+    <string name="detail_size_guide">Size Guide</string>
+    <string name="detail_read_all_reviews">Read all</string>
+    <string name="detail_btn_add_to_cart">Add to Cart</string>
+    <string name="detail_badge_new">NEW</string>
+
+    <!-- ─── Cart ─── -->
+    <string name="cart_title">My Cart</string>
+    <string name="cart_promo_hint">Enter promo code</string>
+    <string name="cart_btn_apply_promo">Apply</string>
+    <string name="cart_summary_title">Order Summary</string>
+    <string name="cart_subtotal">Subtotal</string>
+    <string name="cart_shipping">Shipping</string>
+    <string name="cart_discount">Discount</string>
+    <string name="cart_total">Total</string>
+    <string name="cart_btn_checkout">Proceed to Checkout</string>
+
+    <!-- ─── Checkout ─── -->
+    <string name="checkout_title">Checkout</string>
+    <string name="checkout_step_address">Address</string>
+    <string name="checkout_step_payment">Payment</string>
+    <string name="checkout_step_review">Review</string>
+    <string name="checkout_delivery_title">Delivery Address</string>
+    <string name="checkout_delivery_method">Delivery Method</string>
+    <string name="checkout_payment_title">Payment Method</string>
+    <string name="checkout_summary_title">Order Summary</string>
+    <string name="checkout_btn_place_order">Place Order</string>
+    <string name="checkout_secure_msg">Secured by 256-bit SSL encryption 🔒</string>
+    <string name="checkout_change">Change</string>
+    <string name="checkout_add_new">Add New</string>
+
+    <!-- ─── QR Payment ─── -->
+    <string name="qr_title">Scan to Pay</string>
+    <string name="qr_label_amount">Total Amount Due</string>
+    <string name="qr_brand_tag">SoleStep Pay</string>
+    <string name="qr_expires">QR expires in</string>
+    <string name="qr_label_ref">Reference ID</string>
+    <string name="qr_accepted">Accepted by all major banks &amp; e-wallets</string>
+    <string name="qr_instructions_1">Open your mobile banking app</string>
+    <string name="qr_instructions_2">Select \'Scan QR Code\' option</string>
+    <string name="qr_instructions_3">Point camera at the QR code above</string>
+    <string name="qr_instructions_4">Confirm payment in your app</string>
+    <string name="qr_success_title">Payment Successful!</string>
+    <string name="qr_success_subtitle">Your order has been placed</string>
+    <string name="qr_btn_view_order">View Order</string>
+    <string name="qr_btn_continue_shopping">Continue Shopping</string>
+    <string name="qr_secure">Secure</string>
+    <string name="qr_btn_simulate_payment">Simulate Payment</string>
+
+    <!-- ─── Orders ─── -->
+    <string name="orders_title">My Orders</string>
+    <string name="orders_tab_all">All</string>
+    <string name="orders_tab_pending">Pending</string>
+    <string name="orders_tab_shipping">Shipping</string>
+    <string name="orders_tab_delivered">Delivered</string>
+    <string name="orders_btn_track">Track Order</string>
+    <string name="orders_btn_rate">Rate Products</string>
+
+    <!-- ─── Order detail ─── -->
+    <string name="order_detail_title">Order Details</string>
+    <string name="order_detail_timeline">Order Timeline</string>
+    <string name="order_detail_items">Items Ordered</string>
+    <string name="order_detail_address">Shipping Address</string>
+    <string name="order_detail_payment">Payment Summary</string>
+    <string name="order_detail_ref">Order Reference</string>
+    <string name="order_detail_btn_invoice">Get Invoice</string>
+    <string name="order_detail_btn_rate">Rate Products</string>
+    <string name="order_detail_total_paid">Total Paid</string>
+
+    <!-- ─── Review ─── -->
+    <string name="review_title">Rate &amp; Review</string>
+    <string name="review_overall">Overall Rating</string>
+    <string name="review_tags_title">Quick Tags</string>
+    <string name="review_text_hint">Share your experience with this product…</string>
+    <string name="review_photos_title">Add Photos (Optional)</string>
+    <string name="review_btn_submit">Submit Review</string>
+    <string name="review_submitted_title">Review Submitted!</string>
+    <string name="review_submitted_body">Thank you for your feedback</string>
+    <string name="review_char_count">%d/500</string>
+    <string name="review_your_review">Your Review</string>
+
+    <!-- Bottom navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_search">Search</string>
+    <string name="nav_cart">Cart</string>
+    <string name="nav_orders">Orders</string>
+    <string name="nav_profile">Profile</string>
+
+    <!-- Rating labels -->
+    <string name="rating_1">Poor</string>
+    <string name="rating_2">Fair</string>
+    <string name="rating_3">Good</string>
+    <string name="rating_4">Great</string>
+    <string name="rating_5">Excellent!</string>
+
+    <!-- ─── Admin Dashboard ─── -->
+    <string name="admin_dashboard_title">SoleStep</string>
+    <string name="admin_dashboard_subtitle">Admin Dashboard</string>
+    <string name="admin_today_revenue">Today\'s Revenue</string>
+    <string name="admin_recent_orders">Recent Orders</string>
+    <string name="admin_top_products">Top Products</string>
+
+    <!-- ─── Admin User Management ─── -->
+    <string name="admin_users_title">User Management</string>
+    <string name="admin_users_search_hint">Search users…</string>
+    <string name="admin_btn_add_user">Add User</string>
+    <string name="admin_add_user_title">Add New User</string>
+    <string name="admin_btn_create_user">Create User</string>
+    <string name="admin_delete_user_title">Delete User?</string>
+    <string name="admin_delete_user_body">This action cannot be undone. All data associated with this user will be permanently removed.</string>
+
+    <!-- ─── Admin Categories ─── -->
+    <string name="admin_categories_title">Categories</string>
+    <string name="admin_btn_add_category">Add</string>
+    <string name="admin_add_category_title">Add Category</string>
+    <string name="admin_edit_category_title">Edit Category</string>
+    <string name="admin_category_name_hint">e.g. Basketball</string>
+    <string name="admin_category_name_label">Category Name</string>
+    <string name="admin_category_icon_label">Icon (Emoji)</string>
+    <string name="admin_category_color_label">Color</string>
+    <string name="admin_delete_category_title">Delete Category?</string>
+    <string name="admin_delete_category_body">All products in this category will be unassigned.</string>
+
+    <!-- ─── Admin Products ─── -->
+    <string name="admin_products_title">Products</string>
+    <string name="admin_btn_add_product">Add Product</string>
+    <string name="admin_add_product_title">Add New Product</string>
+    <string name="admin_product_name_label">Product Name</string>
+    <string name="admin_product_brand_label">Brand</string>
+    <string name="admin_product_price_label">Price ($)</string>
+    <string name="admin_product_original_price_label">Original Price ($)</string>
+    <string name="admin_product_stock_label">Stock Quantity</string>
+    <string name="admin_product_category_label">Category</string>
+    <string name="admin_product_sizes_label">Available Sizes (US)</string>
+    <string name="admin_product_description_label">Description</string>
+    <string name="admin_btn_add_product_confirm">Add Product</string>
+    <string name="admin_delete_product_title">Delete Product?</string>
+    <string name="admin_delete_product_body">This will permanently remove the product and all its variants from the store.</string>
+
+    <!-- ─── Admin Orders ─── -->
+    <string name="admin_orders_title">Order Management</string>
+    <string name="admin_orders_search_hint">Search orders or customers…</string>
+    <string name="admin_btn_view_details">View Details</string>
+    <string name="admin_btn_mark_shipped">Mark as Shipped</string>
+    <string name="admin_btn_mark_delivered">Mark as Delivered</string>
+    <string name="admin_order_progress_title">Order Progress</string>
+    <string name="admin_status_completed">Completed</string>
+
+    <!-- ─── Common actions ─── -->
+    <string name="action_cancel">Cancel</string>
+    <string name="action_save">Save Changes</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_edit">Edit</string>
+    <string name="action_close">Close</string>
+    <string name="action_back">Back</string>
+    <string name="action_copy">Copy</string>
+    <string name="action_share">Share</string>
+    <string name="action_refresh">Refresh</string>
+    <string name="action_search">Search</string>
+    <string name="action_filter">Filter</string>
+
+    <!-- ─── Status labels ─── -->
+    <string name="status_pending">Pending</string>
+    <string name="status_processing">Processing</string>
+    <string name="status_shipping">Shipping</string>
+    <string name="status_shipped">Shipped</string>
+    <string name="status_delivered">Delivered</string>
+    <string name="status_active">Active</string>
+    <string name="status_inactive">Inactive</string>
+    <string name="status_new">NEW</string>
+
+    <!-- ─── Categories ─── -->
+    <string name="cat_sneakers">Sneakers</string>
+    <string name="cat_running">Running</string>
+    <string name="cat_boots">Boots</string>
+    <string name="cat_casual">Casual</string>
+    <string name="cat_basketball">Basketball</string>
+    <string name="cat_training">Training</string>
+
+    <!-- ─── Password requirements ─── -->
+    <string name="pass_req_length">At least 8 characters</string>
+    <string name="pass_req_uppercase">One uppercase letter</string>
+    <string name="pass_req_number">One number</string>
+    <string name="pass_req_special">One special character (@, !, etc.)</string>
+    <string name="pass_strength_strong">Strong password</string>
+
 </resources>

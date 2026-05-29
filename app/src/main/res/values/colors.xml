@@ -1,5 +1,163 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+
+<!--   BRAND / PRIMARY PALETTE   -->
+
+    <!-- Màu chính của thương hiệu -->
+    <color name="brand_orange">#FF5500</color>
+    <color name="brand_orange_light">#FF8844</color>
+    <color name="brand_orange_dark">#CC4400</color>
+
+    <!-- Nền tối chính -->
+    <color name="brand_black">#0A0A0A</color>
+    <color name="brand_near_black">#0D0D0D</color>
+
+    <!-- Trắng tinh -->
+    <color name="brand_white">#FFFFFF</color>
+
+    <!-- Admin accent -->
+    <color name="brand_indigo">#6366F1</color>
+    <color name="brand_indigo_light">#818CF8</color>
+
+<!--BACKGROUND SURFACES -->
+
+    <!-- Light mode backgrounds -->
+    <color name="bg_primary">#FFFFFF</color>
+    <color name="bg_secondary">#F8F8F8</color>
+    <color name="bg_tertiary">#F4F4F4</color>
+    <color name="bg_input">#F0F0F2</color>
+
+    <!-- Dark mode backgrounds (admin + canvas) -->
+    <color name="bg_dark_primary">#0A0A0A</color>
+    <color name="bg_dark_secondary">#0D0D0D</color>
+    <color name="bg_dark_surface_1">#111111</color>
+    <color name="bg_dark_surface_2">#161616</color>
+    <color name="bg_dark_surface_3">#1A1A1A</color>
+    <color name="bg_dark_surface_4">#2A2A2A</color>
+    <color name="bg_dark_elevated">#222222</color>
+
+<!-- TEXT COLORS  -->
+
+    <!-- Light theme text -->
+    <color name="text_primary">#0A0A0A</color>
+    <color name="text_secondary">#374151</color>
+    <color name="text_tertiary">#6B7280</color>
+    <color name="text_muted">#9CA3AF</color>
+    <color name="text_placeholder">#D1D5DB</color>
+    <color name="text_disabled">#E5E7EB</color>
+
+    <!-- Dark theme text -->
+    <color name="text_dark_primary">#FFFFFF</color>
+    <color name="text_dark_secondary">#99FFFFFF</color>   <!-- 60% white -->
+    <color name="text_dark_tertiary">#66FFFFFF</color>   <!-- 40% white -->
+    <color name="text_dark_muted">#4DFFFFFF</color>      <!-- 30% white -->
+    <color name="text_dark_faint">#33FFFFFF</color>      <!-- 20% white -->
+    <color name="text_dark_ghost">#1AFFFFFF</color>      <!-- 10% white -->
+
+    <!-- Accent text -->
+    <color name="text_accent">#FF5500</color>
+    <color name="text_accent_admin">#6366F1</color>
+
+<!-- BORDER / DIVIDER COLORS -->
+
+    <!-- Light borders -->
+    <color name="border_light">#F3F4F6</color>
+    <color name="border_normal">#E5E7EB</color>
+    <color name="border_medium">#D1D5DB</color>
+
+    <!-- Dark borders (opacity on black) -->
+    <color name="border_dark_subtle">#0AFFFFFF</color>   <!-- 4% white -->
+    <color name="border_dark_light">#0FFFFFFF</color>    <!-- 6% white -->
+    <color name="border_dark_normal">#14FFFFFF</color>   <!-- 8% white -->
+    <color name="border_dark_medium">#1AFFFFFF</color>   <!-- 10% white -->
+    <color name="border_dark_strong">#1FFFFFFF</color>   <!-- 12% white -->
+
+    <!-- Accent borders -->
+    <color name="border_accent">#FF5500</color>
+    <color name="border_accent_light">#33FF5500</color>  <!-- 20% orange -->
+    <color name="border_accent_faint">#1AFF5500</color>  <!-- 10% orange -->
+
+<!-- STATUS / SEMANTIC COLORS-->
+    <!-- Success (Delivered) -->
+    <color name="status_success">#10B981</color>
+    <color name="status_success_light">#34D399</color>
+    <color name="status_success_bg">#1A10B981</color>    <!-- 10% green -->
+    <color name="status_success_bg_light">#F0FFF4</color>
+
+    <!-- Warning (Pending) -->
+    <color name="status_warning">#FBBF24</color>
+    <color name="status_warning_light">#FCD34D</color>
+    <color name="status_warning_bg">#1AFBBF24</color>    <!-- 10% yellow -->
+    <color name="status_warning_bg_light">#FFFBEB</color>
+
+    <!-- Info (Shipping) -->
+    <color name="status_info">#60A5FA</color>
+    <color name="status_info_medium">#3B82F6</color>
+    <color name="status_info_bg">#1A60A5FA</color>       <!-- 10% blue -->
+    <color name="status_info_bg_light">#EFF6FF</color>
+
+    <!-- Error -->
+    <color name="status_error">#EF4444</color>
+    <color name="status_error_light">#F87171</color>
+    <color name="status_error_bg">#1AEF4444</color>      <!-- 10% red -->
+    <color name="status_error_bg_light">#FEF2F2</color>
+
+    <!-- Processing -->
+    <color name="status_processing">#FBBF24</color>
+
+<!--    ORANGE TINT SCALE  -->
+
+    <color name="orange_tint_04">#0AFF5500</color>   <!--  4% -->
+    <color name="orange_tint_05">#0DFF5500</color>   <!--  5% -->
+    <color name="orange_tint_06">#0FFF5500</color>   <!--  6% -->
+    <color name="orange_tint_10">#1AFF5500</color>   <!-- 10% -->
+    <color name="orange_tint_12">#1EFF5500</color>   <!-- 12% -->
+    <color name="orange_tint_15">#26FF5500</color>   <!-- 15% -->
+    <color name="orange_tint_20">#33FF5500</color>   <!-- 20% -->
+    <color name="orange_tint_25">#40FF5500</color>   <!-- 25% -->
+    <color name="orange_tint_30">#4DFF5500</color>   <!-- 30% -->
+    <color name="orange_tint_35">#59FF5500</color>   <!-- 35% -->
+    <color name="orange_tint_40">#66FF5500</color>   <!-- 40% -->
+
+<!--BLACK OVERLAY SCALE-->
+
+    <color name="overlay_light">#0F000000</color>    <!--  6% -->
+    <color name="overlay_medium">#14000000</color>   <!--  8% -->
+    <color name="overlay_dark">#4D000000</color>     <!-- 30% -->
+    <color name="overlay_darker">#80000000</color>   <!-- 50% -->
+    <color name="overlay_heavy">#99000000</color>    <!-- 60% -->
+    <color name="overlay_header">#EB0A0A0A</color>   <!-- 92% black header -->
+
+<!-- STAR RATING COLOR-->
+    <color name="star_filled">#FBBF24</color>
+    <color name="star_empty">#E5E7EB</color>
+
+<!--CATEGORY / TAG ACCENT COLORS    -->
+    <color name="cat_sneakers">#FF5500</color>
+    <color name="cat_running">#0066FF</color>
+    <color name="cat_boots">#8B4513</color>
+    <color name="cat_casual">#6B7280</color>
+    <color name="cat_basketball">#FF8800</color>
+    <color name="cat_training">#00AA44</color>
+
+<!--PRODUCT SWATCH COLORS-->
+    <color name="swatch_white">#FFFFFF</color>
+    <color name="swatch_black">#000000</color>
+    <color name="swatch_orange">#FF5500</color>
+    <color name="swatch_red">#FF0000</color>
+    <color name="swatch_blue">#1A1AFF</color>
+    <color name="swatch_rose">#D4A5A5</color>
+
+<!-- STATS DASHBOARD COLORS (ADMIN)-->
+
+    <color name="stat_revenue">#FF5500</color>
+    <color name="stat_orders">#3B82F6</color>
+    <color name="stat_customers">#10B981</color>
+    <color name="stat_products">#8B5CF6</color>
+    <color name="stat_revenue_bg">#1EFF5500</color>
+    <color name="stat_orders_bg">#1E3B82F6</color>
+    <color name="stat_customers_bg">#1E10B981</color>
+    <color name="stat_products_bg">#1E8B5CF6</color>
+
 </resources>

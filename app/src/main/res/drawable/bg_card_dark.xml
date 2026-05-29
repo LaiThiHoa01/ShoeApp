@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Card nền tối — admin dark mode
+  Tương đương: bg-[#161616] rounded-2xl border border-white/6
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/bg_dark_surface_2" />
+    <corners android:radius="@dimen/radius_card" />
+    <stroke
+        android:width="@dimen/stroke_thin"
+        android:color="@color/border_dark_light" />
+</shape>

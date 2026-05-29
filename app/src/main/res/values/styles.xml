@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+<!--button-->
+    <!-- Primary — Neon orange, dùng cho Add to Cart / Pay / Submit -->
+    <style name="Widget.SoleStep.Button.Primary" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@color/brand_orange</item>
+        <item name="android:textColor">@color/brand_white</item>
+        <item name="android:textAppearance">@style/TextAppearance.SoleStep.Button</item>
+        <item name="cornerRadius">@dimen/radius_button</item>
+        <item name="android:minHeight">@dimen/btn_height_large</item>
+        <item name="android:paddingStart">@dimen/space_16</item>
+        <item name="android:paddingEnd">@dimen/space_16</item>
+        <item name="elevation">@dimen/elev_raised</item>
+        <!-- Shadow dạng: 0 8px 24px rgba(255,85,0,0.35) — dùng elevation + ripple -->
+        <item name="rippleColor">@color/brand_orange_dark</item>
+        <item name="android:stateListAnimator">@null</item>
+    </style>
+
+    <!-- Secondary — Nền xám nhạt, dùng cho Cancel / Reset -->
+    <style name="Widget.SoleStep.Button.Secondary" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@color/bg_tertiary</item>
+        <item name="android:textColor">@color/text_secondary</item>
+        <item name="android:textAppearance">@style/TextAppearance.SoleStep.Button</item>
+        <item name="cornerRadius">@dimen/radius_button</item>
+        <item name="android:minHeight">@dimen/btn_height_large</item>
+        <item name="android:paddingStart">@dimen/space_16</item>
+        <item name="android:paddingEnd">@dimen/space_16</item>
+        <item name="elevation">0dp</item>
+        <item name="android:stateListAnimator">@null</item>
+    </style>
+
+    <!-- Outlined — Viền xám, dùng cho "Get Invoice", "Track Order" -->
+    <style name="Widget.SoleStep.Button.Outlined" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="strokeColor">@color/border_normal</item>
+        <item name="strokeWidth">@dimen/stroke_thin</item>
+        <item name="android:textColor">@color/text_secondary</item>
+        <item name="android:textAppearance">@style/TextAppearance.SoleStep.Button</item>
+        <item name="cornerRadius">@dimen/radius_button</item>
+        <item name="android:minHeight">@dimen/btn_height_medium</item>
+        <item name="android:paddingStart">@dimen/space_16</item>
+        <item name="android:paddingEnd">@dimen/space_16</item>
+        <item name="elevation">0dp</item>
+    </style>
+
+    <!-- Destructive — Nền đỏ, dùng cho Delete -->
+    <style name="Widget.SoleStep.Button.Destructive" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@color/status_error</item>
+        <item name="android:textColor">@color/brand_white</item>
+        <item name="android:textAppearance">@style/TextAppearance.SoleStep.Button</item>
+        <item name="cornerRadius">@dimen/radius_button</item>
+        <item name="android:minHeight">@dimen/btn_height_large</item>
+        <item name="elevation">0dp</item>
+        <item name="android:stateListAnimator">@null</item>
+    </style>
+
+    <!-- Small / Chip action button -->
+    <style name="Widget.SoleStep.Button.Small" parent="Widget.SoleStep.Button.Primary">
+        <item name="android:minHeight">@dimen/btn_height_small</item>
+        <item name="cornerRadius">@dimen/radius_button_small</item>
+        <item name="android:textAppearance">@style/TextAppearance.SoleStep.BodySmall</item>
+        <item name="android:paddingStart">@dimen/space_12</item>
+        <item name="android:paddingEnd">@dimen/space_12</item>
+    </style>
+
+    <!-- Icon-only button (toolbar back arrow, share, etc.) -->
+    <style name="Widget.SoleStep.Button.Icon" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@color/bg_tertiary</item>
+        <item name="android:minWidth">@dimen/btn_icon_size</item>
+        <item name="android:minHeight">@dimen/btn_icon_size</item>
+        <item name="cornerRadius">@dimen/radius_md</item>
+        <item name="elevation">0dp</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="android:padding">@dimen/space_8</item>
+    </style>
+
+    <!-- Admin Dark Button -->
+    <style name="Widget.SoleStep.Button.Primary.Admin" parent="Widget.SoleStep.Button.Primary">
+        <!-- giống Primary, khác ở đây chỉ shadow darker -->
+    </style>
+
+<!--text input -->
+    <!-- Light (user screens) -->
+    <style name="Widget.SoleStep.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxBackgroundColor">@color/bg_secondary</item>
+        <item name="boxStrokeColor">@color/border_normal</item>
+        <item name="boxStrokeWidth">1dp</item>
+        <item name="boxStrokeWidthFocused">1.5dp</item>
+        <item name="boxCornerRadiusTopStart">@dimen/radius_input</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/radius_input</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/radius_input</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/radius_input</item>
+        <item name="hintTextColor">@color/text_muted</item>
+        <item name="android:textColorHint">@color/text_placeholder</item>
+        <!-- Màu stroke khi focused = orange -->
+        <!-- Override: app:boxStrokeColor trong XML với color selector -->
+    </style>
+
+    <!-- Input EditText inside the layout -->
+    <style name="Widget.SoleStep.TextInputEditText" parent="Widget.MaterialComponents.TextInputEditText.OutlinedBox">
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textSize">@dimen/font_body</item>
+        <item name="android:paddingStart">@dimen/input_padding_h</item>
+        <item name="android:paddingEnd">@dimen/input_padding_h</item>
+        <item name="android:paddingTop">@dimen/input_padding_v</item>
+        <item name="android:paddingBottom">@dimen/input_padding_v</item>
+        <item name="android:minHeight">@dimen/input_height</item>
+    </style>
+
+    <!-- Dark (admin screens) -->
+    <style name="Widget.SoleStep.TextInputLayout.Dark" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxBackgroundColor">@color/border_dark_normal</item>
+        <item name="boxStrokeColor">@color/border_dark_medium</item>
+        <item name="boxStrokeWidthFocused">1.5dp</item>
+        <item name="boxCornerRadiusTopStart">@dimen/radius_md</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/radius_md</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/radius_md</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/radius_md</item>
+        <item name="hintTextColor">@color/text_dark_muted</item>
+        <item name="android:textColorHint">@color/text_dark_ghost</item>
+    </style>
+
+    <!-- OTP / 2FA single character input -->
+    <style name="Widget.SoleStep.TextInputEditText.OTP" parent="Widget.SoleStep.TextInputEditText">
+        <item name="android:textSize">@dimen/font_title</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center</item>
+        <item name="android:minWidth">@dimen/input_otp_size</item>
+        <item name="android:maxLength">1</item>
+        <item name="android:inputType">numberDecimal</item>
+    </style>
+
+<!--  card-->
+    <!-- Product card — light (catalog grid) -->
+    <style name="Widget.SoleStep.CardView" parent="Widget.MaterialComponents.CardView">
+        <item name="cardBackgroundColor">@color/bg_primary</item>
+        <item name="cardCornerRadius">@dimen/radius_card</item>
+        <item name="cardElevation">@dimen/elev_card</item>
+        <item name="cardUseCompatPadding">true</item>
+        <item name="strokeColor">@color/border_light</item>
+        <item name="strokeWidth">@dimen/stroke_thin</item>
+    </style>
+
+    <!-- Admin dark card -->
+    <style name="Widget.SoleStep.CardView.Dark" parent="Widget.MaterialComponents.CardView">
+        <item name="cardBackgroundColor">@color/bg_dark_surface_2</item>
+        <item name="cardCornerRadius">@dimen/radius_card</item>
+        <item name="cardElevation">0dp</item>
+        <item name="strokeColor">@color/border_dark_light</item>
+        <item name="strokeWidth">@dimen/stroke_thin</item>
+    </style>
+
+    <!-- Hero banner card (Home screen) -->
+    <style name="Widget.SoleStep.CardView.Hero" parent="Widget.MaterialComponents.CardView">
+        <item name="cardBackgroundColor">@color/brand_black</item>
+        <item name="cardCornerRadius">@dimen/radius_3xl</item>
+        <item name="cardElevation">@dimen/elev_raised</item>
+        <item name="android:minHeight">@dimen/card_hero_height</item>
+    </style>
+
+    <!-- Bottom Sheet container card -->
+    <style name="Widget.SoleStep.CardView.BottomSheet" parent="Widget.MaterialComponents.CardView">
+        <item name="cardBackgroundColor">@color/bg_primary</item>
+        <item name="cardCornerRadius">@dimen/radius_bottom_sheet</item>
+        <item name="cardElevation">@dimen/elev_modal</item>
+    </style>
+
+<!--bottom navigation-->
+    <!-- Light (user) -->
+    <style name="Widget.SoleStep.BottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="itemIconTint">@color/bn_icon_tint</item>
+        <item name="itemTextColor">@color/bn_label_tint</item>
+        <item name="backgroundTint">@color/bg_primary</item>
+        <item name="elevation">@dimen/elev_bottom_nav</item>
+        <item name="labelVisibilityMode">labeled</item>
+        <item name="itemTextAppearanceActive">@style/TextAppearance.SoleStep.Caption</item>
+        <item name="itemTextAppearanceInactive">@style/TextAppearance.SoleStep.Caption</item>
+        <item name="android:minHeight">@dimen/bottom_nav_height</item>
+    </style>
+
+    <!-- Active indicator pill inside bottom nav -->
+    <style name="Widget.SoleStep.BottomNavIndicator" parent="">
+        <item name="android:color">@color/brand_orange</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.SoleStep.Pill</item>
+        <item name="android:width">@dimen/bottom_nav_item_icon_container</item>
+        <item name="android:height">@dimen/bottom_nav_item_icon_container</item>
+    </style>
+
+    <!-- Dark (admin) -->
+    <style name="Widget.SoleStep.BottomNavigationView.Admin" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="backgroundTint">@color/brand_black</item>
+        <item name="itemIconTint">@color/bn_icon_tint_admin</item>
+        <item name="itemTextColor">@color/bn_label_tint_admin</item>
+        <item name="elevation">0dp</item>
+        <item name="labelVisibilityMode">labeled</item>
+        <item name="android:minHeight">@dimen/bottom_nav_height</item>
+    </style>
+
+<!-- toolbar-->
+    <style name="Widget.SoleStep.Toolbar" parent="Widget.MaterialComponents.Toolbar.Primary">
+        <item name="android:background">@color/bg_primary</item>
+        <item name="android:minHeight">@dimen/toolbar_height</item>
+        <item name="titleTextAppearance">@style/TextAppearance.SoleStep.Title</item>
+        <item name="contentInsetStart">@dimen/space_screen_horizontal</item>
+        <item name="elevation">@dimen/elev_top_bar</item>
+    </style>
+
+    <style name="Widget.SoleStep.Toolbar.Admin" parent="Widget.SoleStep.Toolbar">
+        <item name="android:background">@color/bg_dark_surface_1</item>
+        <item name="titleTextColor">@color/brand_white</item>
+        <item name="elevation">0dp</item>
+    </style>
+
+<!--chips-->
+    <!-- Category / filter chip -->
+    <style name="Widget.SoleStep.Chip" parent="Widget.MaterialComponents.Chip.Filter">
+        <item name="chipBackgroundColor">@color/chip_bg_selector</item>
+        <item name="chipCornerRadius">@dimen/radius_chip</item>
+        <item name="android:textAppearance">@style/TextAppearance.SoleStep.BodySmall</item>
+        <item name="checkedIconVisible">false</item>
+        <item name="chipStrokeWidth">@dimen/stroke_thin</item>
+        <item name="chipStrokeColor">@color/chip_stroke_selector</item>
+        <item name="android:paddingStart">@dimen/space_12</item>
+        <item name="android:paddingEnd">@dimen/space_12</item>
+        <item name="android:minHeight">@dimen/btn_height_tiny</item>
+    </style>
+
+    <!-- Status badge (pill) -->
+    <style name="Widget.SoleStep.Chip.StatusPill" parent="Widget.SoleStep.Chip">
+        <item name="chipCornerRadius">@dimen/radius_pill</item>
+        <item name="android:paddingStart">@dimen/space_chip_horizontal</item>
+        <item name="android:paddingEnd">@dimen/space_chip_horizontal</item>
+    </style>
+
+<!--  floating action button-->
+    <style name="Widget.SoleStep.FAB" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="backgroundTint">@color/brand_orange</item>
+        <item name="tint">@color/brand_white</item>
+        <item name="elevation">@dimen/elev_fab</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.SoleStep.Medium</item>
+    </style>
+
+<!--bottom ship dialog-->
+
+    <style name="Widget.SoleStep.BottomSheetDialog" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/Widget.SoleStep.BottomSheet</item>
+    </style>
+
+    <style name="Widget.SoleStep.BottomSheet" parent="Widget.MaterialComponents.BottomSheet.Modal">
+        <item name="shapeAppearance">@style/ShapeAppearance.SoleStep.BottomSheet</item>
+        <item name="android:background">@color/bg_primary</item>
+        <item name="behavior_peekHeight">400dp</item>
+    </style>
+
+    <style name="Widget.SoleStep.BottomSheetDialog.Admin" parent="Widget.SoleStep.BottomSheetDialog">
+        <item name="android:background">@color/bg_dark_surface_3</item>
+    </style>
+<!-- PROGRESS INDICATORS-->
+    <!-- Password strength bar -->
+    <style name="Widget.SoleStep.ProgressBar.PasswordStrength" parent="Widget.MaterialComponents.LinearProgressIndicator">
+        <item name="trackColor">@color/border_normal</item>
+        <item name="indicatorColor">@color/brand_orange</item>
+        <item name="trackThickness">@dimen/progress_bar_height</item>
+        <item name="trackCornerRadius">@dimen/radius_pill</item>
+    </style>
+
+    <!-- Order step progress -->
+    <style name="Widget.SoleStep.ProgressBar.Step" parent="Widget.MaterialComponents.LinearProgressIndicator">
+        <item name="trackColor">@color/bg_tertiary</item>
+        <item name="indicatorColor">@color/brand_orange</item>
+        <item name="trackThickness">@dimen/progress_bar_height_thin</item>
+        <item name="trackCornerRadius">@dimen/radius_pill</item>
+        <item name="android:minHeight">@dimen/progress_bar_height_thin</item>
+    </style>
+
+    <!-- Shipping progress (blue) -->
+    <style name="Widget.SoleStep.ProgressBar.Shipping" parent="Widget.SoleStep.ProgressBar.Step">
+        <item name="indicatorColor">@color/status_info</item>
+    </style>
+<!--     DIVIDERS -->
+    <style name="Widget.SoleStep.Divider" parent="">
+        <item name="android:layout_height">@dimen/stroke_thin</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@color/border_light</item>
+    </style>
+
+    <style name="Widget.SoleStep.Divider.Dark" parent="Widget.SoleStep.Divider">
+        <item name="android:background">@color/border_dark_subtle</item>
+    </style>
+
+<!--PRODUCT SIZE SELECTOR ITEM -->
+    <!-- Single size chip (US 7, 8, … 12) -->
+    <style name="Widget.SoleStep.SizeChip" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:minWidth">@dimen/size_selector_item</item>
+        <item name="android:minHeight">@dimen/size_selector_item</item>
+        <item name="cornerRadius">@dimen/radius_md</item>
+        <item name="strokeColor">@color/size_chip_stroke_selector</item>
+        <item name="android:textAppearance">@style/TextAppearance.SoleStep.BodySmall</item>
+        <item name="android:textColor">@color/size_chip_text_selector</item>
+        <item name="backgroundTint">@color/size_chip_bg_selector</item>
+        <item name="android:stateListAnimator">@null</item>
+    </style>
+
+<!-- NOTIFICATION / ALERT BANNERS -->
+    <style name="Widget.SoleStep.AlertBanner" parent="Widget.MaterialComponents.CardView">
+        <item name="cardBackgroundColor">@color/orange_tint_06</item>
+        <item name="strokeColor">@color/border_accent_faint</item>
+        <item name="strokeWidth">@dimen/stroke_thin</item>
+        <item name="cardCornerRadius">@dimen/radius_lg</item>
+        <item name="cardElevation">0dp</item>
+    </style>
+
+    <style name="Widget.SoleStep.AlertBanner.Success" parent="Widget.SoleStep.AlertBanner">
+        <item name="cardBackgroundColor">@color/status_success_bg_light</item>
+        <item name="strokeColor">@color/status_success</item>
+    </style>
+
+    <style name="Widget.SoleStep.AlertBanner.Error" parent="Widget.SoleStep.AlertBanner">
+        <item name="cardBackgroundColor">@color/status_error_bg_light</item>
+        <item name="strokeColor">@color/status_error</item>
+    </style>
+
+<!--QR CODE CONTAINER STYLE -->
+
+    <style name="Widget.SoleStep.QRContainer" parent="Widget.MaterialComponents.CardView">
+        <item name="cardBackgroundColor">@color/bg_primary</item>
+        <item name="cardCornerRadius">@dimen/radius_3xl</item>
+        <item name="cardElevation">@dimen/elev_raised</item>
+        <item name="strokeColor">@color/border_normal</item>
+        <item name="strokeWidth">@dimen/stroke_normal</item>
+        <item name="android:padding">@dimen/qr_frame_padding</item>
+    </style>
+
+<!--  AVATAR / ICON CONTAINERS -->
+    <!-- User avatar circle (orange bg) -->
+    <style name="Widget.SoleStep.Avatar" parent="">
+        <item name="android:layout_width">@dimen/admin_avatar_size</item>
+        <item name="android:layout_height">@dimen/admin_avatar_size</item>
+        <item name="android:background">@drawable/bg_circle_orange</item>
+    </style>
+
+    <!-- Small icon container (toolbar buttons) -->
+    <style name="Widget.SoleStep.IconContainer.Small" parent="">
+        <item name="android:layout_width">@dimen/btn_icon_size_small</item>
+        <item name="android:layout_height">@dimen/btn_icon_size_small</item>
+        <item name="android:background">@drawable/bg_rounded_gray</item>
+    </style>
+
+</resources>

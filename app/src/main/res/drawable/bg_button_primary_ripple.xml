@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Ripple wrapper cho nút Primary.
+  Dùng thay thế bg_button_primary.xml ở API 21+.
+-->
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="@color/brand_orange_dark">
+    <item android:id="@android:id/background">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/brand_orange" />
+            <corners android:radius="@dimen/radius_button" />
+        </shape>
+    </item>
+</ripple>
