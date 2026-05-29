@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    space_*   → khoảng cách, padding, margin (dp)
+    radius_*  → bo góc (dp)
+    text_*    → cỡ chữ (sp)
+    icon_*    → kích thước icon (dp)
+    size_*    → chiều rộng / chiều cao cố định (dp)
+    elev_*    → độ nổi / shadow elevation (dp)
+    stroke_*  → độ dày viền (dp)
+-->
+<resources>
+
+
+    <!--              SPACING SCALE (dp)                    -->
+
+    <dimen name="space_0">0dp</dimen>
+    <dimen name="space_1">2dp</dimen>     <!-- Tailwind: 0.5 -->
+    <dimen name="space_2">4dp</dimen>     <!-- Tailwind: 1   -->
+    <dimen name="space_3">6dp</dimen>     <!-- Tailwind: 1.5 -->
+    <dimen name="space_4">8dp</dimen>     <!-- Tailwind: 2   -->
+    <dimen name="space_5">10dp</dimen>    <!-- Tailwind: 2.5 -->
+    <dimen name="space_6">12dp</dimen>    <!-- Tailwind: 3   -->
+    <dimen name="space_8">16dp</dimen>    <!-- Tailwind: 4   -->
+    <dimen name="space_10">20dp</dimen>   <!-- Tailwind: 5   -->
+    <dimen name="space_12">24dp</dimen>   <!-- Tailwind: 6   -->
+    <dimen name="space_14">28dp</dimen>   <!-- Tailwind: 7   -->
+    <dimen name="space_16">32dp</dimen>   <!-- Tailwind: 8   -->
+    <dimen name="space_20">40dp</dimen>   <!-- Tailwind: 10  -->
+    <dimen name="space_24">48dp</dimen>   <!-- Tailwind: 12  -->
+    <dimen name="space_32">64dp</dimen>   <!-- Tailwind: 16  -->
+    <dimen name="space_40">80dp</dimen>   <!-- Tailwind: 20  -->
+
+    <!-- ─── Semantic spacing aliases ─── -->
+    <dimen name="space_screen_horizontal">20dp</dimen>  <!-- Padding trái/phải màn hình -->
+    <dimen name="space_screen_vertical">12dp</dimen>    <!-- Padding trên/dưới màn hình -->
+    <dimen name="space_card_padding">16dp</dimen>       <!-- Padding bên trong card -->
+    <dimen name="space_card_gap">12dp</dimen>           <!-- Khoảng cách giữa các card -->
+    <dimen name="space_section_gap">24dp</dimen>        <!-- Khoảng cách giữa các section -->
+    <dimen name="space_list_item_gap">8dp</dimen>       <!-- Khoảng cách list item -->
+    <dimen name="space_chip_horizontal">12dp</dimen>    <!-- Padding chip / badge ngang -->
+    <dimen name="space_chip_vertical">6dp</dimen>       <!-- Padding chip / badge dọc -->
+    <dimen name="space_icon_text_gap">8dp</dimen>       <!-- Icon và label -->
+    <dimen name="space_bottom_nav_padding_bottom">8dp</dimen>
+
+    <!--              CORNER RADIUS (dp)                    -->
+
+    <dimen name="radius_xs">4dp</dimen>     <!-- Tag rất nhỏ -->
+    <dimen name="radius_sm">8dp</dimen>     <!-- Badge, chip nhỏ -->
+    <dimen name="radius_md">12dp</dimen>    <!-- Nút nhỏ, input nhỏ -->
+    <dimen name="radius_lg">16dp</dimen>    <!-- Card, button thường -->
+    <dimen name="radius_xl">20dp</dimen>    <!-- Card lớn, input chính -->
+    <dimen name="radius_2xl">24dp</dimen>   <!-- Card nổi bật, bottom sheet -->
+    <dimen name="radius_3xl">32dp</dimen>   <!-- Hero card, modal -->
+    <dimen name="radius_pill">999dp</dimen> <!-- Pill / round full -->
+
+    <!-- Alias theo component -->
+    <dimen name="radius_button">20dp</dimen>
+    <dimen name="radius_button_small">12dp</dimen>
+    <dimen name="radius_input">20dp</dimen>
+    <dimen name="radius_card">20dp</dimen>
+    <dimen name="radius_card_small">16dp</dimen>
+    <dimen name="radius_chip">12dp</dimen>
+    <dimen name="radius_badge">8dp</dimen>
+    <dimen name="radius_avatar">16dp</dimen>
+    <dimen name="radius_bottom_sheet">32dp</dimen>
+    <dimen name="radius_image_thumb">12dp</dimen>
+    <dimen name="radius_product_image">20dp</dimen>
+    <dimen name="radius_icon_container">16dp</dimen>
+    <dimen name="radius_icon_container_small">12dp</dimen>
+    <dimen name="radius_fab">20dp</dimen>
+    <dimen name="radius_phone_frame">44dp</dimen>
+
+    <!--              TYPOGRAPHY — FONT SIZE (sp)           -->
+    <!--  sp tự scale theo cài đặt accessibility hệ thống   -->
+
+    <!-- ─── Exact Tailwind mapping ─── -->
+    <dimen name="text_2xs">9sp</dimen>     <!-- text-[9px]  — caption tiny    -->
+    <dimen name="text_xs">10sp</dimen>     <!-- text-[10px] — caption small    -->
+    <dimen name="text_xs_plus">11sp</dimen><!-- text-[11px] — label small      -->
+    <dimen name="text_sm">12sp</dimen>     <!-- text-xs     — caption standard -->
+    <dimen name="text_base">13sp</dimen>   <!-- text-sm     — body small       -->
+    <dimen name="text_md">14sp</dimen>     <!-- text-sm/base— body standard    -->
+    <dimen name="text_lg">16sp</dimen>     <!-- text-base   — body large       -->
+    <dimen name="text_xl">18sp</dimen>     <!-- text-lg     — subheading       -->
+    <dimen name="text_2xl">20sp</dimen>    <!-- text-xl     — heading          -->
+    <dimen name="text_3xl">24sp</dimen>    <!-- text-2xl    — display small    -->
+    <dimen name="text_4xl">30sp</dimen>    <!-- text-3xl    — price large      -->
+    <dimen name="text_5xl">48sp</dimen>    <!-- text-5xl    — hero display     -->
+
+    <!-- ─── Semantic font size aliases ─── -->
+    <dimen name="font_display">48sp</dimen>       <!-- App hero title             -->
+    <dimen name="font_title_large">24sp</dimen>   <!-- Screen title               -->
+    <dimen name="font_title">20sp</dimen>         <!-- Section / dialog title     -->
+    <dimen name="font_headline">18sp</dimen>      <!-- Card headline              -->
+    <dimen name="font_subheading">16sp</dimen>    <!-- Subheading                 -->
+    <dimen name="font_label">14sp</dimen>         <!-- Form label, tab            -->
+    <dimen name="font_body">13sp</dimen>          <!-- Description, review text   -->
+    <dimen name="font_caption">11sp</dimen>       <!-- Status label, hint         -->
+    <dimen name="font_caption_small">10sp</dimen> <!-- Micro label, badge         -->
+    <dimen name="font_overline">9sp</dimen>       <!-- Section header uppercase   -->
+
+    <!-- Price-specific sizes -->
+    <dimen name="font_price_large">30sp</dimen>   <!-- Price trên detail screen   -->
+    <dimen name="font_price_medium">20sp</dimen>  <!-- Price trong cart           -->
+    <dimen name="font_price_small">13sp</dimen>   <!-- Price trên product card    -->
+
+    <!--              COMPONENT DIMENSIONS (dp)             -->
+    <!-- ─── Buttons ─── -->
+    <dimen name="btn_height_large">52dp</dimen>   <!-- Nút chính (Add to Cart, Pay) -->
+    <dimen name="btn_height_medium">44dp</dimen>  <!-- Nút thứ cấp                  -->
+    <dimen name="btn_height_small">36dp</dimen>   <!-- Nút nhỏ (chip action)        -->
+    <dimen name="btn_height_tiny">28dp</dimen>    <!-- Nút icon nhỏ                 -->
+    <dimen name="btn_icon_size">40dp</dimen>      <!-- Nút icon vuông               -->
+    <dimen name="btn_icon_size_small">32dp</dimen><!-- Nút icon vuông nhỏ           -->
+    <dimen name="btn_icon_size_tiny">28dp</dimen> <!-- Nút icon vuông rất nhỏ       -->
+
+    <!-- ─── Inputs ─── -->
+    <dimen name="input_height">48dp</dimen>       <!-- Input field tiêu chuẩn       -->
+    <dimen name="input_height_small">40dp</dimen> <!-- Input field nhỏ              -->
+    <dimen name="input_padding_h">16dp</dimen>    <!-- Padding ngang trong input     -->
+    <dimen name="input_padding_v">12dp</dimen>    <!-- Padding dọc trong input       -->
+    <dimen name="input_otp_size">44dp</dimen>     <!-- Ô nhập OTP / 2FA             -->
+
+    <!-- ─── Bottom Navigation ─── -->
+    <dimen name="bottom_nav_height">88dp</dimen>
+    <dimen name="bottom_nav_icon_size">26dp</dimen>
+    <dimen name="bottom_nav_label_size">10sp</dimen>
+    <dimen name="bottom_nav_item_icon_container">56dp</dimen>
+
+    <!-- ─── Top App Bar / Header ─── -->
+    <dimen name="toolbar_height">56dp</dimen>
+    <dimen name="toolbar_icon_size">36dp</dimen>  <!-- Container nút icon trên toolbar -->
+
+    <!-- ─── Cards ─── -->
+    <dimen name="card_elevation">4dp</dimen>
+    <dimen name="card_product_image_height">148dp</dimen>   <!-- Ảnh sản phẩm trong lưới 2 cột -->
+    <dimen name="card_product_image_height_list">80dp</dimen><!-- Ảnh sản phẩm trong danh sách   -->
+    <dimen name="card_hero_height">160dp</dimen>            <!-- Banner hero trên Home          -->
+    <dimen name="card_product_detail_image_height">260dp</dimen>
+
+    <!-- ─── Product Detail ─── -->
+    <dimen name="size_selector_item">40dp</dimen>          <!-- Ô chọn size                     -->
+    <dimen name="color_swatch_size">32dp</dimen>           <!-- Ô màu sắc                       -->
+    <dimen name="thumbnail_strip_size">40dp</dimen>        <!-- Ảnh thumbnail detail            -->
+
+    <!-- ─── Cart ─── -->
+    <dimen name="cart_item_image_size">80dp</dimen>
+    <dimen name="qty_button_size">24dp</dimen>
+
+    <!-- ─── Order / Admin ─── -->
+    <dimen name="order_item_preview_size">56dp</dimen>
+    <dimen name="admin_product_image_size">64dp</dimen>
+    <dimen name="admin_avatar_size">40dp</dimen>
+    <dimen name="admin_stat_card_height">80dp</dimen>
+
+    <!-- ─── QR Payment ─── -->
+    <dimen name="qr_code_size">140dp</dimen>
+    <dimen name="qr_frame_padding">20dp</dimen>
+
+    <!-- ─── Icons ─── -->
+    <dimen name="icon_xs">12dp</dimen>
+    <dimen name="icon_sm">14dp</dimen>
+    <dimen name="icon_md">18dp</dimen>
+    <dimen name="icon_lg">20dp</dimen>
+    <dimen name="icon_xl">24dp</dimen>
+    <dimen name="icon_2xl">32dp</dimen>
+
+    <!-- ─── Category chips (horizontal scroll) ─── -->
+    <dimen name="category_chip_height">60dp</dimen>
+    <dimen name="category_chip_min_width">72dp</dimen>
+    <dimen name="category_icon_size">28dp</dimen>
+
+    <!-- ─── Bottom Sheet ─── -->
+    <dimen name="bottom_sheet_handle_width">40dp</dimen>
+    <dimen name="bottom_sheet_handle_height">4dp</dimen>
+    <dimen name="bottom_sheet_top_inset">32dp</dimen>
+
+    <!-- ─── Divider / Stroke ─── -->
+    <dimen name="stroke_thin">1dp</dimen>
+    <dimen name="stroke_normal">2dp</dimen>
+    <dimen name="stroke_thick">3dp</dimen>
+
+    <!-- ─── Notification badge ─── -->
+    <dimen name="badge_size">16dp</dimen>
+    <dimen name="badge_size_small">8dp</dimen>
+
+    <!-- ─── Star rating ─── -->
+    <dimen name="star_size_large">36dp</dimen>
+    <dimen name="star_size_normal">14dp</dimen>
+    <dimen name="star_size_small">10dp</dimen>
+
+    <!-- ─── Progress / step indicator ─── -->
+    <dimen name="step_circle_size">24dp</dimen>
+    <dimen name="step_line_height">2dp</dimen>
+    <dimen name="progress_bar_height">4dp</dimen>
+    <dimen name="progress_bar_height_thin">2dp</dimen>
+
+    <!-- ─── Filter slider ─── -->
+    <dimen name="slider_thumb_size">20dp</dimen>
+    <dimen name="slider_track_height">6dp</dimen>
+
+    <!-- ─── Phone frame mockup ─── -->
+    <dimen name="phone_frame_width">320dp</dimen>
+    <dimen name="phone_frame_height">660dp</dimen>
+    <dimen name="phone_status_bar_height">44dp</dimen>
+
+    <!--              ELEVATION (dp)                        -->
+    <dimen name="elev_0">0dp</dimen>
+    <dimen name="elev_card">2dp</dimen>
+    <dimen name="elev_raised">4dp</dimen>
+    <dimen name="elev_bottom_nav">8dp</dimen>
+    <dimen name="elev_fab">6dp</dimen>
+    <dimen name="elev_modal">16dp</dimen>
+    <dimen name="elev_top_bar">4dp</dimen>
+
+</resources>

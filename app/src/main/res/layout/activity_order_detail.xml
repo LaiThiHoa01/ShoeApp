@@ -1,0 +1,513 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_secondary"
+    tools:context=".OrderDetailActivity">
+
+    <LinearLayout
+        android:id="@+id/header"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/bg_primary"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/space_screen_horizontal"
+        android:paddingTop="@dimen/space_screen_vertical"
+        android:paddingEnd="@dimen/space_screen_horizontal"
+        android:paddingBottom="@dimen/space_screen_vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/back_button"
+            android:layout_width="@dimen/btn_icon_size"
+            android:layout_height="@dimen/btn_icon_size"
+            android:background="@drawable/bg_rounded_gray"
+            android:contentDescription="@string/action_back"
+            android:padding="@dimen/space_8"
+            android:src="@drawable/ic_arrow_back"
+            android:tint="@color/text_secondary" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_8"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/order_detail_title_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/order_detail_title"
+                android:textAppearance="@style/TextAppearance.SoleStep.Subheading" />
+
+            <TextView
+                android:id="@+id/order_detail_id_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SS-10482"
+                android:textAppearance="@style/TextAppearance.SoleStep.Caption" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/order_detail_status_badge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/space_8"
+            android:paddingTop="@dimen/space_4"
+            android:paddingEnd="@dimen/space_8"
+            android:paddingBottom="@dimen/space_4"
+            android:background="@drawable/bg_status_delivered"
+            android:text="@string/status_delivered"
+            android:textAppearance="@style/TextAppearance.SoleStep.Caption"
+            android:textColor="@color/status_success"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/detail_scroll"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:overScrollMode="never"
+        app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/header">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/space_8">
+
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.SoleStep.CardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/space_card_gap"
+                app:cardUseCompatPadding="false">
+
+                <LinearLayout
+                    android:id="@+id/order_timeline_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/space_card_padding">
+
+                    <TextView
+                        android:id="@+id/order_timeline_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/order_detail_timeline"
+                        android:textAppearance="@style/TextAppearance.SoleStep.Body"
+                        android:textColor="@color/text_secondary"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:id="@+id/timeline_step_order_placed"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_8"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/timeline_order_placed_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Order Placed"
+                            android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
+                            android:textColor="@color/text_primary"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/timeline_order_placed_meta"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="May 15, 10:32 AM · Your order has been confirmed"
+                            android:textAppearance="@style/TextAppearance.SoleStep.Caption" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/timeline_step_shipped"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_6"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/timeline_shipped_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/status_shipped"
+                            android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
+                            android:textColor="@color/text_primary"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/timeline_shipped_meta"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="May 16, 9:00 AM · Your order is on its way"
+                            android:textAppearance="@style/TextAppearance.SoleStep.Caption" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.SoleStep.CardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/space_card_gap"
+                app:cardUseCompatPadding="false">
+
+                <LinearLayout
+                    android:id="@+id/order_items_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/space_card_padding">
+
+                    <TextView
+                        android:id="@+id/order_items_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/order_detail_items"
+                        android:textAppearance="@style/TextAppearance.SoleStep.Body"
+                        android:textColor="@color/text_secondary"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:id="@+id/order_item_primary"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_8"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <FrameLayout
+                            android:id="@+id/order_item_primary_image_container"
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:layout_marginEnd="@dimen/space_8"
+                            android:background="@drawable/bg_product_thumb">
+
+                            <ImageView
+                                android:id="@+id/order_item_primary_image"
+                                android:layout_width="@dimen/icon_2xl"
+                                android:layout_height="@dimen/icon_2xl"
+                                android:layout_gravity="center"
+                                android:contentDescription="@null"
+                                android:src="@drawable/ic_shoe"
+                                android:tint="@color/brand_orange" />
+                        </FrameLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/order_item_primary_brand"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="NovaSole"
+                                android:textAppearance="@style/TextAppearance.SoleStep.Caption" />
+
+                            <TextView
+                                android:id="@+id/order_item_primary_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Air Phantom Pro"
+                                android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
+                                android:textColor="@color/text_primary"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/order_item_primary_meta"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="US 10 · Qty: 1"
+                                android:textAppearance="@style/TextAppearance.SoleStep.Caption" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/order_item_primary_price"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="$189.99"
+                            android:textAppearance="@style/TextAppearance.SoleStep.PriceSmall" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.SoleStep.CardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/space_card_gap"
+                app:cardUseCompatPadding="false">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/space_card_padding">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="@dimen/icon_md"
+                            android:layout_height="@dimen/icon_md"
+                            android:src="@drawable/ic_map_pin"
+                            android:tint="@color/brand_orange" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/space_4"
+                            android:text="@string/order_detail_address"
+                            android:textAppearance="@style/TextAppearance.SoleStep.Body"
+                            android:textColor="@color/text_secondary"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/shipping_name_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_8"
+                        android:text="Alex Johnson"
+                        android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
+                        android:textColor="@color/text_primary"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/shipping_line_one_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="123 Sneaker Ave, Apt 4B"
+                        android:textAppearance="@style/TextAppearance.SoleStep.BodySmall" />
+
+                    <TextView
+                        android:id="@+id/shipping_line_two_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="New York, NY 10001"
+                        android:textAppearance="@style/TextAppearance.SoleStep.BodySmall" />
+
+                    <TextView
+                        android:id="@+id/shipping_phone_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_4"
+                        android:text="+1 (555) 018-2847"
+                        android:textAppearance="@style/TextAppearance.SoleStep.BodySmall" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.SoleStep.CardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/space_card_gap"
+                app:cardUseCompatPadding="false">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/space_card_padding">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/order_detail_payment"
+                        android:textAppearance="@style/TextAppearance.SoleStep.Body"
+                        android:textColor="@color/text_secondary"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/payment_method_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_8"
+                        android:background="@drawable/bg_input_light"
+                        android:padding="@dimen/space_6"
+                        android:text="Visa card ending 4242"
+                        android:textAppearance="@style/TextAppearance.SoleStep.BodySmall" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="@dimen/space_2">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Subtotal"
+                            android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
+                            android:textColor="@color/text_secondary" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="$367.98"
+                            android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
+                            android:textColor="@color/text_secondary" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="@dimen/space_2">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Subtotal"
+                            android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
+                            android:textColor="@color/text_secondary" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="$367.98"
+                            android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
+                            android:textColor="@color/text_secondary" />
+                        </LinearLayout>
+
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/stroke_thin"
+                        android:layout_marginTop="@dimen/space_6"
+                        android:layout_marginBottom="@dimen/space_6"
+                        android:background="@color/border_light" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/payment_total_label"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/order_detail_total_paid"
+                            android:textAppearance="@style/TextAppearance.SoleStep.Body"
+                            android:textColor="@color/text_primary"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/payment_total_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="$379.98"
+                            android:textAppearance="@style/TextAppearance.SoleStep.PriceSmall" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.SoleStep.CardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/space_card_gap"
+                app:cardUseCompatPadding="false">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/space_card_padding">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/order_detail_ref"
+                            android:textAppearance="@style/TextAppearance.SoleStep.Body"
+                            android:textColor="@color/text_secondary"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/order_reference_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/space_4"
+                            android:text="SS-10482-SS-2026"
+                            android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
+                            android:textColor="@color/text_primary"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <ImageButton
+                        android:id="@+id/copy_order_reference_button"
+                        android:layout_width="@dimen/btn_icon_size_small"
+                        android:layout_height="@dimen/btn_icon_size_small"
+                        android:background="@drawable/bg_rounded_gray"
+                        android:contentDescription="@string/action_copy"
+                        android:padding="@dimen/space_6"
+                        android:src="@drawable/ic_copy"
+                        android:tint="@color/text_tertiary" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/get_invoice_button"
+                    style="@style/Widget.SoleStep.Button.Outlined"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/space_4"
+                    android:layout_weight="1"
+                    android:text="@string/order_detail_btn_invoice" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/rate_products_button"
+                    style="@style/Widget.SoleStep.Button.Primary"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_4"
+                    android:layout_weight="1"
+                    android:text="@string/order_detail_btn_rate" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <include
+        layout="@layout/view_bottom_navigation"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/bottom_nav_height"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

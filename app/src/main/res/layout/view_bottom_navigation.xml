@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/bottom_navigation"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/bottom_nav_height"
+    android:background="@color/bg_primary"
+    android:elevation="@dimen/elev_bottom_nav"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:paddingStart="@dimen/space_4"
+    android:paddingEnd="@dimen/space_4"
+    android:paddingBottom="@dimen/space_4">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:tag="home">
+
+        <FrameLayout
+            android:layout_width="@dimen/bottom_nav_item_icon_container"
+            android:layout_height="@dimen/bottom_nav_item_icon_container"
+            android:tag="icon_container">
+
+            <ImageView
+                android:layout_width="@dimen/bottom_nav_icon_size"
+                android:layout_height="@dimen/bottom_nav_icon_size"
+                android:layout_gravity="center"
+                android:contentDescription="@string/nav_home"
+                android:src="@drawable/ic_material_home"
+                android:tag="icon" />
+        </FrameLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tag="label"
+            android:text="@string/nav_home"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:tag="search">
+
+        <FrameLayout
+            android:layout_width="@dimen/bottom_nav_item_icon_container"
+            android:layout_height="@dimen/bottom_nav_item_icon_container"
+            android:tag="icon_container">
+
+            <ImageView
+                android:layout_width="@dimen/bottom_nav_icon_size"
+                android:layout_height="@dimen/bottom_nav_icon_size"
+                android:layout_gravity="center"
+                android:contentDescription="@string/nav_search"
+                android:src="@drawable/ic_material_search"
+                android:tag="icon" />
+        </FrameLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tag="label"
+            android:text="@string/nav_search"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:tag="cart">
+
+        <FrameLayout
+            android:layout_width="@dimen/bottom_nav_item_icon_container"
+            android:layout_height="@dimen/bottom_nav_item_icon_container"
+            android:tag="icon_container">
+
+            <ImageView
+                android:layout_width="@dimen/bottom_nav_icon_size"
+                android:layout_height="@dimen/bottom_nav_icon_size"
+                android:layout_gravity="center"
+                android:contentDescription="@string/nav_cart"
+                android:src="@drawable/ic_material_shopping_cart"
+                android:tag="icon" />
+        </FrameLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tag="label"
+            android:text="@string/nav_cart"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:tag="orders">
+
+        <FrameLayout
+            android:layout_width="@dimen/bottom_nav_item_icon_container"
+            android:layout_height="@dimen/bottom_nav_item_icon_container"
+            android:tag="icon_container">
+
+            <ImageView
+                android:layout_width="@dimen/bottom_nav_icon_size"
+                android:layout_height="@dimen/bottom_nav_icon_size"
+                android:layout_gravity="center"
+                android:contentDescription="@string/nav_orders"
+                android:src="@drawable/ic_material_inventory_2"
+                android:tag="icon" />
+        </FrameLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tag="label"
+            android:text="@string/nav_orders"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:tag="profile">
+
+        <FrameLayout
+            android:layout_width="@dimen/bottom_nav_item_icon_container"
+            android:layout_height="@dimen/bottom_nav_item_icon_container"
+            android:tag="icon_container">
+
+            <ImageView
+                android:layout_width="@dimen/bottom_nav_icon_size"
+                android:layout_height="@dimen/bottom_nav_icon_size"
+                android:layout_gravity="center"
+                android:contentDescription="@string/nav_profile"
+                android:src="@drawable/ic_material_person"
+                android:tag="icon" />
+        </FrameLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tag="label"
+            android:text="@string/nav_profile"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+</LinearLayout>

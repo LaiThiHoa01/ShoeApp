@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_secondary"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:id="@+id/header"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/bg_primary"
+        android:orientation="vertical"
+        android:paddingStart="@dimen/space_screen_horizontal"
+        android:paddingTop="@dimen/space_screen_vertical"
+        android:paddingEnd="@dimen/space_screen_horizontal"
+        android:paddingBottom="@dimen/space_screen_vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/back_button"
+                android:layout_width="@dimen/btn_icon_size"
+                android:layout_height="@dimen/btn_icon_size"
+                android:background="@drawable/bg_rounded_gray"
+                android:contentDescription="@string/action_back"
+                android:padding="@dimen/space_8"
+                android:src="@drawable/ic_arrow_back"
+                android:tint="@color/text_secondary" />
+
+            <TextView
+                android:id="@+id/orders_title_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_8"
+                android:layout_weight="1"
+                android:text="@string/orders_title"
+                android:textAppearance="@style/TextAppearance.SoleStep.Subheading" />
+
+            <TextView
+                android:id="@+id/orders_count_badge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_orange_halo"
+                android:gravity="center"
+                android:minWidth="32dp"
+                android:paddingStart="@dimen/space_6"
+                android:paddingTop="@dimen/space_2"
+                android:paddingEnd="@dimen/space_6"
+                android:paddingBottom="@dimen/space_2"
+                android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
+                android:textColor="@color/brand_orange"
+                android:textStyle="bold"
+                android:text="4" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/orders_tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_8"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tab_all"
+                style="@style/TextAppearance.SoleStep.BodySmall"
+                android:layout_width="0dp"
+                android:layout_height="36dp"
+                android:layout_marginEnd="@dimen/space_2"
+                android:layout_weight="1"
+                android:background="@drawable/bg_button_primary"
+                android:gravity="center"
+                android:tag="All"
+                android:text="@string/orders_tab_all"
+                android:textColor="@color/brand_white"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tab_pending"
+                style="@style/TextAppearance.SoleStep.BodySmall"
+                android:layout_width="0dp"
+                android:layout_height="36dp"
+                android:layout_marginStart="@dimen/space_2"
+                android:layout_marginEnd="@dimen/space_2"
+                android:layout_weight="1"
+                android:background="@drawable/bg_tab_selector"
+                android:gravity="center"
+                android:tag="Pending"
+                android:text="@string/orders_tab_pending"
+                android:textColor="@color/text_muted" />
+
+            <TextView
+                android:id="@+id/tab_shipping"
+                style="@style/TextAppearance.SoleStep.BodySmall"
+                android:layout_width="0dp"
+                android:layout_height="36dp"
+                android:layout_marginStart="@dimen/space_2"
+                android:layout_marginEnd="@dimen/space_2"
+                android:layout_weight="1"
+                android:background="@drawable/bg_tab_selector"
+                android:gravity="center"
+                android:tag="Shipping"
+                android:text="@string/orders_tab_shipping"
+                android:textColor="@color/text_muted" />
+
+            <TextView
+                android:id="@+id/tab_delivered"
+                style="@style/TextAppearance.SoleStep.BodySmall"
+                android:layout_width="0dp"
+                android:layout_height="36dp"
+                android:layout_marginStart="@dimen/space_2"
+                android:layout_weight="1"
+                android:background="@drawable/bg_tab_selector"
+                android:gravity="center"
+                android:tag="Delivered"
+                android:text="@string/orders_tab_delivered"
+                android:textColor="@color/text_muted" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/orders_scroll"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:overScrollMode="never"
+        app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/header">
+
+        <LinearLayout
+            android:id="@+id/orders_list_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/space_8">
+
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.SoleStep.CardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/space_card_gap"
+                app:cardUseCompatPadding="false">
+
+                <LinearLayout
+                    android:id="@+id/order_card_primary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingStart="@dimen/space_8"
+                        android:paddingTop="@dimen/space_6"
+                        android:paddingEnd="@dimen/space_8"
+                        android:paddingBottom="@dimen/space_6">
+
+                        <TextView
+                            android:id="@+id/order_card_primary_status"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_status_delivered"
+                            android:paddingStart="@dimen/space_6"
+                            android:paddingTop="@dimen/space_2"
+                            android:paddingEnd="@dimen/space_6"
+                            android:paddingBottom="@dimen/space_2"
+                            android:text="@string/status_delivered"
+                            android:textAppearance="@style/TextAppearance.SoleStep.Caption"
+                            android:textColor="@color/status_success"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/order_card_primary_date"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:text="May 15, 2026"
+                            android:textAppearance="@style/TextAppearance.SoleStep.Caption" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/stroke_thin"
+                        android:background="@color/border_light" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="@dimen/space_card_padding">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/order_card_primary_id"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="SS-10482"
+                                    android:textAppearance="@style/TextAppearance.SoleStep.Body"
+                                    android:textColor="@color/text_primary"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/order_card_primary_item_count"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="2 items"
+                                    android:textAppearance="@style/TextAppearance.SoleStep.Caption" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/order_card_primary_total"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="$379.98"
+                                android:textAppearance="@style/TextAppearance.SoleStep.PriceSmall" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/order_card_primary_preview_container"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/space_8"
+                            android:orientation="horizontal">
+
+                            <FrameLayout
+                                android:id="@+id/order_card_primary_preview_one"
+                                android:layout_width="@dimen/order_item_preview_size"
+                                android:layout_height="@dimen/order_item_preview_size"
+                                android:layout_marginEnd="@dimen/space_4"
+                                android:background="@drawable/bg_product_thumb">
+
+                                <ImageView
+                                    android:layout_width="@dimen/icon_2xl"
+                                    android:layout_height="@dimen/icon_2xl"
+                                    android:layout_gravity="center"
+                                    android:contentDescription="@null"
+                                    android:src="@drawable/ic_shoe"
+                                    android:tint="@color/brand_orange" />
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:id="@+id/order_card_primary_preview_two"
+                                android:layout_width="@dimen/order_item_preview_size"
+                                android:layout_height="@dimen/order_item_preview_size"
+                                android:background="@drawable/bg_product_thumb">
+
+                                <ImageView
+                                    android:layout_width="@dimen/icon_2xl"
+                                    android:layout_height="@dimen/icon_2xl"
+                                    android:layout_gravity="center"
+                                    android:contentDescription="@null"
+                                    android:src="@drawable/ic_shoe"
+                                    android:tint="@color/text_primary" />
+                            </FrameLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/order_card_primary_status_message_container"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/space_8"
+                            android:background="@drawable/bg_status_delivered"
+                            android:orientation="horizontal"
+                            android:padding="@dimen/space_6">
+
+                            <TextView
+                                android:id="@+id/order_card_primary_status_message"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Delivered successfully"
+                                android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
+                                android:textColor="@color/status_success"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/space_8"
+                            android:orientation="horizontal">
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/order_card_primary_track_button"
+                                style="@style/Widget.SoleStep.Button.Outlined"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="@dimen/space_4"
+                                android:layout_weight="1"
+                                android:text="@string/orders_btn_track" />
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/rate_products_button"
+                                style="@style/Widget.SoleStep.Button.Primary"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/space_4"
+                                android:layout_weight="1"
+                                android:text="@string/orders_btn_rate" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.SoleStep.CardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/space_card_gap"
+                app:cardUseCompatPadding="false">
+
+                <LinearLayout
+                    android:id="@+id/order_card_shipping"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/space_card_padding">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/order_card_shipping_status"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_status_shipping"
+                            android:paddingStart="@dimen/space_6"
+                            android:paddingTop="@dimen/space_2"
+                            android:paddingEnd="@dimen/space_6"
+                            android:paddingBottom="@dimen/space_2"
+                            android:text="@string/status_shipping"
+                            android:textAppearance="@style/TextAppearance.SoleStep.Caption"
+                            android:textColor="@color/status_info_medium"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/order_card_shipping_date"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:text="May 8, 2026"
+                            android:textAppearance="@style/TextAppearance.SoleStep.Caption" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/order_card_shipping_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_8"
+                        android:text="SS-10391"
+                        android:textAppearance="@style/TextAppearance.SoleStep.Body"
+                        android:textColor="@color/text_primary"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/order_card_shipping_summary"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1 item · $149.99"
+                        android:textAppearance="@style/TextAppearance.SoleStep.Caption" />
+
+                    <TextView
+                        android:id="@+id/order_card_shipping_eta"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_8"
+                        android:background="@drawable/bg_status_shipping"
+                        android:padding="@dimen/space_6"
+                        android:text="Expected delivery: May 21"
+                        android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
+                        android:textColor="@color/status_info_medium"
+                        android:textStyle="bold" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/order_detail_button"
+                        style="@style/Widget.SoleStep.Button.Outlined"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_8"
+                        android:text="Details" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+    </ScrollView>
+
+    <include
+        layout="@layout/view_bottom_navigation"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/bottom_nav_height"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

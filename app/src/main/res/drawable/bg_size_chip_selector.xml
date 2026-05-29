@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Size chip selector — selected = orange, unselected = white border
+  Dùng: android:background="@drawable/bg_size_chip_selector"
+-->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Selected / Checked state -->
+    <item android:state_selected="true">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/brand_orange" />
+            <corners android:radius="@dimen/radius_md" />
+            <stroke android:width="@dimen/stroke_normal" android:color="@color/brand_orange" />
+        </shape>
+    </item>
+
+    <item android:state_checked="true">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/brand_orange" />
+            <corners android:radius="@dimen/radius_md" />
+            <stroke android:width="@dimen/stroke_normal" android:color="@color/brand_orange" />
+        </shape>
+    </item>
+
+    <!-- Default state -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/bg_primary" />
+            <corners android:radius="@dimen/radius_md" />
+            <stroke android:width="@dimen/stroke_thin" android:color="@color/border_light" />
+        </shape>
+    </item>
+
+</selector>
