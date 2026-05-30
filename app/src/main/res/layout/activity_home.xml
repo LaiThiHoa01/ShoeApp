@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_primary"
+    tools:context=".MainActivity">
+
+    <ScrollView
+        android:id="@+id/home_scroll"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:overScrollMode="never"
+        app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/space_screen_horizontal"
+            android:paddingTop="@dimen/space_12"
+            android:paddingEnd="@dimen/space_screen_horizontal"
+            android:paddingBottom="@dimen/space_16">
+
+            <LinearLayout
+                android:id="@+id/home_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/home_greeting_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/home_greeting"
+                        android:textAppearance="@style/TextAppearance.SoleStep.Caption"
+                        android:textColor="@color/text_muted" />
+
+                    <TextView
+                        android:id="@+id/home_user_name_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_1"
+                        android:text="Alex Johnson"
+                        android:textAppearance="@style/TextAppearance.SoleStep.Subheading"
+                        android:textColor="@color/text_primary" />
+                </LinearLayout>
+
+                <FrameLayout
+                    android:id="@+id/home_notification_button"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="@drawable/bg_home_notification">
+
+                    <ImageView
+                        android:layout_width="@dimen/icon_lg"
+                        android:layout_height="@dimen/icon_lg"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/action_refresh"
+                        android:src="@drawable/ic_home_bell" />
+
+                    <TextView
+                        android:id="@+id/home_notification_badge"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_gravity="top|end"
+                        android:background="@drawable/bg_circle_orange"
+                        android:gravity="center"
+                        android:text="3"
+                        android:textAppearance="@style/TextAppearance.SoleStep.Caption"
+                        android:textColor="@color/brand_white"
+                        android:textSize="9sp"
+                        android:textStyle="bold" />
+                </FrameLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/home_search_box"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:layout_marginTop="@dimen/space_10"
+                android:background="@drawable/bg_home_search"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/space_8"
+                android:paddingEnd="@dimen/space_4">
+
+                <ImageView
+                    android:layout_width="@dimen/icon_lg"
+                    android:layout_height="@dimen/icon_lg"
+                    android:contentDescription="@string/action_search"
+                    android:src="@drawable/ic_material_search"
+                    android:tint="@color/text_muted" />
+
+                <TextView
+                    android:id="@+id/home_search_hint_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_6"
+                    android:layout_weight="1"
+                    android:text="@string/home_search_hint"
+                    android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
+                    android:textColor="@color/text_muted" />
+
+                <FrameLayout
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:background="@drawable/bg_circle_orange">
+
+                    <ImageView
+                        android:layout_width="@dimen/icon_md"
+                        android:layout_height="@dimen/icon_md"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/action_search"
+                        android:src="@drawable/ic_material_search"
+                        android:tint="@color/brand_white" />
+                </FrameLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/home_categories_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_10"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/home_categories_title"
+                    android:textAppearance="@style/TextAppearance.SoleStep.Body"
+                    android:textColor="@color/text_primary"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/home_see_all"
+                    android:textAppearance="@style/TextAppearance.SoleStep.Caption"
+                    android:textColor="@color/brand_orange" />
+            </LinearLayout>
+
+            <HorizontalScrollView
+                android:id="@+id/home_categories_scroll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_6"
+                android:overScrollMode="never"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="78dp"
+                        android:layout_height="78dp"
+                        android:background="@drawable/bg_home_category_active"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="@dimen/icon_2xl"
+                            android:layout_height="@dimen/icon_2xl"
+                            android:contentDescription="@string/cat_sneakers"
+                            android:src="@drawable/ic_shoe"
+                            android:tint="@color/brand_white" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/space_4"
+                            android:text="@string/cat_sneakers"
+                            android:textAppearance="@style/TextAppearance.SoleStep.Caption"
+                            android:textColor="@color/brand_white"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="78dp"
+                        android:layout_height="78dp"
+                        android:layout_marginStart="@dimen/space_8"
+                        android:background="@drawable/bg_home_category"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="@dimen/icon_2xl"
+                            android:layout_height="@dimen/icon_2xl"
+                            android:contentDescription="@string/cat_running"
+                            android:src="@drawable/ic_shoe"
+                            android:tint="@color/status_info_medium" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/space_4"
+                            android:text="@string/cat_running"
+                            android:textAppearance="@style/TextAppearance.SoleStep.Caption"
+                            android:textColor="@color/text_secondary" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="78dp"
+                        android:layout_height="78dp"
+                        android:layout_marginStart="@dimen/space_8"
+                        android:background="@drawable/bg_home_category"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="@dimen/icon_2xl"
+                            android:layout_height="@dimen/icon_2xl"
+                            android:contentDescription="@string/cat_boots"
+                            android:src="@drawable/ic_shoe"
+                            android:tint="@color/cat_boots" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/space_4"
+                            android:text="@string/cat_boots"
+                            android:textAppearance="@style/TextAppearance.SoleStep.Caption"
+                            android:textColor="@color/text_secondary" />
+                    </LinearLayout>
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <FrameLayout
+                android:id="@+id/home_hero_banner"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_marginTop="@dimen/space_12"
+                android:background="@drawable/bg_hero_banner"
+                android:padding="@dimen/space_10">
+
+                <LinearLayout
+                    android:layout_width="160dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="@dimen/icon_sm"
+                            android:layout_height="@dimen/icon_sm"
+                            android:contentDescription="@null"
+                            android:src="@drawable/ic_home_flash" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/space_4"
+                            android:text="@string/home_banner_label"
+                            android:textAppearance="@style/TextAppearance.SoleStep.Caption"
+                            android:textColor="@color/brand_orange"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_6"
+                        android:text="Air Phantom Pro"
+                        android:textAppearance="@style/TextAppearance.SoleStep.Headline"
+                        android:textColor="@color/brand_white" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/home_banner_offer"
+                        android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
+                        android:textColor="@color/text_dark_secondary" />
+
+                    <TextView
+                        android:layout_width="86dp"
+                        android:layout_height="36dp"
+                        android:layout_marginTop="@dimen/space_10"
+                        android:background="@drawable/bg_button_primary"
+                        android:gravity="center"
+                        android:text="@string/home_banner_cta"
+                        android:textAppearance="@style/TextAppearance.SoleStep.Caption"
+                        android:textColor="@color/brand_white"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="150dp"
+                    android:layout_height="110dp"
+                    android:layout_gravity="center_vertical|end"
+                    android:alpha="0.9"
+                    android:contentDescription="@string/detail_label_brand"
+                    android:rotation="-15"
+                    android:src="@drawable/ic_shoe"
+                    android:tint="@color/text_disabled" />
+            </FrameLayout>
+
+            <LinearLayout
+                android:id="@+id/home_slider_dots"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_6"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="16dp"
+                    android:layout_height="5dp"
+                    android:background="@drawable/bg_button_primary" />
+
+                <View
+                    android:layout_width="6dp"
+                    android:layout_height="6dp"
+                    android:layout_marginStart="@dimen/space_4"
+                    android:background="@drawable/bg_rounded_gray" />
+
+                <View
+                    android:layout_width="6dp"
+                    android:layout_height="6dp"
+                    android:layout_marginStart="@dimen/space_3"
+                    android:background="@drawable/bg_rounded_gray" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/home_trending_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_10"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/icon_sm"
+                    android:layout_height="@dimen/icon_sm"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_home_trending" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_4"
+                    android:layout_weight="1"
+                    android:text="@string/home_trending_title"
+                    android:textAppearance="@style/TextAppearance.SoleStep.Body"
+                    android:textColor="@color/text_primary"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/home_see_all"
+                    android:textAppearance="@style/TextAppearance.SoleStep.Caption"
+                    android:textColor="@color/brand_orange" />
+            </LinearLayout>
+
+            <GridLayout
+                android:id="@+id/home_product_grid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_6"
+                android:alignmentMode="alignMargins"
+                android:columnCount="2"
+                android:columnOrderPreserved="false">
+
+                <include layout="@layout/item_home_product_air" />
+
+                <include layout="@layout/item_home_product_urban" />
+
+                <include layout="@layout/item_home_product_blaze" />
+
+                <include layout="@layout/item_home_product_shadow" />
+            </GridLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_10"
+                android:text="@string/home_brands_title"
+                android:textAppearance="@style/TextAppearance.SoleStep.Body"
+                android:textColor="@color/text_primary"
+                android:textStyle="bold" />
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_6"
+                android:overScrollMode="never"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="38dp"
+                        android:background="@drawable/bg_home_brand_chip"
+                        android:gravity="center"
+                        android:minWidth="86dp"
+                        android:paddingStart="@dimen/space_10"
+                        android:paddingEnd="@dimen/space_10"
+                        android:text="NovaSole"
+                        android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
+                        android:textColor="@color/text_secondary" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="38dp"
+                        android:layout_marginStart="@dimen/space_6"
+                        android:background="@drawable/bg_home_brand_chip"
+                        android:gravity="center"
+                        android:minWidth="86dp"
+                        android:paddingStart="@dimen/space_10"
+                        android:paddingEnd="@dimen/space_10"
+                        android:text="StreetFlex"
+                        android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
+                        android:textColor="@color/text_secondary" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="38dp"
+                        android:layout_marginStart="@dimen/space_6"
+                        android:background="@drawable/bg_home_brand_chip"
+                        android:gravity="center"
+                        android:minWidth="86dp"
+                        android:paddingStart="@dimen/space_10"
+                        android:paddingEnd="@dimen/space_10"
+                        android:text="SwiftKick"
+                        android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
+                        android:textColor="@color/text_secondary" />
+                </LinearLayout>
+            </HorizontalScrollView>
+        </LinearLayout>
+    </ScrollView>
+
+    <include
+        layout="@layout/view_bottom_navigation"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/bottom_nav_height"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

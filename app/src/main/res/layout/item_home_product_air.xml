@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_columnWeight="1"
+    android:layout_marginEnd="@dimen/space_6"
+    android:layout_marginBottom="@dimen/space_8"
+    android:background="@drawable/bg_home_product_card"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="112dp"
+        android:background="@drawable/bg_home_product_image_light">
+
+        <TextView
+            android:layout_width="42dp"
+            android:layout_height="20dp"
+            android:layout_margin="@dimen/space_6"
+            android:background="@drawable/bg_home_sale_badge"
+            android:gravity="center"
+            android:text="NEW"
+            android:textAppearance="@style/TextAppearance.SoleStep.Caption"
+            android:textColor="@color/brand_white"
+            android:textSize="8sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="92dp"
+            android:layout_height="66dp"
+            android:layout_gravity="center"
+            android:contentDescription="@null"
+            android:rotation="-15"
+            android:src="@drawable/ic_shoe"
+            android:tint="@color/text_disabled" />
+    </FrameLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_6"
+        android:layout_marginTop="@dimen/space_6"
+        android:layout_marginEnd="@dimen/space_6"
+        android:text="NovaSole"
+        android:textAppearance="@style/TextAppearance.SoleStep.Caption" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_6"
+        android:layout_marginEnd="@dimen/space_6"
+        android:text="Air Phantom Pro"
+        android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
+        android:textColor="@color/text_primary"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/space_6"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="$189.99"
+            android:textAppearance="@style/TextAppearance.SoleStep.PriceSmall" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="* 4.8"
+            android:textAppearance="@style/TextAppearance.SoleStep.Caption"
+            android:textColor="@color/text_secondary" />
+    </LinearLayout>
+</LinearLayout>

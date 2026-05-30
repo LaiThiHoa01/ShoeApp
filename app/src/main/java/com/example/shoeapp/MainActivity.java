@@ -1,6 +1,5 @@
 package com.example.shoeapp;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 public class MainActivity extends BaseSoleStepActivity {
@@ -8,12 +7,7 @@ public class MainActivity extends BaseSoleStepActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_orders);
-        setupScreen(BottomNavHelper.TAG_ORDERS);
-
-        findViewById(R.id.rate_products_button).setOnClickListener(v ->
-                startActivity(new Intent(this, ProductReviewActivity.class)));
-        findViewById(R.id.order_detail_button).setOnClickListener(v ->
-                startActivity(new Intent(this, OrderDetailActivity.class)));
+        setContentView(R.layout.activity_home);
+        setupScreen(BottomNavHelper.TAG_HOME);
     }
 }
