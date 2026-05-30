@@ -80,6 +80,13 @@ final class BottomNavHelper {
             return;
         }
 
+        if (TAG_CART.equals(itemTag)) {
+            if (!(activity instanceof CartActivity)) {
+                activity.startActivity(new Intent(activity, CartActivity.class));
+            }
+            return;
+        }
+
         if (TAG_ORDERS.equals(itemTag)) {
             if (!(activity instanceof MyOrdersActivity)) {
                 activity.startActivity(new Intent(activity, MyOrdersActivity.class));

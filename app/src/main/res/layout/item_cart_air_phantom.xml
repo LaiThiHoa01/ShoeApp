@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="112dp"
+    android:layout_marginTop="@dimen/space_10"
+    android:background="@drawable/bg_cart_item_card"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:padding="@dimen/space_8">
+
+    <FrameLayout
+        android:layout_width="78dp"
+        android:layout_height="78dp"
+        android:background="@drawable/bg_home_product_image_light">
+
+        <ImageView
+            android:layout_width="62dp"
+            android:layout_height="46dp"
+            android:layout_gravity="center"
+            android:contentDescription="@null"
+            android:rotation="-15"
+            android:src="@drawable/ic_shoe"
+            android:tint="@color/text_disabled" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/space_10"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="NovaSole"
+            android:textAppearance="@style/TextAppearance.SoleStep.Caption" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Air Phantom Pro"
+            android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
+            android:textColor="@color/text_primary"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_3"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:background="@drawable/bg_home_brand_chip"
+                android:gravity="center"
+                android:paddingStart="@dimen/space_6"
+                android:paddingEnd="@dimen/space_6"
+                android:text="US 10"
+                android:textAppearance="@style/TextAppearance.SoleStep.Caption"
+                android:textColor="@color/text_muted" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_marginStart="@dimen/space_4"
+                android:background="@drawable/bg_home_brand_chip"
+                android:gravity="center"
+                android:paddingStart="@dimen/space_6"
+                android:paddingEnd="@dimen/space_6"
+                android:text="White"
+                android:textAppearance="@style/TextAppearance.SoleStep.Caption"
+                android:textColor="@color/text_muted" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="bottom"
+            android:text="$189.99"
+            android:textAppearance="@style/TextAppearance.SoleStep.PriceSmall"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="86dp"
+        android:layout_height="match_parent"
+        android:gravity="end"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/bg_cart_delete">
+
+            <ImageView
+                android:layout_width="@dimen/icon_sm"
+                android:layout_height="@dimen/icon_sm"
+                android:layout_gravity="center"
+                android:contentDescription="@string/action_delete"
+                android:src="@drawable/ic_trash" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="bottom|center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:background="@drawable/bg_cart_stepper"
+                android:gravity="center"
+                android:text="-"
+                android:textAppearance="@style/TextAppearance.SoleStep.Body"
+                android:textColor="@color/text_secondary" />
+
+            <TextView
+                android:layout_width="32dp"
+                android:layout_height="28dp"
+                android:gravity="center"
+                android:text="1"
+                android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
+                android:textColor="@color/text_primary"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:background="@drawable/bg_circle_orange"
+                android:gravity="center"
+                android:text="+"
+                android:textAppearance="@style/TextAppearance.SoleStep.Body"
+                android:textColor="@color/brand_white" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
