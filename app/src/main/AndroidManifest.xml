@@ -15,6 +15,9 @@
             android:name=".ProductReviewActivity"
             android:exported="false" />
         <activity
+            android:name=".ProductDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".CatalogActivity"
             android:exported="false" />
         <activity
