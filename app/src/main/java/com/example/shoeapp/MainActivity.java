@@ -8,12 +8,10 @@ public class MainActivity extends BaseSoleStepActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_orders);
-        setupScreen(BottomNavHelper.TAG_ORDERS);
+        setContentView(R.layout.activity_home);
+        setupScreen(BottomNavHelper.TAG_HOME);
 
-        findViewById(R.id.rate_products_button).setOnClickListener(v ->
-                startActivity(new Intent(this, ProductReviewActivity.class)));
-        findViewById(R.id.order_detail_button).setOnClickListener(v ->
-                startActivity(new Intent(this, OrderDetailActivity.class)));
+        findViewById(R.id.home_product_grid).setOnClickListener(v ->
+                startActivity(new Intent(this, ProductDetailActivity.class)));
     }
 }

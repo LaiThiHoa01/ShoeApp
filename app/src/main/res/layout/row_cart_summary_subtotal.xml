@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/space_10"
+    android:orientation="horizontal">
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/cart_subtotal"
+        android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
+        android:textColor="@color/text_muted" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="$629.97"
+        android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
+        android:textColor="@color/text_secondary"
+        android:textStyle="bold" />
+</LinearLayout>

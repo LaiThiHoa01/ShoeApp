@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:layout_marginStart="@dimen/space_6"
+    android:layout_marginBottom="@dimen/space_8"
+    android:background="@drawable/bg_home_product_card"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="112dp"
+        android:background="@drawable/bg_home_product_image_warm">
+
+        <ImageView
+            android:layout_width="110dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:contentDescription="@null"
+            android:rotation="-10"
+            android:src="@drawable/ic_shoe"
+            android:tint="@color/brand_white" />
+    </FrameLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_6"
+        android:layout_marginTop="@dimen/space_6"
+        android:layout_marginEnd="@dimen/space_6"
+        android:text="StreetFlex"
+        android:textAppearance="@style/TextAppearance.SoleStep.Caption" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_6"
+        android:layout_marginEnd="@dimen/space_6"
+        android:text="Urban Stride X"
+        android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
+        android:textColor="@color/text_primary"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/space_6"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="$149.99"
+            android:textAppearance="@style/TextAppearance.SoleStep.PriceSmall" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="* 4.6"
+            android:textAppearance="@style/TextAppearance.SoleStep.Caption"
+            android:textColor="@color/text_secondary" />
+    </LinearLayout>
+</LinearLayout>

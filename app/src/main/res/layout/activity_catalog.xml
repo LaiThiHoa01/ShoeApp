@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_primary"
+    tools:context=".CatalogActivity">
+
+    <ScrollView
+        android:id="@+id/catalog_scroll"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:overScrollMode="never"
+        app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/space_screen_horizontal"
+            android:paddingTop="@dimen/space_10"
+            android:paddingEnd="@dimen/space_screen_horizontal"
+            android:paddingBottom="@dimen/space_16">
+
+            <LinearLayout
+                android:id="@+id/catalog_header"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/back_button"
+                    android:layout_width="@dimen/btn_icon_size"
+                    android:layout_height="@dimen/btn_icon_size"
+                    android:background="@drawable/bg_home_notification"
+                    android:contentDescription="@string/action_back"
+                    android:padding="@dimen/space_8"
+                    android:src="@drawable/ic_arrow_back"
+                    android:tint="@color/text_secondary" />
+
+                <TextView
+                    android:id="@+id/catalog_title_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_8"
+                    android:layout_weight="1"
+                    android:text="@string/cat_sneakers"
+                    android:textAppearance="@style/TextAppearance.SoleStep.Subheading"
+                    android:textColor="@color/text_primary" />
+
+                <TextView
+                    android:id="@+id/catalog_count_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="8 items"
+                    android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
+                    android:textColor="@color/text_muted" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/catalog_search_row"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:layout_marginTop="@dimen/space_8"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="@dimen/space_8"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_home_search"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/space_8"
+                    android:paddingEnd="@dimen/space_8">
+
+                    <ImageView
+                        android:layout_width="@dimen/icon_lg"
+                        android:layout_height="@dimen/icon_lg"
+                        android:contentDescription="@string/action_search"
+                        android:src="@drawable/ic_material_search"
+                        android:tint="@color/text_muted" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/space_6"
+                        android:layout_weight="1"
+                        android:text="@string/catalog_search_hint"
+                        android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
+                        android:textColor="@color/text_muted" />
+                </LinearLayout>
+
+                <FrameLayout
+                    android:layout_width="46dp"
+                    android:layout_height="46dp"
+                    android:background="@drawable/bg_home_category_active">
+
+                    <ImageView
+                        android:layout_width="@dimen/icon_lg"
+                        android:layout_height="@dimen/icon_lg"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/action_filter"
+                        android:src="@drawable/ic_filter_sliders"
+                        android:tint="@color/brand_white" />
+                </FrameLayout>
+            </LinearLayout>
+
+            <HorizontalScrollView
+                android:id="@+id/catalog_filter_scroll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_10"
+                android:overScrollMode="never"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="34dp"
+                        android:background="@drawable/bg_home_brand_chip"
+                        android:gravity="center"
+                        android:paddingStart="@dimen/space_10"
+                        android:paddingEnd="@dimen/space_10"
+                        android:text="@string/catalog_sort_popular"
+                        android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
+                        android:textColor="@color/text_secondary" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="34dp"
+                        android:layout_marginStart="@dimen/space_6"
+                        android:background="@drawable/bg_catalog_chip_selected"
+                        android:gravity="center"
+                        android:paddingStart="@dimen/space_10"
+                        android:paddingEnd="@dimen/space_10"
+                        android:text="Sneakers  x"
+                        android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
+                        android:textColor="@color/brand_orange" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="34dp"
+                        android:layout_marginStart="@dimen/space_6"
+                        android:background="@drawable/bg_catalog_chip_selected"
+                        android:gravity="center"
+                        android:paddingStart="@dimen/space_10"
+                        android:paddingEnd="@dimen/space_10"
+                        android:text="Size: 9, 10  x"
+                        android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
+                        android:textColor="@color/brand_orange" />
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <LinearLayout
+                android:id="@+id/catalog_product_grid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_10"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <include layout="@layout/item_catalog_air_phantom" />
+
+                    <include layout="@layout/item_catalog_urban_stride" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <include layout="@layout/item_catalog_blaze_runner" />
+
+                    <include layout="@layout/item_catalog_shadow_force" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <include layout="@layout/item_catalog_cloud_walker" />
+
+                    <include layout="@layout/item_catalog_apex_boost" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <include layout="@layout/item_catalog_midnight_classic" />
+
+                    <include layout="@layout/item_catalog_storm_elite" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <include
+        layout="@layout/view_bottom_navigation"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/bottom_nav_height"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

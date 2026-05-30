@@ -66,9 +66,30 @@ final class BottomNavHelper {
     }
 
     private static void navigate(Activity activity, String itemTag) {
-        if (TAG_ORDERS.equals(itemTag)) {
+        if (TAG_HOME.equals(itemTag)) {
             if (!(activity instanceof MainActivity)) {
                 activity.startActivity(new Intent(activity, MainActivity.class));
+            }
+            return;
+        }
+
+        if (TAG_SEARCH.equals(itemTag)) {
+            if (!(activity instanceof CatalogActivity)) {
+                activity.startActivity(new Intent(activity, CatalogActivity.class));
+            }
+            return;
+        }
+
+        if (TAG_CART.equals(itemTag)) {
+            if (!(activity instanceof CartActivity)) {
+                activity.startActivity(new Intent(activity, CartActivity.class));
+            }
+            return;
+        }
+
+        if (TAG_ORDERS.equals(itemTag)) {
+            if (!(activity instanceof MyOrdersActivity)) {
+                activity.startActivity(new Intent(activity, MyOrdersActivity.class));
             }
             return;
         }
