@@ -73,6 +73,13 @@ final class BottomNavHelper {
             return;
         }
 
+        if (TAG_SEARCH.equals(itemTag)) {
+            if (!(activity instanceof CatalogActivity)) {
+                activity.startActivity(new Intent(activity, CatalogActivity.class));
+            }
+            return;
+        }
+
         if (TAG_ORDERS.equals(itemTag)) {
             if (!(activity instanceof MyOrdersActivity)) {
                 activity.startActivity(new Intent(activity, MyOrdersActivity.class));

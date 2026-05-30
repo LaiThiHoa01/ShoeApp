@@ -373,23 +373,33 @@
                     android:textColor="@color/brand_orange" />
             </LinearLayout>
 
-            <GridLayout
+            <LinearLayout
                 android:id="@+id/home_product_grid"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_6"
-                android:alignmentMode="alignMargins"
-                android:columnCount="2"
-                android:columnOrderPreserved="false">
+                android:orientation="vertical">
 
-                <include layout="@layout/item_home_product_air" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
-                <include layout="@layout/item_home_product_urban" />
+                    <include layout="@layout/item_home_product_air" />
 
-                <include layout="@layout/item_home_product_blaze" />
+                    <include layout="@layout/item_home_product_urban" />
+                </LinearLayout>
 
-                <include layout="@layout/item_home_product_shadow" />
-            </GridLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <include layout="@layout/item_home_product_blaze" />
+
+                    <include layout="@layout/item_home_product_shadow" />
+                </LinearLayout>
+            </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"

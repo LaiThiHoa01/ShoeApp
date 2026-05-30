@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:layout_marginStart="@dimen/space_6"
+    android:background="@drawable/bg_home_product_card"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="148dp"
+        android:background="@drawable/bg_catalog_product_image_orange">
+
+        <TextView
+            android:layout_width="44dp"
+            android:layout_height="20dp"
+            android:layout_gravity="top|end"
+            android:layout_margin="@dimen/space_6"
+            android:background="@drawable/bg_catalog_discount_badge"
+            android:gravity="center"
+            android:text="-23%"
+            android:textAppearance="@style/TextAppearance.SoleStep.Caption"
+            android:textColor="@color/brand_white"
+            android:textSize="8sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="134dp"
+            android:layout_height="96dp"
+            android:layout_gravity="center"
+            android:contentDescription="@null"
+            android:rotation="-12"
+            android:src="@drawable/ic_shoe"
+            android:tint="@color/text_secondary" />
+    </FrameLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_8"
+        android:layout_marginTop="@dimen/space_8"
+        android:layout_marginEnd="@dimen/space_8"
+        android:text="SwiftKick"
+        android:textAppearance="@style/TextAppearance.SoleStep.Caption" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_8"
+        android:layout_marginEnd="@dimen/space_8"
+        android:text="Storm Elite"
+        android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
+        android:textColor="@color/text_primary"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_8"
+        android:layout_marginTop="@dimen/space_4"
+        android:layout_marginEnd="@dimen/space_8"
+        android:text="* 4.7  (203)"
+        android:textAppearance="@style/TextAppearance.SoleStep.Caption"
+        android:textColor="@color/text_tertiary" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/space_8"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="$199.99"
+                android:textAppearance="@style/TextAppearance.SoleStep.PriceSmall"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="$259.99"
+                android:textAppearance="@style/TextAppearance.SoleStep.Caption"
+                android:textColor="@color/text_disabled" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:background="@drawable/bg_circle_orange">
+
+            <ImageView
+                android:layout_width="@dimen/icon_sm"
+                android:layout_height="@dimen/icon_sm"
+                android:layout_gravity="center"
+                android:contentDescription="@string/detail_btn_add_to_cart"
+                android:src="@drawable/ic_catalog_plus" />
+        </FrameLayout>
+    </LinearLayout>
+</LinearLayout>

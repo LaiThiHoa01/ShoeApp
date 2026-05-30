@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:layout_marginEnd="@dimen/space_6"
+    android:layout_marginBottom="@dimen/space_8"
+    android:background="@drawable/bg_home_product_card"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="148dp"
+        android:background="@drawable/bg_catalog_product_image_black">
+
+        <ImageView
+            android:layout_width="140dp"
+            android:layout_height="96dp"
+            android:layout_gravity="center"
+            android:contentDescription="@null"
+            android:rotation="-20"
+            android:src="@drawable/ic_shoe"
+            android:tint="@color/brand_white" />
+    </FrameLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_8"
+        android:layout_marginTop="@dimen/space_8"
+        android:layout_marginEnd="@dimen/space_8"
+        android:text="AeroPod"
+        android:textAppearance="@style/TextAppearance.SoleStep.Caption" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_8"
+        android:layout_marginEnd="@dimen/space_8"
+        android:text="Cloud Walker"
+        android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
+        android:textColor="@color/text_primary"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_8"
+        android:layout_marginTop="@dimen/space_4"
+        android:layout_marginEnd="@dimen/space_8"
+        android:text="* 4.7  (305)"
+        android:textAppearance="@style/TextAppearance.SoleStep.Caption"
+        android:textColor="@color/text_tertiary" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/space_8"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="$159.99"
+                android:textAppearance="@style/TextAppearance.SoleStep.PriceSmall"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="$209.99"
+                android:textAppearance="@style/TextAppearance.SoleStep.Caption"
+                android:textColor="@color/text_disabled" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:background="@drawable/bg_circle_orange">
+
+            <ImageView
+                android:layout_width="@dimen/icon_sm"
+                android:layout_height="@dimen/icon_sm"
+                android:layout_gravity="center"
+                android:contentDescription="@string/detail_btn_add_to_cart"
+                android:src="@drawable/ic_catalog_plus" />
+        </FrameLayout>
+    </LinearLayout>
+</LinearLayout>
