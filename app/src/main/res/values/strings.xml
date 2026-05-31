@@ -5,6 +5,23 @@
     <string name="app_name">SoleStep</string>
     <string name="app_tagline">Step Into Style</string>
     <string name="app_admin_portal">Admin Portal</string>
+    <string name="auth_brand">SoleStep</string>
+    <string name="auth_tagline">STEP INTO STYLE</string>
+    <string name="auth_email_value">alex@email.com</string>
+    <string name="auth_password_value">soleStep123</string>
+    <string name="auth_show_password">Show password</string>
+    <string name="auth_hide_password">Hide password</string>
+    <string name="auth_first_name_value">Alex</string>
+    <string name="auth_last_name_value">Johnson</string>
+    <string name="auth_country_code_value">+1</string>
+    <string name="auth_phone_value">555-0182</string>
+    <string name="auth_label_email_address">Email Address</string>
+    <string name="auth_step_1">Step 1 of 3</string>
+    <string name="auth_strong_password">Strong password</string>
+    <string name="auth_terms_notice">I agree to the Terms of Service and Privacy Policy</string>
+    <string name="auth_terms">Terms of Service</string>
+    <string name="auth_privacy">Privacy Policy</string>
+    <string name="check_mark">&#10003;</string>
 
     <!-- ─── Auth screens ─── -->
     <string name="auth_welcome_back">Welcome back</string>
@@ -30,6 +47,9 @@
     <string name="auth_label_phone">Phone Number</string>
     <string name="auth_passwords_match">Passwords match</string>
     <string name="auth_secure_update">Secure Password Update</string>
+    <string name="auth_secure_update_subtitle">Choose a strong, unique password</string>
+    <string name="auth_requirements">Requirements</string>
+    <string name="back">Back</string>
     <string name="auth_admin_notice">Restricted access — authorized personnel only</string>
     <string name="auth_admin_2fa">2FA Code</string>
     <string name="auth_btn_access_dashboard">Access Dashboard</string>

@@ -20,6 +20,13 @@
     <color name="brand_indigo">#6366F1</color>
     <color name="brand_indigo_light">#818CF8</color>
 
+    <!-- Auth screen accents -->
+    <color name="auth_header_start">#100A08</color>
+    <color name="auth_header_end">#1D0D07</color>
+    <color name="auth_header_ring">#1AFF5500</color>
+    <color name="auth_tagline">#A49E9D</color>
+    <color name="google_blue">#4285F4</color>
+
 <!--BACKGROUND SURFACES -->
 
     <!-- Light mode backgrounds -->

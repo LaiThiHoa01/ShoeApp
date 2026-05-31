@@ -67,6 +67,7 @@
     <dimen name="radius_product_image">20dp</dimen>
     <dimen name="radius_icon_container">16dp</dimen>
     <dimen name="radius_icon_container_small">12dp</dimen>
+    <dimen name="radius_logo">20dp</dimen>
     <dimen name="radius_fab">20dp</dimen>
     <dimen name="radius_phone_frame">44dp</dimen>
 
@@ -98,6 +99,7 @@
     <dimen name="font_caption">11sp</dimen>       <!-- Status label, hint         -->
     <dimen name="font_caption_small">10sp</dimen> <!-- Micro label, badge         -->
     <dimen name="font_overline">9sp</dimen>       <!-- Section header uppercase   -->
+    <dimen name="font_button">14sp</dimen>
 
     <!-- Price-specific sizes -->
     <dimen name="font_price_large">30sp</dimen>   <!-- Price trên detail screen   -->
@@ -122,6 +124,11 @@
     <dimen name="input_otp_size">44dp</dimen>     <!-- Ô nhập OTP / 2FA             -->
 
     <!-- ─── Bottom Navigation ─── -->
+    <!-- Auth -->
+    <dimen name="auth_header_height">180dp</dimen>
+    <dimen name="auth_logo_size">42dp</dimen>
+    <dimen name="auth_content_padding">24dp</dimen>
+
     <dimen name="bottom_nav_height">88dp</dimen>
     <dimen name="bottom_nav_icon_size">26dp</dimen>
     <dimen name="bottom_nav_label_size">10sp</dimen>
