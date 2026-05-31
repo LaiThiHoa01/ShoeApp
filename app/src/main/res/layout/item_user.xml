@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="16dp"
+    android:background="@drawable/bg_card_dark"
+    android:padding="20dp">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/avatar_container"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        app:cardBackgroundColor="@color/brand_orange"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:strokeWidth="0dp">
+
+        <TextView
+            android:id="@+id/tv_initials"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="AJ"
+            android:textColor="@color/brand_white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Tên người dùng và Nhãn trạng thái -->
+    <TextView
+        android:id="@+id/tv_user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="Alex Johnson"
+        android:textColor="@color/text_dark_primary"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@id/avatar_container"
+        app:layout_constraintTop_toTopOf="@id/avatar_container" />
+
+    <TextView
+        android:id="@+id/tv_status_badge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/bg_status_delivered"
+        android:backgroundTint="#1A10B981"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="2dp"
+        android:text="Active"
+        android:textColor="@color/status_success"
+        android:textSize="11sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/tv_user_name"
+        app:layout_constraintStart_toEndOf="@id/tv_user_name"
+        app:layout_constraintTop_toTopOf="@id/tv_user_name" />
+
+    <!-- Email người dùng -->
+    <TextView
+        android:id="@+id/tv_user_email"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="alex@email.com"
+        android:textColor="@color/text_dark_tertiary"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@id/actions_layout"
+        app:layout_constraintStart_toStartOf="@id/tv_user_name"
+        app:layout_constraintTop_toBottomOf="@id/tv_user_name" />
+
+    <LinearLayout
+        android:id="@+id/stats_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="@id/tv_user_name"
+        app:layout_constraintTop_toBottomOf="@id/tv_user_email">
+
+        <TextView
+            android:id="@+id/tv_orders_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="8 orders"
+            android:textColor="@color/text_dark_tertiary"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/tv_spent_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:text="$1241 spent"
+            android:textColor="@color/brand_orange"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- Các nút hành động (Sửa/Xóa) -->
+    <LinearLayout
+        android:id="@+id/actions_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_user_name">
+
+        <FrameLayout
+            android:id="@+id/btn_edit"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_marginEnd="12dp"
+            android:background="@drawable/bg_circle_dark"
+            android:backgroundTint="#1A3B82F6">
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_edit"
+                app:tint="@color/stat_orders" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/btn_delete"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:background="@drawable/bg_circle_dark"
+            android:backgroundTint="#1AEF4444">
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_trash"
+                app:tint="@color/status_error" />
+        </FrameLayout>
+    </LinearLayout>
+
+    <View
+        android:id="@+id/item_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/border_dark_light"
+        app:layout_constraintTop_toBottomOf="@id/stats_layout" />
+
+    <TextView
+        android:id="@+id/tv_joined_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="Joined Jan 12, 2026"
+        android:textColor="@color/text_dark_tertiary"
+        android:textSize="13sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/item_divider" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
