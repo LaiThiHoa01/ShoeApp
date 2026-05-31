@@ -62,7 +62,7 @@
     </style>
 
 <!--admin theme-->
-    <style name="Theme.SoleStep.Admin" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.SoleStep.Admin" parent="Theme.Material3.DayNight.NoActionBar">
 
         <item name="colorPrimary">@color/brand_orange</item>
         <item name="colorPrimaryVariant">@color/brand_orange_light</item>
@@ -77,10 +77,7 @@
         <item name="android:colorBackground">@color/bg_dark_primary</item>
         <item name="colorOnBackground">@color/brand_white</item>
 
-        <item name="colorError">@color/status_error</item>
-        <item name="colorOnError">@color/brand_white</item>
-
-        <item name="android:statusBarColor">@color/bg_dark_surface_1</item>
+        <item name="android:statusBarColor">@color/bg_dark_primary</item>
         <item name="android:navigationBarColor">@color/bg_dark_primary</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
 
@@ -89,10 +86,26 @@
         <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.SoleStep.Small</item>
         <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.SoleStep.Medium</item>
         <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.SoleStep.Large</item>
+    </style>
 
-        <item name="bottomNavigationStyle">@style/Widget.SoleStep.BottomNavigationView.Admin</item>
-        <item name="materialButtonStyle">@style/Widget.SoleStep.Button.Primary</item>
-        <item name="textInputStyle">@style/Widget.SoleStep.TextInputLayout.Dark</item>
+    <style name="Widget.App.Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@color/brand_orange</item>
+        <item name="android:width">60dp</item>
+        <item name="android:height">48dp</item>
+        <item name="marginHorizontal">8dp</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.App.Indicator</item>
+    </style>
+
+    <style name="ShapeAppearance.App.Indicator" parent="ShapeAppearance.Material3.SmallComponent">
+        <item name="cornerSize">16dp</item>
+    </style>
+
+    <style name="CustomBottomSheetDialog" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/CustomBottomSheetStyle</item>
+    </style>
+
+    <style name="CustomBottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@android:color/transparent</item>
     </style>
 
 
