@@ -2,18 +2,18 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/admin_dashboard_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_dark_primary"
-    android:fitsSystemWindows="true"
-    tools:context=".AdminDashboardActivity">
+    tools:context=".admin.AdminDashboardActivity">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:clipToPadding="false"
         android:paddingBottom="24dp"
-        app:layout_constraintBottom_toTopOf="@id/bottom_nav"
+        app:layout_constraintBottom_toTopOf="@id/admin_bottom_nav"
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
@@ -153,20 +153,24 @@
                 </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <!-- ══════════════════════════════════════
+                 STATISTICS GRID
+                 ══════════════════════════════════════ -->
             <GridLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="28dp"
+                android:layout_marginTop="24dp"
                 android:columnCount="2"
                 android:useDefaultMargins="true">
 
+                <!-- Stat: Revenue -->
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
                     android:background="@drawable/bg_card_dark"
                     android:orientation="vertical"
-                    android:padding="18dp">
+                    android:padding="16dp">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
@@ -174,8 +178,8 @@
 
                         <View
                             android:id="@+id/stat_icon_1"
-                            android:layout_width="42dp"
-                            android:layout_height="42dp"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
                             android:background="@drawable/bg_circle_dark"
                             android:backgroundTint="@color/stat_revenue_bg"
                             app:layout_constraintStart_toStartOf="parent"
@@ -186,7 +190,7 @@
                             android:layout_height="wrap_content"
                             android:text="$"
                             android:textColor="@color/stat_revenue"
-                            android:textSize="18sp"
+                            android:textSize="16sp"
                             android:textStyle="bold"
                             app:layout_constraintBottom_toBottomOf="@id/stat_icon_1"
                             app:layout_constraintEnd_toEndOf="@id/stat_icon_1"
@@ -196,9 +200,9 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="↗ +12.5%"
+                            android:text="↗ +12%"
                             android:textColor="@color/status_success"
-                            android:textSize="12sp"
+                            android:textSize="10sp"
                             android:textStyle="bold"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -207,27 +211,28 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:text="$48,291"
+                        android:layout_marginTop="12dp"
+                        android:text="$48.2k"
                         android:textColor="@color/text_dark_primary"
-                        android:textSize="22sp"
+                        android:textSize="20sp"
                         android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Revenue"
+                        android:text="@string/admin_stat_revenue"
                         android:textColor="@color/text_dark_tertiary"
-                        android:textSize="14sp" />
+                        android:textSize="13sp" />
                 </LinearLayout>
 
+                <!-- Stat: Orders -->
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
                     android:background="@drawable/bg_card_dark"
                     android:orientation="vertical"
-                    android:padding="18dp">
+                    android:padding="16dp">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
@@ -235,16 +240,16 @@
 
                         <View
                             android:id="@+id/stat_icon_2"
-                            android:layout_width="42dp"
-                            android:layout_height="42dp"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
                             android:background="@drawable/bg_circle_dark"
                             android:backgroundTint="@color/stat_orders_bg"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
                             android:src="@drawable/ic_material_shopping_cart"
                             app:layout_constraintBottom_toBottomOf="@id/stat_icon_2"
                             app:layout_constraintEnd_toEndOf="@id/stat_icon_2"
@@ -255,9 +260,9 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="↗ +8.2%"
+                            android:text="↗ +8%"
                             android:textColor="@color/status_success"
-                            android:textSize="12sp"
+                            android:textSize="10sp"
                             android:textStyle="bold"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -266,86 +271,28 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="12dp"
                         android:text="284"
                         android:textColor="@color/text_dark_primary"
-                        android:textSize="22sp"
+                        android:textSize="20sp"
                         android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Orders"
+                        android:text="@string/admin_stat_orders"
                         android:textColor="@color/text_dark_tertiary"
-                        android:textSize="14sp" />
+                        android:textSize="13sp" />
                 </LinearLayout>
 
+                <!-- Stat: Products -->
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
                     android:background="@drawable/bg_card_dark"
                     android:orientation="vertical"
-                    android:padding="18dp">
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <View
-                            android:id="@+id/stat_icon_3"
-                            android:layout_width="42dp"
-                            android:layout_height="42dp"
-                            android:background="@drawable/bg_circle_dark"
-                            android:backgroundTint="@color/stat_customers_bg"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:src="@drawable/ic_material_person"
-                            app:layout_constraintBottom_toBottomOf="@id/stat_icon_3"
-                            app:layout_constraintEnd_toEndOf="@id/stat_icon_3"
-                            app:layout_constraintStart_toStartOf="@id/stat_icon_3"
-                            app:layout_constraintTop_toTopOf="@id/stat_icon_3"
-                            app:tint="@color/stat_customers" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="↗ +15.3%"
-                            android:textColor="@color/status_success"
-                            android:textSize="12sp"
-                            android:textStyle="bold"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:text="1,847"
-                        android:textColor="@color/text_dark_primary"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Customers"
-                        android:textColor="@color/text_dark_tertiary"
-                        android:textSize="14sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:background="@drawable/bg_card_dark"
-                    android:orientation="vertical"
-                    android:padding="18dp">
+                    android:padding="16dp">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
@@ -353,16 +300,16 @@
 
                         <View
                             android:id="@+id/stat_icon_4"
-                            android:layout_width="42dp"
-                            android:layout_height="42dp"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
                             android:background="@drawable/bg_circle_dark"
                             android:backgroundTint="@color/stat_products_bg"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
                             android:src="@drawable/ic_material_inventory_2"
                             app:layout_constraintBottom_toBottomOf="@id/stat_icon_4"
                             app:layout_constraintEnd_toEndOf="@id/stat_icon_4"
@@ -373,9 +320,9 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="↘ -2.1%"
+                            android:text="↘ -2%"
                             android:textColor="@color/status_error"
-                            android:textSize="12sp"
+                            android:textSize="10sp"
                             android:textStyle="bold"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -384,18 +331,78 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="12dp"
                         android:text="156"
                         android:textColor="@color/text_dark_primary"
-                        android:textSize="22sp"
+                        android:textSize="20sp"
                         android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Products"
+                        android:text="@string/admin_stat_products"
                         android:textColor="@color/text_dark_tertiary"
-                        android:textSize="14sp" />
+                        android:textSize="13sp" />
+                </LinearLayout>
+
+                <!-- Stat: Categories -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:background="@drawable/bg_card_dark"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <View
+                            android:id="@+id/stat_icon_3"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:background="@drawable/bg_circle_dark"
+                            android:backgroundTint="@color/orange_tint_10"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:src="@drawable/ic_tag"
+                            app:layout_constraintBottom_toBottomOf="@id/stat_icon_3"
+                            app:layout_constraintEnd_toEndOf="@id/stat_icon_3"
+                            app:layout_constraintStart_toStartOf="@id/stat_icon_3"
+                            app:layout_constraintTop_toTopOf="@id/stat_icon_3"
+                            app:tint="@color/brand_orange" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Stable"
+                            android:textColor="@color/status_info"
+                            android:textSize="10sp"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:text="12"
+                        android:textColor="@color/text_dark_primary"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/admin_stat_categories"
+                        android:textColor="@color/text_dark_tertiary"
+                        android:textSize="13sp" />
                 </LinearLayout>
             </GridLayout>
 
@@ -407,20 +414,25 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Recent Orders"
+                    android:text="@string/admin_recent_orders"
                     android:textColor="@color/text_dark_primary"
-                    android:textSize="22sp"
+                    android:textSize="20sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:id="@+id/btn_view_all_orders"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:padding="4dp"
                     android:text="View all >"
                     android:textColor="@color/brand_orange"
-                    android:textSize="16sp"
+                    android:textSize="15sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -749,20 +761,25 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Top Products"
+                    android:text="@string/admin_top_products"
                     android:textColor="@color/text_dark_primary"
-                    android:textSize="22sp"
+                    android:textSize="20sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:id="@+id/btn_view_all_products"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:padding="4dp"
                     android:text="View all >"
                     android:textColor="@color/brand_orange"
-                    android:textSize="16sp"
+                    android:textSize="15sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -883,17 +900,12 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_nav"
+    <include
+        layout="@layout/view_admin_bottom_nav"
         android:layout_width="match_parent"
-        android:layout_height="90dp"
-        android:background="@color/bg_dark_primary"
-        app:itemIconTint="@color/bn_icon_tint_admin"
-        app:itemTextColor="@color/bn_label_tint_admin"
-        app:itemIconSize="24dp"
-        app:itemActiveIndicatorStyle="@style/Widget.App.Indicator"
-        app:labelVisibilityMode="labeled"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:menu="@menu/admin_bottom_nav_menu" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

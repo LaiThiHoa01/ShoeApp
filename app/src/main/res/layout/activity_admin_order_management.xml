@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ┌─────────────────────────────────────────────┐
+  │  ADMIN — ORDER MANAGEMENT                   │
+  │  Activity: AdminOrderManagementActivity.java │
+  │  Màn hình quản lý đơn hàng của admin        │
+  └─────────────────────────────────────────────┘
+  Cấu trúc:
+    ConstraintLayout (root, bg_dark_primary)
+      └─ [Header]   LinearLayout: tiêu đề + badge tổng đơn
+      └─ [Search]   LinearLayout: search bar
+      └─ [Stats]    LinearLayout: 3 stat card (Processing/Shipped/Delivered)
+      └─ [Filters]  HorizontalScrollView: tab All/Processing/Shipped/Delivered
+      └─ [List]     RecyclerView: danh sách đơn hàng (item_admin_order)
+      └─ [BottomNav] LinearLayout: 2 tab admin
+-->
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/admin_orders_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_dark_primary"
+    tools:context=".admin.AdminOrderManagementActivity">
+
+    <!-- ══════════════════════════════════════
+         HEADER
+         ══════════════════════════════════════ -->
+    <LinearLayout
+        android:id="@+id/admin_orders_header"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/space_screen_horizontal"
+        android:paddingTop="@dimen/space_12"
+        android:paddingEnd="@dimen/space_screen_horizontal"
+        android:paddingBottom="@dimen/space_8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- Label ADMIN + Tiêu đề -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:letterSpacing="0.1"
+                android:text="@string/app_admin_portal"
+                android:textAllCaps="true"
+                android:textColor="@color/text_dark_muted"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/admin_orders_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/admin_orders_title"
+                android:textColor="@color/text_dark_primary"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- Badge tổng số đơn -->
+        <TextView
+            android:id="@+id/admin_orders_total_badge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_badge_orange"
+            android:paddingStart="@dimen/space_6"
+            android:paddingTop="@dimen/space_2"
+            android:paddingEnd="@dimen/space_6"
+            android:paddingBottom="@dimen/space_2"
+            android:textColor="@color/brand_white"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            tools:text="6 orders" />
+    </LinearLayout>
+
+    <!-- ══════════════════════════════════════
+         STATS ROW: Processing / Shipped / Delivered
+         ══════════════════════════════════════ -->
+    <LinearLayout
+        android:id="@+id/admin_orders_stats_row"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_screen_horizontal"
+        android:layout_marginTop="@dimen/space_4"
+        android:layout_marginEnd="@dimen/space_screen_horizontal"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/admin_orders_header">
+
+        <!-- Stat: Processing -->
+        <LinearLayout
+            android:id="@+id/admin_stat_processing"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_admin_stat_card"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/space_4">
+
+            <TextView
+                android:id="@+id/admin_stat_processing_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/status_warning"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                tools:text="2" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/status_processing"
+                android:textColor="@color/text_dark_muted"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+        <!-- Stat: Shipped -->
+        <LinearLayout
+            android:id="@+id/admin_stat_shipped"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:layout_marginStart="@dimen/space_4"
+            android:layout_weight="1"
+            android:background="@drawable/bg_admin_stat_card"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/space_4">
+
+            <TextView
+                android:id="@+id/admin_stat_shipped_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/status_info"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                tools:text="2" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/status_shipped"
+                android:textColor="@color/text_dark_muted"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+        <!-- Stat: Delivered -->
+        <LinearLayout
+            android:id="@+id/admin_stat_delivered"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:layout_marginStart="@dimen/space_4"
+            android:layout_weight="1"
+            android:background="@drawable/bg_admin_stat_card"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/space_4">
+
+            <TextView
+                android:id="@+id/admin_stat_delivered_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/status_success"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                tools:text="2" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/status_delivered"
+                android:textColor="@color/text_dark_muted"
+                android:textSize="10sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- ══════════════════════════════════════
+         MANAGEMENT PANEL: Search & Filters
+         ══════════════════════════════════════ -->
+    <LinearLayout
+        android:id="@+id/admin_orders_mgmt_panel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_screen_horizontal"
+        android:layout_marginTop="@dimen/space_8"
+        android:layout_marginEnd="@dimen/space_screen_horizontal"
+        android:background="@drawable/bg_card_dark"
+        android:orientation="vertical"
+        android:padding="@dimen/space_8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/admin_orders_stats_row">
+
+        <!-- Search Bar Row -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/admin_orders_search_row"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/bg_admin_search"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/space_8"
+                android:paddingEnd="@dimen/space_8">
+
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_material_search"
+                    android:tint="@color/text_dark_muted" />
+
+                <EditText
+                    android:id="@+id/admin_orders_search_input"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/space_4"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:hint="@string/admin_search_orders_hint"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:textColor="@color/text_dark_primary"
+                    android:textColorHint="@color/text_dark_muted"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/admin_orders_btn_refresh"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="@dimen/space_2"
+                android:background="@drawable/bg_admin_icon_btn"
+                android:contentDescription="@string/action_refresh"
+                android:src="@drawable/ic_refresh"
+                android:tint="@color/text_dark_tertiary" />
+        </LinearLayout>
+
+        <!-- Filter Chips Row -->
+        <HorizontalScrollView
+            android:id="@+id/admin_orders_filter_scroll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_6"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:id="@+id/admin_orders_filter_row"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/space_2">
+
+                <!-- Tab: All -->
+                <TextView
+                    android:id="@+id/admin_ord_filter_all"
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:background="@drawable/bg_admin_chip_selected"
+                    android:gravity="center"
+                    android:paddingStart="@dimen/space_chip_horizontal"
+                    android:paddingEnd="@dimen/space_chip_horizontal"
+                    android:text="@string/filter_all"
+                    android:textColor="@color/brand_white"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <!-- Tab: Processing -->
+                <TextView
+                    android:id="@+id/admin_ord_filter_processing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:layout_marginStart="@dimen/space_4"
+                    android:background="@drawable/bg_admin_chip"
+                    android:gravity="center"
+                    android:paddingStart="@dimen/space_chip_horizontal"
+                    android:paddingEnd="@dimen/space_chip_horizontal"
+                    android:text="@string/status_processing"
+                    android:textColor="@color/text_dark_tertiary"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <!-- Tab: Shipped -->
+                <TextView
+                    android:id="@+id/admin_ord_filter_shipped"
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:layout_marginStart="@dimen/space_4"
+                    android:background="@drawable/bg_admin_chip"
+                    android:gravity="center"
+                    android:paddingStart="@dimen/space_chip_horizontal"
+                    android:paddingEnd="@dimen/space_chip_horizontal"
+                    android:text="@string/status_shipped"
+                    android:textColor="@color/text_dark_tertiary"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <!-- Tab: Delivered -->
+                <TextView
+                    android:id="@+id/admin_ord_filter_delivered"
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:layout_marginStart="@dimen/space_4"
+                    android:background="@drawable/bg_admin_chip"
+                    android:gravity="center"
+                    android:paddingStart="@dimen/space_chip_horizontal"
+                    android:paddingEnd="@dimen/space_chip_horizontal"
+                    android:text="@string/status_delivered"
+                    android:textColor="@color/text_dark_tertiary"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </HorizontalScrollView>
+    </LinearLayout>
+
+    <!-- ══════════════════════════════════════
+         ORDER LIST
+         ══════════════════════════════════════ -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/admin_orders_recycler"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/space_4"
+        android:clipToPadding="false"
+        android:overScrollMode="never"
+        android:paddingStart="@dimen/space_screen_horizontal"
+        android:paddingEnd="@dimen/space_screen_horizontal"
+        android:paddingBottom="@dimen/space_16"
+        app:layout_constraintBottom_toTopOf="@id/admin_bottom_nav"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/admin_orders_mgmt_panel"
+        tools:itemCount="3"
+        tools:listitem="@layout/item_admin_order" />
+
+    <!-- ══════════════════════════════════════
+         BOTTOM NAVIGATION (Admin)
+         ══════════════════════════════════════ -->
+    <include
+        layout="@layout/view_admin_bottom_nav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ┌─────────────────────────────────────────────┐
+  │  ADMIN — PRODUCTS                           │
+  │  Activity: AdminProductsActivity.java        │
+  │  Màn hình quản lý sản phẩm của admin        │
+  └─────────────────────────────────────────────┘
+  Cấu trúc:
+    ConstraintLayout (root, bg_dark_primary)
+      └─ [Header] LinearLayout: tiêu đề + nút Add Product
+      └─ [Search]  LinearLayout: search bar + filter icon
+      └─ [Filters] HorizontalScrollView: chip All / Sneakers / Running / Casual
+      └─ [List]    RecyclerView: danh sách sản phẩm (item_admin_product)
+      └─ [BottomNav] include: view_bottom_navigation_admin
+-->
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/admin_products_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_dark_primary"
+    tools:context=".admin.AdminProductsActivity">
+
+    <!-- ══════════════════════════════════════
+         HEADER: Title & Subtitle
+         ══════════════════════════════════════ -->
+    <LinearLayout
+        android:id="@+id/admin_products_header"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="@dimen/space_screen_horizontal"
+        android:paddingTop="@dimen/space_12"
+        android:paddingEnd="@dimen/space_screen_horizontal"
+        android:paddingBottom="@dimen/space_8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:letterSpacing="0.1"
+            android:text="@string/app_admin_portal"
+            android:textAllCaps="true"
+            android:textColor="@color/text_dark_muted"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/admin_products_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/admin_products_title"
+            android:textColor="@color/text_dark_primary"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- ══════════════════════════════════════
+         MANAGEMENT PANEL: Search + Filter + Actions
+         ══════════════════════════════════════ -->
+    <LinearLayout
+        android:id="@+id/admin_products_mgmt_panel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_screen_horizontal"
+        android:layout_marginEnd="@dimen/space_screen_horizontal"
+        android:background="@drawable/bg_card_dark"
+        android:orientation="vertical"
+        android:padding="@dimen/space_8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/admin_products_header">
+
+        <!-- Search Bar + Add Button Row -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <!-- Search Input Container -->
+            <LinearLayout
+                android:id="@+id/admin_products_search_row"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/bg_admin_search"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/space_8"
+                android:paddingEnd="@dimen/space_8">
+
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_material_search"
+                    android:tint="@color/text_dark_muted" />
+
+                <EditText
+                    android:id="@+id/admin_products_search_input"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/space_4"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:hint="@string/admin_search_products_hint"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:textColor="@color/text_dark_primary"
+                    android:textColorHint="@color/text_dark_muted"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <!-- Refresh Button (Thêm mới) -->
+            <ImageButton
+                android:id="@+id/admin_products_btn_refresh"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="@dimen/space_2"
+                android:background="@drawable/bg_admin_icon_btn"
+                android:contentDescription="@string/action_refresh"
+                android:src="@drawable/ic_refresh"
+                android:tint="@color/text_dark_tertiary" />
+
+            <!-- Add Product Button (Gọn hơn) -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/admin_products_btn_add"
+                style="@style/Widget.SoleStep.Button.Primary"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="@dimen/space_2"
+                android:padding="0dp"
+                app:icon="@drawable/ic_catalog_plus"
+                app:iconGravity="textStart"
+                app:iconPadding="0dp"
+                app:iconSize="20dp" />
+        </LinearLayout>
+
+        <!-- Filter Chips Row -->
+        <HorizontalScrollView
+            android:id="@+id/admin_products_filter_scroll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_6"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:id="@+id/admin_products_filter_row"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/space_2">
+
+                <!-- Chip: All -->
+                <TextView
+                    android:id="@+id/admin_filter_all"
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:background="@drawable/bg_admin_chip_selected"
+                    android:gravity="center"
+                    android:paddingStart="@dimen/space_chip_horizontal"
+                    android:paddingEnd="@dimen/space_chip_horizontal"
+                    android:text="@string/filter_all"
+                    android:textColor="@color/brand_white"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <!-- Chip: Sneakers -->
+                <TextView
+                    android:id="@+id/admin_filter_sneakers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:layout_marginStart="@dimen/space_4"
+                    android:background="@drawable/bg_admin_chip"
+                    android:gravity="center"
+                    android:paddingStart="@dimen/space_chip_horizontal"
+                    android:paddingEnd="@dimen/space_chip_horizontal"
+                    android:text="@string/filter_sneakers"
+                    android:textColor="@color/text_dark_tertiary"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <!-- Chip: Running -->
+                <TextView
+                    android:id="@+id/admin_filter_running"
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:layout_marginStart="@dimen/space_4"
+                    android:background="@drawable/bg_admin_chip"
+                    android:gravity="center"
+                    android:paddingStart="@dimen/space_chip_horizontal"
+                    android:paddingEnd="@dimen/space_chip_horizontal"
+                    android:text="@string/filter_running"
+                    android:textColor="@color/text_dark_tertiary"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <!-- Chip: Casual -->
+                <TextView
+                    android:id="@+id/admin_filter_casual"
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:layout_marginStart="@dimen/space_4"
+                    android:background="@drawable/bg_admin_chip"
+                    android:gravity="center"
+                    android:paddingStart="@dimen/space_chip_horizontal"
+                    android:paddingEnd="@dimen/space_chip_horizontal"
+                    android:text="@string/filter_casual"
+                    android:textColor="@color/text_dark_tertiary"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </HorizontalScrollView>
+    </LinearLayout>
+
+    <!-- ══════════════════════════════════════
+         PRODUCT LIST
+         ══════════════════════════════════════ -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/admin_products_recycler"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/space_4"
+        android:clipToPadding="false"
+        android:overScrollMode="never"
+        android:paddingStart="@dimen/space_screen_horizontal"
+        android:paddingEnd="@dimen/space_screen_horizontal"
+        android:paddingBottom="@dimen/space_16"
+        app:layout_constraintBottom_toTopOf="@id/admin_bottom_nav"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/admin_products_mgmt_panel"
+        tools:itemCount="4"
+        tools:listitem="@layout/item_admin_product" />
+
+    <!-- ══════════════════════════════════════
+         BOTTOM NAVIGATION (Admin)
+         ══════════════════════════════════════ -->
+    <include
+        layout="@layout/view_admin_bottom_nav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

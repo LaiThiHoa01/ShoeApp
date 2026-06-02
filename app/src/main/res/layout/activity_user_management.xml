@@ -2,18 +2,18 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/admin_user_management_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_dark_primary"
-    android:fitsSystemWindows="true"
-    tools:context=".UserManagementActivity">
+    tools:context=".admin.UserManagementActivity">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:clipToPadding="false"
         android:paddingBottom="24dp"
-        app:layout_constraintBottom_toTopOf="@id/bottom_nav"
+        app:layout_constraintBottom_toTopOf="@id/admin_bottom_nav"
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
@@ -200,17 +200,10 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_nav"
+    <include
+        layout="@layout/view_admin_bottom_nav"
         android:layout_width="match_parent"
-        android:layout_height="90dp"
-        android:background="@color/bg_dark_primary"
-        app:itemIconTint="@color/bn_icon_tint_admin"
-        app:itemTextColor="@color/bn_label_tint_admin"
-        app:itemIconSize="24dp"
-        app:itemActiveIndicatorStyle="@style/Widget.App.Indicator"
-        app:labelVisibilityMode="labeled"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:menu="@menu/admin_bottom_nav_menu" />
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_secondary"
-    tools:context=".CheckoutActivity">
+    tools:context=".user.CheckoutActivity">
 
     <ScrollView
         android:id="@+id/checkout_scroll"

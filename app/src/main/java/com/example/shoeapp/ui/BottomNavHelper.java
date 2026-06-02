@@ -1,4 +1,4 @@
-package com.example.shoeapp;
+package com.example.shoeapp.ui;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -12,12 +12,18 @@ import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
 
-final class BottomNavHelper {
-    static final String TAG_HOME = "home";
-    static final String TAG_SEARCH = "search";
-    static final String TAG_CART = "cart";
-    static final String TAG_ORDERS = "orders";
-    static final String TAG_PROFILE = "profile";
+import com.example.shoeapp.R;
+import com.example.shoeapp.user.CartActivity;
+import com.example.shoeapp.user.CatalogActivity;
+import com.example.shoeapp.user.MainActivity;
+import com.example.shoeapp.user.MyOrdersActivity;
+
+public final class BottomNavHelper {
+    public static final String TAG_HOME = "home";
+    public static final String TAG_SEARCH = "search";
+    public static final String TAG_CART = "cart";
+    public static final String TAG_ORDERS = "orders";
+    public static final String TAG_PROFILE = "profile";
 
     private static final String TAG_ICON_CONTAINER = "icon_container";
     private static final String TAG_ICON = "icon";
@@ -26,7 +32,7 @@ final class BottomNavHelper {
     private BottomNavHelper() {
     }
 
-    static void setup(Activity activity, String selectedTag) {
+    public static void setup(Activity activity, String selectedTag) {
         LinearLayout bottomNavigation = activity.findViewById(R.id.bottom_navigation);
         if (bottomNavigation == null) {
             return;

@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ┌──────────────────────────────────────────┐
+  │  Item category — Admin Categories list   │
+  │  Layout: item_admin_category.xml         │
+  │  Dùng trong: AdminCategoriesActivity     │
+  └──────────────────────────────────────────┘
+
+  Cấu trúc card:
+  ┌─[Icon]──[Name + dot]──────────[Edit btn]─┐
+  │         [X products]          [Del  btn] │
+  │  ████████████░░░░░░ progress bar         │
+  │  [Men's] [Women's] [Kids']  [View all >] │
+  └──────────────────────────────────────────┘
+-->
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_card_dark"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground"
+    android:paddingStart="@dimen/space_card_padding"
+    android:paddingTop="@dimen/space_card_padding"
+    android:paddingEnd="@dimen/space_card_padding"
+    android:paddingBottom="@dimen/space_card_padding">
+
+    <!-- ── Icon hình tròn ── -->
+    <FrameLayout
+        android:id="@+id/admin_cat_icon_bg"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        android:background="@drawable/bg_admin_category_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/admin_cat_icon"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_gravity="center"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_shoe"
+            tools:ignore="ContentDescription" />
+    </FrameLayout>
+
+    <!-- ── Nút Edit (góc phải trên) ── -->
+    <ImageButton
+        android:id="@+id/admin_cat_btn_edit"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:background="@drawable/bg_admin_icon_btn"
+        android:contentDescription="@string/action_edit"
+        android:padding="@dimen/space_4"
+        android:src="@drawable/ic_detail"
+        android:tint="@color/text_dark_secondary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- ── Nút Delete (dưới nút Edit) ── -->
+    <ImageButton
+        android:id="@+id/admin_cat_btn_delete"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="@dimen/space_2"
+        android:background="@drawable/bg_admin_icon_btn"
+        android:contentDescription="@string/action_delete"
+        android:padding="@dimen/space_4"
+        android:src="@drawable/ic_trash"
+        android:tint="@color/status_error_light"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/admin_cat_btn_edit" />
+
+    <!-- ── Tên danh mục + dot trạng thái ── -->
+    <LinearLayout
+        android:id="@+id/admin_cat_name_row"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_8"
+        android:layout_marginEnd="@dimen/space_6"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toStartOf="@id/admin_cat_btn_edit"
+        app:layout_constraintStart_toEndOf="@id/admin_cat_icon_bg"
+        app:layout_constraintTop_toTopOf="@id/admin_cat_icon_bg">
+
+        <TextView
+            android:id="@+id/admin_cat_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/text_dark_primary"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            tools:text="Sneakers" />
+
+        <!-- Dot màu trạng thái (set tint động) -->
+        <View
+            android:id="@+id/admin_cat_status_dot"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:layout_marginStart="@dimen/space_3"
+            android:background="@drawable/bg_admin_category_icon"
+            android:backgroundTint="@color/brand_orange" />
+    </LinearLayout>
+
+    <!-- ── Số sản phẩm ── -->
+    <TextView
+        android:id="@+id/admin_cat_product_count"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_8"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="@dimen/space_6"
+        android:textColor="@color/text_dark_muted"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toStartOf="@id/admin_cat_btn_edit"
+        app:layout_constraintStart_toEndOf="@id/admin_cat_icon_bg"
+        app:layout_constraintTop_toBottomOf="@id/admin_cat_name_row"
+        tools:text="48 products" />
+
+    <!-- ── Progress bar (track + fill) ── -->
+    <FrameLayout
+        android:id="@+id/admin_cat_progress_container"
+        android:layout_width="0dp"
+        android:layout_height="5dp"
+        android:layout_marginTop="@dimen/space_8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/admin_cat_icon_bg">
+
+        <!-- Track xám -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_admin_progress_track" />
+
+        <!-- Fill màu — width set động bằng ConstraintLayout percent hoặc code -->
+        <View
+            android:id="@+id/admin_cat_progress_fill"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_admin_progress_fill"
+            android:backgroundTint="@color/brand_orange" />
+        <!--
+          Trong Adapter: dùng ViewGroup.LayoutParams để set width theo %
+          fill.getLayoutParams().width = (int)(containerWidth * percent);
+        -->
+    </FrameLayout>
+
+    <!-- ── Row: sub-genre chips + View all ── -->
+    <LinearLayout
+        android:id="@+id/admin_cat_sub_row"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_6"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/admin_cat_progress_container">
+
+        <!-- Chip: Men's -->
+        <TextView
+            android:id="@+id/admin_cat_chip_mens"
+            android:layout_width="wrap_content"
+            android:layout_height="28dp"
+            android:background="@drawable/bg_admin_sub_chip"
+            android:gravity="center"
+            android:paddingStart="@dimen/space_4"
+            android:paddingEnd="@dimen/space_4"
+            android:text="@string/admin_cat_chip_mens"
+            android:textColor="@color/text_dark_tertiary"
+            android:textSize="11sp"
+            android:textStyle="bold" />
+
+        <!-- Chip: Women's -->
+        <TextView
+            android:id="@+id/admin_cat_chip_womens"
+            android:layout_width="wrap_content"
+            android:layout_height="28dp"
+            android:layout_marginStart="@dimen/space_2"
+            android:background="@drawable/bg_admin_sub_chip"
+            android:gravity="center"
+            android:paddingStart="@dimen/space_4"
+            android:paddingEnd="@dimen/space_4"
+            android:text="@string/admin_cat_chip_womens"
+            android:textColor="@color/text_dark_tertiary"
+            android:textSize="11sp"
+            android:textStyle="bold" />
+
+        <!-- Chip: Kids' -->
+        <TextView
+            android:id="@+id/admin_cat_chip_kids"
+            android:layout_width="wrap_content"
+            android:layout_height="28dp"
+            android:layout_marginStart="@dimen/space_2"
+            android:background="@drawable/bg_admin_sub_chip"
+            android:gravity="center"
+            android:paddingStart="@dimen/space_4"
+            android:paddingEnd="@dimen/space_4"
+            android:text="@string/admin_cat_chip_kids"
+            android:textColor="@color/text_dark_tertiary"
+            android:textSize="11sp"
+            android:textStyle="bold" />
+
+        <!-- Spacer đẩy "View all" ra phải -->
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <!-- View all > -->
+        <TextView
+            android:id="@+id/admin_cat_view_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="2dp"
+            android:gravity="center_vertical"
+            android:text="@string/admin_cat_view_all"
+            android:textColor="@color/brand_orange"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

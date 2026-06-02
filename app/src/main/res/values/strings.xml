@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- App -->
+    <!-- ─── App ─── -->
     <string name="app_name">SoleStep</string>
     <string name="app_tagline">Step Into Style</string>
     <string name="app_admin_portal">Admin Portal</string>
@@ -67,7 +67,7 @@
     <string name="home_banner_offer">Up to 30% off today only</string>
     <string name="home_banner_cta">Shop Now</string>
 
-    <!-- ─── Catalog & filter ─── -->
+    <!-- ─── Catalog &amp; filter ─── -->
     <string name="catalog_search_hint">Search…</string>
     <string name="catalog_filter_title">Filters</string>
     <string name="catalog_sort_popular">Popular</string>
@@ -167,14 +167,14 @@
     <string name="review_char_count">%d/500</string>
     <string name="review_your_review">Your Review</string>
 
-    <!-- Bottom navigation -->
+    <!-- ─── Bottom navigation ─── -->
     <string name="nav_home">Home</string>
     <string name="nav_search">Shop</string>
     <string name="nav_cart">Cart</string>
     <string name="nav_orders">Orders</string>
     <string name="nav_profile">Profile</string>
 
-    <!-- Rating labels -->
+    <!-- ─── Rating labels ─── -->
     <string name="rating_1">Poor</string>
     <string name="rating_2">Fair</string>
     <string name="rating_3">Good</string>
@@ -184,6 +184,11 @@
     <!-- ─── Admin Dashboard ─── -->
     <string name="admin_dashboard_title">SoleStep</string>
     <string name="admin_dashboard_subtitle">Admin Dashboard</string>
+    <string name="admin_dashboard_mgmt_hub">Management Hub</string>
+    <string name="admin_stat_revenue">Revenue</string>
+    <string name="admin_stat_categories">Categories</string>
+    <string name="admin_stat_products">Products</string>
+    <string name="admin_stat_orders">Orders</string>
     <string name="admin_today_revenue">Today\'s Revenue</string>
     <string name="admin_recent_orders">Recent Orders</string>
     <string name="admin_top_products">Top Products</string>
@@ -199,18 +204,25 @@
 
     <!-- ─── Admin Categories ─── -->
     <string name="admin_categories_title">Categories</string>
+    <string name="admin_add_category">+ Add</string>
     <string name="admin_btn_add_category">Add</string>
     <string name="admin_add_category_title">Add Category</string>
     <string name="admin_edit_category_title">Edit Category</string>
+    <string name="admin_search_categories_hint">Search categories…</string>
     <string name="admin_category_name_hint">e.g. Basketball</string>
     <string name="admin_category_name_label">Category Name</string>
     <string name="admin_category_icon_label">Icon (Emoji)</string>
     <string name="admin_category_color_label">Color</string>
     <string name="admin_delete_category_title">Delete Category?</string>
     <string name="admin_delete_category_body">All products in this category will be unassigned.</string>
+    <string name="admin_cat_chip_mens">Men\'s</string>
+    <string name="admin_cat_chip_womens">Women\'s</string>
+    <string name="admin_cat_chip_kids">Kids\'</string>
+    <string name="admin_cat_view_all">View all ›</string>
 
     <!-- ─── Admin Products ─── -->
     <string name="admin_products_title">Products</string>
+    <string name="admin_add_product">Add Product</string>
     <string name="admin_btn_add_product">Add Product</string>
     <string name="admin_add_product_title">Add New Product</string>
     <string name="admin_product_name_label">Product Name</string>
@@ -224,17 +236,52 @@
     <string name="admin_btn_add_product_confirm">Add Product</string>
     <string name="admin_delete_product_title">Delete Product?</string>
     <string name="admin_delete_product_body">This will permanently remove the product and all its variants from the store.</string>
+    <string name="admin_search_products_hint">Search products…</string>
+    <string name="admin_products_search_input_hint">Search products…</string>
+    <string name="admin_colors_label">Colors</string>
+    <string name="admin_stock_format">Stock: %d</string>
+    <string name="badge_new">NEW</string>
+    <string name="product_image_desc">Product image</string>
 
     <!-- ─── Admin Orders ─── -->
     <string name="admin_orders_title">Order Management</string>
     <string name="admin_orders_search_hint">Search orders or customers…</string>
+    <string name="admin_search_orders_hint">Search orders…</string>
+    <string name="admin_view_details">View Details</string>
     <string name="admin_btn_view_details">View Details</string>
+    <string name="admin_mark_shipped">Mark as Shipped</string>
     <string name="admin_btn_mark_shipped">Mark as Shipped</string>
+    <string name="admin_mark_delivered">Mark as Delivered</string>
     <string name="admin_btn_mark_delivered">Mark as Delivered</string>
     <string name="admin_order_progress_title">Order Progress</string>
     <string name="admin_status_completed">Completed</string>
+    <string name="admin_order_completed">✓ Completed</string>
 
-    <!-- ─── Common actions ─── -->
+    <!-- ─── Filter chips ─── -->
+    <string name="filter_all">All</string>
+    <string name="filter_sneakers">Sneakers</string>
+    <string name="filter_running">Running</string>
+    <string name="filter_casual">Casual</string>
+
+    <!-- ─── Status labels ─── -->
+    <string name="status_pending">Pending</string>
+    <string name="status_processing">Processing</string>
+    <string name="status_shipping">Shipping</string>
+    <string name="status_shipped">Shipped</string>
+    <string name="status_delivered">Delivered</string>
+    <string name="status_active">Active</string>
+    <string name="status_inactive">Inactive</string>
+    <string name="status_new">NEW</string>
+
+    <!-- ─── Category names ─── -->
+    <string name="cat_sneakers">Sneakers</string>
+    <string name="cat_running">Running</string>
+    <string name="cat_boots">Boots</string>
+    <string name="cat_casual">Casual</string>
+    <string name="cat_basketball">Basketball</string>
+    <string name="cat_training">Training</string>
+
+    <!-- ─── Actions ─── -->
     <string name="action_cancel">Cancel</string>
     <string name="action_save">Save Changes</string>
     <string name="action_delete">Delete</string>
@@ -247,29 +294,10 @@
     <string name="action_search">Search</string>
     <string name="action_filter">Filter</string>
 
-    <!-- ─── Status labels ─── -->
-    <string name="status_pending">Pending</string>
-    <string name="status_processing">Processing</string>
-    <string name="status_shipping">Shipping</string>
-    <string name="status_shipped">Shipped</string>
-    <string name="status_delivered">Delivered</string>
-    <string name="status_active">Active</string>
-    <string name="status_inactive">Inactive</string>
-    <string name="status_new">NEW</string>
-
-    <!-- ─── Categories ─── -->
-    <string name="cat_sneakers">Sneakers</string>
-    <string name="cat_running">Running</string>
-    <string name="cat_boots">Boots</string>
-    <string name="cat_casual">Casual</string>
-    <string name="cat_basketball">Basketball</string>
-    <string name="cat_training">Training</string>
-
     <!-- ─── Password requirements ─── -->
     <string name="pass_req_length">At least 8 characters</string>
     <string name="pass_req_uppercase">One uppercase letter</string>
     <string name="pass_req_number">One number</string>
     <string name="pass_req_special">One special character (@, !, etc.)</string>
     <string name="pass_strength_strong">Strong password</string>
-
 </resources>

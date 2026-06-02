@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Item sản phẩm — Admin Products RecyclerView
+  Dùng trong: AdminProductsActivity với RecyclerView + Adapter
+-->
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_card_dark"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground"
+    android:paddingStart="@dimen/space_card_padding"
+    android:paddingTop="@dimen/space_card_padding"
+    android:paddingEnd="@dimen/space_card_padding"
+    android:paddingBottom="@dimen/space_card_padding">
+
+    <!-- ── Ảnh sản phẩm ── -->
+    <ImageView
+        android:id="@+id/admin_prod_image"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:background="@drawable/bg_admin_product_image"
+        android:contentDescription="@string/product_image_desc"
+        android:padding="@dimen/space_4"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- ── Nút xóa (icon) ── -->
+    <ImageButton
+        android:id="@+id/admin_prod_btn_delete"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:background="@drawable/bg_admin_icon_btn"
+        android:contentDescription="@string/action_delete"
+        android:padding="@dimen/space_4"
+        android:src="@drawable/ic_trash"
+        android:tint="@color/status_error_light"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/admin_prod_name"
+        app:layout_constraintTop_toTopOf="@id/admin_prod_name" />
+
+    <!-- ── Nút sửa (icon) ── -->
+    <ImageButton
+        android:id="@+id/admin_prod_btn_edit"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginEnd="@dimen/space_4"
+        android:background="@drawable/bg_admin_icon_btn"
+        android:contentDescription="@string/action_edit"
+        android:padding="@dimen/space_4"
+        android:src="@drawable/ic_edit_pencil"
+        android:tint="@color/status_info"
+        app:layout_constraintEnd_toStartOf="@id/admin_prod_btn_delete"
+        app:layout_constraintBottom_toBottomOf="@id/admin_prod_name"
+        app:layout_constraintTop_toTopOf="@id/admin_prod_name" />
+
+    <!-- ── Brand · Category ── -->
+    <TextView
+        android:id="@+id/admin_prod_brand"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_8"
+        android:layout_marginEnd="@dimen/space_6"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/text_dark_muted"
+        android:textSize="11sp"
+        app:layout_constraintEnd_toStartOf="@id/admin_prod_btn_edit"
+        app:layout_constraintStart_toEndOf="@id/admin_prod_image"
+        app:layout_constraintTop_toTopOf="@id/admin_prod_image" />
+
+    <!-- ── Tên sản phẩm ── -->
+    <TextView
+        android:id="@+id/admin_prod_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_8"
+        android:layout_marginTop="@dimen/space_1"
+        android:layout_marginEnd="@dimen/space_4"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/text_dark_primary"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@id/admin_prod_badge_new"
+        app:layout_constraintStart_toEndOf="@id/admin_prod_image"
+        app:layout_constraintTop_toBottomOf="@id/admin_prod_brand" />
+
+    <!-- ── Badge NEW ── -->
+    <TextView
+        android:id="@+id/admin_prod_badge_new"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_badge_orange"
+        android:paddingStart="@dimen/space_3"
+        android:paddingTop="2dp"
+        android:paddingEnd="@dimen/space_3"
+        android:paddingBottom="2dp"
+        android:text="@string/badge_new"
+        android:textColor="@color/brand_white"
+        android:textSize="10sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/admin_prod_name"
+        app:layout_constraintEnd_toStartOf="@id/admin_prod_btn_edit"
+        app:layout_constraintTop_toTopOf="@id/admin_prod_name" />
+
+    <!-- ── Giá + giá gốc + stock ── -->
+    <LinearLayout
+        android:id="@+id/admin_prod_price_row"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_8"
+        android:layout_marginTop="@dimen/space_3"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/admin_prod_image"
+        app:layout_constraintTop_toBottomOf="@id/admin_prod_name">
+
+        <TextView
+            android:id="@+id/admin_prod_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_accent"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/admin_prod_price_original"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_4"
+            android:textColor="@color/text_dark_faint"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/admin_prod_stock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_6"
+            android:background="@drawable/bg_admin_stock_ok"
+            android:paddingStart="@dimen/space_3"
+            android:paddingTop="2dp"
+            android:paddingEnd="@dimen/space_3"
+            android:paddingBottom="2dp"
+            android:textColor="@color/status_success_light"
+            android:textSize="11sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- ── Size chips ── -->
+    <LinearLayout
+        android:id="@+id/admin_prod_sizes_row"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_8"
+        android:layout_marginTop="@dimen/space_3"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/admin_prod_image"
+        app:layout_constraintTop_toBottomOf="@id/admin_prod_price_row">
+
+        <!-- Các size chip được thêm động từ Adapter -->
+        <TextView
+            android:id="@+id/admin_prod_size_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_admin_icon_btn"
+            android:paddingStart="@dimen/space_3"
+            android:paddingTop="2dp"
+            android:paddingEnd="@dimen/space_3"
+            android:paddingBottom="2dp"
+            android:text="7"
+            android:textColor="@color/text_dark_tertiary"
+            android:textSize="11sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/admin_prod_size_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_2"
+            android:background="@drawable/bg_admin_icon_btn"
+            android:paddingStart="@dimen/space_3"
+            android:paddingTop="2dp"
+            android:paddingEnd="@dimen/space_3"
+            android:paddingBottom="2dp"
+            android:text="8"
+            android:textColor="@color/text_dark_tertiary"
+            android:textSize="11sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/admin_prod_size_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_2"
+            android:background="@drawable/bg_admin_icon_btn"
+            android:paddingStart="@dimen/space_3"
+            android:paddingTop="2dp"
+            android:paddingEnd="@dimen/space_3"
+            android:paddingBottom="2dp"
+            android:text="9"
+            android:textColor="@color/text_dark_tertiary"
+            android:textSize="11sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/admin_prod_size_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_2"
+            android:background="@drawable/bg_admin_icon_btn"
+            android:paddingStart="@dimen/space_3"
+            android:paddingTop="2dp"
+            android:paddingEnd="@dimen/space_3"
+            android:paddingBottom="2dp"
+            android:text="10"
+            android:textColor="@color/text_dark_tertiary"
+            android:textSize="11sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/admin_prod_size_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_2"
+            android:background="@drawable/bg_badge_orange"
+            android:paddingStart="@dimen/space_3"
+            android:paddingTop="2dp"
+            android:paddingEnd="@dimen/space_3"
+            android:paddingBottom="2dp"
+            android:textColor="@color/brand_white"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <!-- ── Colors + Rating row ── -->
+    <LinearLayout
+        android:id="@+id/admin_prod_bottom_row"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_8"
+        android:layout_marginTop="@dimen/space_3"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/admin_prod_image"
+        app:layout_constraintTop_toBottomOf="@id/admin_prod_sizes_row">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/admin_colors_label"
+            android:textColor="@color/text_dark_faint"
+            android:textSize="11sp" />
+
+        <!-- Color dots — thêm động từ Adapter nếu muốn,
+             hoặc dùng placeholder tĩnh -->
+        <View
+            android:id="@+id/admin_prod_color_1"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_marginStart="@dimen/space_3"
+            android:background="@drawable/bg_circle_orange" />
+
+        <View
+            android:id="@+id/admin_prod_color_2"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_marginStart="@dimen/space_2"
+            android:background="@drawable/bg_admin_product_image" />
+
+        <!-- Spacer -->
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <!-- Rating -->
+        <ImageView
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_star"
+            android:tint="@color/star_filled" />
+
+        <TextView
+            android:id="@+id/admin_prod_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_2"
+            android:textColor="@color/text_dark_tertiary"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_primary"
-    tools:context=".MainActivity">
+    tools:context=".user.MainActivity">
 
     <ScrollView
         android:id="@+id/home_scroll"
@@ -57,6 +57,22 @@
                         android:textAppearance="@style/TextAppearance.SoleStep.Subheading"
                         android:textColor="@color/text_primary" />
                 </LinearLayout>
+
+                <FrameLayout
+                    android:id="@+id/btn_admin_access"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginEnd="@dimen/space_6"
+                    android:background="@drawable/bg_home_notification">
+
+                    <ImageView
+                        android:layout_width="@dimen/icon_lg"
+                        android:layout_height="@dimen/icon_lg"
+                        android:layout_gravity="center"
+                        android:contentDescription="Admin Portal"
+                        android:src="@drawable/ic_shoe"
+                        android:tint="@color/brand_orange" />
+                </FrameLayout>
 
                 <FrameLayout
                     android:id="@+id/home_notification_button"

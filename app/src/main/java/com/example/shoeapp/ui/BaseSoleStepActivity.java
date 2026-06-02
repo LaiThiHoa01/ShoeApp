@@ -1,4 +1,4 @@
-package com.example.shoeapp;
+package com.example.shoeapp.ui;
 
 import android.view.View;
 
@@ -8,7 +8,10 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-abstract class BaseSoleStepActivity extends AppCompatActivity {
+import com.example.shoeapp.ui.BottomNavHelper;
+import com.example.shoeapp.R;
+
+public abstract class BaseSoleStepActivity extends AppCompatActivity {
 
     protected void setupScreen(String selectedBottomNavTag) {
         EdgeToEdge.enable(this);

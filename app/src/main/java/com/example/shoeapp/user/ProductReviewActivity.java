@@ -1,4 +1,4 @@
-package com.example.shoeapp;
+package com.example.shoeapp.user;
 
 import android.os.Bundle;
 import android.text.Editable;
@@ -9,6 +9,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
+
+import com.example.shoeapp.ui.BaseSoleStepActivity;
+import com.example.shoeapp.ui.BottomNavHelper;
+import com.example.shoeapp.R;
 
 public class ProductReviewActivity extends BaseSoleStepActivity {
     private ImageButton[] stars;
