@@ -2,6 +2,16 @@
 
 <resources>
 
+    <style name="AuthLabel">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:letterSpacing">0.12</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@color/text_secondary</item>
+        <item name="android:textSize">11sp</item>
+    </style>
+
 <!--button-->
     <!-- Primary — Neon orange, dùng cho Add to Cart / Pay / Submit -->
     <style name="Widget.SoleStep.Button.Primary" parent="Widget.MaterialComponents.Button">
