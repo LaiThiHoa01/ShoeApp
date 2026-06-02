@@ -1,7 +1,11 @@
-package com.example.shoeapp;
+package com.example.shoeapp.user;
 
 import android.content.Intent;
 import android.os.Bundle;
+
+import com.example.shoeapp.ui.BaseSoleStepActivity;
+import com.example.shoeapp.ui.BottomNavHelper;
+import com.example.shoeapp.R;
 
 public class MyOrdersActivity extends BaseSoleStepActivity {
 

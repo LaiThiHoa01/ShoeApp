@@ -188,13 +188,20 @@
     </style>
 
     <!-- Dark (admin) -->
-    <style name="Widget.SoleStep.BottomNavigationView.Admin" parent="Widget.MaterialComponents.BottomNavigationView">
-        <item name="backgroundTint">@color/brand_black</item>
+    <style name="Widget.SoleStep.BottomNavigationView.Admin" parent="Widget.Material3.BottomNavigationView">
+        <item name="android:background">@color/bg_dark_primary</item>
+        <item name="backgroundTint">@color/bg_dark_primary</item>
         <item name="itemIconTint">@color/bn_icon_tint_admin</item>
         <item name="itemTextColor">@color/bn_label_tint_admin</item>
-        <item name="elevation">0dp</item>
+        <item name="itemActiveIndicatorStyle">@style/Widget.App.Indicator</item>
+        <item name="itemIconSize">24dp</item>
+        <item name="elevation">8dp</item>
         <item name="labelVisibilityMode">labeled</item>
-        <item name="android:minHeight">@dimen/bottom_nav_height</item>
+        <item name="itemTextAppearanceActive">@style/TextAppearance.SoleStep.BottomNav.Admin</item>
+        <item name="itemTextAppearanceInactive">@style/TextAppearance.SoleStep.BottomNav.Admin</item>
+        <item name="android:minHeight">72dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
     </style>
 
 <!-- toolbar-->

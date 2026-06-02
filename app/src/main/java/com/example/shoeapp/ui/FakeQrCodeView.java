@@ -1,4 +1,4 @@
-package com.example.shoeapp;
+package com.example.shoeapp.ui;
 
 import android.content.Context;
 import android.graphics.Canvas;

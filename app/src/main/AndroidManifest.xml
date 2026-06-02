@@ -12,56 +12,65 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SoleStep">
         <activity
-            android:name=".UserManagementActivity"
+            android:name=".admin.UserManagementActivity"
             android:exported="false"
             android:theme="@style/Theme.SoleStep.Admin" />
         <activity
-            android:name=".ProductReviewActivity"
+            android:name=".user.ProductReviewActivity"
             android:exported="false" />
         <activity
-            android:name=".ProductDetailActivity"
+            android:name=".user.ProductDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".CartActivity"
+            android:name=".user.CartActivity"
             android:exported="false" />
         <activity
-            android:name=".CheckoutActivity"
+            android:name=".user.CheckoutActivity"
             android:exported="false" />
         <activity
-            android:name=".CatalogActivity"
+            android:name=".user.CatalogActivity"
             android:exported="false" />
         <activity
-            android:name=".MyOrdersActivity"
+            android:name=".user.MyOrdersActivity"
             android:exported="false" />
         <activity
-            android:name=".OrderDetailActivity"
+            android:name=".user.OrderDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".QRPaymentActivity"
+            android:name=".user.QRPaymentActivity"
             android:exported="false" />
-<!--        <activity-->
-<!--            android:name=".MainActivity"-->
-<!--            android:exported="true">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-<!--        </activity>-->
         <activity
-            android:name=".AdminDashboardActivity"
-            android:exported="true"
-            android:theme="@style/Theme.SoleStep.Admin">
+            android:name=".user.MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+        </activity>
+        <activity
+            android:name=".admin.AdminDashboardActivity"
+            android:exported="false"
+            android:theme="@style/Theme.SoleStep.Admin">
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity>
 
+
         <activity
-            android:name=".MainActivity"
-            android:exported="true">
-        </activity>
+            android:name=".admin.AdminProductsActivity"
+            android:exported="false"
+            android:theme="@style/Theme.SoleStep.Admin" />
+        <activity
+            android:name=".admin.AdminOrderManagementActivity"
+            android:exported="false"
+            android:theme="@style/Theme.SoleStep.Admin" />
+        <activity
+            android:name=".admin.AdminCategoriesActivity"
+            android:exported="false"
+            android:theme="@style/Theme.SoleStep.Admin" />
 
     </application>
 
