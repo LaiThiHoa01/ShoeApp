@@ -25,6 +25,8 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.widget.LinearLayout;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -34,7 +36,7 @@ public class AdminProductsActivity extends AppCompatActivity
 
     private RecyclerView         recyclerView;
     private EditText             searchInput;
-    private TextView             filterAll, filterSneakers, filterRunning, filterCasual;
+    private TextView             filterAll;
     private BottomNavigationView bottomNav;
 
     private AdminProductAdapter  adapter;
@@ -43,6 +45,7 @@ public class AdminProductsActivity extends AppCompatActivity
     private AppDatabase          db;
 
     private List<com.example.shoeapp.data.entity.Product> dbProducts = new ArrayList<>();
+    private List<TextView> dynamicChips = new ArrayList<>();
 
     private String currentCategory = "All";
     private String currentSearch   = "";
@@ -65,6 +68,7 @@ public class AdminProductsActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         loadFromDb();
+        setupFilterChips();
     }
 
     private void setupEdgeToEdge() {
@@ -81,9 +85,6 @@ public class AdminProductsActivity extends AppCompatActivity
         recyclerView   = findViewById(R.id.admin_products_recycler);
         searchInput    = findViewById(R.id.admin_products_search_input);
         filterAll      = findViewById(R.id.admin_filter_all);
-        filterSneakers = findViewById(R.id.admin_filter_sneakers);
-        filterRunning  = findViewById(R.id.admin_filter_running);
-        filterCasual   = findViewById(R.id.admin_filter_casual);
         bottomNav      = findViewById(R.id.admin_bottom_nav);
         findViewById(R.id.admin_products_btn_add)
                 .setOnClickListener(v -> onAddProductClick());
@@ -162,10 +163,60 @@ public class AdminProductsActivity extends AppCompatActivity
     }
 
     private void setupFilterChips() {
-        filterAll.setOnClickListener(v      -> selectCategory("All",      filterAll));
-        filterSneakers.setOnClickListener(v -> selectCategory("Sneakers", filterSneakers));
-        filterRunning.setOnClickListener(v  -> selectCategory("Running",  filterRunning));
-        filterCasual.setOnClickListener(v   -> selectCategory("Casual",   filterCasual));
+        LinearLayout filterRow = findViewById(R.id.admin_products_filter_row);
+        if (filterRow.getChildCount() > 1) {
+            filterRow.removeViews(1, filterRow.getChildCount() - 1);
+        }
+        dynamicChips.clear();
+        dynamicChips.add(filterAll);
+
+        filterAll.setOnClickListener(v -> selectCategory("All", filterAll));
+
+        List<Category> dbCategories = db.categoryDao().getAllCategories();
+        
+        float density = getResources().getDisplayMetrics().density;
+        int heightPx = (int) (32 * density);
+        int marginStartPx = (int) (6 * density);
+        int paddingHorizontalPx = (int) (14 * density);
+
+        for (Category c : dbCategories) {
+            TextView chip = new TextView(this);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT, heightPx);
+            params.setMarginStart(marginStartPx);
+            chip.setLayoutParams(params);
+            
+            chip.setGravity(android.view.Gravity.CENTER);
+            chip.setPadding(paddingHorizontalPx, 0, paddingHorizontalPx, 0);
+            
+            // Đặt background dựa trên việc chip này có đang được chọn hay không
+            if (currentCategory.equals(c.name)) {
+                chip.setBackgroundResource(R.drawable.bg_admin_chip_selected);
+                chip.setTextColor(getColor(R.color.brand_white));
+            } else {
+                chip.setBackgroundResource(R.drawable.bg_admin_chip);
+                chip.setTextColor(getColor(R.color.text_dark_tertiary));
+            }
+            
+            chip.setText(c.name);
+            chip.setTextSize(12);
+            chip.setTypeface(null, android.graphics.Typeface.BOLD);
+            chip.setAllCaps(false);
+            
+            chip.setOnClickListener(v -> selectCategory(c.name, chip));
+            
+            filterRow.addView(chip);
+            dynamicChips.add(chip);
+        }
+        
+        // Reset trạng thái chọn của nút All nếu All đang active
+        if (currentCategory.equals("All")) {
+            filterAll.setBackgroundResource(R.drawable.bg_admin_chip_selected);
+            filterAll.setTextColor(getColor(R.color.brand_white));
+        } else {
+            filterAll.setBackgroundResource(R.drawable.bg_admin_chip);
+            filterAll.setTextColor(getColor(R.color.text_dark_tertiary));
+        }
     }
 
     private void setupBottomNav() {
@@ -191,8 +242,7 @@ public class AdminProductsActivity extends AppCompatActivity
 
     private void selectCategory(String category, TextView selectedChip) {
         currentCategory = category;
-        TextView[] chips = { filterAll, filterSneakers, filterRunning, filterCasual };
-        for (TextView chip : chips) {
+        for (TextView chip : dynamicChips) {
             chip.setBackgroundResource(R.drawable.bg_admin_chip);
             chip.setTextColor(getColor(R.color.text_dark_tertiary));
         }

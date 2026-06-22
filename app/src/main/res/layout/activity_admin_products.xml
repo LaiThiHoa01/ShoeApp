@@ -171,50 +171,7 @@
                     android:textSize="12sp"
                     android:textStyle="bold" />
 
-                <!-- Chip: Sneakers -->
-                <TextView
-                    android:id="@+id/admin_filter_sneakers"
-                    android:layout_width="wrap_content"
-                    android:layout_height="32dp"
-                    android:layout_marginStart="@dimen/space_4"
-                    android:background="@drawable/bg_admin_chip"
-                    android:gravity="center"
-                    android:paddingStart="@dimen/space_chip_horizontal"
-                    android:paddingEnd="@dimen/space_chip_horizontal"
-                    android:text="@string/filter_sneakers"
-                    android:textColor="@color/text_dark_tertiary"
-                    android:textSize="12sp"
-                    android:textStyle="bold" />
 
-                <!-- Chip: Running -->
-                <TextView
-                    android:id="@+id/admin_filter_running"
-                    android:layout_width="wrap_content"
-                    android:layout_height="32dp"
-                    android:layout_marginStart="@dimen/space_4"
-                    android:background="@drawable/bg_admin_chip"
-                    android:gravity="center"
-                    android:paddingStart="@dimen/space_chip_horizontal"
-                    android:paddingEnd="@dimen/space_chip_horizontal"
-                    android:text="@string/filter_running"
-                    android:textColor="@color/text_dark_tertiary"
-                    android:textSize="12sp"
-                    android:textStyle="bold" />
-
-                <!-- Chip: Casual -->
-                <TextView
-                    android:id="@+id/admin_filter_casual"
-                    android:layout_width="wrap_content"
-                    android:layout_height="32dp"
-                    android:layout_marginStart="@dimen/space_4"
-                    android:background="@drawable/bg_admin_chip"
-                    android:gravity="center"
-                    android:paddingStart="@dimen/space_chip_horizontal"
-                    android:paddingEnd="@dimen/space_chip_horizontal"
-                    android:text="@string/filter_casual"
-                    android:textColor="@color/text_dark_tertiary"
-                    android:textSize="12sp"
-                    android:textStyle="bold" />
             </LinearLayout>
         </HorizontalScrollView>
     </LinearLayout>
