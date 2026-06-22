@@ -10,6 +10,7 @@ import android.widget.EditText;
 import com.example.shoeapp.admin.adapter.AdminOrderAdapter;
 import com.example.shoeapp.model.Order;
 import com.example.shoeapp.R;
+import com.example.shoeapp.data.AppDatabase;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,35 +25,45 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class AdminOrderManagementActivity extends AppCompatActivity
         implements AdminOrderAdapter.OnOrderActionListener {
 
-    private RecyclerView        recyclerView;
-    private EditText            searchInput;
-    private TextView            filterAll, filterProcessing, filterShipped, filterDelivered;
-    private TextView            statProcessingCount, statShippedCount, statDeliveredCount;
-    private TextView            totalOrdersBadge;
+    private RecyclerView         recyclerView;
+    private EditText             searchInput;
+    private TextView             filterAll, filterProcessing, filterShipped, filterDelivered;
+    private TextView             statProcessingCount, statShippedCount, statDeliveredCount;
+    private TextView             totalOrdersBadge;
     private BottomNavigationView bottomNav;
 
-    private AdminOrderAdapter   adapter;
-    private List<Order>         allOrders;
-    private List<Order>         filteredOrders;
+    private AdminOrderAdapter    adapter;
+    private List<Order>          allOrders;
+    private List<Order>          filteredOrders;
+    private AppDatabase          db;
+
+    private List<com.example.shoeapp.data.entity.Order> dbOrders = new ArrayList<>();
 
     private Order.Status currentStatus = null;
-    private String currentSearch       = "";
+    private String       currentSearch = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_order_management);
+        db = AppDatabase.getDatabase(this);
         setupEdgeToEdge();
         bindViews();
-        setupData();
+        loadFromDb();
         setupRecyclerView();
         setupSearch();
         setupFilterChips();
         setupBottomNav();
+        updateStats();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadFromDb();
         updateStats();
     }
 
@@ -67,35 +78,56 @@ public class AdminOrderManagementActivity extends AppCompatActivity
     }
 
     private void bindViews() {
-        recyclerView         = findViewById(R.id.admin_orders_recycler);
-        searchInput          = findViewById(R.id.admin_orders_search_input);
-        filterAll            = findViewById(R.id.admin_ord_filter_all);
-        filterProcessing     = findViewById(R.id.admin_ord_filter_processing);
-        filterShipped        = findViewById(R.id.admin_ord_filter_shipped);
-        filterDelivered      = findViewById(R.id.admin_ord_filter_delivered);
-        statProcessingCount  = findViewById(R.id.admin_stat_processing_count);
-        statShippedCount     = findViewById(R.id.admin_stat_shipped_count);
-        statDeliveredCount   = findViewById(R.id.admin_stat_delivered_count);
-        totalOrdersBadge     = findViewById(R.id.admin_orders_total_badge);
-        bottomNav            = findViewById(R.id.admin_bottom_nav);
+        recyclerView        = findViewById(R.id.admin_orders_recycler);
+        searchInput         = findViewById(R.id.admin_orders_search_input);
+        filterAll           = findViewById(R.id.admin_ord_filter_all);
+        filterProcessing    = findViewById(R.id.admin_ord_filter_processing);
+        filterShipped       = findViewById(R.id.admin_ord_filter_shipped);
+        filterDelivered     = findViewById(R.id.admin_ord_filter_delivered);
+        statProcessingCount = findViewById(R.id.admin_stat_processing_count);
+        statShippedCount    = findViewById(R.id.admin_stat_shipped_count);
+        statDeliveredCount  = findViewById(R.id.admin_stat_delivered_count);
+        totalOrdersBadge    = findViewById(R.id.admin_orders_total_badge);
+        bottomNav           = findViewById(R.id.admin_bottom_nav);
     }
 
-    private void setupData() {
+    private void loadFromDb() {
+        dbOrders  = db.orderDao().getAllOrders();
         allOrders = new ArrayList<>();
-        allOrders.add(new Order("SS-10495", "Sarah Simpson", 649.98, 2,
-                Order.Status.PROCESSING, "May 19, 2026"));
-        allOrders.add(new Order("SS-10496", "Mike Johnson", 199.99, 1,
-                Order.Status.SHIPPED, "May 20, 2026"));
-        allOrders.add(new Order("SS-10497", "Emily Davis", 449.97, 2,
-                Order.Status.DELIVERED, "May 18, 2026"));
-        allOrders.add(new Order("SS-10498", "John Smith", 129.99, 1,
-                Order.Status.SHIPPED, "May 21, 2026"));
-        allOrders.add(new Order("SS-10499", "Lisa Chen", 79.99, 1,
-                Order.Status.PROCESSING, "May 21, 2026"));
-        allOrders.add(new Order("SS-10500", "Robert Wilson", 329.98, 2,
-                Order.Status.DELIVERED, "May 17, 2026"));
+
+        for (com.example.shoeapp.data.entity.Order entity : dbOrders) {
+            com.example.shoeapp.data.entity.User user =
+                    db.userDao().getUserById(entity.userId);
+            String customerName = (user != null && user.fullName != null)
+                    ? user.fullName : "User #" + entity.userId;
+
+            int itemCount    = db.orderDao().getDetailsByOrder(entity.id).size();
+            Order.Status status = convertStatus(entity.orderStatus);
+            String date      = entity.createdAt != null
+                    ? entity.createdAt.substring(0, Math.min(10, entity.createdAt.length())) : "—";
+
+            allOrders.add(new Order(
+                    entity.ordersId != null ? entity.ordersId : "#" + entity.id,
+                    customerName,
+                    entity.grandTotal != null ? entity.grandTotal : 0.0,
+                    itemCount,
+                    status,
+                    date
+            ));
+        }
 
         filteredOrders = new ArrayList<>(allOrders);
+        if (adapter != null) applyFilters();
+    }
+
+    private Order.Status convertStatus(String s) {
+        if (s == null) return Order.Status.PROCESSING;
+        switch (s) {
+            case "SHIPPED":   return Order.Status.SHIPPED;
+            case "DELIVERED":
+            case "COMPLETED": return Order.Status.DELIVERED;
+            default:          return Order.Status.PROCESSING;
+        }
     }
 
     private void setupRecyclerView() {
@@ -119,10 +151,10 @@ public class AdminOrderManagementActivity extends AppCompatActivity
     }
 
     private void setupFilterChips() {
-        filterAll.setOnClickListener(v          -> selectStatus(null, filterAll));
-        filterProcessing.setOnClickListener(v   -> selectStatus(Order.Status.PROCESSING, filterProcessing));
-        filterShipped.setOnClickListener(v      -> selectStatus(Order.Status.SHIPPED, filterShipped));
-        filterDelivered.setOnClickListener(v    -> selectStatus(Order.Status.DELIVERED, filterDelivered));
+        filterAll.setOnClickListener(v        -> selectStatus(null,                    filterAll));
+        filterProcessing.setOnClickListener(v -> selectStatus(Order.Status.PROCESSING, filterProcessing));
+        filterShipped.setOnClickListener(v    -> selectStatus(Order.Status.SHIPPED,    filterShipped));
+        filterDelivered.setOnClickListener(v  -> selectStatus(Order.Status.DELIVERED,  filterDelivered));
     }
 
     private void setupBottomNav() {
@@ -131,24 +163,16 @@ public class AdminOrderManagementActivity extends AppCompatActivity
             int id = item.getItemId();
             if (id == R.id.nav_dashboard) {
                 startActivity(new Intent(this, AdminDashboardActivity.class));
-                overridePendingTransition(0, 0);
-                finish();
-                return true;
-            } else if (id == R.id.nav_products) {
-                startActivity(new Intent(this, AdminProductsActivity.class));
-                overridePendingTransition(0, 0);
-                finish();
-                return true;
-            } else if (id == R.id.nav_categories) {
-                startActivity(new Intent(this, AdminCategoriesActivity.class));
-                overridePendingTransition(0, 0);
-                finish();
-                return true;
+                overridePendingTransition(0, 0); finish(); return true;
             } else if (id == R.id.nav_users) {
                 startActivity(new Intent(this, UserManagementActivity.class));
-                overridePendingTransition(0, 0);
-                finish();
-                return true;
+                overridePendingTransition(0, 0); finish(); return true;
+            } else if (id == R.id.nav_categories) {
+                startActivity(new Intent(this, AdminCategoriesActivity.class));
+                overridePendingTransition(0, 0); finish(); return true;
+            } else if (id == R.id.nav_products) {
+                startActivity(new Intent(this, AdminProductsActivity.class));
+                overridePendingTransition(0, 0); finish(); return true;
             }
             return id == R.id.nav_orders;
         });
@@ -156,7 +180,6 @@ public class AdminOrderManagementActivity extends AppCompatActivity
 
     private void selectStatus(Order.Status status, TextView selectedChip) {
         currentStatus = status;
-
         TextView[] chips = { filterAll, filterProcessing, filterShipped, filterDelivered };
         for (TextView chip : chips) {
             chip.setBackgroundResource(R.drawable.bg_admin_chip);
@@ -164,31 +187,23 @@ public class AdminOrderManagementActivity extends AppCompatActivity
         }
         selectedChip.setBackgroundResource(R.drawable.bg_admin_chip_selected);
         selectedChip.setTextColor(getColor(R.color.brand_white));
-
         applyFilters();
     }
 
     private void applyFilters() {
         filteredOrders.clear();
-
         for (Order o : allOrders) {
             boolean matchStatus = currentStatus == null || o.getStatus() == currentStatus;
             boolean matchSearch = currentSearch.isEmpty()
                     || o.getOrderId().toLowerCase().contains(currentSearch)
                     || o.getCustomerName().toLowerCase().contains(currentSearch);
-
-            if (matchStatus && matchSearch) {
-                filteredOrders.add(o);
-            }
+            if (matchStatus && matchSearch) filteredOrders.add(o);
         }
-
         adapter.notifyDataSetChanged();
     }
 
-
     private void updateStats() {
         int processing = 0, shipped = 0, delivered = 0;
-
         for (Order order : allOrders) {
             switch (order.getStatus()) {
                 case PROCESSING: processing++; break;
@@ -196,44 +211,45 @@ public class AdminOrderManagementActivity extends AppCompatActivity
                 case DELIVERED:  delivered++;  break;
             }
         }
-
         statProcessingCount.setText(String.valueOf(processing));
         statShippedCount.setText(String.valueOf(shipped));
         statDeliveredCount.setText(String.valueOf(delivered));
         totalOrdersBadge.setText(String.format("%d orders", allOrders.size()));
     }
 
-    // ── AdminOrderAdapter.OnOrderActionListener ───────────────────────────────
-
     @Override
     public void onViewDetailsClick(Order order, int position) {
-        Toast.makeText(this,
-                "Chi tiết đơn: " + order.getOrderId(),
-                Toast.LENGTH_SHORT).show();
-        // TODO: startActivity(new Intent(this, AdminOrderDetailActivity.class)
-        //           .putExtra("order_id", order.getOrderId()));
+        Toast.makeText(this, "Chi tiết đơn: " + order.getOrderId(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onMarkShippedClick(Order order, int position) {
         order.setStatus(Order.Status.SHIPPED);
+        updateOrderStatusInDb(order.getOrderId(), "SHIPPED");
         adapter.notifyItemChanged(position);
         updateStats();
         applyFilters();
-        Toast.makeText(this,
-                "Cập nhật: " + order.getOrderId() + " → Đã gửi",
-                Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Cập nhật: " + order.getOrderId() + " → Đã gửi", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onMarkDeliveredClick(Order order, int position) {
         order.setStatus(Order.Status.DELIVERED);
+        updateOrderStatusInDb(order.getOrderId(), "DELIVERED");
         adapter.notifyItemChanged(position);
         updateStats();
         applyFilters();
-        Toast.makeText(this,
-                "Cập nhật: " + order.getOrderId() + " → Đã giao",
-                Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Cập nhật: " + order.getOrderId() + " → Đã giao", Toast.LENGTH_SHORT).show();
+    }
+
+    private void updateOrderStatusInDb(String orderId, String newStatus) {
+        for (com.example.shoeapp.data.entity.Order entity : dbOrders) {
+            String eId = entity.ordersId != null ? entity.ordersId : "#" + entity.id;
+            if (eId.equals(orderId)) {
+                entity.orderStatus = newStatus;
+                db.orderDao().update(entity);
+                break;
+            }
+        }
     }
 }
-
