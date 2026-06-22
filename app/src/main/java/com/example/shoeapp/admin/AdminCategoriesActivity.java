@@ -177,6 +177,16 @@ public class AdminCategoriesActivity extends AppCompatActivity
                         Toast.makeText(this, "Tên không được trống", Toast.LENGTH_SHORT).show();
                         return;
                     }
+                    List<com.example.shoeapp.data.entity.Category> existing =
+                            db.categoryDao().getAllCategories();
+                    for (com.example.shoeapp.data.entity.Category e : existing) {
+                        if (e.name.equalsIgnoreCase(name)) {
+                            Toast.makeText(this,
+                                    "Danh mục \"" + name + "\" đã tồn tại",
+                                    Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                    }
                     com.example.shoeapp.data.entity.Category entity =
                             new com.example.shoeapp.data.entity.Category();
                     entity.name      = name;
