@@ -33,12 +33,14 @@ public interface ProductDao {
     @Update void updateColor(Color color);
     @Delete void deleteColor(Color color);
     @Query("SELECT * FROM color") List<Color> getAllColors();
+    @Query("SELECT * FROM color WHERE id = :id LIMIT 1") Color getColorById(int id);
 
     // ── Size ──────────────────────────────────────────
     @Insert void insertSize(Size size);
     @Update void updateSize(Size size);
     @Delete void deleteSize(Size size);
     @Query("SELECT * FROM size ORDER BY sort_order ASC") List<Size> getAllSizes();
+    @Query("SELECT * FROM size WHERE id = :id LIMIT 1") Size getSizeById(int id);
 
     // ── ProductImg ────────────────────────────────────
     @Insert void insertProductImg(ProductImg img);

@@ -219,7 +219,21 @@ public class AdminOrderManagementActivity extends AppCompatActivity
 
     @Override
     public void onViewDetailsClick(Order order, int position) {
-        Toast.makeText(this, "Chi tiết đơn: " + order.getOrderId(), Toast.LENGTH_SHORT).show();
+        int dbId = -1;
+        for (com.example.shoeapp.data.entity.Order entity : dbOrders) {
+            String eId = entity.ordersId != null ? entity.ordersId : "#" + entity.id;
+            if (eId.equals(order.getOrderId())) {
+                dbId = entity.id;
+                break;
+            }
+        }
+        if (dbId != -1) {
+            Intent intent = new Intent(this, AdminOrderDetailActivity.class);
+            intent.putExtra(AdminOrderDetailActivity.EXTRA_ORDER_ID, dbId);
+            startActivity(intent);
+        } else {
+            Toast.makeText(this, "Không tìm thấy mã đơn: " + order.getOrderId(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

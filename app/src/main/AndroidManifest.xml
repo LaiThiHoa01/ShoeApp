@@ -85,6 +85,10 @@
             android:name=".admin.AdminAddProductActivity"
             android:exported="false"
             android:theme="@style/Theme.SoleStep.Admin" />
+        <activity
+            android:name=".admin.AdminOrderDetailActivity"
+            android:exported="false"
+            android:theme="@style/Theme.SoleStep.Admin" />
 
     </application>
 
