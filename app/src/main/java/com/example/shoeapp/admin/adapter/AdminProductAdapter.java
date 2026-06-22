@@ -89,7 +89,13 @@ public class AdminProductAdapter
 
         void bind(Product product, int position) {
             // ── Ảnh sản phẩm ───────────────────────────────────────────────
-            if (product.getImageResId() != 0) {
+            if (product.getImageUrl() != null && !product.getImageUrl().isEmpty()) {
+                try {
+                    image.setImageURI(android.net.Uri.parse(product.getImageUrl()));
+                } catch (Exception e) {
+                    image.setImageResource(R.drawable.ic_shoe);
+                }
+            } else if (product.getImageResId() != 0) {
                 image.setImageResource(product.getImageResId());
             } else {
                 image.setImageResource(R.drawable.ic_shoe);
@@ -104,7 +110,13 @@ public class AdminProductAdapter
 
             // ── Giá ────────────────────────────────────────────────────────
             price.setText(String.format(Locale.US, "$%.2f", product.getPrice()));
-            priceOriginal.setText(String.format(Locale.US, "$%.2f", product.getOriginalPrice()));
+            if (product.getOriginalPrice() > product.getPrice()) {
+                priceOriginal.setText(String.format(Locale.US, "$%.2f", product.getOriginalPrice()));
+                priceOriginal.setPaintFlags(priceOriginal.getPaintFlags() | android.graphics.Paint.STRIKE_THRU_TEXT_FLAG);
+                priceOriginal.setVisibility(View.VISIBLE);
+            } else {
+                priceOriginal.setVisibility(View.GONE);
+            }
 
             // ── Stock badge (xanh nếu đủ, đỏ nếu thấp < 15) ──────────────
             int stockQty = product.getStock();

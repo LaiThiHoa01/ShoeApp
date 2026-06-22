@@ -116,6 +116,10 @@ public class AdminProductsActivity extends AppCompatActivity
             float rating     = db.productDao().getAverageRating(entity.id);
             int reviewCount  = db.productDao().getReviewsByProduct(entity.id).size();
 
+            com.example.shoeapp.data.entity.ProductImg thumbnail =
+                    db.productDao().getThumbnail(entity.id);
+            String imageUrl = thumbnail != null ? thumbnail.imgUrl : null;
+
             allProducts.add(new Product(
                     entity.id,
                     entity.name,
@@ -128,7 +132,8 @@ public class AdminProductsActivity extends AppCompatActivity
                     Collections.emptyList(),
                     rating,
                     reviewCount,
-                    R.drawable.ic_shoe
+                    R.drawable.ic_shoe,
+                    imageUrl
             ));
         }
 
@@ -210,12 +215,14 @@ public class AdminProductsActivity extends AppCompatActivity
     }
 
     private void onAddProductClick() {
-        Toast.makeText(this, "Tính năng thêm sản phẩm đang được phát triển", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(this, AdminAddProductActivity.class));
     }
 
     @Override
     public void onEditClick(Product product, int position) {
-        Toast.makeText(this, "Sửa: " + product.getName(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, AdminAddProductActivity.class);
+        intent.putExtra("PRODUCT_ID", product.getId());
+        startActivity(intent);
     }
 
     @Override
