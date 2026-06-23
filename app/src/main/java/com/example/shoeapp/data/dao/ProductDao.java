@@ -53,8 +53,14 @@ public interface ProductDao {
     @Query("SELECT * FROM product")
     List<Product> getAllProducts();
 
+    @Query("SELECT p.* FROM product p INNER JOIN category c ON p.shoe_category = c.id WHERE p.is_available = 1 AND p.is_discontinue = 0 AND c.is_active = 1")
+    List<Product> getAllProductsActive();
+
     @Query("SELECT * FROM product WHERE shoe_category = :categoryId")
     List<Product> getProductsByCategory(int categoryId);
+
+    @Query("SELECT p.* FROM product p INNER JOIN category c ON p.shoe_category = c.id WHERE p.shoe_category = :categoryId AND p.is_available = 1 AND p.is_discontinue = 0 AND c.is_active = 1")
+    List<Product> getProductsByCategoryActive(int categoryId);
 
     @Query("SELECT * FROM product WHERE id = :id LIMIT 1")
     Product getProductById(int id);

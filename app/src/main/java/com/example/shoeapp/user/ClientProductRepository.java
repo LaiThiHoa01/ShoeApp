@@ -57,7 +57,7 @@ public class ClientProductRepository {
 
     public List<com.example.shoeapp.model.Product> getAllProducts() {
         List<com.example.shoeapp.model.Product> products = new ArrayList<>();
-        for (Product product : productDao.getAllProducts()) {
+        for (Product product : productDao.getAllProductsActive()) {
             products.add(toClientProduct(product));
         }
         return products;
@@ -113,7 +113,7 @@ public class ClientProductRepository {
 
     public List<com.example.shoeapp.model.Product> getProductsByCategory(int categoryId) {
         List<com.example.shoeapp.model.Product> result = new ArrayList<>();
-        for (com.example.shoeapp.data.entity.Product p : productDao.getProductsByCategory(categoryId)) {
+        for (com.example.shoeapp.data.entity.Product p : productDao.getProductsByCategoryActive(categoryId)) {
             result.add(toClientProduct(p));
         }
         return result;

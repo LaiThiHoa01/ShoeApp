@@ -89,17 +89,7 @@ public class AdminProductAdapter
 
         void bind(Product product, int position) {
             // ── Ảnh sản phẩm ───────────────────────────────────────────────
-            if (product.getImageUrl() != null && !product.getImageUrl().isEmpty()) {
-                try {
-                    image.setImageURI(android.net.Uri.parse(product.getImageUrl()));
-                } catch (Exception e) {
-                    image.setImageResource(R.drawable.ic_shoe);
-                }
-            } else if (product.getImageResId() != 0) {
-                image.setImageResource(product.getImageResId());
-            } else {
-                image.setImageResource(R.drawable.ic_shoe);
-            }
+            com.example.shoeapp.user.ImageLoader.load(product.getImageUrl(), image, product.getImageResId());
 
             // ── Thông tin cơ bản ───────────────────────────────────────────
             brand.setText(product.getBrand());
