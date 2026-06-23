@@ -199,6 +199,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/detail_color_options"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/space_6"
@@ -296,6 +297,7 @@
                 </LinearLayout>
 
                 <GridLayout
+                    android:id="@+id/detail_size_options"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/space_6"
@@ -365,6 +367,61 @@
                         android:text="41"
                         android:textColor="@color/text_secondary" />
                 </GridLayout>
+
+                <LinearLayout
+                    android:id="@+id/detail_quantity_row"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_10"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Số lượng"
+                        android:textAppearance="@style/TextAppearance.SoleStep.Overline"
+                        android:textColor="@color/text_primary" />
+
+                    <TextView
+                        android:id="@+id/detail_quantity_minus"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:background="@drawable/bg_cart_stepper"
+                        android:gravity="center"
+                        android:text="-"
+                        android:textAppearance="@style/TextAppearance.SoleStep.Body"
+                        android:textColor="@color/text_secondary" />
+
+                    <TextView
+                        android:id="@+id/detail_quantity_text"
+                        android:layout_width="42dp"
+                        android:layout_height="36dp"
+                        android:gravity="center"
+                        android:text="1"
+                        android:textAppearance="@style/TextAppearance.SoleStep.Body"
+                        android:textColor="@color/text_primary"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/detail_quantity_plus"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:background="@drawable/bg_circle_orange"
+                        android:gravity="center"
+                        android:text="+"
+                        android:textAppearance="@style/TextAppearance.SoleStep.Body"
+                        android:textColor="@color/brand_white" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/detail_stock_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_4"
+                    android:textAppearance="@style/TextAppearance.SoleStep.Caption"
+                    android:textColor="@color/text_muted" />
 
                 <TextView
                     android:layout_width="wrap_content"

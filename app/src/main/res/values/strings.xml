@@ -93,15 +93,15 @@
     <string name="detail_badge_new">MỚI</string>
 
     <!-- ─── Cart ─── -->
-    <string name="cart_title">My Cart</string>
-    <string name="cart_promo_hint">Enter promo code</string>
-    <string name="cart_btn_apply_promo">Apply</string>
-    <string name="cart_summary_title">Order Summary</string>
-    <string name="cart_subtotal">Subtotal</string>
-    <string name="cart_shipping">Shipping</string>
-    <string name="cart_discount">Discount</string>
-    <string name="cart_total">Total</string>
-    <string name="cart_btn_checkout">Proceed to Checkout</string>
+    <string name="cart_title">Giỏ hàng</string>
+    <string name="cart_promo_hint">Nhập mã ưu đãi</string>
+    <string name="cart_btn_apply_promo">Áp dụng</string>
+    <string name="cart_summary_title">Tóm tắt đơn hàng</string>
+    <string name="cart_subtotal">Tạm tính</string>
+    <string name="cart_shipping">Phí vận chuyển</string>
+    <string name="cart_discount">Giảm giá</string>
+    <string name="cart_total">Tổng cộng</string>
+    <string name="cart_btn_checkout">Tiến hành thanh toán</string>
 
     <!-- ─── Checkout ─── -->
     <string name="checkout_title">Checkout</string>

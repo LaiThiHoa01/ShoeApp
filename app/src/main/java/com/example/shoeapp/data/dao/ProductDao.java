@@ -14,6 +14,8 @@ import com.example.shoeapp.data.entity.Product;
 import com.example.shoeapp.data.entity.ProductImg;
 import com.example.shoeapp.data.entity.ProductVariant;
 import com.example.shoeapp.data.entity.Size;
+import com.example.shoeapp.data.model.ProductColorOption;
+import com.example.shoeapp.data.model.ProductSizeOption;
 import java.util.List;
 
 @Dao
@@ -62,6 +64,18 @@ public interface ProductDao {
 
     @Query("SELECT img_url FROM product_img WHERE product_id = :productId AND is_thumbnail = 1 AND is_active = 1 ORDER BY sort_order ASC LIMIT 1")
     String getThumbnailUrl(int productId);
+
+    @Query("SELECT DISTINCT c.id AS id, c.name AS name, c.hexcode AS hexcode FROM color c INNER JOIN product_variant pv ON pv.color_id = c.id WHERE pv.product_id = :productId AND pv.stock > 0 AND pv.is_discontinue_variant = 0 ORDER BY c.id ASC")
+    List<ProductColorOption> getAvailableColors(int productId);
+
+    @Query("SELECT s.id AS id, s.name AS name, COALESCE(pv.stock, 0) AS stock FROM size s INNER JOIN product_variant pv ON pv.size_id = s.id WHERE pv.product_id = :productId AND pv.color_id = :colorId AND pv.is_discontinue_variant = 0 ORDER BY s.sort_order ASC")
+    List<ProductSizeOption> getAvailableSizes(int productId, int colorId);
+
+    @Query("SELECT * FROM product_variant WHERE product_id = :productId AND color_id = :colorId AND size_id = :sizeId AND is_discontinue_variant = 0 LIMIT 1")
+    ProductVariant getVariant(int productId, int colorId, int sizeId);
+
+    @Query("SELECT img_url FROM product_img WHERE product_id = :productId AND color_id = :colorId AND is_active = 1 ORDER BY is_thumbnail DESC, sort_order ASC LIMIT 1")
+    String getImageUrl(int productId, int colorId);
 
     @Update
     void update(Product product);

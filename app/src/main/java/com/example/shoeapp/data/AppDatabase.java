@@ -7,6 +7,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
 import com.example.shoeapp.data.dao.CategoryDao;
+import com.example.shoeapp.data.dao.CartDao;
 import com.example.shoeapp.data.dao.OrderDao;
 import com.example.shoeapp.data.dao.ProductDao;
 import com.example.shoeapp.data.dao.UserDao;
@@ -49,6 +50,7 @@ public abstract class AppDatabase extends RoomDatabase {
 
     public abstract UserDao userDao();
     public abstract ProductDao productDao();
+    public abstract CartDao cartDao();
     public abstract CategoryDao categoryDao();
     public abstract OrderDao orderDao();
 

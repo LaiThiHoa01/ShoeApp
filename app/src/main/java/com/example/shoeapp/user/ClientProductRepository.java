@@ -12,6 +12,8 @@ import com.example.shoeapp.data.entity.Product;
 import com.example.shoeapp.data.entity.ProductImg;
 import com.example.shoeapp.data.entity.ProductVariant;
 import com.example.shoeapp.data.entity.Size;
+import com.example.shoeapp.data.model.ProductColorOption;
+import com.example.shoeapp.data.model.ProductSizeOption;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -74,6 +76,23 @@ public class ClientProductRepository {
     public String getThumbnailUrl(int productId) {
         String url = productDao.getThumbnailUrl(productId);
         return url == null ? "" : url;
+    }
+
+    public List<ProductColorOption> getAvailableColors(int productId) {
+        return productDao.getAvailableColors(productId);
+    }
+
+    public List<ProductSizeOption> getAvailableSizes(int productId, int colorId) {
+        return productDao.getAvailableSizes(productId, colorId);
+    }
+
+    public ProductVariant getVariant(int productId, int colorId, int sizeId) {
+        return productDao.getVariant(productId, colorId, sizeId);
+    }
+
+    public String getImageUrl(int productId, int colorId) {
+        String url = productDao.getImageUrl(productId, colorId);
+        return url == null ? getThumbnailUrl(productId) : url;
     }
 
     public com.example.shoeapp.model.Product toClientProduct(Product product) {
