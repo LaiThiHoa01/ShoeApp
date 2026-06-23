@@ -27,6 +27,7 @@ public final class ImageLoader {
             try {
                 URL url = new URL(imageUrl);
                 connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64)");
                 connection.setConnectTimeout(6000);
                 connection.setReadTimeout(6000);
                 Bitmap bitmap = BitmapFactory.decodeStream(connection.getInputStream());
@@ -36,7 +37,8 @@ public final class ImageLoader {
                         target.setColorFilter(null);
                     }
                 });
-            } catch (Exception ignored) {
+            } catch (Exception e) {
+                android.util.Log.e("ImageLoader", "Failed to load image: " + imageUrl, e);
                 new Handler(Looper.getMainLooper()).post(() ->
                         target.setImageResource(fallbackResId == 0 ? R.drawable.ic_shoe : fallbackResId));
             } finally {

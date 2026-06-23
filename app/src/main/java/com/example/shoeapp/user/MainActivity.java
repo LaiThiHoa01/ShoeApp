@@ -35,6 +35,15 @@ public class MainActivity extends BaseSoleStepActivity {
         productRepository = new ClientProductRepository(this);
         productRepository.ensureSeedData();
 
+        // Diagnostic logs and Toast to verify database state
+        int prodCount = productRepository.getAllProducts().size();
+        int catCount = productRepository.getCategories().size();
+        int brandCount = productRepository.getBrands().size();
+        android.util.Log.d("ShoeAppDebug", "MainActivity DB Stats - Products: " + prodCount + ", Categories: " + catCount + ", Brands: " + brandCount);
+        android.widget.Toast.makeText(this,
+                "Database Loaded: " + prodCount + " Products, " + catCount + " Categories, " + brandCount + " Brands",
+                android.widget.Toast.LENGTH_LONG).show();
+
         setupScreen(BottomNavHelper.TAG_HOME);
         setupSearch();
         setupCategories();
