@@ -135,6 +135,7 @@ public class AdminOrderManagementActivity extends AppCompatActivity
             case "SHIPPED":   return Order.Status.SHIPPED;
             case "DELIVERED":
             case "COMPLETED": return Order.Status.DELIVERED;
+            case "CANCELLED": return Order.Status.CANCELLED;
             default:          return Order.Status.PROCESSING;
         }
     }
@@ -218,12 +219,13 @@ public class AdminOrderManagementActivity extends AppCompatActivity
                 case PROCESSING: processing++; break;
                 case SHIPPED:    shipped++;    break;
                 case DELIVERED:  delivered++;  break;
+                case CANCELLED:  break;
             }
         }
         statProcessingCount.setText(String.valueOf(processing));
         statShippedCount.setText(String.valueOf(shipped));
         statDeliveredCount.setText(String.valueOf(delivered));
-        totalOrdersBadge.setText(String.format("%d orders", allOrders.size()));
+        totalOrdersBadge.setText(String.format("%d đơn hàng", allOrders.size()));
     }
 
     @Override
@@ -263,6 +265,16 @@ public class AdminOrderManagementActivity extends AppCompatActivity
         updateStats();
         applyFilters();
         Toast.makeText(this, "Cập nhật: " + order.getOrderId() + " → Đã giao", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onCancelOrderClick(Order order, int position) {
+        order.setStatus(Order.Status.CANCELLED);
+        updateOrderStatusInDb(order.getOrderId(), "CANCELLED");
+        adapter.notifyItemChanged(position);
+        updateStats();
+        applyFilters();
+        Toast.makeText(this, "Đã hủy đơn hàng: " + order.getOrderId(), Toast.LENGTH_SHORT).show();
     }
 
     private void updateOrderStatusInDb(String orderId, String newStatus) {

@@ -170,6 +170,21 @@
             app:iconGravity="end"
             app:iconSize="14dp" />
 
+        <!-- Cancel Order Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/admin_order_btn_cancel"
+            style="@style/Widget.SoleStep.Button.Outlined"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="@dimen/space_2"
+            android:layout_weight="1"
+            android:text="Hủy đơn"
+            android:textColor="@color/status_error"
+            app:strokeColor="@color/status_error"
+            android:textSize="10sp"
+            android:maxLines="1"
+            android:visibility="gone" />
+
         <!-- Mark as Shipped / Mark as Delivered / Delivered -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/admin_order_btn_action"

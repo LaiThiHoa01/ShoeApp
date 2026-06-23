@@ -275,6 +275,7 @@
     <string name="status_shipped">Đang giao hàng</string>
     <string name="status_shipping">Đang giao hàng</string>
     <string name="status_delivered">Đã giao hàng</string>
+    <string name="status_cancelled">Đã hủy</string>
 
     <!-- ─── Category names ─── -->
     <string name="cat_sneakers">Sneaker</string>

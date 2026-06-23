@@ -5,7 +5,7 @@ package com.example.shoeapp.model;
  */
 public class Order {
 
-    public enum Status { PROCESSING, SHIPPED, DELIVERED }
+    public enum Status { PROCESSING, SHIPPED, DELIVERED, CANCELLED }
 
     private final String orderId;      // Ví dụ: "SS-10495"
     private final String customerName;
