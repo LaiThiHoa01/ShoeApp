@@ -120,17 +120,23 @@
                     android:src="@drawable/ic_material_search"
                     android:tint="@color/text_muted" />
 
-                <TextView
-                    android:id="@+id/home_search_hint_text"
+                <EditText
+                    android:id="@+id/home_search_input"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginStart="@dimen/space_6"
                     android:layout_weight="1"
-                    android:text="@string/home_search_hint"
+                    android:background="@android:color/transparent"
+                    android:hint="@string/home_search_hint"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
+                    android:maxLines="1"
                     android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
-                    android:textColor="@color/text_muted" />
+                    android:textColor="@color/text_primary"
+                    android:textColorHint="@color/text_muted" />
 
                 <FrameLayout
+                    android:id="@+id/home_search_button"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:background="@drawable/bg_circle_orange">
@@ -163,6 +169,7 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/home_categories_see_all"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/home_see_all"
@@ -179,6 +186,7 @@
                 android:scrollbars="none">
 
                 <LinearLayout
+                    android:id="@+id/home_categories_container"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -382,6 +390,7 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/home_trending_see_all"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/home_see_all"
@@ -389,33 +398,13 @@
                     android:textColor="@color/brand_orange" />
             </LinearLayout>
 
-            <LinearLayout
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/home_product_grid"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_6"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <include layout="@layout/item_home_product_air" />
-
-                    <include layout="@layout/item_home_product_urban" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <include layout="@layout/item_home_product_blaze" />
-
-                    <include layout="@layout/item_home_product_shadow" />
-                </LinearLayout>
-            </LinearLayout>
+                android:nestedScrollingEnabled="false"
+                android:overScrollMode="never" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -434,6 +423,7 @@
                 android:scrollbars="none">
 
                 <LinearLayout
+                    android:id="@+id/home_brands_container"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -481,6 +471,7 @@
     </ScrollView>
 
     <include
+        android:id="@+id/bottom_navigation"
         layout="@layout/view_bottom_navigation"
         android:layout_width="0dp"
         android:layout_height="@dimen/bottom_nav_height"

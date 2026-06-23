@@ -53,6 +53,7 @@
                     android:textColor="@color/text_primary" />
 
                 <TextView
+                    android:id="@+id/cart_count_badge"
                     android:layout_width="24dp"
                     android:layout_height="20dp"
                     android:layout_marginStart="@dimen/space_8"
@@ -64,9 +65,24 @@
                     android:textStyle="bold" />
             </LinearLayout>
 
-            <include layout="@layout/item_cart_air_phantom" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/cart_items_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                android:overScrollMode="never" />
 
-            <include layout="@layout/item_cart_blaze_runner" />
+            <TextView
+                android:id="@+id/cart_empty_text"
+                android:layout_width="match_parent"
+                android:layout_height="96dp"
+                android:layout_marginTop="@dimen/space_10"
+                android:background="@drawable/bg_cart_item_card"
+                android:gravity="center"
+                android:text="Giỏ hàng đang trống"
+                android:textAppearance="@style/TextAppearance.SoleStep.Body"
+                android:textColor="@color/text_muted"
+                android:visibility="gone" />
 
             <LinearLayout
                 android:id="@+id/cart_promo_card"
@@ -134,11 +150,74 @@
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
-                <include layout="@layout/row_cart_summary_subtotal" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_10"
+                    android:orientation="horizontal">
 
-                <include layout="@layout/row_cart_summary_shipping" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/cart_subtotal"
+                        android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
+                        android:textColor="@color/text_muted" />
 
-                <include layout="@layout/row_cart_summary_discount" />
+                    <TextView
+                        android:id="@+id/cart_subtotal_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
+                        android:textColor="@color/text_secondary"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_6"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/cart_shipping"
+                        android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
+                        android:textColor="@color/text_muted" />
+
+                    <TextView
+                        android:id="@+id/cart_shipping_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
+                        android:textColor="@color/text_secondary"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_6"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/cart_discount"
+                        android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
+                        android:textColor="@color/text_muted" />
+
+                    <TextView
+                        android:id="@+id/cart_discount_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
+                        android:textColor="@color/status_success"
+                        android:textStyle="bold" />
+                </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
@@ -164,9 +243,9 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/cart_total_value"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="$617.96"
                         android:textAppearance="@style/TextAppearance.SoleStep.PriceMedium"
                         android:textSize="18sp" />
                 </LinearLayout>
@@ -194,7 +273,7 @@
             style="@style/Widget.SoleStep.Button.Primary"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:text="Proceed to Checkout - $617.96"
+            android:text="Tiến hành thanh toán"
             app:icon="@drawable/ic_arrow_right"
             app:iconGravity="textEnd"
             app:iconPadding="@dimen/space_4"
