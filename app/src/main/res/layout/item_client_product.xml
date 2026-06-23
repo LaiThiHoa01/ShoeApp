@@ -1,80 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="0dp"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_weight="1"
-    android:layout_marginEnd="@dimen/space_6"
-    android:layout_marginBottom="@dimen/space_8"
     android:background="@drawable/bg_home_product_card"
     android:orientation="vertical">
 
     <FrameLayout
+        android:id="@+id/client_product_image_panel"
         android:layout_width="match_parent"
         android:layout_height="132dp"
-        android:background="@drawable/bg_home_product_image_blue">
+        android:background="@drawable/bg_home_product_image_light">
 
         <TextView
+            android:id="@+id/client_product_badge_new"
             android:layout_width="42dp"
             android:layout_height="20dp"
             android:layout_margin="@dimen/space_6"
             android:background="@drawable/bg_home_sale_badge"
             android:gravity="center"
-            android:text="NEW"
+            android:text="@string/badge_new"
             android:textAppearance="@style/TextAppearance.SoleStep.Caption"
             android:textColor="@color/brand_white"
             android:textSize="8sp"
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/client_product_badge_discount"
             android:layout_width="44dp"
             android:layout_height="20dp"
             android:layout_gravity="top|end"
             android:layout_margin="@dimen/space_6"
             android:background="@drawable/bg_catalog_discount_badge"
             android:gravity="center"
-            android:text="-21%"
             android:textAppearance="@style/TextAppearance.SoleStep.Caption"
             android:textColor="@color/brand_white"
             android:textSize="8sp"
             android:textStyle="bold" />
 
         <ImageView
-            android:layout_width="132dp"
-            android:layout_height="92dp"
+            android:id="@+id/client_product_image"
+            android:layout_width="118dp"
+            android:layout_height="86dp"
             android:layout_gravity="center"
-            android:contentDescription="@null"
+            android:contentDescription="@string/product_image_desc"
+            android:rotation="-15"
             android:src="@drawable/ic_shoe"
-            android:tint="@color/text_secondary" />
+            android:tint="@color/text_disabled" />
     </FrameLayout>
 
     <TextView
+        android:id="@+id/client_product_brand"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/space_8"
         android:layout_marginTop="@dimen/space_8"
         android:layout_marginEnd="@dimen/space_8"
-        android:text="SwiftKick"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:textAppearance="@style/TextAppearance.SoleStep.Caption" />
 
     <TextView
+        android:id="@+id/client_product_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/space_8"
         android:layout_marginEnd="@dimen/space_8"
-        android:text="Blaze Runner"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:minHeight="34dp"
         android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
         android:textColor="@color/text_primary"
         android:textStyle="bold" />
 
     <TextView
+        android:id="@+id/client_product_rating"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/space_8"
         android:layout_marginTop="@dimen/space_3"
         android:layout_marginEnd="@dimen/space_8"
-        android:text="* 4.9  (412)"
         android:textAppearance="@style/TextAppearance.SoleStep.Caption"
         android:textColor="@color/text_tertiary" />
 
-    <include layout="@layout/row_catalog_price_blaze" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_8"
+        android:layout_marginTop="@dimen/space_4"
+        android:layout_marginEnd="@dimen/space_8"
+        android:layout_marginBottom="@dimen/space_8"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/client_product_price"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAppearance="@style/TextAppearance.SoleStep.PriceSmall" />
+
+        <TextView
+            android:id="@+id/client_product_original_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.SoleStep.Caption"
+            android:textColor="@color/text_disabled" />
+    </LinearLayout>
 </LinearLayout>

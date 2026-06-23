@@ -164,53 +164,13 @@
                 </LinearLayout>
             </HorizontalScrollView>
 
-            <LinearLayout
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/catalog_product_grid"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_10"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <include layout="@layout/item_catalog_air_phantom" />
-
-                    <include layout="@layout/item_catalog_urban_stride" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <include layout="@layout/item_catalog_blaze_runner" />
-
-                    <include layout="@layout/item_catalog_shadow_force" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <include layout="@layout/item_catalog_cloud_walker" />
-
-                    <include layout="@layout/item_catalog_apex_boost" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <include layout="@layout/item_catalog_midnight_classic" />
-
-                    <include layout="@layout/item_catalog_storm_elite" />
-                </LinearLayout>
-            </LinearLayout>
+                android:nestedScrollingEnabled="false"
+                android:overScrollMode="never" />
         </LinearLayout>
     </ScrollView>
 
