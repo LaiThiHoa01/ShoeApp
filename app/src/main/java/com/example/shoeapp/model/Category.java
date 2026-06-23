@@ -18,13 +18,15 @@ public class Category {
     private int    accentColorRes;   // R.color.xxx — dot + progress fill
     private int    productCount;
     private int    maxProducts;      // để tính % fill progress bar
+    private boolean isActive;
 
     public Category(int id, String name,
                     int iconResId,
                     int iconBgColorRes,
                     int accentColorRes,
                     int productCount,
-                    int maxProducts) {
+                    int maxProducts,
+                    boolean isActive) {
         this.id              = id;
         this.name            = name;
         this.iconResId       = iconResId;
@@ -32,6 +34,7 @@ public class Category {
         this.accentColorRes  = accentColorRes;
         this.productCount    = productCount;
         this.maxProducts     = maxProducts;
+        this.isActive        = isActive;
     }
 
     public int    getId()             { return id; }
@@ -41,6 +44,7 @@ public class Category {
     public int    getAccentColorRes() { return accentColorRes; }
     public int    getProductCount()   { return productCount; }
     public int    getMaxProducts()    { return maxProducts; }
+    public boolean isActive()         { return isActive; }
 
     /**
      * Tỉ lệ fill progress bar: 0.0f → 1.0f
@@ -57,5 +61,9 @@ public class Category {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setActive(boolean active) {
+        this.isActive = active;
     }
 }

@@ -92,7 +92,11 @@ public class AdminProductsActivity extends AppCompatActivity
 
     private void loadFromDb() {
         dbProducts  = db.productDao().getAllProducts();
-        allProducts = new ArrayList<>();
+        if (allProducts == null) {
+            allProducts = new ArrayList<>();
+        } else {
+            allProducts.clear();
+        }
 
         for (com.example.shoeapp.data.entity.Product entity : dbProducts) {
             Brand brand = db.productDao().getBrandById(entity.brandId);
@@ -138,7 +142,12 @@ public class AdminProductsActivity extends AppCompatActivity
             ));
         }
 
-        filteredProducts = new ArrayList<>(allProducts);
+        if (filteredProducts == null) {
+            filteredProducts = new ArrayList<>(allProducts);
+        } else {
+            filteredProducts.clear();
+            filteredProducts.addAll(allProducts);
+        }
         if (adapter != null) applyFilters();
     }
 

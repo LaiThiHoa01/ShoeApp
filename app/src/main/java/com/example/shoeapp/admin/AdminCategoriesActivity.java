@@ -95,7 +95,11 @@ public class AdminCategoriesActivity extends AppCompatActivity
         List<com.example.shoeapp.data.entity.Category> dbList =
                 db.categoryDao().getAllCategories();
 
-        categories = new ArrayList<>();
+        if (categories == null) {
+            categories = new ArrayList<>();
+        } else {
+            categories.clear();
+        }
         int maxProducts = 0;
 
         List<Integer> counts = new ArrayList<>();
@@ -116,7 +120,8 @@ public class AdminCategoriesActivity extends AppCompatActivity
                     BG_COLORS[colorIdx],
                     ACCENT_COLORS[colorIdx],
                     counts.get(i),
-                    maxProducts
+                    maxProducts,
+                    entity.isActive
             ));
         }
 
@@ -232,26 +237,21 @@ public class AdminCategoriesActivity extends AppCompatActivity
     }
 
     @Override
-    public void onDeleteClick(Category category, int position) {
-        new AlertDialog.Builder(this)
-                .setTitle("Xóa danh mục")
-                .setMessage("Bạn có chắc muốn xóa \"" + category.getName() + "\" không?\n"
-                        + "Thao tác này không thể hoàn tác.")
-                .setPositiveButton("Xóa", (dialog, which) -> {
-                    List<com.example.shoeapp.data.entity.Category> all =
-                            db.categoryDao().getAllCategories();
-                    for (com.example.shoeapp.data.entity.Category e : all) {
-                        if (e.id == category.getId()) {
-                            db.categoryDao().delete(e);
-                            break;
-                        }
-                    }
-                    loadFromDb();
-                    Toast.makeText(this, "Đã xóa \"" + category.getName() + "\"",
-                            Toast.LENGTH_SHORT).show();
-                })
-                .setNegativeButton("Hủy", null)
-                .show();
+    public void onToggleActiveClick(Category category, boolean isActive, int position) {
+        List<com.example.shoeapp.data.entity.Category> all =
+                db.categoryDao().getAllCategories();
+        for (com.example.shoeapp.data.entity.Category e : all) {
+            if (e.id == category.getId()) {
+                e.isActive = isActive;
+                db.categoryDao().update(e);
+                break;
+            }
+        }
+        category.setActive(isActive);
+        loadFromDb();
+        String statusStr = isActive ? "bật hoạt động" : "vô hiệu hóa";
+        Toast.makeText(this, "Đã " + statusStr + " danh mục \"" + category.getName() + "\"",
+                Toast.LENGTH_SHORT).show();
     }
 
     @Override

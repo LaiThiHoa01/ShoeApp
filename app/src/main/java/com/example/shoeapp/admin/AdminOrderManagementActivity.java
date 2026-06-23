@@ -93,7 +93,11 @@ public class AdminOrderManagementActivity extends AppCompatActivity
 
     private void loadFromDb() {
         dbOrders  = db.orderDao().getAllOrders();
-        allOrders = new ArrayList<>();
+        if (allOrders == null) {
+            allOrders = new ArrayList<>();
+        } else {
+            allOrders.clear();
+        }
 
         for (com.example.shoeapp.data.entity.Order entity : dbOrders) {
             com.example.shoeapp.data.entity.User user =
@@ -116,7 +120,12 @@ public class AdminOrderManagementActivity extends AppCompatActivity
             ));
         }
 
-        filteredOrders = new ArrayList<>(allOrders);
+        if (filteredOrders == null) {
+            filteredOrders = new ArrayList<>(allOrders);
+        } else {
+            filteredOrders.clear();
+            filteredOrders.addAll(allOrders);
+        }
         if (adapter != null) applyFilters();
     }
 
