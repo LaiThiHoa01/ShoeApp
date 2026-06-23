@@ -111,9 +111,10 @@
                     android:paddingVertical="14dp">
 
                     <TextView
+                        android:id="@+id/tv_total_users"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="5"
+                        android:text="0"
                         android:textColor="@color/brand_orange"
                         android:textSize="22sp"
                         android:textStyle="bold" />
@@ -138,9 +139,10 @@
                     android:paddingVertical="14dp">
 
                     <TextView
+                        android:id="@+id/tv_active_users"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="4"
+                        android:text="0"
                         android:textColor="@color/status_success"
                         android:textSize="22sp"
                         android:textStyle="bold" />
@@ -165,9 +167,10 @@
                     android:paddingVertical="14dp">
 
                     <TextView
+                        android:id="@+id/tv_inactive_users"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="1"
+                        android:text="0"
                         android:textColor="@color/status_error"
                         android:textSize="22sp"
                         android:textStyle="bold" />
@@ -181,21 +184,12 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <LinearLayout
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_users"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="28dp"
-                android:orientation="vertical">
-
-                <include layout="@layout/item_user" />
-
-                <include layout="@layout/item_user" />
-
-                <include layout="@layout/item_user" />
-
-                <include layout="@layout/item_user" />
-
-            </LinearLayout>
+                android:nestedScrollingEnabled="false" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

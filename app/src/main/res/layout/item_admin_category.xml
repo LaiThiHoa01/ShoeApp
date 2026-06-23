@@ -60,17 +60,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- ── Nút Delete (dưới nút Edit) ── -->
-    <ImageButton
-        android:id="@+id/admin_cat_btn_delete"
-        android:layout_width="32dp"
+    <!-- ── Toggle Switch (dưới nút Edit) ── -->
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/admin_cat_switch"
+        android:layout_width="wrap_content"
         android:layout_height="32dp"
         android:layout_marginTop="@dimen/space_2"
-        android:background="@drawable/bg_admin_icon_btn"
-        android:contentDescription="@string/action_delete"
-        android:padding="@dimen/space_4"
-        android:src="@drawable/ic_trash"
-        android:tint="@color/status_error_light"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/admin_cat_btn_edit" />
 

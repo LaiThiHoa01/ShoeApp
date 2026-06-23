@@ -30,16 +30,24 @@ public class ClientProductRepository {
     }
 
     public void ensureSeedData() {
-        if (productDao.countProducts() >= SEED_PRODUCT_COUNT) {
-            return;
+        if (productDao.countBrands() == 0) {
+            seedBrands();
         }
-
-        seedBrands();
-        seedCategories();
-        seedColors();
-        seedSizes();
-        seedProducts();
-        seedVariants();
+        if (productDao.countCategories() == 0) {
+            seedCategories();
+        }
+        if (productDao.countColors() == 0) {
+            seedColors();
+        }
+        if (productDao.countSizes() == 0) {
+            seedSizes();
+        }
+        if (productDao.countProducts() < SEED_PRODUCT_COUNT) {
+            seedProducts();
+        }
+        if (productDao.countVariants() == 0) {
+            seedVariants();
+        }
     }
 
     public List<com.example.shoeapp.model.Product> getFeaturedProducts() {

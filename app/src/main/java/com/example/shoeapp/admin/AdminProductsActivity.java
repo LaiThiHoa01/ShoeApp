@@ -1,4 +1,5 @@
 package com.example.shoeapp.admin;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -9,6 +10,9 @@ import android.widget.EditText;
 import com.example.shoeapp.admin.adapter.AdminProductAdapter;
 import com.example.shoeapp.model.Product;
 import com.example.shoeapp.R;
+import com.example.shoeapp.data.AppDatabase;
+import com.example.shoeapp.data.entity.Brand;
+import com.example.shoeapp.data.entity.Category;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,24 +25,27 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import android.widget.LinearLayout;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class AdminProductsActivity extends AppCompatActivity
         implements AdminProductAdapter.OnProductActionListener {
 
-    // ── Views ────────────────────────────────────────────────────────────────
-    private RecyclerView        recyclerView;
-    private EditText            searchInput;
-    private TextView            filterAll, filterSneakers, filterRunning, filterCasual;
+    private RecyclerView         recyclerView;
+    private EditText             searchInput;
+    private TextView             filterAll;
     private BottomNavigationView bottomNav;
 
-    // ── Data ─────────────────────────────────────────────────────────────────
-    private AdminProductAdapter adapter;
-    private List<Product>       allProducts;
-    private List<Product>       filteredProducts;
+    private AdminProductAdapter  adapter;
+    private List<Product>        allProducts;
+    private List<Product>        filteredProducts;
+    private AppDatabase          db;
+
+    private List<com.example.shoeapp.data.entity.Product> dbProducts = new ArrayList<>();
+    private List<TextView> dynamicChips = new ArrayList<>();
 
     private String currentCategory = "All";
     private String currentSearch   = "";
@@ -47,14 +54,23 @@ public class AdminProductsActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_products);
+        db = AppDatabase.getDatabase(this);
         setupEdgeToEdge();
         bindViews();
-        setupData();
+        loadFromDb();
         setupRecyclerView();
         setupSearch();
         setupFilterChips();
         setupBottomNav();
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadFromDb();
+        setupFilterChips();
+    }
+
     private void setupEdgeToEdge() {
         androidx.activity.EdgeToEdge.enable(this);
         View root = findViewById(R.id.admin_products_root);
@@ -69,63 +85,76 @@ public class AdminProductsActivity extends AppCompatActivity
         recyclerView   = findViewById(R.id.admin_products_recycler);
         searchInput    = findViewById(R.id.admin_products_search_input);
         filterAll      = findViewById(R.id.admin_filter_all);
-        filterSneakers = findViewById(R.id.admin_filter_sneakers);
-        filterRunning  = findViewById(R.id.admin_filter_running);
-        filterCasual   = findViewById(R.id.admin_filter_casual);
-        bottomNav = findViewById(R.id.admin_bottom_nav);
-
-        // Nút Add Product
+        bottomNav      = findViewById(R.id.admin_bottom_nav);
         findViewById(R.id.admin_products_btn_add)
                 .setOnClickListener(v -> onAddProductClick());
     }
 
-    private void setupData() {
-        allProducts = new ArrayList<>();
-        allProducts.add(new Product(
-                1, "Air Phantom Pro", "NovaSole · Sneakers", "Sneakers",
-                189.99, 249.99, 45, true,
-                Arrays.asList(7, 8, 9, 10, 11), 4.8f, 234,
-                R.drawable.ic_shoe));
+    private void loadFromDb() {
+        dbProducts  = db.productDao().getAllProducts();
+        if (allProducts == null) {
+            allProducts = new ArrayList<>();
+        } else {
+            allProducts.clear();
+        }
 
-        allProducts.add(new Product(
-                2, "Urban Stride X", "StreetFlex · Sneakers", "Sneakers",
-                149.99, 199.99, 30, false,
-                Arrays.asList(7, 8, 9, 10), 4.6f, 189,
-                R.drawable.ic_shoe));
+        for (com.example.shoeapp.data.entity.Product entity : dbProducts) {
+            Brand brand = db.productDao().getBrandById(entity.brandId);
+            String brandName = brand != null ? brand.name : "Unknown Brand";
 
-        allProducts.add(new Product(
-                3, "Blaze Runner", "SwiftKick · Running", "Running",
-                219.99, 279.99, 60, true,
-                Arrays.asList(6, 7, 8, 9, 10), 4.9f, 412,
-                R.drawable.ic_shoe));
+            String categoryName = "Unknown";
+            List<Category> cats = db.categoryDao().getAllCategories();
+            for (Category c : cats) {
+                if (c.id == entity.shoeCategory) {
+                    categoryName = c.name;
+                    break;
+                }
+            }
 
-        allProducts.add(new Product(
-                4, "Cloud Walker", "FeatherStep · Casual", "Casual",
-                99.99, 129.99, 12, false,
-                Arrays.asList(7, 8, 9, 10), 4.3f, 97,
-                R.drawable.ic_shoe));
+            List<com.example.shoeapp.data.entity.ProductVariant> variants =
+                    db.productDao().getVariantsByProduct(entity.id);
+            int totalStock = 0;
+            for (com.example.shoeapp.data.entity.ProductVariant v : variants) {
+                totalStock += v.stock;
+            }
 
-        allProducts.add(new Product(
-                5, "Shadow Force", "DarkLine · Sneakers", "Sneakers",
-                259.99, 319.99, 8, false,
-                Arrays.asList(8, 9, 10, 11), 4.7f, 311,
-                R.drawable.ic_shoe));
+            float rating     = db.productDao().getAverageRating(entity.id);
+            int reviewCount  = db.productDao().getReviewsByProduct(entity.id).size();
 
-        allProducts.add(new Product(
-                6, "Apex Boost", "ProStride · Running", "Running",
-                179.99, 229.99, 25, true,
-                Arrays.asList(7, 8, 9, 10, 11, 12), 4.5f, 156,
-                R.drawable.ic_shoe));
+            com.example.shoeapp.data.entity.ProductImg thumbnail =
+                    db.productDao().getThumbnail(entity.id);
+            String imageUrl = thumbnail != null ? thumbnail.imgUrl : null;
 
-        filteredProducts = new ArrayList<>(allProducts);
+            allProducts.add(new Product(
+                    entity.id,
+                    entity.name,
+                    brandName + " · " + categoryName,
+                    categoryName,
+                    entity.price,
+                    entity.originalPrice > 0 ? entity.originalPrice : entity.price,
+                    totalStock,
+                    entity.isAvailable,
+                    Collections.emptyList(),
+                    rating,
+                    reviewCount,
+                    R.drawable.ic_shoe,
+                    imageUrl
+            ));
+        }
+
+        if (filteredProducts == null) {
+            filteredProducts = new ArrayList<>(allProducts);
+        } else {
+            filteredProducts.clear();
+            filteredProducts.addAll(allProducts);
+        }
+        if (adapter != null) applyFilters();
     }
 
     private void setupRecyclerView() {
         adapter = new AdminProductAdapter(this, filteredProducts, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
-
-        // Khoảng cách giữa các item
         int gapPx = (int) (12 * getResources().getDisplayMetrics().density);
         recyclerView.addItemDecoration(new SpaceItemDecoration(gapPx));
     }
@@ -143,10 +172,60 @@ public class AdminProductsActivity extends AppCompatActivity
     }
 
     private void setupFilterChips() {
-        filterAll.setOnClickListener(v      -> selectCategory("All",      filterAll));
-        filterSneakers.setOnClickListener(v -> selectCategory("Sneakers", filterSneakers));
-        filterRunning.setOnClickListener(v  -> selectCategory("Running",  filterRunning));
-        filterCasual.setOnClickListener(v   -> selectCategory("Casual",   filterCasual));
+        LinearLayout filterRow = findViewById(R.id.admin_products_filter_row);
+        if (filterRow.getChildCount() > 1) {
+            filterRow.removeViews(1, filterRow.getChildCount() - 1);
+        }
+        dynamicChips.clear();
+        dynamicChips.add(filterAll);
+
+        filterAll.setOnClickListener(v -> selectCategory("All", filterAll));
+
+        List<Category> dbCategories = db.categoryDao().getAllCategories();
+        
+        float density = getResources().getDisplayMetrics().density;
+        int heightPx = (int) (32 * density);
+        int marginStartPx = (int) (6 * density);
+        int paddingHorizontalPx = (int) (14 * density);
+
+        for (Category c : dbCategories) {
+            TextView chip = new TextView(this);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT, heightPx);
+            params.setMarginStart(marginStartPx);
+            chip.setLayoutParams(params);
+            
+            chip.setGravity(android.view.Gravity.CENTER);
+            chip.setPadding(paddingHorizontalPx, 0, paddingHorizontalPx, 0);
+            
+            // Đặt background dựa trên việc chip này có đang được chọn hay không
+            if (currentCategory.equals(c.name)) {
+                chip.setBackgroundResource(R.drawable.bg_admin_chip_selected);
+                chip.setTextColor(getColor(R.color.brand_white));
+            } else {
+                chip.setBackgroundResource(R.drawable.bg_admin_chip);
+                chip.setTextColor(getColor(R.color.text_dark_tertiary));
+            }
+            
+            chip.setText(c.name);
+            chip.setTextSize(12);
+            chip.setTypeface(null, android.graphics.Typeface.BOLD);
+            chip.setAllCaps(false);
+            
+            chip.setOnClickListener(v -> selectCategory(c.name, chip));
+            
+            filterRow.addView(chip);
+            dynamicChips.add(chip);
+        }
+        
+        // Reset trạng thái chọn của nút All nếu All đang active
+        if (currentCategory.equals("All")) {
+            filterAll.setBackgroundResource(R.drawable.bg_admin_chip_selected);
+            filterAll.setTextColor(getColor(R.color.brand_white));
+        } else {
+            filterAll.setBackgroundResource(R.drawable.bg_admin_chip);
+            filterAll.setTextColor(getColor(R.color.text_dark_tertiary));
+        }
     }
 
     private void setupBottomNav() {
@@ -155,24 +234,16 @@ public class AdminProductsActivity extends AppCompatActivity
             int id = item.getItemId();
             if (id == R.id.nav_dashboard) {
                 startActivity(new Intent(this, AdminDashboardActivity.class));
-                overridePendingTransition(0, 0);
-                finish();
-                return true;
-            } else if (id == R.id.nav_categories) {
-                startActivity(new Intent(this, AdminCategoriesActivity.class));
-                overridePendingTransition(0, 0);
-                finish();
-                return true;
-            } else if (id == R.id.nav_orders) {
-                startActivity(new Intent(this, AdminOrderManagementActivity.class));
-                overridePendingTransition(0, 0);
-                finish();
-                return true;
+                overridePendingTransition(0, 0); finish(); return true;
             } else if (id == R.id.nav_users) {
                 startActivity(new Intent(this, UserManagementActivity.class));
-                overridePendingTransition(0, 0);
-                finish();
-                return true;
+                overridePendingTransition(0, 0); finish(); return true;
+            } else if (id == R.id.nav_categories) {
+                startActivity(new Intent(this, AdminCategoriesActivity.class));
+                overridePendingTransition(0, 0); finish(); return true;
+            } else if (id == R.id.nav_orders) {
+                startActivity(new Intent(this, AdminOrderManagementActivity.class));
+                overridePendingTransition(0, 0); finish(); return true;
             }
             return id == R.id.nav_products;
         });
@@ -180,51 +251,37 @@ public class AdminProductsActivity extends AppCompatActivity
 
     private void selectCategory(String category, TextView selectedChip) {
         currentCategory = category;
-
-        // Reset tất cả chip về inactive
-        TextView[] chips = { filterAll, filterSneakers, filterRunning, filterCasual };
-        for (TextView chip : chips) {
+        for (TextView chip : dynamicChips) {
             chip.setBackgroundResource(R.drawable.bg_admin_chip);
             chip.setTextColor(getColor(R.color.text_dark_tertiary));
         }
-        // Active chip được chọn
         selectedChip.setBackgroundResource(R.drawable.bg_admin_chip_selected);
         selectedChip.setTextColor(getColor(R.color.brand_white));
-
         applyFilters();
     }
 
     private void applyFilters() {
         filteredProducts.clear();
-
         for (Product p : allProducts) {
             boolean matchCategory = currentCategory.equals("All")
                     || p.getCategory().equals(currentCategory);
             boolean matchSearch = currentSearch.isEmpty()
                     || p.getName().toLowerCase().contains(currentSearch)
                     || p.getBrand().toLowerCase().contains(currentSearch);
-
-            if (matchCategory && matchSearch) {
-                filteredProducts.add(p);
-            }
+            if (matchCategory && matchSearch) filteredProducts.add(p);
         }
-
         adapter.notifyDataSetChanged();
     }
 
     private void onAddProductClick() {
-        // TODO: startActivity(new Intent(this, AdminAddProductActivity.class));
-        Toast.makeText(this, "Tính năng thêm sản phẩm đang được phát triển", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(this, AdminAddProductActivity.class));
     }
-
 
     @Override
     public void onEditClick(Product product, int position) {
-        // TODO: startActivity(new Intent(this, AdminEditProductActivity.class)
-        //           .putExtra("product_id", product.getId()));
-        Toast.makeText(this,
-                "Sửa: " + product.getName(),
-                Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, AdminAddProductActivity.class);
+        intent.putExtra("PRODUCT_ID", product.getId());
+        startActivity(intent);
     }
 
     @Override
@@ -238,14 +295,16 @@ public class AdminProductsActivity extends AppCompatActivity
     }
 
     private void deleteProduct(Product product) {
-        // Xóa khỏi danh sách gốc
-        allProducts.remove(product);
-        // Áp lại filter để cập nhật list hiển thị
-        applyFilters();
-        Toast.makeText(this,
-                "Đã xóa \"" + product.getName() + "\"",
-                Toast.LENGTH_SHORT).show();
+        for (com.example.shoeapp.data.entity.Product entity : dbProducts) {
+            if (entity.id == product.getId()) {
+                db.productDao().delete(entity);
+                break;
+            }
+        }
+        loadFromDb();
+        Toast.makeText(this, "Đã xóa \"" + product.getName() + "\"", Toast.LENGTH_SHORT).show();
     }
+
     static class SpaceItemDecoration extends RecyclerView.ItemDecoration {
         private final int space;
         SpaceItemDecoration(int space) { this.space = space; }

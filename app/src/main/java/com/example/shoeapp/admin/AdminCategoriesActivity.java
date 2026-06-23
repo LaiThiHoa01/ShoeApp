@@ -2,12 +2,15 @@ package com.example.shoeapp.admin;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
+import android.widget.EditText;
 
 import com.example.shoeapp.admin.adapter.AdminCategoryAdapter;
 import com.example.shoeapp.user.CatalogActivity;
 import com.example.shoeapp.model.Category;
 import com.example.shoeapp.R;
+import com.example.shoeapp.data.AppDatabase;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,30 +27,50 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-
 public class AdminCategoriesActivity extends AppCompatActivity
         implements AdminCategoryAdapter.OnCategoryActionListener {
 
-    // ── Views ────────────────────────────────────────────────────────────────
     private RecyclerView         recyclerView;
     private TextView             subtitle;
     private BottomNavigationView bottomNav;
 
-    // ── Data ─────────────────────────────────────────────────────────────────
     private AdminCategoryAdapter adapter;
     private List<Category>       categories;
-    private static final int MAX_PRODUCTS_REFERENCE = 100;
+    private AppDatabase          db;
+
+    private static final int[] BG_COLORS = {
+            R.color.orange_tint_15,
+            R.color.stat_orders_bg,
+            R.color.status_warning_bg,
+            R.color.bg_dark_surface_4,
+            R.color.stat_customers_bg,
+            R.color.stat_products_bg
+    };
+    private static final int[] ACCENT_COLORS = {
+            R.color.cat_sneakers,
+            R.color.cat_running,
+            R.color.status_warning,
+            R.color.cat_casual,
+            R.color.cat_basketball,
+            R.color.cat_training
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_categories);
+        db = AppDatabase.getDatabase(this);
         setupEdgeToEdge();
         bindViews();
-        setupData();
+        loadFromDb();
         setupRecyclerView();
-        updateSubtitle();
         setupBottomNav();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadFromDb();
     }
 
     private void setupEdgeToEdge() {
@@ -61,67 +84,57 @@ public class AdminCategoriesActivity extends AppCompatActivity
     }
 
     private void bindViews() {
-        recyclerView   = findViewById(R.id.admin_categories_recycler);
-        subtitle       = findViewById(R.id.admin_categories_subtitle);
-        bottomNav      = findViewById(R.id.admin_bottom_nav);
-
-        // Nút + Add
+        recyclerView = findViewById(R.id.admin_categories_recycler);
+        subtitle     = findViewById(R.id.admin_categories_subtitle);
+        bottomNav    = findViewById(R.id.admin_bottom_nav);
         findViewById(R.id.admin_categories_btn_add)
-                .setOnClickListener(v -> onAddCategoryClick());
+                .setOnClickListener(v -> showAddCategoryDialog());
     }
 
-    private void setupData() {
-        categories = new ArrayList<>();
+    private void loadFromDb() {
+        List<com.example.shoeapp.data.entity.Category> dbList =
+                db.categoryDao().getAllCategories();
 
-        categories.add(new Category(
-                1, "Sneakers",
-                R.drawable.ic_shoe,
-                R.color.orange_tint_15,
-                R.color.cat_sneakers,
-                48, MAX_PRODUCTS_REFERENCE));
+        if (categories == null) {
+            categories = new ArrayList<>();
+        } else {
+            categories.clear();
+        }
+        int maxProducts = 0;
 
-        categories.add(new Category(
-                2, "Running",
-                R.drawable.ic_shoe,
-                R.color.stat_orders_bg,
-                R.color.cat_running,
-                32, MAX_PRODUCTS_REFERENCE));
+        List<Integer> counts = new ArrayList<>();
+        for (com.example.shoeapp.data.entity.Category entity : dbList) {
+            int count = db.productDao().getProductsByCategory(entity.id).size();
+            counts.add(count);
+            if (count > maxProducts) maxProducts = count;
+        }
+        if (maxProducts == 0) maxProducts = 1;
 
-        categories.add(new Category(
-                3, "Boots",
-                R.drawable.ic_shoe,
-                R.color.status_warning_bg,
-                R.color.status_warning,
-                24, MAX_PRODUCTS_REFERENCE));
+        for (int i = 0; i < dbList.size(); i++) {
+            com.example.shoeapp.data.entity.Category entity = dbList.get(i);
+            int colorIdx = i % BG_COLORS.length;
+            categories.add(new Category(
+                    entity.id,
+                    entity.name,
+                    R.drawable.ic_shoe,
+                    BG_COLORS[colorIdx],
+                    ACCENT_COLORS[colorIdx],
+                    counts.get(i),
+                    maxProducts,
+                    entity.isActive
+            ));
+        }
 
-        categories.add(new Category(
-                4, "Casual",
-                R.drawable.ic_shoe,
-                R.color.bg_dark_surface_4,
-                R.color.cat_casual,
-                36, MAX_PRODUCTS_REFERENCE));
-
-        categories.add(new Category(
-                5, "Basketball",
-                R.drawable.ic_shoe,
-                R.color.stat_customers_bg,
-                R.color.cat_basketball,
-                22, MAX_PRODUCTS_REFERENCE));
-
-        categories.add(new Category(
-                6, "Training",
-                R.drawable.ic_shoe,
-                R.color.stat_products_bg,
-                R.color.cat_training,
-                18, MAX_PRODUCTS_REFERENCE));
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
+        }
+        updateSubtitle();
     }
 
     private void setupRecyclerView() {
         adapter = new AdminCategoryAdapter(this, categories, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
-
-        // Khoảng cách giữa các card
         int gapPx = (int) (12 * getResources().getDisplayMetrics().density);
         recyclerView.addItemDecoration(new AdminProductsActivity.SpaceItemDecoration(gapPx));
     }
@@ -132,80 +145,117 @@ public class AdminCategoriesActivity extends AppCompatActivity
             int id = item.getItemId();
             if (id == R.id.nav_dashboard) {
                 startActivity(new Intent(this, AdminDashboardActivity.class));
-                overridePendingTransition(0, 0);
-                finish();
-                return true;
-            } else if (id == R.id.nav_products) {
-                startActivity(new Intent(this, AdminProductsActivity.class));
-                overridePendingTransition(0, 0);
-                finish();
-                return true;
-            } else if (id == R.id.nav_orders) {
-                startActivity(new Intent(this, AdminOrderManagementActivity.class));
-                overridePendingTransition(0, 0);
-                finish();
-                return true;
+                overridePendingTransition(0, 0); finish(); return true;
             } else if (id == R.id.nav_users) {
                 startActivity(new Intent(this, UserManagementActivity.class));
-                overridePendingTransition(0, 0);
-                finish();
-                return true;
+                overridePendingTransition(0, 0); finish(); return true;
+            } else if (id == R.id.nav_products) {
+                startActivity(new Intent(this, AdminProductsActivity.class));
+                overridePendingTransition(0, 0); finish(); return true;
+            } else if (id == R.id.nav_orders) {
+                startActivity(new Intent(this, AdminOrderManagementActivity.class));
+                overridePendingTransition(0, 0); finish(); return true;
             }
             return id == R.id.nav_categories;
         });
     }
 
-
     private void updateSubtitle() {
-        int totalCategories = categories.size();
-        int totalProducts   = 0;
-        for (Category c : categories) {
-            totalProducts += c.getProductCount();
-        }
+        int totalProducts = 0;
+        for (Category c : categories) totalProducts += c.getProductCount();
         subtitle.setText(String.format(Locale.getDefault(),
                 "%d categories · %d products total",
-                totalCategories, totalProducts));
+                categories.size(), totalProducts));
     }
 
+    private void showAddCategoryDialog() {
+        EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        input.setHint("Tên danh mục");
 
-    private void onAddCategoryClick() {
-        // TODO: startActivity(new Intent(this, AdminAddCategoryActivity.class));
-        Toast.makeText(this, "Tính năng thêm danh mục đang được phát triển",
-                Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onEditClick(Category category, int position) {
-        // TODO: startActivity(new Intent(this, AdminEditCategoryActivity.class)
-        //           .putExtra("category_id", category.getId()));
-        Toast.makeText(this,
-                "Sửa danh mục: " + category.getName(),
-                Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onDeleteClick(Category category, int position) {
         new AlertDialog.Builder(this)
-                .setTitle("Xóa danh mục")
-                .setMessage("Bạn có chắc muốn xóa danh mục \""
-                        + category.getName() + "\" không?\n"
-                        + "Thao tác này không thể hoàn tác.")
-                .setPositiveButton("Xóa", (dialog, which) -> {
-                    categories.remove(position);
-                    adapter.notifyItemRemoved(position);
-                    adapter.notifyItemRangeChanged(position, categories.size());
-                    updateSubtitle();
-                    Toast.makeText(this,
-                            "Đã xóa \"" + category.getName() + "\"",
-                            Toast.LENGTH_SHORT).show();
+                .setTitle("Thêm danh mục")
+                .setView(input)
+                .setPositiveButton("Thêm", (dialog, which) -> {
+                    String name = input.getText().toString().trim();
+                    if (name.isEmpty()) {
+                        Toast.makeText(this, "Tên không được trống", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    List<com.example.shoeapp.data.entity.Category> existing =
+                            db.categoryDao().getAllCategories();
+                    for (com.example.shoeapp.data.entity.Category e : existing) {
+                        if (e.name.equalsIgnoreCase(name)) {
+                            Toast.makeText(this,
+                                    "Danh mục \"" + name + "\" đã tồn tại",
+                                    Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                    }
+                    com.example.shoeapp.data.entity.Category entity =
+                            new com.example.shoeapp.data.entity.Category();
+                    entity.name      = name;
+                    entity.isActive  = true;
+                    entity.sortOrder = categories.size() + 1;
+                    entity.createdAt = new java.text.SimpleDateFormat(
+                            "yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+                            .format(new java.util.Date());
+                    db.categoryDao().insert(entity);
+                    loadFromDb();
+                    Toast.makeText(this, "Đã thêm \"" + name + "\"", Toast.LENGTH_SHORT).show();
                 })
                 .setNegativeButton("Hủy", null)
                 .show();
     }
 
     @Override
+    public void onEditClick(Category category, int position) {
+        EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        input.setText(category.getName());
+
+        new AlertDialog.Builder(this)
+                .setTitle("Sửa danh mục")
+                .setView(input)
+                .setPositiveButton("Lưu", (dialog, which) -> {
+                    String newName = input.getText().toString().trim();
+                    if (newName.isEmpty()) return;
+                    List<com.example.shoeapp.data.entity.Category> all =
+                            db.categoryDao().getAllCategories();
+                    for (com.example.shoeapp.data.entity.Category e : all) {
+                        if (e.id == category.getId()) {
+                            e.name = newName;
+                            db.categoryDao().update(e);
+                            break;
+                        }
+                    }
+                    loadFromDb();
+                    Toast.makeText(this, "Đã cập nhật", Toast.LENGTH_SHORT).show();
+                })
+                .setNegativeButton("Hủy", null)
+                .show();
+    }
+
+    @Override
+    public void onToggleActiveClick(Category category, boolean isActive, int position) {
+        List<com.example.shoeapp.data.entity.Category> all =
+                db.categoryDao().getAllCategories();
+        for (com.example.shoeapp.data.entity.Category e : all) {
+            if (e.id == category.getId()) {
+                e.isActive = isActive;
+                db.categoryDao().update(e);
+                break;
+            }
+        }
+        category.setActive(isActive);
+        loadFromDb();
+        String statusStr = isActive ? "bật hoạt động" : "vô hiệu hóa";
+        Toast.makeText(this, "Đã " + statusStr + " danh mục \"" + category.getName() + "\"",
+                Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     public void onViewAllClick(Category category, int position) {
-        // Chuyển sang CatalogActivity, truyền filter category
         Intent intent = new Intent(this, CatalogActivity.class);
         intent.putExtra("filter_category", category.getName());
         startActivity(intent);

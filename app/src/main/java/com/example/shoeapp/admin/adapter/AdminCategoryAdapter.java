@@ -25,7 +25,7 @@ public class AdminCategoryAdapter
 
     public interface OnCategoryActionListener {
         void onEditClick(Category category, int position);
-        void onDeleteClick(Category category, int position);
+        void onToggleActiveClick(Category category, boolean isActive, int position);
         void onViewAllClick(Category category, int position);
     }
 
@@ -70,7 +70,7 @@ public class AdminCategoryAdapter
         final View          progressFill;
         final TextView      viewAll;
         final ImageButton   btnEdit;
-        final ImageButton   btnDelete;
+        final androidx.appcompat.widget.SwitchCompat catSwitch;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -82,7 +82,7 @@ public class AdminCategoryAdapter
             progressFill = itemView.findViewById(R.id.admin_cat_progress_fill);
             viewAll      = itemView.findViewById(R.id.admin_cat_view_all);
             btnEdit      = itemView.findViewById(R.id.admin_cat_btn_edit);
-            btnDelete    = itemView.findViewById(R.id.admin_cat_btn_delete);
+            catSwitch    = itemView.findViewById(R.id.admin_cat_switch);
         }
 
         void bind(Category category, int position) {
@@ -100,8 +100,14 @@ public class AdminCategoryAdapter
             // ── Tên danh mục ───────────────────────────────────────────────
             name.setText(category.getName());
 
-            // ── Status dot (màu accent) ────────────────────────────────────
-            statusDot.setBackgroundTintList(accentTint);
+            // ── Active State Style ────────────────────────────────────────
+            if (category.isActive()) {
+                itemView.setAlpha(1.0f);
+                statusDot.setBackgroundTintList(accentTint);
+            } else {
+                itemView.setAlpha(0.5f);
+                statusDot.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.text_dark_tertiary)));
+            }
 
             // ── Số sản phẩm ────────────────────────────────────────────────
             int count = category.getProductCount();
@@ -133,9 +139,13 @@ public class AdminCategoryAdapter
                 if (listener != null) listener.onEditClick(category, position);
             });
 
-            // ── Click: Delete ──────────────────────────────────────────────
-            btnDelete.setOnClickListener(v -> {
-                if (listener != null) listener.onDeleteClick(category, position);
+            // ── Toggle Switch Listener ──────────────────────────────────────
+            catSwitch.setOnCheckedChangeListener(null);
+            catSwitch.setChecked(category.isActive());
+            catSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                if (listener != null) {
+                    listener.onToggleActiveClick(category, isChecked, position);
+                }
             });
 
             // ── Click toàn card ────────────────────────────────────────────
