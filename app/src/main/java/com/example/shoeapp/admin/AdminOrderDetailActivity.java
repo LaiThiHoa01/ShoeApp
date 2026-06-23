@@ -69,7 +69,7 @@ public class AdminOrderDetailActivity extends AppCompatActivity {
 
         orderId = getIntent().getIntExtra(EXTRA_ORDER_ID, -1);
         if (orderId == -1) {
-            Toast.makeText(this, "Order ID not found", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Không tìm thấy mã đơn hàng", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
@@ -125,7 +125,7 @@ public class AdminOrderDetailActivity extends AppCompatActivity {
     private void loadOrderData() {
         order = db.orderDao().getOrderById(orderId);
         if (order == null) {
-            Toast.makeText(this, "Order not found in database", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Không tìm thấy đơn hàng trong cơ sở dữ liệu", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
@@ -135,7 +135,7 @@ public class AdminOrderDetailActivity extends AppCompatActivity {
                 order.ordersId != null ? order.ordersId : "N/A"));
 
         // Set Date
-        tvOrderDate.setText(String.format(Locale.US, "Placed on: %s",
+        tvOrderDate.setText(String.format(Locale.US, "Ngày đặt: %s",
                 order.createdAt != null ? order.createdAt : "N/A"));
 
         // Setup status badge
@@ -155,11 +155,18 @@ public class AdminOrderDetailActivity extends AppCompatActivity {
         }
         tvCustAddress.setText(order.shippingAddress != null ? order.shippingAddress : "N/A");
         tvCustNote.setText(order.orderNote != null && !order.orderNote.trim().isEmpty() ?
-                order.orderNote : "No notes from customer");
+                order.orderNote : "Không có ghi chú");
 
         // Load Payment details
         tvPayMethod.setText(order.paymentMethod != null ? order.paymentMethod : "COD");
-        tvPayStatus.setText(order.paymentStatus != null ? order.paymentStatus : "UNPAID");
+        String pStatus = order.paymentStatus != null ? order.paymentStatus : "UNPAID";
+        if ("PAID".equalsIgnoreCase(pStatus)) {
+            tvPayStatus.setText("ĐÃ THANH TOÁN");
+        } else if ("FAILED".equalsIgnoreCase(pStatus)) {
+            tvPayStatus.setText("THẤT BẠI");
+        } else {
+            tvPayStatus.setText("CHƯA THANH TOÁN");
+        }
         updatePaymentStatusBadge(order.paymentStatus);
 
         tvPaySubtotal.setText(String.format(Locale.US, "$%.2f", order.subTotal != null ? order.subTotal : 0.0));
@@ -244,7 +251,7 @@ public class AdminOrderDetailActivity extends AppCompatActivity {
                 layoutStatusBadge.setBackgroundResource(R.drawable.bg_admin_status_processing); // Reuse layout
                 imgStatusIcon.setImageResource(R.drawable.ic_clock);
                 imgStatusIcon.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.status_error)));
-                tvStatusText.setText("CANCELLED");
+                tvStatusText.setText("ĐÃ HỦY");
                 tvStatusText.setTextColor(ContextCompat.getColor(this, R.color.status_error));
                 break;
 
@@ -306,7 +313,7 @@ public class AdminOrderDetailActivity extends AppCompatActivity {
 
             case "CANCELLED":
                 btnAction.setVisibility(View.VISIBLE);
-                btnAction.setText("Order Cancelled");
+                btnAction.setText("Đơn hàng đã hủy");
                 btnAction.setIconResource(R.drawable.ic_clock);
                 btnAction.setEnabled(false);
                 btnAction.setBackgroundTintList(
@@ -338,7 +345,11 @@ public class AdminOrderDetailActivity extends AppCompatActivity {
             }
             
             db.orderDao().update(order);
-            Toast.makeText(this, "Order status updated to " + newStatus, Toast.LENGTH_SHORT).show();
+            String statusStr = newStatus;
+            if ("SHIPPED".equals(newStatus)) statusStr = "Đang giao hàng";
+            else if ("DELIVERED".equals(newStatus)) statusStr = "Đã giao hàng";
+            else if ("CANCELLED".equals(newStatus)) statusStr = "Đã hủy";
+            Toast.makeText(this, "Đã cập nhật trạng thái đơn hàng thành: " + statusStr, Toast.LENGTH_SHORT).show();
             
             // Reload screen
             loadOrderData();

@@ -32,7 +32,7 @@
                     android:id="@+id/tv_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="User Management"
+                    android:text="@string/admin_users_title"
                     android:textColor="@color/text_dark_primary"
                     android:textSize="26sp"
                     android:textStyle="bold"
@@ -48,7 +48,7 @@
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
                     android:paddingHorizontal="18dp"
-                    android:text="+ Add User"
+                    android:text="@string/admin_btn_add_user"
                     android:textAllCaps="false"
                     android:textColor="@color/brand_white"
                     android:textSize="16sp"
@@ -79,7 +79,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@android:color/transparent"
-                    android:hint="Search users..."
+                    android:hint="@string/admin_users_search_hint"
                     android:inputType="text"
                     android:paddingHorizontal="12dp"
                     android:textColor="@color/text_dark_primary"
@@ -122,7 +122,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Total"
+                        android:text="Tổng số"
                         android:textColor="@color/text_dark_tertiary"
                         android:textSize="13sp" />
                 </LinearLayout>
@@ -150,7 +150,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Active"
+                        android:text="Hoạt động"
                         android:textColor="@color/text_dark_tertiary"
                         android:textSize="13sp" />
                 </LinearLayout>
@@ -178,7 +178,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Inactive"
+                        android:text="@string/status_inactive"
                         android:textColor="@color/text_dark_tertiary"
                         android:textSize="13sp" />
                 </LinearLayout>

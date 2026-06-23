@@ -52,7 +52,7 @@
         android:backgroundTint="#1A10B981"
         android:paddingHorizontal="10dp"
         android:paddingVertical="2dp"
-        android:text="Active"
+        android:text="Hoạt động"
         android:textColor="@color/status_success"
         android:textSize="11sp"
         android:textStyle="bold"
@@ -86,7 +86,7 @@
             android:id="@+id/tv_orders_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="8 orders"
+            android:text="8 đơn hàng"
             android:textColor="@color/text_dark_tertiary"
             android:textSize="13sp" />
 
@@ -95,7 +95,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
-            android:text="$1241 spent"
+            android:text="Đã chi: 1.241 $"
             android:textColor="@color/brand_orange"
             android:textSize="13sp"
             android:textStyle="bold" />
@@ -153,7 +153,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:text="Joined Jan 12, 2026"
+        android:text="Đã tham gia: 12/01/2026"
         android:textColor="@color/text_dark_tertiary"
         android:textSize="13sp"
         app:layout_constraintStart_toStartOf="parent"

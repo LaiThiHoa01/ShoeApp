@@ -47,6 +47,9 @@ public class AdminProductsActivity extends AppCompatActivity
     private List<com.example.shoeapp.data.entity.Product> dbProducts = new ArrayList<>();
     private List<TextView> dynamicChips = new ArrayList<>();
 
+    private TextView             filterStockAll, filterStockIn, filterStockOut;
+    private String currentStockFilter = "All"; // "All", "InStock", "OutOfStock"
+
     private String currentCategory = "All";
     private String currentSearch   = "";
 
@@ -61,6 +64,7 @@ public class AdminProductsActivity extends AppCompatActivity
         setupRecyclerView();
         setupSearch();
         setupFilterChips();
+        setupStockFilterChips();
         setupBottomNav();
     }
 
@@ -85,6 +89,9 @@ public class AdminProductsActivity extends AppCompatActivity
         recyclerView   = findViewById(R.id.admin_products_recycler);
         searchInput    = findViewById(R.id.admin_products_search_input);
         filterAll      = findViewById(R.id.admin_filter_all);
+        filterStockAll = findViewById(R.id.admin_filter_stock_all);
+        filterStockIn  = findViewById(R.id.admin_filter_stock_in);
+        filterStockOut = findViewById(R.id.admin_filter_stock_out);
         bottomNav      = findViewById(R.id.admin_bottom_nav);
         findViewById(R.id.admin_products_btn_add)
                 .setOnClickListener(v -> onAddProductClick());
@@ -268,7 +275,13 @@ public class AdminProductsActivity extends AppCompatActivity
             boolean matchSearch = currentSearch.isEmpty()
                     || p.getName().toLowerCase().contains(currentSearch)
                     || p.getBrand().toLowerCase().contains(currentSearch);
-            if (matchCategory && matchSearch) filteredProducts.add(p);
+            boolean matchStock = true;
+            if (currentStockFilter.equals("InStock")) {
+                matchStock = p.getStock() > 0;
+            } else if (currentStockFilter.equals("OutOfStock")) {
+                matchStock = p.getStock() == 0;
+            }
+            if (matchCategory && matchSearch && matchStock) filteredProducts.add(p);
         }
         adapter.notifyDataSetChanged();
     }
@@ -303,6 +316,33 @@ public class AdminProductsActivity extends AppCompatActivity
         }
         loadFromDb();
         Toast.makeText(this, "Đã xóa \"" + product.getName() + "\"", Toast.LENGTH_SHORT).show();
+    }
+
+    private void setupStockFilterChips() {
+        filterStockAll.setOnClickListener(v -> selectStockFilter("All"));
+        filterStockIn.setOnClickListener(v -> selectStockFilter("InStock"));
+        filterStockOut.setOnClickListener(v -> selectStockFilter("OutOfStock"));
+    }
+
+    private void selectStockFilter(String filter) {
+        currentStockFilter = filter;
+        
+        filterStockAll.setBackgroundResource("All".equals(filter)
+                ? R.drawable.bg_admin_chip_selected : R.drawable.bg_admin_chip);
+        filterStockAll.setTextColor("All".equals(filter)
+                ? getColor(R.color.brand_white) : getColor(R.color.text_dark_tertiary));
+
+        filterStockIn.setBackgroundResource("InStock".equals(filter)
+                ? R.drawable.bg_admin_chip_selected : R.drawable.bg_admin_chip);
+        filterStockIn.setTextColor("InStock".equals(filter)
+                ? getColor(R.color.brand_white) : getColor(R.color.text_dark_tertiary));
+
+        filterStockOut.setBackgroundResource("OutOfStock".equals(filter)
+                ? R.drawable.bg_admin_chip_selected : R.drawable.bg_admin_chip);
+        filterStockOut.setTextColor("OutOfStock".equals(filter)
+                ? getColor(R.color.brand_white) : getColor(R.color.text_dark_tertiary));
+
+        applyFilters();
     }
 
     static class SpaceItemDecoration extends RecyclerView.ItemDecoration {

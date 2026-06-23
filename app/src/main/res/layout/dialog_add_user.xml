@@ -16,7 +16,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add New User"
+            android:text="@string/admin_add_user_title"
             android:textColor="@color/text_dark_primary"
             android:textSize="22sp"
             android:textStyle="bold"
@@ -47,7 +47,7 @@
         style="@style/TextAppearance.SoleStep.Overline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="FULL NAME"
+        android:text="HỌ VÀ TÊN"
         android:textColor="@color/text_dark_tertiary" />
 
     <EditText
@@ -56,7 +56,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="20dp"
         android:background="@drawable/bg_input_dark"
-        android:hint="Enter full name..."
+        android:hint="Nhập họ và tên..."
         android:paddingHorizontal="16dp"
         android:textColor="@color/text_dark_primary"
         android:textColorHint="@color/text_dark_muted"
@@ -67,7 +67,7 @@
         style="@style/TextAppearance.SoleStep.Overline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="EMAIL ADDRESS"
+        android:text="ĐỊA CHỈ EMAIL"
         android:textColor="@color/text_dark_tertiary" />
 
     <EditText
@@ -76,7 +76,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="20dp"
         android:background="@drawable/bg_input_dark"
-        android:hint="Enter email address..."
+        android:hint="Nhập địa chỉ email..."
         android:inputType="textEmailAddress"
         android:paddingHorizontal="16dp"
         android:textColor="@color/text_dark_primary"
@@ -88,7 +88,7 @@
         style="@style/TextAppearance.SoleStep.Overline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="PHONE NUMBER"
+        android:text="SỐ ĐIỆN THOẠI"
         android:textColor="@color/text_dark_tertiary" />
 
     <EditText
@@ -97,7 +97,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="20dp"
         android:background="@drawable/bg_input_dark"
-        android:hint="Enter phone number..."
+        android:hint="Nhập số điện thoại..."
         android:inputType="phone"
         android:paddingHorizontal="16dp"
         android:textColor="@color/text_dark_primary"
@@ -109,7 +109,7 @@
         style="@style/TextAppearance.SoleStep.Overline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="PASSWORD"
+        android:text="MẬT KHẨU"
         android:textColor="@color/text_dark_tertiary" />
 
     <EditText
@@ -118,7 +118,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="20dp"
         android:background="@drawable/bg_input_dark"
-        android:hint="Enter password..."
+        android:hint="Nhập mật khẩu..."
         android:inputType="textPassword"
         android:paddingHorizontal="16dp"
         android:textColor="@color/text_dark_primary"
@@ -130,7 +130,7 @@
         style="@style/TextAppearance.SoleStep.Overline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="STATUS"
+        android:text="TRẠNG THÁI"
         android:textColor="@color/text_dark_tertiary" />
 
     <LinearLayout
@@ -148,7 +148,7 @@
             android:layout_weight="1"
             android:background="@drawable/bg_status_active_dark"
             android:gravity="center"
-            android:text="Active"
+            android:text="Hoạt động"
             android:textColor="@color/status_success"
             android:textStyle="bold" />
 
@@ -160,7 +160,7 @@
             android:layout_weight="1"
             android:background="@drawable/bg_card_dark"
             android:gravity="center"
-            android:text="Inactive"
+            android:text="@string/status_inactive"
             android:textColor="@color/text_dark_tertiary"
             android:textStyle="bold" />
     </LinearLayout>
@@ -171,7 +171,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:backgroundTint="@color/brand_orange"
-        android:text="Create User"
+        android:text="@string/admin_btn_create_user"
         android:textAllCaps="false"
         android:textColor="@color/brand_white"
         android:textSize="18sp"
