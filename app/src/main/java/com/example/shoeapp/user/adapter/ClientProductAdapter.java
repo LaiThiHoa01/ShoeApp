@@ -16,6 +16,7 @@ import com.example.shoeapp.R;
 import com.example.shoeapp.model.Product;
 import com.example.shoeapp.user.ImageLoader;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.text.NumberFormat;
@@ -32,7 +33,7 @@ public class ClientProductAdapter extends RecyclerView.Adapter<ClientProductAdap
 
     public ClientProductAdapter(Context context, List<Product> products, OnProductClickListener listener) {
         this.context = context;
-        this.products = products;
+        this.products = new ArrayList<>(products);
         this.listener = listener;
     }
 
@@ -51,6 +52,12 @@ public class ClientProductAdapter extends RecyclerView.Adapter<ClientProductAdap
     @Override
     public int getItemCount() {
         return products.size();
+    }
+
+    public void updateProducts(List<Product> newProducts) {
+        products.clear();
+        products.addAll(newProducts);
+        notifyDataSetChanged();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -79,7 +86,6 @@ public class ClientProductAdapter extends RecyclerView.Adapter<ClientProductAdap
 
         void bind(Product product, int position) {
             imagePanel.setBackgroundResource(backgroundFor(position));
-            image.setImageResource(product.getImageResId() == 0 ? R.drawable.ic_shoe : product.getImageResId());
             ImageLoader.load(product.getImageUrl(), image, product.getImageResId());
             badgeNew.setVisibility(product.isNew() ? View.VISIBLE : View.GONE);
 

@@ -95,6 +95,35 @@ public class ClientProductRepository {
         return url == null ? getThumbnailUrl(productId) : url;
     }
 
+    public List<com.example.shoeapp.data.entity.Category> getCategories() {
+        return productDao.getAllCategories();
+    }
+
+    public List<com.example.shoeapp.data.entity.Brand> getBrands() {
+        return productDao.getAllBrands();
+    }
+
+    public List<com.example.shoeapp.model.Product> getProductsByCategory(int categoryId) {
+        List<com.example.shoeapp.model.Product> result = new ArrayList<>();
+        for (com.example.shoeapp.data.entity.Product p : productDao.getProductsByCategory(categoryId)) {
+            result.add(toClientProduct(p));
+        }
+        return result;
+    }
+
+    public List<com.example.shoeapp.model.Product> searchProducts(String keyword) {
+        String kw = keyword == null ? "" : keyword.trim().toLowerCase();
+        List<com.example.shoeapp.model.Product> all = getAllProducts();
+        if (kw.isEmpty()) return all;
+        List<com.example.shoeapp.model.Product> result = new ArrayList<>();
+        for (com.example.shoeapp.model.Product p : all) {
+            if (p.getName().toLowerCase().contains(kw) || p.getBrand().toLowerCase().contains(kw)) {
+                result.add(p);
+            }
+        }
+        return result;
+    }
+
     public com.example.shoeapp.model.Product toClientProduct(Product product) {
         String brand = getBrandName(product.brandId);
         String category = getCategoryName(product.shoeCategory);

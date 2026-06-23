@@ -39,13 +39,12 @@
 
         <ImageView
             android:id="@+id/client_product_image"
-            android:layout_width="118dp"
-            android:layout_height="86dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
             android:contentDescription="@string/product_image_desc"
-            android:rotation="-15"
-            android:src="@drawable/ic_shoe"
-            android:tint="@color/text_disabled" />
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_shoe" />
     </FrameLayout>
 
     <TextView

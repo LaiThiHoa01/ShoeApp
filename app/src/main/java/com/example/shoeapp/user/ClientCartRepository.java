@@ -124,7 +124,7 @@ public class ClientCartRepository {
         user.passwordHash = "";
         user.phoneNumber = "0900000000";
         user.address = "TP. Hồ Chí Minh";
-        user.role = "CUSTOMER";
+        user.role = "USER";
         user.fullName = "Khách hàng";
         user.avatarUrl = "";
         user.isActive = true;

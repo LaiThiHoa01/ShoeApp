@@ -59,6 +59,12 @@ public interface ProductDao {
     @Query("SELECT name FROM category WHERE id = :categoryId LIMIT 1")
     String getCategoryName(int categoryId);
 
+    @Query("SELECT * FROM category WHERE is_active = 1 ORDER BY sort_order ASC")
+    List<Category> getAllCategories();
+
+    @Query("SELECT * FROM brand WHERE is_active = 1 ORDER BY id ASC")
+    List<Brand> getAllBrands();
+
     @Query("SELECT COALESCE(SUM(stock), 0) FROM product_variant WHERE product_id = :productId AND is_discontinue_variant = 0")
     int getProductStock(int productId);
 
