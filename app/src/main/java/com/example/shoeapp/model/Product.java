@@ -19,11 +19,20 @@ public class Product {
     private final float  rating;
     private final int    reviewCount;
     private final int    imageResId;  // R.drawable.xxx
+    private final String imageUrl;
 
     public Product(int id, String name, String brand, String category,
                    double price, double originalPrice, int stock,
                    boolean isNew, List<Integer> sizes,
                    float rating, int reviewCount, int imageResId) {
+        this(id, name, brand, category, price, originalPrice, stock, isNew, sizes, rating, reviewCount, imageResId, "");
+    }
+
+    public Product(int id, String name, String brand, String category,
+                   double price, double originalPrice, int stock,
+                   boolean isNew, List<Integer> sizes,
+                   float rating, int reviewCount, int imageResId,
+                   String imageUrl) {
         this.id            = id;
         this.name          = name;
         this.brand         = brand;
@@ -36,6 +45,7 @@ public class Product {
         this.rating        = rating;
         this.reviewCount   = reviewCount;
         this.imageResId    = imageResId;
+        this.imageUrl      = imageUrl;
     }
 
     public int            getId()            { return id; }
@@ -50,4 +60,5 @@ public class Product {
     public float          getRating()        { return rating; }
     public int            getReviewCount()   { return reviewCount; }
     public int            getImageResId()    { return imageResId; }
+    public String         getImageUrl()      { return imageUrl; }
 }
