@@ -8,174 +8,178 @@
     android:background="@color/bg_primary"
     tools:context=".user.CatalogActivity">
 
-    <ScrollView
-        android:id="@+id/catalog_scroll"
+    <!-- Header -->
+    <LinearLayout
+        android:id="@+id/catalog_header"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:overScrollMode="never"
-        app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_height="48dp"
+        android:layout_marginStart="@dimen/space_screen_horizontal"
+        android:layout_marginEnd="@dimen/space_screen_horizontal"
+        android:layout_marginTop="@dimen/space_10"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageButton
+            android:id="@+id/back_button"
+            android:layout_width="@dimen/btn_icon_size"
+            android:layout_height="@dimen/btn_icon_size"
+            android:background="@drawable/bg_home_notification"
+            android:contentDescription="@string/action_back"
+            android:padding="@dimen/space_8"
+            android:src="@drawable/ic_arrow_back"
+            android:tint="@color/text_secondary" />
+
+        <TextView
+            android:id="@+id/catalog_title_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_8"
+            android:layout_weight="1"
+            android:text="@string/cat_sneakers"
+            android:textAppearance="@style/TextAppearance.SoleStep.Subheading"
+            android:textColor="@color/text_primary" />
+
+        <TextView
+            android:id="@+id/catalog_count_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="24 sản phẩm"
+            android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
+            android:textColor="@color/text_muted" />
+    </LinearLayout>
+
+    <!-- Search Row -->
+    <LinearLayout
+        android:id="@+id/catalog_search_row"
+        android:layout_width="0dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="@dimen/space_8"
+        android:layout_marginStart="@dimen/space_screen_horizontal"
+        android:layout_marginEnd="@dimen/space_screen_horizontal"
+        android:background="@drawable/bg_home_search"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/space_8"
+        android:paddingEnd="@dimen/space_8"
+        app:layout_constraintTop_toBottomOf="@id/catalog_header"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:layout_width="@dimen/icon_lg"
+            android:layout_height="@dimen/icon_lg"
+            android:contentDescription="@string/action_search"
+            android:src="@drawable/ic_material_search"
+            android:tint="@color/text_muted" />
+
+        <EditText
+            android:id="@+id/catalog_search_input"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/space_6"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:hint="@string/catalog_search_hint"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
+            android:textColor="@color/text_primary"
+            android:textColorHint="@color/text_muted" />
+    </LinearLayout>
+
+    <!-- Chips Sort -->
+    <HorizontalScrollView
+        android:id="@+id/catalog_filter_scroll"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_10"
+        android:layout_marginStart="@dimen/space_screen_horizontal"
+        android:layout_marginEnd="@dimen/space_screen_horizontal"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        app:layout_constraintTop_toBottomOf="@id/catalog_search_row"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:id="@+id/catalog_sort_chips"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingStart="@dimen/space_screen_horizontal"
-            android:paddingTop="@dimen/space_10"
-            android:paddingEnd="@dimen/space_screen_horizontal"
-            android:paddingBottom="@dimen/space_16">
+            android:orientation="horizontal">
 
-            <LinearLayout
-                android:id="@+id/catalog_header"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+            <TextView
+                android:id="@+id/sort_default"
+                android:layout_width="wrap_content"
+                android:layout_height="34dp"
+                android:background="@drawable/bg_catalog_chip_selected"
+                android:gravity="center"
+                android:paddingStart="@dimen/space_10"
+                android:paddingEnd="@dimen/space_10"
+                android:text="Mặc định"
+                android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
+                android:textColor="@color/brand_orange" />
 
-                <ImageButton
-                    android:id="@+id/back_button"
-                    android:layout_width="@dimen/btn_icon_size"
-                    android:layout_height="@dimen/btn_icon_size"
-                    android:background="@drawable/bg_home_notification"
-                    android:contentDescription="@string/action_back"
-                    android:padding="@dimen/space_8"
-                    android:src="@drawable/ic_arrow_back"
-                    android:tint="@color/text_secondary" />
+            <TextView
+                android:id="@+id/sort_price"
+                android:layout_width="wrap_content"
+                android:layout_height="34dp"
+                android:layout_marginStart="@dimen/space_6"
+                android:background="@drawable/bg_home_brand_chip"
+                android:gravity="center"
+                android:paddingStart="@dimen/space_10"
+                android:paddingEnd="@dimen/space_10"
+                android:text="Giá ⇅"
+                android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
+                android:textColor="@color/text_secondary" />
 
-                <TextView
-                    android:id="@+id/catalog_title_text"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/space_8"
-                    android:layout_weight="1"
-                    android:text="@string/cat_sneakers"
-                    android:textAppearance="@style/TextAppearance.SoleStep.Subheading"
-                    android:textColor="@color/text_primary" />
+            <TextView
+                android:id="@+id/sort_category"
+                android:layout_width="wrap_content"
+                android:layout_height="34dp"
+                android:layout_marginStart="@dimen/space_6"
+                android:background="@drawable/bg_home_brand_chip"
+                android:gravity="center"
+                android:paddingStart="@dimen/space_10"
+                android:paddingEnd="@dimen/space_10"
+                android:text="Danh mục ▾"
+                android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
+                android:textColor="@color/text_secondary" />
 
-                <TextView
-                    android:id="@+id/catalog_count_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="24 sản phẩm"
-                    android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
-                    android:textColor="@color/text_muted" />
-            </LinearLayout>
-
-            <!-- thanh tìm kiếm thật với edittext -->
-            <LinearLayout
-                android:id="@+id/catalog_search_row"
-                android:layout_width="match_parent"
-                android:layout_height="46dp"
-                android:layout_marginTop="@dimen/space_8"
-                android:background="@drawable/bg_home_search"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingStart="@dimen/space_8"
-                android:paddingEnd="@dimen/space_8">
-
-                <ImageView
-                    android:layout_width="@dimen/icon_lg"
-                    android:layout_height="@dimen/icon_lg"
-                    android:contentDescription="@string/action_search"
-                    android:src="@drawable/ic_material_search"
-                    android:tint="@color/text_muted" />
-
-                <EditText
-                    android:id="@+id/catalog_search_input"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="@dimen/space_6"
-                    android:layout_weight="1"
-                    android:background="@android:color/transparent"
-                    android:hint="@string/catalog_search_hint"
-                    android:imeOptions="actionSearch"
-                    android:inputType="text"
-                    android:maxLines="1"
-                    android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
-                    android:textColor="@color/text_primary"
-                    android:textColorHint="@color/text_muted" />
-            </LinearLayout>
-
-            <!-- chips sort thực tế -->
-            <HorizontalScrollView
-                android:id="@+id/catalog_filter_scroll"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_10"
-                android:overScrollMode="never"
-                android:scrollbars="none">
-
-                <LinearLayout
-                    android:id="@+id/catalog_sort_chips"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/sort_default"
-                        android:layout_width="wrap_content"
-                        android:layout_height="34dp"
-                        android:background="@drawable/bg_catalog_chip_selected"
-                        android:gravity="center"
-                        android:paddingStart="@dimen/space_10"
-                        android:paddingEnd="@dimen/space_10"
-                        android:text="Mặc định"
-                        android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
-                        android:textColor="@color/brand_orange" />
-
-                    <TextView
-                        android:id="@+id/sort_price"
-                        android:layout_width="wrap_content"
-                        android:layout_height="34dp"
-                        android:layout_marginStart="@dimen/space_6"
-                        android:background="@drawable/bg_home_brand_chip"
-                        android:gravity="center"
-                        android:paddingStart="@dimen/space_10"
-                        android:paddingEnd="@dimen/space_10"
-                        android:text="Giá ⇅"
-                        android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
-                        android:textColor="@color/text_secondary" />
-
-                    <TextView
-                        android:id="@+id/sort_category"
-                        android:layout_width="wrap_content"
-                        android:layout_height="34dp"
-                        android:layout_marginStart="@dimen/space_6"
-                        android:background="@drawable/bg_home_brand_chip"
-                        android:gravity="center"
-                        android:paddingStart="@dimen/space_10"
-                        android:paddingEnd="@dimen/space_10"
-                        android:text="Danh mục ▾"
-                        android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
-                        android:textColor="@color/text_secondary" />
-
-                    <TextView
-                        android:id="@+id/sort_newest"
-                        android:layout_width="wrap_content"
-                        android:layout_height="34dp"
-                        android:layout_marginStart="@dimen/space_6"
-                        android:background="@drawable/bg_home_brand_chip"
-                        android:gravity="center"
-                        android:paddingStart="@dimen/space_10"
-                        android:paddingEnd="@dimen/space_10"
-                        android:text="Mới nhất"
-                        android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
-                        android:textColor="@color/text_secondary" />
-                </LinearLayout>
-            </HorizontalScrollView>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/catalog_product_grid"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_10"
-                android:nestedScrollingEnabled="false"
-                android:overScrollMode="never" />
+            <TextView
+                android:id="@+id/sort_newest"
+                android:layout_width="wrap_content"
+                android:layout_height="34dp"
+                android:layout_marginStart="@dimen/space_6"
+                android:background="@drawable/bg_home_brand_chip"
+                android:gravity="center"
+                android:paddingStart="@dimen/space_10"
+                android:paddingEnd="@dimen/space_10"
+                android:text="Mới nhất"
+                android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
+                android:textColor="@color/text_secondary" />
         </LinearLayout>
-    </ScrollView>
+    </HorizontalScrollView>
 
+    <!-- Product Grid (Standalone Scrollable) -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/catalog_product_grid"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/space_10"
+        android:layout_marginStart="@dimen/space_screen_horizontal"
+        android:layout_marginEnd="@dimen/space_screen_horizontal"
+        android:layout_marginBottom="@dimen/space_16"
+        android:overScrollMode="never"
+        app:layout_constraintTop_toBottomOf="@id/catalog_filter_scroll"
+        app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Bottom Navigation -->
     <include
         android:id="@+id/bottom_navigation"
         layout="@layout/view_bottom_navigation"
@@ -184,4 +188,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
