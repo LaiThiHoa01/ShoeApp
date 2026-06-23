@@ -299,12 +299,19 @@ public class AdminProductsActivity extends AppCompatActivity
 
     @Override
     public void onDeleteClick(Product product, int position) {
-        new AlertDialog.Builder(this)
+        new com.google.android.material.dialog.MaterialAlertDialogBuilder(this)
                 .setTitle("Xóa sản phẩm")
                 .setMessage("Bạn có chắc muốn xóa \"" + product.getName() + "\" không?")
                 .setPositiveButton("Xóa", (dialog, which) -> deleteProduct(product))
                 .setNegativeButton("Hủy", null)
                 .show();
+    }
+
+    @Override
+    public void onVariantsClick(Product product, int position) {
+        Intent intent = new Intent(this, AdminProductVariantActivity.class);
+        intent.putExtra("PRODUCT_ID", product.getId());
+        startActivity(intent);
     }
 
     private void deleteProduct(Product product) {

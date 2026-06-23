@@ -22,6 +22,7 @@ public class AdminProductAdapter
     public interface OnProductActionListener {
         void onEditClick(Product product, int position);
         void onDeleteClick(Product product, int position);
+        void onVariantsClick(Product product, int position);
     }
 
     private final Context                context;
@@ -67,6 +68,7 @@ public class AdminProductAdapter
         final TextView    rating;
         final ImageButton btnEdit;
         final ImageButton btnDelete;
+        final ImageButton btnVariants;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -85,6 +87,7 @@ public class AdminProductAdapter
             rating        = itemView.findViewById(R.id.admin_prod_rating);
             btnEdit       = itemView.findViewById(R.id.admin_prod_btn_edit);
             btnDelete     = itemView.findViewById(R.id.admin_prod_btn_delete);
+            btnVariants   = itemView.findViewById(R.id.admin_prod_btn_variants);
         }
 
         void bind(Product product, int position) {
@@ -151,6 +154,9 @@ public class AdminProductAdapter
             });
             btnDelete.setOnClickListener(v -> {
                 if (listener != null) listener.onDeleteClick(product, position);
+            });
+            btnVariants.setOnClickListener(v -> {
+                if (listener != null) listener.onVariantsClick(product, position);
             });
         }
     }

@@ -58,6 +58,21 @@
         app:layout_constraintBottom_toBottomOf="@id/admin_prod_name"
         app:layout_constraintTop_toTopOf="@id/admin_prod_name" />
 
+    <!-- ── Nút quản lý biến thể (icon) ── -->
+    <ImageButton
+        android:id="@+id/admin_prod_btn_variants"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginEnd="@dimen/space_4"
+        android:background="@drawable/bg_admin_icon_btn"
+        android:contentDescription="Quản lý biến thể"
+        android:padding="@dimen/space_4"
+        android:src="@drawable/ic_material_inventory_2"
+        android:tint="@color/brand_orange"
+        app:layout_constraintEnd_toStartOf="@id/admin_prod_btn_edit"
+        app:layout_constraintBottom_toBottomOf="@id/admin_prod_name"
+        app:layout_constraintTop_toTopOf="@id/admin_prod_name" />
+
     <!-- ── Brand · Category ── -->
     <TextView
         android:id="@+id/admin_prod_brand"
@@ -69,7 +84,7 @@
         android:maxLines="1"
         android:textColor="@color/text_dark_muted"
         android:textSize="11sp"
-        app:layout_constraintEnd_toStartOf="@id/admin_prod_btn_edit"
+        app:layout_constraintEnd_toStartOf="@id/admin_prod_btn_variants"
         app:layout_constraintStart_toEndOf="@id/admin_prod_image"
         app:layout_constraintTop_toTopOf="@id/admin_prod_image" />
 
@@ -106,7 +121,7 @@
         android:textStyle="bold"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/admin_prod_name"
-        app:layout_constraintEnd_toStartOf="@id/admin_prod_btn_edit"
+        app:layout_constraintEnd_toStartOf="@id/admin_prod_btn_variants"
         app:layout_constraintTop_toTopOf="@id/admin_prod_name" />
 
     <!-- ── Giá + giá gốc + stock ── -->

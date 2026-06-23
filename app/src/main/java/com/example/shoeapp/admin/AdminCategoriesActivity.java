@@ -173,7 +173,7 @@ public class AdminCategoriesActivity extends AppCompatActivity
         input.setInputType(InputType.TYPE_CLASS_TEXT);
         input.setHint("Tên danh mục");
 
-        new AlertDialog.Builder(this)
+        new com.google.android.material.dialog.MaterialAlertDialogBuilder(this)
                 .setTitle("Thêm danh mục")
                 .setView(input)
                 .setPositiveButton("Thêm", (dialog, which) -> {
@@ -214,7 +214,7 @@ public class AdminCategoriesActivity extends AppCompatActivity
         input.setInputType(InputType.TYPE_CLASS_TEXT);
         input.setText(category.getName());
 
-        new AlertDialog.Builder(this)
+        new com.google.android.material.dialog.MaterialAlertDialogBuilder(this)
                 .setTitle("Sửa danh mục")
                 .setView(input)
                 .setPositiveButton("Lưu", (dialog, which) -> {

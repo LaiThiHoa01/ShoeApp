@@ -37,6 +37,14 @@ public interface ProductDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insertVariant(ProductVariant variant);
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertProductVariants(List<ProductVariant> variants);
+
+    @androidx.room.Transaction
+    default void updateProductVariantsTransaction(List<ProductVariant> variants) {
+        insertProductVariants(variants);
+    }
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insertProductImg(ProductImg img);
 
