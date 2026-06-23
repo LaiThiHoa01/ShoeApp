@@ -58,7 +58,7 @@
                     android:id="@+id/catalog_count_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="8 items"
+                    android:text="24 sản phẩm"
                     android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
                     android:textColor="@color/text_muted" />
             </LinearLayout>
@@ -146,7 +146,7 @@
                         android:gravity="center"
                         android:paddingStart="@dimen/space_10"
                         android:paddingEnd="@dimen/space_10"
-                        android:text="Sneakers  x"
+                        android:text="Sneaker  x"
                         android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
                         android:textColor="@color/brand_orange" />
 
@@ -158,7 +158,7 @@
                         android:gravity="center"
                         android:paddingStart="@dimen/space_10"
                         android:paddingEnd="@dimen/space_10"
-                        android:text="Size: 9, 10  x"
+                        android:text="Size: 40, 41  x"
                         android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
                         android:textColor="@color/brand_orange" />
                 </LinearLayout>

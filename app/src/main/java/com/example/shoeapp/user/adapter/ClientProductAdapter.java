@@ -14,9 +14,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shoeapp.R;
 import com.example.shoeapp.model.Product;
+import com.example.shoeapp.user.ImageLoader;
 
 import java.util.List;
 import java.util.Locale;
+import java.text.NumberFormat;
 
 public class ClientProductAdapter extends RecyclerView.Adapter<ClientProductAdapter.ViewHolder> {
 
@@ -78,6 +80,7 @@ public class ClientProductAdapter extends RecyclerView.Adapter<ClientProductAdap
         void bind(Product product, int position) {
             imagePanel.setBackgroundResource(backgroundFor(position));
             image.setImageResource(product.getImageResId() == 0 ? R.drawable.ic_shoe : product.getImageResId());
+            ImageLoader.load(product.getImageUrl(), image, product.getImageResId());
             badgeNew.setVisibility(product.isNew() ? View.VISIBLE : View.GONE);
 
             int discount = discountPercent(product);
@@ -91,8 +94,8 @@ public class ClientProductAdapter extends RecyclerView.Adapter<ClientProductAdap
             brand.setText(displayBrand(product.getBrand()));
             name.setText(product.getName());
             rating.setText(String.format(Locale.US, "* %.1f  (%d)", product.getRating(), product.getReviewCount()));
-            price.setText(String.format(Locale.US, "$%.2f", product.getPrice()));
-            originalPrice.setText(String.format(Locale.US, "$%.2f", product.getOriginalPrice()));
+            price.setText(formatVnd(product.getPrice()));
+            originalPrice.setText(formatVnd(product.getOriginalPrice()));
             originalPrice.setPaintFlags(originalPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
             itemView.setOnClickListener(v -> {
@@ -124,5 +127,11 @@ public class ClientProductAdapter extends RecyclerView.Adapter<ClientProductAdap
             int separator = rawBrand.indexOf(" - ");
             return separator >= 0 ? rawBrand.substring(0, separator) : rawBrand;
         }
+
+        private String formatVnd(double amount) {
+            NumberFormat formatter = NumberFormat.getNumberInstance(new Locale("vi", "VN"));
+            return formatter.format(Math.round(amount)) + " đ";
+        }
+
     }
 }

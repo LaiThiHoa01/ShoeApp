@@ -57,6 +57,7 @@
                     android:src="@drawable/ic_share_nodes" />
 
                 <TextView
+                    android:id="@+id/detail_badge_new"
                     android:layout_width="52dp"
                     android:layout_height="24dp"
                     android:layout_marginStart="@dimen/space_screen_horizontal"
@@ -69,6 +70,7 @@
                     android:textStyle="bold" />
 
                 <ImageView
+                    android:id="@+id/detail_product_image"
                     android:layout_width="210dp"
                     android:layout_height="150dp"
                     android:layout_gravity="center"
@@ -155,17 +157,19 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/detail_brand_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="NovaSole"
+                            android:text="Nike"
                             android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
                             android:textColor="@color/text_muted"
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/detail_name_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Air Phantom Pro"
+                            android:text="Nike Air Force 1 '07"
                             android:textAppearance="@style/TextAppearance.SoleStep.Headline"
                             android:textColor="@color/text_primary" />
                     </LinearLayout>
@@ -177,16 +181,18 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/detail_price_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="$189.99"
+                            android:text="2.929.000 đ"
                             android:textAppearance="@style/TextAppearance.SoleStep.PriceMedium"
                             android:textSize="22sp" />
 
                         <TextView
+                            android:id="@+id/detail_original_price_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="$249.99"
+                            android:text="3.239.000 đ"
                             android:textAppearance="@style/TextAppearance.SoleStep.Caption"
                             android:textColor="@color/text_disabled" />
                     </LinearLayout>
@@ -200,6 +206,7 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/detail_rating_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="★★★★★"
@@ -216,11 +223,12 @@
                         android:textColor="@color/text_primary" />
 
                     <TextView
+                        android:id="@+id/detail_review_count_text"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/space_6"
                         android:layout_weight="1"
-                        android:text="(234 reviews)"
+                        android:text="(284 đánh giá)"
                         android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
                         android:textColor="@color/text_muted" />
 
@@ -301,7 +309,7 @@
                         android:layout_marginBottom="@dimen/space_8"
                         android:background="@drawable/bg_detail_size"
                         android:gravity="center"
-                        android:text="7"
+                        android:text="36"
                         android:textColor="@color/text_secondary" />
 
                     <TextView
@@ -312,7 +320,7 @@
                         android:layout_marginBottom="@dimen/space_8"
                         android:background="@drawable/bg_detail_size"
                         android:gravity="center"
-                        android:text="8"
+                        android:text="37"
                         android:textColor="@color/text_secondary" />
 
                     <TextView
@@ -323,7 +331,7 @@
                         android:layout_marginBottom="@dimen/space_8"
                         android:background="@drawable/bg_detail_size"
                         android:gravity="center"
-                        android:text="9"
+                        android:text="38"
                         android:textColor="@color/text_secondary" />
 
                     <TextView
@@ -334,7 +342,7 @@
                         android:layout_marginBottom="@dimen/space_8"
                         android:background="@drawable/bg_detail_size_selected"
                         android:gravity="center"
-                        android:text="10"
+                        android:text="39"
                         android:textColor="@color/brand_white"
                         android:textStyle="bold" />
 
@@ -345,7 +353,7 @@
                         android:layout_marginBottom="@dimen/space_8"
                         android:background="@drawable/bg_detail_size"
                         android:gravity="center"
-                        android:text="11"
+                        android:text="40"
                         android:textColor="@color/text_secondary" />
 
                     <TextView
@@ -354,7 +362,7 @@
                         android:layout_height="44dp"
                         android:background="@drawable/bg_detail_size"
                         android:gravity="center"
-                        android:text="12"
+                        android:text="41"
                         android:textColor="@color/text_secondary" />
                 </GridLayout>
 
@@ -367,10 +375,11 @@
                     android:textColor="@color/text_primary" />
 
                 <TextView
+                    android:id="@+id/detail_description_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/space_6"
-                    android:text="Premium cushioned sole with breathable mesh upper for all-day comfort and performance. Designed for the modern athlete who values style as much as performance. Features a reinforced heel counter for stability."
+                    android:text="Mẫu sneaker da cổ thấp kinh điển, dễ phối đồ và phù hợp đi hằng ngày."
                     android:textAppearance="@style/TextAppearance.SoleStep.Body"
                     android:textColor="@color/text_secondary" />
 
@@ -392,7 +401,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="See all"
+                        android:text="Xem tất cả"
                         android:textAppearance="@style/TextAppearance.SoleStep.Caption"
                         android:textColor="@color/brand_orange" />
                 </LinearLayout>
@@ -439,7 +448,7 @@
             android:layout_height="56dp"
             android:layout_marginStart="@dimen/space_10"
             android:layout_weight="1"
-            android:text="Add to Cart - $189.99"
+            android:text="Thêm vào giỏ - 2.929.000 đ"
             app:icon="@drawable/ic_material_shopping_cart"
             app:iconTint="@color/brand_white" />
     </LinearLayout>
