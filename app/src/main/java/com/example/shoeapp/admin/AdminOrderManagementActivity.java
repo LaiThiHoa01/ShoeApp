@@ -31,6 +31,7 @@ public class AdminOrderManagementActivity extends AppCompatActivity
     private RecyclerView         recyclerView;
     private EditText             searchInput;
     private TextView             filterAll, filterProcessing, filterShipped, filterDelivered;
+    private TextView             filterTimeAll, filterTimeToday, filterTimeWeek, filterTimeMonth;
     private TextView             statProcessingCount, statShippedCount, statDeliveredCount;
     private TextView             totalOrdersBadge;
     private BottomNavigationView bottomNav;
@@ -43,6 +44,7 @@ public class AdminOrderManagementActivity extends AppCompatActivity
     private List<com.example.shoeapp.data.entity.Order> dbOrders = new ArrayList<>();
 
     private Order.Status currentStatus = null;
+    private String       currentTimeFilter = "ALL"; // "ALL", "TODAY", "WEEK", "MONTH"
     private String       currentSearch = "";
 
     @Override
@@ -56,6 +58,7 @@ public class AdminOrderManagementActivity extends AppCompatActivity
         setupRecyclerView();
         setupSearch();
         setupFilterChips();
+        setupTimeFilterChips();
         setupBottomNav();
         updateStats();
     }
@@ -84,6 +87,10 @@ public class AdminOrderManagementActivity extends AppCompatActivity
         filterProcessing    = findViewById(R.id.admin_ord_filter_processing);
         filterShipped       = findViewById(R.id.admin_ord_filter_shipped);
         filterDelivered     = findViewById(R.id.admin_ord_filter_delivered);
+        filterTimeAll       = findViewById(R.id.admin_ord_time_all);
+        filterTimeToday     = findViewById(R.id.admin_ord_time_today);
+        filterTimeWeek      = findViewById(R.id.admin_ord_time_week);
+        filterTimeMonth     = findViewById(R.id.admin_ord_time_month);
         statProcessingCount = findViewById(R.id.admin_stat_processing_count);
         statShippedCount    = findViewById(R.id.admin_stat_shipped_count);
         statDeliveredCount  = findViewById(R.id.admin_stat_delivered_count);
@@ -135,12 +142,13 @@ public class AdminOrderManagementActivity extends AppCompatActivity
             case "SHIPPED":   return Order.Status.SHIPPED;
             case "DELIVERED":
             case "COMPLETED": return Order.Status.DELIVERED;
+            case "CANCELLED": return Order.Status.CANCELLED;
             default:          return Order.Status.PROCESSING;
         }
     }
 
     private void setupRecyclerView() {
-        adapter = new AdminOrderAdapter(this, filteredOrders, this);
+        adapter = new AdminOrderAdapter(this, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
         int gapPx = (int) (12 * getResources().getDisplayMetrics().density);
@@ -164,6 +172,25 @@ public class AdminOrderManagementActivity extends AppCompatActivity
         filterProcessing.setOnClickListener(v -> selectStatus(Order.Status.PROCESSING, filterProcessing));
         filterShipped.setOnClickListener(v    -> selectStatus(Order.Status.SHIPPED,    filterShipped));
         filterDelivered.setOnClickListener(v  -> selectStatus(Order.Status.DELIVERED,  filterDelivered));
+    }
+
+    private void setupTimeFilterChips() {
+        filterTimeAll.setOnClickListener(v   -> selectTimeFilter("ALL",   filterTimeAll));
+        filterTimeToday.setOnClickListener(v -> selectTimeFilter("TODAY", filterTimeToday));
+        filterTimeWeek.setOnClickListener(v  -> selectTimeFilter("WEEK",  filterTimeWeek));
+        filterTimeMonth.setOnClickListener(v -> selectTimeFilter("MONTH", filterTimeMonth));
+    }
+
+    private void selectTimeFilter(String timeFilter, TextView selectedChip) {
+        currentTimeFilter = timeFilter;
+        TextView[] chips = { filterTimeAll, filterTimeToday, filterTimeWeek, filterTimeMonth };
+        for (TextView chip : chips) {
+            chip.setBackgroundResource(R.drawable.bg_admin_chip);
+            chip.setTextColor(getColor(R.color.text_dark_tertiary));
+        }
+        selectedChip.setBackgroundResource(R.drawable.bg_admin_chip_selected);
+        selectedChip.setTextColor(getColor(R.color.brand_white));
+        applyFilters();
     }
 
     private void setupBottomNav() {
@@ -206,9 +233,45 @@ public class AdminOrderManagementActivity extends AppCompatActivity
             boolean matchSearch = currentSearch.isEmpty()
                     || o.getOrderId().toLowerCase().contains(currentSearch)
                     || o.getCustomerName().toLowerCase().contains(currentSearch);
-            if (matchStatus && matchSearch) filteredOrders.add(o);
+            boolean matchTime = matchesTimeFilter(o.getDate());
+            if (matchStatus && matchSearch && matchTime) filteredOrders.add(o);
         }
-        adapter.notifyDataSetChanged();
+        adapter.submitList(new ArrayList<>(filteredOrders));
+    }
+
+    private boolean matchesTimeFilter(String dateStr) {
+        if (currentTimeFilter.equals("ALL")) return true;
+        if (dateStr == null || dateStr.equals("—")) return false;
+
+        try {
+            java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.US);
+            java.util.Date orderDate = sdf.parse(dateStr);
+            if (orderDate == null) return false;
+
+            java.util.Calendar calOrder = java.util.Calendar.getInstance();
+            calOrder.setTime(orderDate);
+
+            java.util.Calendar calToday = java.util.Calendar.getInstance();
+            // Reset time for precise day comparison
+            calToday.set(java.util.Calendar.HOUR_OF_DAY, 0);
+            calToday.set(java.util.Calendar.MINUTE, 0);
+            calToday.set(java.util.Calendar.SECOND, 0);
+            calToday.set(java.util.Calendar.MILLISECOND, 0);
+
+            if (currentTimeFilter.equals("TODAY")) {
+                return calOrder.get(java.util.Calendar.YEAR) == calToday.get(java.util.Calendar.YEAR)
+                        && calOrder.get(java.util.Calendar.DAY_OF_YEAR) == calToday.get(java.util.Calendar.DAY_OF_YEAR);
+            } else if (currentTimeFilter.equals("WEEK")) {
+                return calOrder.get(java.util.Calendar.YEAR) == calToday.get(java.util.Calendar.YEAR)
+                        && calOrder.get(java.util.Calendar.WEEK_OF_YEAR) == calToday.get(java.util.Calendar.WEEK_OF_YEAR);
+            } else if (currentTimeFilter.equals("MONTH")) {
+                return calOrder.get(java.util.Calendar.YEAR) == calToday.get(java.util.Calendar.YEAR)
+                        && calOrder.get(java.util.Calendar.MONTH) == calToday.get(java.util.Calendar.MONTH);
+            }
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     private void updateStats() {
@@ -218,12 +281,13 @@ public class AdminOrderManagementActivity extends AppCompatActivity
                 case PROCESSING: processing++; break;
                 case SHIPPED:    shipped++;    break;
                 case DELIVERED:  delivered++;  break;
+                case CANCELLED:  break;
             }
         }
         statProcessingCount.setText(String.valueOf(processing));
         statShippedCount.setText(String.valueOf(shipped));
         statDeliveredCount.setText(String.valueOf(delivered));
-        totalOrdersBadge.setText(String.format("%d orders", allOrders.size()));
+        totalOrdersBadge.setText(String.format("%d đơn hàng", allOrders.size()));
     }
 
     @Override
@@ -249,7 +313,6 @@ public class AdminOrderManagementActivity extends AppCompatActivity
     public void onMarkShippedClick(Order order, int position) {
         order.setStatus(Order.Status.SHIPPED);
         updateOrderStatusInDb(order.getOrderId(), "SHIPPED");
-        adapter.notifyItemChanged(position);
         updateStats();
         applyFilters();
         Toast.makeText(this, "Cập nhật: " + order.getOrderId() + " → Đã gửi", Toast.LENGTH_SHORT).show();
@@ -259,10 +322,18 @@ public class AdminOrderManagementActivity extends AppCompatActivity
     public void onMarkDeliveredClick(Order order, int position) {
         order.setStatus(Order.Status.DELIVERED);
         updateOrderStatusInDb(order.getOrderId(), "DELIVERED");
-        adapter.notifyItemChanged(position);
         updateStats();
         applyFilters();
         Toast.makeText(this, "Cập nhật: " + order.getOrderId() + " → Đã giao", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onCancelOrderClick(Order order, int position) {
+        order.setStatus(Order.Status.CANCELLED);
+        updateOrderStatusInDb(order.getOrderId(), "CANCELLED");
+        updateStats();
+        applyFilters();
+        Toast.makeText(this, "Đã hủy đơn hàng: " + order.getOrderId(), Toast.LENGTH_SHORT).show();
     }
 
     private void updateOrderStatusInDb(String orderId, String newStatus) {

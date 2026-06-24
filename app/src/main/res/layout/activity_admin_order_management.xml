@@ -331,6 +331,83 @@
                     android:textStyle="bold" />
             </LinearLayout>
         </HorizontalScrollView>
+
+        <!-- Time Filter Chips Row -->
+        <HorizontalScrollView
+            android:id="@+id/admin_orders_time_filter_scroll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_4"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:id="@+id/admin_orders_time_filter_row"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/space_2">
+
+                <!-- Time: All -->
+                <TextView
+                    android:id="@+id/admin_ord_time_all"
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:background="@drawable/bg_admin_chip_selected"
+                    android:gravity="center"
+                    android:paddingStart="@dimen/space_chip_horizontal"
+                    android:paddingEnd="@dimen/space_chip_horizontal"
+                    android:text="Tất cả thời gian"
+                    android:textColor="@color/brand_white"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <!-- Time: Today -->
+                <TextView
+                    android:id="@+id/admin_ord_time_today"
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:layout_marginStart="@dimen/space_4"
+                    android:background="@drawable/bg_admin_chip"
+                    android:gravity="center"
+                    android:paddingStart="@dimen/space_chip_horizontal"
+                    android:paddingEnd="@dimen/space_chip_horizontal"
+                    android:text="Hôm nay"
+                    android:textColor="@color/text_dark_tertiary"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <!-- Time: This Week -->
+                <TextView
+                    android:id="@+id/admin_ord_time_week"
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:layout_marginStart="@dimen/space_4"
+                    android:background="@drawable/bg_admin_chip"
+                    android:gravity="center"
+                    android:paddingStart="@dimen/space_chip_horizontal"
+                    android:paddingEnd="@dimen/space_chip_horizontal"
+                    android:text="Tuần này"
+                    android:textColor="@color/text_dark_tertiary"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <!-- Time: This Month -->
+                <TextView
+                    android:id="@+id/admin_ord_time_month"
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:layout_marginStart="@dimen/space_4"
+                    android:background="@drawable/bg_admin_chip"
+                    android:gravity="center"
+                    android:paddingStart="@dimen/space_chip_horizontal"
+                    android:paddingEnd="@dimen/space_chip_horizontal"
+                    android:text="Tháng này"
+                    android:textColor="@color/text_dark_tertiary"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </HorizontalScrollView>
     </LinearLayout>
 
     <!-- ══════════════════════════════════════

@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shoeapp.model.Product;
@@ -16,23 +18,50 @@ import com.example.shoeapp.R;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
+
 public class AdminProductAdapter
-        extends RecyclerView.Adapter<AdminProductAdapter.ViewHolder> {
+        extends ListAdapter<Product, AdminProductAdapter.ViewHolder> {
 
     public interface OnProductActionListener {
         void onEditClick(Product product, int position);
         void onDeleteClick(Product product, int position);
+        void onVariantsClick(Product product, int position);
     }
 
+    private static final DiffUtil.ItemCallback<Product> DIFF_CALLBACK = new DiffUtil.ItemCallback<Product>() {
+        @Override
+        public boolean areItemsTheSame(@NonNull Product oldItem, @NonNull Product newItem) {
+            return oldItem.getId() == newItem.getId();
+        }
+
+        @Override
+        public boolean areContentsTheSame(@NonNull Product oldItem, @NonNull Product newItem) {
+            return oldItem.getId() == newItem.getId()
+                    && Objects.equals(oldItem.getName(), newItem.getName())
+                    && Objects.equals(oldItem.getBrand(), newItem.getBrand())
+                    && Objects.equals(oldItem.getCategory(), newItem.getCategory())
+                    && Double.compare(oldItem.getPrice(), newItem.getPrice()) == 0
+                    && Double.compare(oldItem.getOriginalPrice(), newItem.getOriginalPrice()) == 0
+                    && oldItem.getStock() == newItem.getStock()
+                    && oldItem.isNew() == newItem.isNew()
+                    && Objects.equals(oldItem.getSizes(), newItem.getSizes())
+                    && Float.compare(oldItem.getRating(), newItem.getRating()) == 0
+                    && oldItem.getReviewCount() == newItem.getReviewCount()
+                    && oldItem.getImageResId() == newItem.getImageResId()
+                    && Objects.equals(oldItem.getImageUrl(), newItem.getImageUrl())
+                    && oldItem.isAvailable() == newItem.isAvailable()
+                    && oldItem.isDiscontinued() == newItem.isDiscontinued();
+        }
+    };
+
     private final Context                context;
-    private final List<Product>          products;
     private final OnProductActionListener listener;
 
     public AdminProductAdapter(Context context,
-                               List<Product> products,
                                OnProductActionListener listener) {
+        super(DIFF_CALLBACK);
         this.context  = context;
-        this.products = products;
         this.listener = listener;
     }
 
@@ -46,14 +75,10 @@ public class AdminProductAdapter
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Product product = products.get(position);
+        Product product = getItem(position);
         holder.bind(product, position);
     }
 
-    @Override
-    public int getItemCount() {
-        return products.size();
-    }
     class ViewHolder extends RecyclerView.ViewHolder {
 
         final ImageView   image;
@@ -67,6 +92,7 @@ public class AdminProductAdapter
         final TextView    rating;
         final ImageButton btnEdit;
         final ImageButton btnDelete;
+        final ImageButton btnVariants;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -85,21 +111,12 @@ public class AdminProductAdapter
             rating        = itemView.findViewById(R.id.admin_prod_rating);
             btnEdit       = itemView.findViewById(R.id.admin_prod_btn_edit);
             btnDelete     = itemView.findViewById(R.id.admin_prod_btn_delete);
+            btnVariants   = itemView.findViewById(R.id.admin_prod_btn_variants);
         }
 
         void bind(Product product, int position) {
             // ── Ảnh sản phẩm ───────────────────────────────────────────────
-            if (product.getImageUrl() != null && !product.getImageUrl().isEmpty()) {
-                try {
-                    image.setImageURI(android.net.Uri.parse(product.getImageUrl()));
-                } catch (Exception e) {
-                    image.setImageResource(R.drawable.ic_shoe);
-                }
-            } else if (product.getImageResId() != 0) {
-                image.setImageResource(product.getImageResId());
-            } else {
-                image.setImageResource(R.drawable.ic_shoe);
-            }
+            com.example.shoeapp.user.ImageLoader.load(product.getImageUrl(), image, product.getImageResId());
 
             // ── Thông tin cơ bản ───────────────────────────────────────────
             brand.setText(product.getBrand());
@@ -118,15 +135,25 @@ public class AdminProductAdapter
                 priceOriginal.setVisibility(View.GONE);
             }
 
-            // ── Stock badge (xanh nếu đủ, đỏ nếu thấp < 15) ──────────────
-            int stockQty = product.getStock();
-            stock.setText(context.getString(R.string.admin_stock_format, stockQty));
-            if (stockQty < 15) {
+            // ── Stock badge (xanh nếu đủ, đỏ nếu thấp < 15, hoặc màu ẩn) ──
+            if (product.isDiscontinued() || !product.isAvailable()) {
+                itemView.setAlpha(0.5f);
+                stock.setText("ĐÃ ẨN");
                 stock.setBackgroundResource(R.drawable.bg_admin_stock_low);
                 stock.setTextColor(ContextCompat.getColor(context, R.color.status_error_light));
+                btnDelete.setColorFilter(ContextCompat.getColor(context, R.color.status_success_light));
             } else {
-                stock.setBackgroundResource(R.drawable.bg_admin_stock_ok);
-                stock.setTextColor(ContextCompat.getColor(context, R.color.status_success_light));
+                itemView.setAlpha(1.0f);
+                int stockQty = product.getStock();
+                stock.setText(context.getString(R.string.admin_stock_format, stockQty));
+                if (stockQty < 15) {
+                    stock.setBackgroundResource(R.drawable.bg_admin_stock_low);
+                    stock.setTextColor(ContextCompat.getColor(context, R.color.status_error_light));
+                } else {
+                    stock.setBackgroundResource(R.drawable.bg_admin_stock_ok);
+                    stock.setTextColor(ContextCompat.getColor(context, R.color.status_success_light));
+                }
+                btnDelete.setColorFilter(ContextCompat.getColor(context, R.color.status_error_light));
             }
 
             // ── Size chips (hiển thị tối đa 4, phần dư dùng +N) ───────────
@@ -161,6 +188,9 @@ public class AdminProductAdapter
             });
             btnDelete.setOnClickListener(v -> {
                 if (listener != null) listener.onDeleteClick(product, position);
+            });
+            btnVariants.setOnClickListener(v -> {
+                if (listener != null) listener.onVariantsClick(product, position);
             });
         }
     }

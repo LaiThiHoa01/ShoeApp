@@ -126,15 +126,16 @@ public class AdminCategoriesActivity extends AppCompatActivity
         }
 
         if (adapter != null) {
-            adapter.notifyDataSetChanged();
+            adapter.submitList(new ArrayList<>(categories));
         }
         updateSubtitle();
     }
 
     private void setupRecyclerView() {
-        adapter = new AdminCategoryAdapter(this, categories, this);
+        adapter = new AdminCategoryAdapter(this, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
+        adapter.submitList(new ArrayList<>(categories));
         int gapPx = (int) (12 * getResources().getDisplayMetrics().density);
         recyclerView.addItemDecoration(new AdminProductsActivity.SpaceItemDecoration(gapPx));
     }
@@ -173,7 +174,7 @@ public class AdminCategoriesActivity extends AppCompatActivity
         input.setInputType(InputType.TYPE_CLASS_TEXT);
         input.setHint("Tên danh mục");
 
-        new AlertDialog.Builder(this)
+        new com.google.android.material.dialog.MaterialAlertDialogBuilder(this)
                 .setTitle("Thêm danh mục")
                 .setView(input)
                 .setPositiveButton("Thêm", (dialog, which) -> {
@@ -214,7 +215,7 @@ public class AdminCategoriesActivity extends AppCompatActivity
         input.setInputType(InputType.TYPE_CLASS_TEXT);
         input.setText(category.getName());
 
-        new AlertDialog.Builder(this)
+        new com.google.android.material.dialog.MaterialAlertDialogBuilder(this)
                 .setTitle("Sửa danh mục")
                 .setView(input)
                 .setPositiveButton("Lưu", (dialog, which) -> {

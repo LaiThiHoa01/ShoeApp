@@ -9,52 +9,52 @@
     <string name="auth_tagline">STEP INTO STYLE</string>
     <string name="auth_email_value">alex@email.com</string>
     <string name="auth_password_value">soleStep123</string>
-    <string name="auth_show_password">Show password</string>
-    <string name="auth_hide_password">Hide password</string>
+    <string name="auth_show_password">Hiển thị mật khẩu</string>
+    <string name="auth_hide_password">Ẩn mật khẩu</string>
     <string name="auth_first_name_value">Alex</string>
     <string name="auth_last_name_value">Johnson</string>
     <string name="auth_country_code_value">+1</string>
     <string name="auth_phone_value">555-0182</string>
-    <string name="auth_label_email_address">Email Address</string>
-    <string name="auth_step_1">Step 1 of 3</string>
-    <string name="auth_strong_password">Strong password</string>
-    <string name="auth_terms_notice">I agree to the Terms of Service and Privacy Policy</string>
-    <string name="auth_terms">Terms of Service</string>
-    <string name="auth_privacy">Privacy Policy</string>
+    <string name="auth_label_email_address">Địa chỉ Email</string>
+    <string name="auth_step_1">Bước 1/3</string>
+    <string name="auth_strong_password">Mật khẩu mạnh</string>
+    <string name="auth_terms_notice">Tôi đồng ý với Điều khoản dịch vụ và Chính sách bảo mật</string>
+    <string name="auth_terms">Điều khoản dịch vụ</string>
+    <string name="auth_privacy">Chính sách bảo mật</string>
     <string name="check_mark">&#10003;</string>
 
     <!-- ─── Auth screens ─── -->
-    <string name="auth_welcome_back">Welcome back</string>
-    <string name="auth_sign_in_subtitle">Sign in to your account</string>
-    <string name="auth_sign_up_title">Create account</string>
-    <string name="auth_sign_up_subtitle">Join SoleStep and step into style</string>
-    <string name="auth_change_password_title">Change Password</string>
-    <string name="auth_btn_sign_in">Sign In</string>
-    <string name="auth_btn_sign_up">Sign Up</string>
-    <string name="auth_btn_continue">Continue</string>
-    <string name="auth_btn_update_password">Update Password</string>
-    <string name="auth_forgot_password">Forgot password?</string>
-    <string name="auth_no_account">Don\'t have an account? Sign Up</string>
-    <string name="auth_have_account">Already a member? Sign In</string>
-    <string name="auth_google">Continue with Google</string>
+    <string name="auth_welcome_back">Chào mừng trở lại</string>
+    <string name="auth_sign_in_subtitle">Đăng nhập vào tài khoản của bạn</string>
+    <string name="auth_sign_up_title">Tạo tài khoản</string>
+    <string name="auth_sign_up_subtitle">Tham gia SoleStep và định hình phong cách</string>
+    <string name="auth_change_password_title">Đổi mật khẩu</string>
+    <string name="auth_btn_sign_in">Đăng nhập</string>
+    <string name="auth_btn_sign_up">Đăng ký</string>
+    <string name="auth_btn_continue">Tiếp tục</string>
+    <string name="auth_btn_update_password">Cập nhật mật khẩu</string>
+    <string name="auth_forgot_password">Quên mật khẩu?</string>
+    <string name="auth_no_account">Chưa có tài khoản? Đăng ký</string>
+    <string name="auth_have_account">Đã là thành viên? Đăng nhập</string>
+    <string name="auth_google">Tiếp tục với Google</string>
     <string name="auth_label_email">Email</string>
-    <string name="auth_label_password">Password</string>
-    <string name="auth_label_current_password">Current Password</string>
-    <string name="auth_label_new_password">New Password</string>
-    <string name="auth_label_confirm_password">Confirm New Password</string>
-    <string name="auth_label_first_name">First Name</string>
-    <string name="auth_label_last_name">Last Name</string>
-    <string name="auth_label_phone">Phone Number</string>
-    <string name="auth_passwords_match">Passwords match</string>
-    <string name="auth_secure_update">Secure Password Update</string>
-    <string name="auth_secure_update_subtitle">Choose a strong, unique password</string>
-    <string name="auth_requirements">Requirements</string>
-    <string name="back">Back</string>
-    <string name="auth_admin_notice">Restricted access — authorized personnel only</string>
-    <string name="auth_admin_2fa">2FA Code</string>
-    <string name="auth_btn_access_dashboard">Access Dashboard</string>
-    <string name="auth_security_notice_title">Security Notice</string>
-    <string name="auth_security_notice_body">All admin actions are logged and monitored. Unauthorized access attempts will be reported.</string>
+    <string name="auth_label_password">Mật khẩu</string>
+    <string name="auth_label_current_password">Mật khẩu hiện tại</string>
+    <string name="auth_label_new_password">Mật khẩu mới</string>
+    <string name="auth_label_confirm_password">Xác nhận mật khẩu mới</string>
+    <string name="auth_label_first_name">Tên</string>
+    <string name="auth_label_last_name">Họ</string>
+    <string name="auth_label_phone">Số điện thoại</string>
+    <string name="auth_passwords_match">Mật khẩu trùng khớp</string>
+    <string name="auth_secure_update">Cập nhật mật khẩu an toàn</string>
+    <string name="auth_secure_update_subtitle">Chọn mật khẩu mạnh và duy nhất</string>
+    <string name="auth_requirements">Yêu cầu</string>
+    <string name="back">Quay lại</string>
+    <string name="auth_admin_notice">Truy cập hạn chế — chỉ dành cho nhân viên ủy quyền</string>
+    <string name="auth_admin_2fa">Mã 2FA</string>
+    <string name="auth_btn_access_dashboard">Truy cập Bảng điều khiển</string>
+    <string name="auth_security_notice_title">Thông báo bảo mật</string>
+    <string name="auth_security_notice_body">Tất cả hành động của admin đều được ghi nhật ký và giám sát. Mọi nỗ lực truy cập trái phép sẽ bị báo cáo.</string>
 
     <!-- ─── Home screen ─── -->
     <string name="home_greeting">Chào buổi sáng </string>
@@ -173,6 +173,11 @@
     <string name="nav_cart">Giỏ hàng</string>
     <string name="nav_orders">Đơn hàng</string>
     <string name="nav_profile">Tài khoản</string>
+    <string name="admin_nav_dashboard">Tổng quan</string>
+    <string name="admin_nav_users">Thành viên</string>
+    <string name="admin_nav_categories">Danh mục</string>
+    <string name="admin_nav_products">Sản phẩm</string>
+    <string name="admin_nav_orders">Đơn hàng</string>
 
     <!-- ─── Rating labels ─── -->
     <string name="rating_1">Poor</string>
@@ -183,95 +188,94 @@
 
     <!-- ─── Admin Dashboard ─── -->
     <string name="admin_dashboard_title">SoleStep</string>
-    <string name="admin_dashboard_subtitle">Admin Dashboard</string>
-    <string name="admin_dashboard_mgmt_hub">Management Hub</string>
-    <string name="admin_stat_revenue">Revenue</string>
-    <string name="admin_stat_categories">Categories</string>
-    <string name="admin_stat_products">Products</string>
-    <string name="admin_stat_orders">Orders</string>
-    <string name="admin_today_revenue">Today\'s Revenue</string>
-    <string name="admin_recent_orders">Recent Orders</string>
-    <string name="admin_top_products">Top Products</string>
+    <string name="admin_dashboard_subtitle">Trang quản trị</string>
+    <string name="admin_dashboard_mgmt_hub">Trung tâm quản lý</string>
+    <string name="admin_stat_revenue">Doanh thu</string>
+    <string name="admin_stat_categories">Danh mục</string>
+    <string name="admin_stat_products">Sản phẩm</string>
+    <string name="admin_stat_orders">Đơn hàng</string>
+    <string name="admin_today_revenue">Doanh thu hôm nay</string>
+    <string name="admin_recent_orders">Đơn hàng gần đây</string>
+    <string name="admin_top_products">Sản phẩm bán chạy</string>
 
     <!-- ─── Admin User Management ─── -->
-    <string name="admin_users_title">User Management</string>
-    <string name="admin_users_search_hint">Search users…</string>
-    <string name="admin_btn_add_user">Add User</string>
-    <string name="admin_add_user_title">Add New User</string>
-    <string name="admin_btn_create_user">Create User</string>
-    <string name="admin_delete_user_title">Delete User?</string>
-    <string name="admin_delete_user_body">This action cannot be undone. All data associated with this user will be permanently removed.</string>
+    <string name="admin_users_title">Quản lý người dùng</string>
+    <string name="admin_users_search_hint">Tìm kiếm người dùng…</string>
+    <string name="admin_btn_add_user">Thêm thành viên</string>
+    <string name="admin_add_user_title">Thêm thành viên mới</string>
+    <string name="admin_btn_create_user">Tạo tài khoản</string>
+    <string name="admin_delete_user_title">Xóa tài khoản?</string>
+    <string name="admin_delete_user_body">Hành động này không thể hoàn tác. Tất cả dữ liệu của người dùng này sẽ bị xóa vĩnh viễn.</string>
 
     <!-- ─── Admin Categories ─── -->
-    <string name="admin_categories_title">Categories</string>
-    <string name="admin_add_category">+ Add</string>
-    <string name="admin_btn_add_category">Add</string>
-    <string name="admin_add_category_title">Add Category</string>
-    <string name="admin_edit_category_title">Edit Category</string>
-    <string name="admin_search_categories_hint">Search categories…</string>
-    <string name="admin_category_name_hint">e.g. Basketball</string>
-    <string name="admin_category_name_label">Category Name</string>
-    <string name="admin_category_icon_label">Icon (Emoji)</string>
-    <string name="admin_category_color_label">Color</string>
-    <string name="admin_delete_category_title">Delete Category?</string>
-    <string name="admin_delete_category_body">All products in this category will be unassigned.</string>
-    <string name="admin_cat_chip_mens">Men\'s</string>
-    <string name="admin_cat_chip_womens">Women\'s</string>
-    <string name="admin_cat_chip_kids">Kids\'</string>
-    <string name="admin_cat_view_all">View all ›</string>
+    <string name="admin_categories_title">Danh mục</string>
+    <string name="admin_add_category">+ Thêm</string>
+    <string name="admin_btn_add_category">Thêm</string>
+    <string name="admin_add_category_title">Thêm danh mục</string>
+    <string name="admin_edit_category_title">Sửa danh mục</string>
+    <string name="admin_search_categories_hint">Tìm danh mục…</string>
+    <string name="admin_category_name_hint">Ví dụ: Giày bóng rổ</string>
+    <string name="admin_category_name_label">Tên danh mục</string>
+    <string name="admin_category_icon_label">Icon (Biểu tượng)</string>
+    <string name="admin_category_color_label">Màu sắc chủ đạo</string>
+    <string name="admin_delete_category_title">Vô hiệu hóa danh mục?</string>
+    <string name="admin_delete_category_body">Bạn có chắc muốn tắt danh mục này không?</string>
+    <string name="admin_cat_chip_mens">Nam</string>
+    <string name="admin_cat_chip_womens">Nữ</string>
+    <string name="admin_cat_chip_kids">Trẻ em</string>
+    <string name="admin_cat_view_all">Xem tất cả ›</string>
 
     <!-- ─── Admin Products ─── -->
-    <string name="admin_products_title">Products</string>
-    <string name="admin_add_product">Add Product</string>
-    <string name="admin_btn_add_product">Add Product</string>
-    <string name="admin_add_product_title">Add New Product</string>
-    <string name="admin_product_name_label">Product Name</string>
-    <string name="admin_product_brand_label">Brand</string>
-    <string name="admin_product_price_label">Price ($)</string>
-    <string name="admin_product_original_price_label">Original Price ($)</string>
-    <string name="admin_product_stock_label">Stock Quantity</string>
-    <string name="admin_product_category_label">Category</string>
-    <string name="admin_product_sizes_label">Available Sizes (US)</string>
-    <string name="admin_product_description_label">Description</string>
-    <string name="admin_btn_add_product_confirm">Add Product</string>
-    <string name="admin_delete_product_title">Delete Product?</string>
-    <string name="admin_delete_product_body">This will permanently remove the product and all its variants from the store.</string>
-    <string name="admin_search_products_hint">Search products…</string>
-    <string name="admin_products_search_input_hint">Search products…</string>
-    <string name="admin_colors_label">Colors</string>
-    <string name="admin_stock_format">Stock: %d</string>
+    <string name="admin_products_title">Sản phẩm</string>
+    <string name="admin_add_product">Thêm sản phẩm</string>
+    <string name="admin_btn_add_product">Thêm sản phẩm</string>
+    <string name="admin_add_product_title">Thêm sản phẩm mới</string>
+    <string name="admin_product_name_label">Tên sản phẩm</string>
+    <string name="admin_product_brand_label">Thương hiệu</string>
+    <string name="admin_product_price_label">Giá bán (đ)</string>
+    <string name="admin_product_original_price_label">Giá gốc (đ)</string>
+    <string name="admin_product_stock_label">Số lượng tồn kho</string>
+    <string name="admin_product_category_label">Danh mục sản phẩm</string>
+    <string name="admin_product_sizes_label">Size khả dụng (EU)</string>
+    <string name="admin_product_description_label">Mô tả sản phẩm</string>
+    <string name="admin_btn_add_product_confirm">Xác nhận thêm</string>
+    <string name="admin_delete_product_title">Xóa sản phẩm?</string>
+    <string name="admin_delete_product_body">Sản phẩm và tất cả các biến thể sẽ bị xóa vĩnh viễn khỏi hệ thống cửa hàng.</string>
+    <string name="admin_search_products_hint">Tìm sản phẩm…</string>
+    <string name="admin_products_search_input_hint">Tìm sản phẩm…</string>
+    <string name="admin_colors_label">Màu sắc</string>
+    <string name="admin_stock_format">Kho: %d</string>
     <string name="badge_new">MỚI</string>
     <string name="product_image_desc">Ảnh sản phẩm</string>
 
     <!-- ─── Admin Orders ─── -->
-    <string name="admin_orders_title">Order Management</string>
-    <string name="admin_orders_search_hint">Search orders or customers…</string>
-    <string name="admin_search_orders_hint">Search orders…</string>
-    <string name="admin_view_details">View Details</string>
-    <string name="admin_btn_view_details">View Details</string>
-    <string name="admin_mark_shipped">Mark as Shipped</string>
-    <string name="admin_btn_mark_shipped">Mark as Shipped</string>
-    <string name="admin_mark_delivered">Mark as Delivered</string>
-    <string name="admin_btn_mark_delivered">Mark as Delivered</string>
-    <string name="admin_order_progress_title">Order Progress</string>
-    <string name="admin_status_completed">Completed</string>
-    <string name="admin_order_completed">✓ Completed</string>
+    <string name="admin_orders_title">Quản lý đơn hàng</string>
+    <string name="admin_orders_search_hint">Tìm kiếm mã đơn hoặc tên khách…</string>
+    <string name="admin_search_orders_hint">Tìm đơn hàng…</string>
+    <string name="admin_view_details">Xem chi tiết</string>
+    <string name="admin_btn_view_details">Xem chi tiết</string>
+    <string name="admin_mark_shipped">Xác nhận giao hàng</string>
+    <string name="admin_btn_mark_shipped">Giao hàng</string>
+    <string name="admin_mark_delivered">Đã giao thành công</string>
+    <string name="admin_btn_mark_delivered">Hoàn tất đơn</string>
+    <string name="admin_order_progress_title">Tiến trình đơn hàng</string>
+    <string name="admin_status_completed">Đã hoàn thành</string>
+    <string name="admin_order_completed">✓ Đã hoàn thành</string>
 
     <!-- ─── Filter chips ─── -->
-    <string name="filter_all">All</string>
+    <string name="filter_all">Tất cả</string>
     <string name="filter_sneakers">Sneaker</string>
-    <string name="filter_running">Chạy bộ</string>
+    <string name="filter_running">Giày chạy bộ</string>
     <string name="filter_casual">Hằng ngày</string>
 
     <!-- ─── Status labels ─── -->
-    <string name="status_pending">Pending</string>
-    <string name="status_processing">Processing</string>
-    <string name="status_shipping">Shipping</string>
-    <string name="status_shipped">Shipped</string>
-    <string name="status_delivered">Delivered</string>
-    <string name="status_active">Active</string>
-    <string name="status_inactive">Inactive</string>
+    <string name="status_inactive">Vô hiệu hóa</string>
     <string name="status_new">MỚI</string>
+    <string name="status_processing">Đang xử lý</string>
+    <string name="status_shipped">Đang giao hàng</string>
+    <string name="status_shipping">Đang giao hàng</string>
+    <string name="status_delivered">Đã giao hàng</string>
+    <string name="status_cancelled">Đã hủy</string>
 
     <!-- ─── Category names ─── -->
     <string name="cat_sneakers">Sneaker</string>
@@ -282,22 +286,22 @@
     <string name="cat_training">Tập luyện</string>
 
     <!-- ─── Actions ─── -->
-    <string name="action_cancel">Cancel</string>
-    <string name="action_save">Save Changes</string>
-    <string name="action_delete">Delete</string>
-    <string name="action_edit">Edit</string>
-    <string name="action_close">Close</string>
-    <string name="action_back">Back</string>
-    <string name="action_copy">Copy</string>
-    <string name="action_share">Share</string>
-    <string name="action_refresh">Refresh</string>
+    <string name="action_cancel">Hủy</string>
+    <string name="action_save">Lưu thay đổi</string>
+    <string name="action_delete">Xóa</string>
+    <string name="action_edit">Sửa</string>
+    <string name="action_close">Đóng</string>
+    <string name="action_back">Quay lại</string>
+    <string name="action_copy">Sao chép</string>
+    <string name="action_share">Chia sẻ</string>
+    <string name="action_refresh">Làm mới</string>
     <string name="action_search">Tìm kiếm</string>
     <string name="action_filter">Bộ lọc</string>
 
     <!-- ─── Password requirements ─── -->
-    <string name="pass_req_length">At least 8 characters</string>
-    <string name="pass_req_uppercase">One uppercase letter</string>
-    <string name="pass_req_number">One number</string>
-    <string name="pass_req_special">One special character (@, !, etc.)</string>
-    <string name="pass_strength_strong">Strong password</string>
+    <string name="pass_req_length">Tối thiểu 8 ký tự</string>
+    <string name="pass_req_uppercase">Có ít nhất một chữ hoa</string>
+    <string name="pass_req_number">Có ít nhất một chữ số</string>
+    <string name="pass_req_special">Có ít nhất một ký tự đặc biệt (@, !, v.v.)</string>
+    <string name="pass_strength_strong">Mật khẩu mạnh</string>
 </resources>

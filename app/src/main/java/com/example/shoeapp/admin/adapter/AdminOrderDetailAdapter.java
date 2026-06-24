@@ -90,8 +90,8 @@ public class AdminOrderDetailAdapter extends RecyclerView.Adapter<AdminOrderDeta
 
         void bind(OrderDetailDisplay item) {
             tvBrand.setText(item.brandName != null ? item.brandName : "SoleStep");
-            tvName.setText(item.productName != null ? item.productName : "Shoe");
-            tvSize.setText("Size: " + (item.sizeName != null ? item.sizeName : "—"));
+            tvName.setText(item.productName != null ? item.productName : "Giày");
+            tvSize.setText("Kích cỡ: " + (item.sizeName != null ? item.sizeName : "—"));
             tvColor.setText(item.colorName != null ? item.colorName : "—");
             tvQtyPrice.setText(String.format(Locale.US, "$%.2f x %d", item.unitPrice, item.quantity));
             tvSubtotal.setText(String.format(Locale.US, "$%.2f", item.subtotal));

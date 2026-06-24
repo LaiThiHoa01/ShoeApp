@@ -12,16 +12,19 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shoeapp.model.Category;
 import com.example.shoeapp.R;
 
 import java.util.List;
+import java.util.Objects;
 
 
 public class AdminCategoryAdapter
-        extends RecyclerView.Adapter<AdminCategoryAdapter.ViewHolder> {
+        extends ListAdapter<Category, AdminCategoryAdapter.ViewHolder> {
 
     public interface OnCategoryActionListener {
         void onEditClick(Category category, int position);
@@ -29,15 +32,32 @@ public class AdminCategoryAdapter
         void onViewAllClick(Category category, int position);
     }
 
+    private static final DiffUtil.ItemCallback<Category> DIFF_CALLBACK = new DiffUtil.ItemCallback<Category>() {
+        @Override
+        public boolean areItemsTheSame(@NonNull Category oldItem, @NonNull Category newItem) {
+            return oldItem.getId() == newItem.getId();
+        }
+
+        @Override
+        public boolean areContentsTheSame(@NonNull Category oldItem, @NonNull Category newItem) {
+            return oldItem.getId() == newItem.getId()
+                    && Objects.equals(oldItem.getName(), newItem.getName())
+                    && oldItem.getIconResId() == newItem.getIconResId()
+                    && oldItem.getIconBgColorRes() == newItem.getIconBgColorRes()
+                    && oldItem.getAccentColorRes() == newItem.getAccentColorRes()
+                    && oldItem.getProductCount() == newItem.getProductCount()
+                    && oldItem.getMaxProducts() == newItem.getMaxProducts()
+                    && oldItem.isActive() == newItem.isActive();
+        }
+    };
+
     private final Context                   context;
-    private final List<Category>            categories;
     private final OnCategoryActionListener  listener;
 
     public AdminCategoryAdapter(Context context,
-                                List<Category> categories,
                                 OnCategoryActionListener listener) {
+        super(DIFF_CALLBACK);
         this.context    = context;
-        this.categories = categories;
         this.listener   = listener;
     }
 
@@ -51,13 +71,8 @@ public class AdminCategoryAdapter
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Category category = categories.get(position);
+        Category category = getItem(position);
         holder.bind(category, position);
-    }
-
-    @Override
-    public int getItemCount() {
-        return categories.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

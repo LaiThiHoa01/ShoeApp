@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shoeapp.model.Order;
@@ -17,22 +19,38 @@ import com.google.android.material.button.MaterialButton;
 import java.util.List;
 import java.util.Locale;
 public class AdminOrderAdapter
-        extends RecyclerView.Adapter<AdminOrderAdapter.ViewHolder> {
+        extends ListAdapter<Order, AdminOrderAdapter.ViewHolder> {
 
     public interface OnOrderActionListener {
         void onViewDetailsClick(Order order, int position);
         void onMarkShippedClick(Order order, int position);
         void onMarkDeliveredClick(Order order, int position);
+        void onCancelOrderClick(Order order, int position);
     }
     private final Context               context;
-    private final List<Order>           orders;
     private final OnOrderActionListener listener;
 
+    private static final DiffUtil.ItemCallback<Order> DIFF_CALLBACK =
+            new DiffUtil.ItemCallback<Order>() {
+                @Override
+                public boolean areItemsTheSame(@NonNull Order oldItem, @NonNull Order newItem) {
+                    return oldItem.getOrderId().equals(newItem.getOrderId());
+                }
+
+                @Override
+                public boolean areContentsTheSame(@NonNull Order oldItem, @NonNull Order newItem) {
+                    return oldItem.getStatus() == newItem.getStatus()
+                            && oldItem.getCustomerName().equals(newItem.getCustomerName())
+                            && Double.compare(oldItem.getTotal(), newItem.getTotal()) == 0
+                            && oldItem.getItemCount() == newItem.getItemCount()
+                            && oldItem.getDate().equals(newItem.getDate());
+                }
+            };
+
     public AdminOrderAdapter(Context context,
-                             List<Order> orders,
                              OnOrderActionListener listener) {
+        super(DIFF_CALLBACK);
         this.context  = context;
-        this.orders   = orders;
         this.listener = listener;
     }
 
@@ -46,13 +64,8 @@ public class AdminOrderAdapter
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Order order = orders.get(position);
+        Order order = getItem(position);
         holder.bind(order, position);
-    }
-
-    @Override
-    public int getItemCount() {
-        return orders.size();
     }
 
     // ── ViewHolder ──────────────────────────────────────────────────────────
@@ -67,6 +80,7 @@ public class AdminOrderAdapter
         final TextView      total;
         final TextView      itemCount;
         final MaterialButton btnView;
+        final MaterialButton btnCancel;
         final MaterialButton btnAction;
 
         ViewHolder(@NonNull View itemView) {
@@ -82,6 +96,7 @@ public class AdminOrderAdapter
             total        = itemView.findViewById(R.id.admin_order_total);
             itemCount    = itemView.findViewById(R.id.admin_order_items_count);
             btnView      = itemView.findViewById(R.id.admin_order_btn_view);
+            btnCancel    = itemView.findViewById(R.id.admin_order_btn_cancel);
             btnAction    = itemView.findViewById(R.id.admin_order_btn_action);
         }
 
@@ -105,6 +120,7 @@ public class AdminOrderAdapter
             });
 
             // ── Nút action (Mark as Shipped / Mark as Delivered / disabled) ──
+            btnCancel.setVisibility(View.GONE);
             switch (order.getStatus()) {
                 case PROCESSING:
                     btnAction.setVisibility(View.VISIBLE);
@@ -117,6 +133,11 @@ public class AdminOrderAdapter
                             ContextCompat.getColor(context, R.color.brand_white));
                     btnAction.setOnClickListener(v -> {
                         if (listener != null) listener.onMarkShippedClick(order, position);
+                    });
+
+                    btnCancel.setVisibility(View.VISIBLE);
+                    btnCancel.setOnClickListener(v -> {
+                        if (listener != null) listener.onCancelOrderClick(order, position);
                     });
                     break;
 
@@ -143,6 +164,18 @@ public class AdminOrderAdapter
                             ContextCompat.getColorStateList(context, R.color.status_success_bg));
                     btnAction.setTextColor(
                             ContextCompat.getColor(context, R.color.status_success));
+                    btnAction.setOnClickListener(null);
+                    break;
+
+                case CANCELLED:
+                    btnAction.setVisibility(View.VISIBLE);
+                    btnAction.setText(context.getString(R.string.status_cancelled));
+                    btnAction.setIconResource(R.drawable.ic_clock);
+                    btnAction.setEnabled(false);
+                    btnAction.setBackgroundTintList(
+                            ContextCompat.getColorStateList(context, R.color.status_error_bg));
+                    btnAction.setTextColor(
+                            ContextCompat.getColor(context, R.color.status_error));
                     btnAction.setOnClickListener(null);
                     break;
             }
@@ -179,6 +212,16 @@ public class AdminOrderAdapter
                     setDotColor(dot1, R.color.status_success);
                     setDotColor(dot2, R.color.status_info);
                     setDotColor(dot3, R.color.status_success);
+                    break;
+
+                case CANCELLED:
+                    statusBadge.setBackgroundResource(R.drawable.bg_admin_status_processing);
+                    statusText.setText(context.getString(R.string.status_cancelled));
+                    statusText.setTextColor(
+                            ContextCompat.getColor(context, R.color.status_error));
+                    setDotColor(dot1, R.color.status_error);
+                    setDotColor(dot2, R.color.border_dark_medium);
+                    setDotColor(dot3, R.color.border_dark_medium);
                     break;
             }
         }

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ADMIN — PRODUCT VARIANT LIST ITEM
+  Layout: item_admin_product_variant.xml
+-->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://tools.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/space_8"
+    android:background="@drawable/bg_card_dark"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:padding="@dimen/space_12">
+
+    <!-- Color Info Section -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.2"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <View
+            android:id="@+id/item_variant_color_dot"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:background="@drawable/bg_admin_category_icon"
+            android:backgroundTint="@color/brand_orange" />
+
+        <TextView
+            android:id="@+id/item_variant_color_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_8"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/text_dark_primary"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            tools:text="Màu Đen" />
+    </LinearLayout>
+
+    <!-- Size Info Section -->
+    <TextView
+        android:id="@+id/item_variant_size_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.8"
+        android:gravity="center"
+        android:textColor="@color/text_dark_secondary"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        tools:text="Size 40" />
+
+    <!-- Stepper Section (Quantity controls) -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <!-- Minus Button -->
+        <TextView
+            android:id="@+id/item_variant_btn_minus"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="@drawable/bg_admin_icon_btn"
+            android:gravity="center"
+            android:text="-"
+            android:textColor="@color/text_dark_primary"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <!-- Stock Input Field -->
+        <EditText
+            android:id="@+id/item_variant_stock_input"
+            android:layout_width="56dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            android:background="@drawable/bg_admin_search"
+            android:gravity="center"
+            android:inputType="number"
+            android:maxLength="4"
+            android:textColor="@color/text_dark_primary"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            tools:text="15" />
+
+        <!-- Plus Button -->
+        <TextView
+            android:id="@+id/item_variant_btn_plus"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="@drawable/bg_admin_icon_btn"
+            android:gravity="center"
+            android:text="+"
+            android:textColor="@color/text_dark_primary"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</LinearLayout>

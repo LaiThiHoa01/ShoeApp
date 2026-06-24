@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ADMIN — ADD PRODUCT VARIANT DIALOG
+  Layout: dialog_add_variant.xml
+-->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/bg_dark_secondary"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Thêm biến thể mới"
+        android:textColor="@color/text_dark_primary"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:gravity="center_horizontal"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Label Màu sắc -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Màu sắc"
+        android:textColor="@color/text_dark_tertiary"
+        android:textSize="12sp"
+        android:layout_marginBottom="4dp" />
+
+    <Spinner
+        android:id="@+id/dialog_variant_spinner_color"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/bg_admin_search"
+        android:popupBackground="@color/bg_dark_surface_2"
+        android:layout_marginBottom="12dp" />
+
+    <!-- Label Kích thước -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Kích thước (Size)"
+        android:textColor="@color/text_dark_tertiary"
+        android:textSize="12sp"
+        android:layout_marginBottom="4dp" />
+
+    <Spinner
+        android:id="@+id/dialog_variant_spinner_size"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/bg_admin_search"
+        android:popupBackground="@color/bg_dark_surface_2"
+        android:layout_marginBottom="12dp" />
+
+    <!-- Label Tồn kho -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Số lượng tồn kho ban đầu"
+        android:textColor="@color/text_dark_tertiary"
+        android:textSize="12sp"
+        android:layout_marginBottom="4dp" />
+
+    <EditText
+        android:id="@+id/dialog_variant_input_stock"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/bg_admin_search"
+        android:hint="Ví dụ: 10"
+        android:inputType="number"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:textColor="@color/text_dark_primary"
+        android:textColorHint="@color/text_dark_muted"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp" />
+
+</LinearLayout>
