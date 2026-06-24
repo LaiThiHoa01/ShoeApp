@@ -25,6 +25,9 @@
             android:name=".user.ProductDetailActivity"
             android:exported="false" />
         <activity
+            android:name=".user.ChatActivity"
+            android:exported="false" />
+        <activity
             android:name=".user.CartActivity"
             android:exported="false" />
         <activity
