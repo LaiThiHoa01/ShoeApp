@@ -222,4 +222,34 @@ public interface ProductDao {
 
     @Query("SELECT COUNT(*) FROM product_variant")
     int countVariants();
+
+    @Query("DELETE FROM order_detail")
+    void deleteAllOrderDetails();
+
+    @Query("DELETE FROM orders")
+    void deleteAllOrders();
+
+    @Query("DELETE FROM product_variant")
+    void deleteAllVariants();
+
+    @Query("DELETE FROM product_img")
+    void deleteAllImages();
+
+    @Query("DELETE FROM product_review")
+    void deleteAllReviews();
+
+    @Query("DELETE FROM product")
+    void deleteAllProducts();
+
+    @Query("DELETE FROM brand")
+    void deleteAllBrands();
+
+    @Query("DELETE FROM category")
+    void deleteAllCategories();
+
+    @Query("DELETE FROM color")
+    void deleteAllColors();
+
+    @Query("DELETE FROM size")
+    void deleteAllSizes();
 }

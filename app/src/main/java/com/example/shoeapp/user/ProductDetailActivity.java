@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridLayout;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -35,6 +36,8 @@ public class ProductDetailActivity extends BaseSoleStepActivity {
     private int selectedSizeId;
     private int selectedStock;
     private int quantity = 1;
+    private final List<View> thumbnailViews = new ArrayList<>();
+    private final List<ProductColorOption> colorOptionsForThumbnails = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +74,7 @@ public class ProductDetailActivity extends BaseSoleStepActivity {
         findViewById(R.id.detail_badge_new).setVisibility(clientProduct.isNew() ? View.VISIBLE : View.GONE);
 
         setupColorOptions();
+        setupThumbnails();
         setupQuantityControls();
         findViewById(R.id.add_to_cart_button).setOnClickListener(v -> addToCart());
     }
@@ -107,6 +111,7 @@ public class ProductDetailActivity extends BaseSoleStepActivity {
         ImageLoader.load(productRepository.getImageUrl(product.id, selectedColorId),
                 (ImageView) findViewById(R.id.detail_product_image),
                 clientProduct.getImageResId());
+        updateThumbnailSelection();
         setupSizeOptions();
     }
 
@@ -202,6 +207,54 @@ public class ProductDetailActivity extends BaseSoleStepActivity {
         }
         drawable.setStroke(dp(selected ? 3 : 1), getColor(selected ? R.color.brand_orange : R.color.border_normal));
         return drawable;
+    }
+
+    private void setupThumbnails() {
+        LinearLayout thumbnailContainer = findViewById(R.id.detail_thumbnail_container);
+        if (thumbnailContainer == null) return;
+        thumbnailContainer.removeAllViews();
+        thumbnailViews.clear();
+        colorOptionsForThumbnails.clear();
+
+        List<ProductColorOption> colors = productRepository.getAvailableColors(product.id);
+        colorOptionsForThumbnails.addAll(colors);
+
+        for (int i = 0; i < colors.size(); i++) {
+            ProductColorOption color = colors.get(i);
+            
+            FrameLayout frameLayout = new FrameLayout(this);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(dp(44), dp(44));
+            if (i > 0) {
+                params.setMarginStart(dp(6));
+            }
+            frameLayout.setLayoutParams(params);
+            
+            ImageView thumbImage = new ImageView(this);
+            FrameLayout.LayoutParams imgParams = new FrameLayout.LayoutParams(dp(34), dp(28));
+            imgParams.gravity = android.view.Gravity.CENTER;
+            thumbImage.setLayoutParams(imgParams);
+            thumbImage.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            
+            String imgUrl = productRepository.getImageUrl(product.id, color.id);
+            ImageLoader.load(imgUrl, thumbImage, clientProduct.getImageResId());
+            
+            frameLayout.addView(thumbImage);
+            
+            frameLayout.setOnClickListener(v -> selectColor(color));
+            
+            thumbnailContainer.addView(frameLayout);
+            thumbnailViews.add(frameLayout);
+        }
+        updateThumbnailSelection();
+    }
+
+    private void updateThumbnailSelection() {
+        for (int i = 0; i < colorOptionsForThumbnails.size() && i < thumbnailViews.size(); i++) {
+            boolean selected = colorOptionsForThumbnails.get(i).id == selectedColorId;
+            thumbnailViews.get(i).setBackgroundResource(
+                    selected ? R.drawable.bg_detail_thumbnail_selected : R.drawable.bg_detail_thumbnail
+            );
+        }
     }
 
     private int dp(int value) {
