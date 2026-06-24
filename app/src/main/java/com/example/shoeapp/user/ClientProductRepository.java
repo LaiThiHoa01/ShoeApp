@@ -30,22 +30,23 @@ public class ClientProductRepository {
     }
 
     public void ensureSeedData() {
-        if (productDao.countBrands() == 0) {
+        if (productDao.countVariants() < 100) {
+            productDao.deleteAllOrderDetails();
+            productDao.deleteAllOrders();
+            productDao.deleteAllVariants();
+            productDao.deleteAllImages();
+            productDao.deleteAllReviews();
+            productDao.deleteAllProducts();
+            productDao.deleteAllBrands();
+            productDao.deleteAllCategories();
+            productDao.deleteAllColors();
+            productDao.deleteAllSizes();
+
             seedBrands();
-        }
-        if (productDao.countCategories() == 0) {
             seedCategories();
-        }
-        if (productDao.countColors() == 0) {
             seedColors();
-        }
-        if (productDao.countSizes() == 0) {
             seedSizes();
-        }
-        if (productDao.countProducts() < SEED_PRODUCT_COUNT) {
             seedProducts();
-        }
-        if (productDao.countVariants() == 0) {
             seedVariants();
         }
     }

@@ -30,6 +30,14 @@
                 android:layout_height="312dp"
                 android:background="@drawable/bg_detail_hero">
 
+                <ImageView
+                    android:id="@+id/detail_product_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@string/detail_label_brand"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_shoe" />
+
                 <ImageButton
                     android:id="@+id/back_button"
                     android:layout_width="@dimen/btn_icon_size"
@@ -69,71 +77,14 @@
                     android:textColor="@color/brand_white"
                     android:textStyle="bold" />
 
-                <ImageView
-                    android:id="@+id/detail_product_image"
-                    android:layout_width="210dp"
-                    android:layout_height="150dp"
-                    android:layout_gravity="center"
-                    android:contentDescription="@string/detail_label_brand"
-                    android:rotation="-15"
-                    android:src="@drawable/ic_shoe"
-                    android:tint="@color/text_disabled" />
-
                 <LinearLayout
+                    android:id="@+id/detail_thumbnail_container"
                     android:layout_width="wrap_content"
                     android:layout_height="48dp"
                     android:layout_gravity="bottom|center_horizontal"
                     android:layout_marginBottom="@dimen/space_10"
                     android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <FrameLayout
-                        android:layout_width="44dp"
-                        android:layout_height="44dp"
-                        android:background="@drawable/bg_detail_thumbnail_selected">
-
-                        <ImageView
-                            android:layout_width="34dp"
-                            android:layout_height="28dp"
-                            android:layout_gravity="center"
-                            android:contentDescription="@null"
-                            android:rotation="-15"
-                            android:src="@drawable/ic_shoe"
-                            android:tint="@color/text_disabled" />
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="44dp"
-                        android:layout_height="44dp"
-                        android:layout_marginStart="@dimen/space_6"
-                        android:background="@drawable/bg_detail_thumbnail">
-
-                        <ImageView
-                            android:layout_width="34dp"
-                            android:layout_height="28dp"
-                            android:layout_gravity="center"
-                            android:contentDescription="@null"
-                            android:rotation="-10"
-                            android:src="@drawable/ic_shoe"
-                            android:tint="@color/text_secondary" />
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="44dp"
-                        android:layout_height="44dp"
-                        android:layout_marginStart="@dimen/space_6"
-                        android:background="@drawable/bg_detail_thumbnail">
-
-                        <ImageView
-                            android:layout_width="34dp"
-                            android:layout_height="28dp"
-                            android:layout_gravity="center"
-                            android:contentDescription="@null"
-                            android:rotation="-18"
-                            android:src="@drawable/ic_shoe"
-                            android:tint="@color/cat_boots" />
-                    </FrameLayout>
-                </LinearLayout>
+                    android:orientation="horizontal" />
             </FrameLayout>
 
             <LinearLayout
@@ -199,7 +150,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/detail_color_options"
+                    android:id="@+id/detail_rating_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/space_6"
@@ -250,27 +201,11 @@
                     android:textColor="@color/text_primary" />
 
                 <LinearLayout
+                    android:id="@+id/detail_color_options"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/space_6"
                     android:orientation="horizontal">
-
-                    <View
-                        android:layout_width="34dp"
-                        android:layout_height="34dp"
-                        android:background="@drawable/bg_swatch_white_selected" />
-
-                    <View
-                        android:layout_width="34dp"
-                        android:layout_height="34dp"
-                        android:layout_marginStart="@dimen/space_8"
-                        android:background="@drawable/bg_swatch_black" />
-
-                    <View
-                        android:layout_width="34dp"
-                        android:layout_height="34dp"
-                        android:layout_marginStart="@dimen/space_8"
-                        android:background="@drawable/bg_swatch_orange" />
                 </LinearLayout>
 
                 <LinearLayout
