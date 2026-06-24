@@ -8,6 +8,7 @@ import androidx.room.RoomDatabase;
 
 import com.example.shoeapp.data.dao.CategoryDao;
 import com.example.shoeapp.data.dao.CartDao;
+import com.example.shoeapp.data.dao.ChatMessageDao;
 import com.example.shoeapp.data.dao.OrderDao;
 import com.example.shoeapp.data.dao.ProductDao;
 import com.example.shoeapp.data.dao.UserDao;
@@ -15,6 +16,7 @@ import com.example.shoeapp.data.entity.Brand;
 import com.example.shoeapp.data.entity.Cart;
 import com.example.shoeapp.data.entity.CartItem;
 import com.example.shoeapp.data.entity.Category;
+import com.example.shoeapp.data.entity.ChatMessage;
 import com.example.shoeapp.data.entity.Color;
 import com.example.shoeapp.data.entity.Order;
 import com.example.shoeapp.data.entity.OrderDetail;
@@ -35,6 +37,7 @@ import java.util.List;
         Cart.class,
         CartItem.class,
         Category.class,
+        ChatMessage.class,
         Color.class,
         Order.class,
         OrderDetail.class,
@@ -47,7 +50,7 @@ import java.util.List;
         Size.class,
         TokenType.class,
         User.class
-}, version = 3, exportSchema = false)
+}, version = 5, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract UserDao userDao();
@@ -55,6 +58,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract CartDao cartDao();
     public abstract CategoryDao categoryDao();
     public abstract OrderDao orderDao();
+    public abstract ChatMessageDao chatMessageDao();
 
     private static volatile AppDatabase INSTANCE;
 
