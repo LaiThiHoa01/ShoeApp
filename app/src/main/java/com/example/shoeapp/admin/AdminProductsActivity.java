@@ -145,7 +145,9 @@ public class AdminProductsActivity extends AppCompatActivity
                     rating,
                     reviewCount,
                     R.drawable.ic_shoe,
-                    imageUrl
+                    imageUrl,
+                    entity.isAvailable,
+                    entity.isDiscontinue
             ));
         }
 
@@ -300,12 +302,21 @@ public class AdminProductsActivity extends AppCompatActivity
 
     @Override
     public void onDeleteClick(Product product, int position) {
-        new com.google.android.material.dialog.MaterialAlertDialogBuilder(this)
-                .setTitle("Xóa sản phẩm")
-                .setMessage("Bạn có chắc muốn xóa \"" + product.getName() + "\" không?")
-                .setPositiveButton("Xóa", (dialog, which) -> deleteProduct(product))
-                .setNegativeButton("Hủy", null)
-                .show();
+        if (product.isDiscontinued() || !product.isAvailable()) {
+            new com.google.android.material.dialog.MaterialAlertDialogBuilder(this)
+                    .setTitle("Khôi phục sản phẩm")
+                    .setMessage("Bạn có muốn hiển thị lại sản phẩm \"" + product.getName() + "\" không?")
+                    .setPositiveButton("Khôi phục", (dialog, which) -> restoreProduct(product))
+                    .setNegativeButton("Hủy", null)
+                    .show();
+        } else {
+            new com.google.android.material.dialog.MaterialAlertDialogBuilder(this)
+                    .setTitle("Ẩn sản phẩm")
+                    .setMessage("Bạn có chắc muốn ẩn \"" + product.getName() + "\" khỏi cửa hàng?")
+                    .setPositiveButton("Ẩn", (dialog, which) -> deleteProduct(product))
+                    .setNegativeButton("Hủy", null)
+                    .show();
+        }
     }
 
     @Override
@@ -318,12 +329,27 @@ public class AdminProductsActivity extends AppCompatActivity
     private void deleteProduct(Product product) {
         for (com.example.shoeapp.data.entity.Product entity : dbProducts) {
             if (entity.id == product.getId()) {
-                db.productDao().delete(entity);
+                entity.isAvailable = false;
+                entity.isDiscontinue = true;
+                db.productDao().update(entity);
                 break;
             }
         }
         loadFromDb();
-        Toast.makeText(this, "Đã xóa \"" + product.getName() + "\"", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Đã ẩn \"" + product.getName() + "\"", Toast.LENGTH_SHORT).show();
+    }
+
+    private void restoreProduct(Product product) {
+        for (com.example.shoeapp.data.entity.Product entity : dbProducts) {
+            if (entity.id == product.getId()) {
+                entity.isAvailable = true;
+                entity.isDiscontinue = false;
+                db.productDao().update(entity);
+                break;
+            }
+        }
+        loadFromDb();
+        Toast.makeText(this, "Đã khôi phục \"" + product.getName() + "\"", Toast.LENGTH_SHORT).show();
     }
 
     private void setupStockFilterChips() {

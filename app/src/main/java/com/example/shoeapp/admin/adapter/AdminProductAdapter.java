@@ -49,7 +49,9 @@ public class AdminProductAdapter
                     && Float.compare(oldItem.getRating(), newItem.getRating()) == 0
                     && oldItem.getReviewCount() == newItem.getReviewCount()
                     && oldItem.getImageResId() == newItem.getImageResId()
-                    && Objects.equals(oldItem.getImageUrl(), newItem.getImageUrl());
+                    && Objects.equals(oldItem.getImageUrl(), newItem.getImageUrl())
+                    && oldItem.isAvailable() == newItem.isAvailable()
+                    && oldItem.isDiscontinued() == newItem.isDiscontinued();
         }
     };
 
@@ -133,15 +135,25 @@ public class AdminProductAdapter
                 priceOriginal.setVisibility(View.GONE);
             }
 
-            // ── Stock badge (xanh nếu đủ, đỏ nếu thấp < 15) ──────────────
-            int stockQty = product.getStock();
-            stock.setText(context.getString(R.string.admin_stock_format, stockQty));
-            if (stockQty < 15) {
+            // ── Stock badge (xanh nếu đủ, đỏ nếu thấp < 15, hoặc màu ẩn) ──
+            if (product.isDiscontinued() || !product.isAvailable()) {
+                itemView.setAlpha(0.5f);
+                stock.setText("ĐÃ ẨN");
                 stock.setBackgroundResource(R.drawable.bg_admin_stock_low);
                 stock.setTextColor(ContextCompat.getColor(context, R.color.status_error_light));
+                btnDelete.setColorFilter(ContextCompat.getColor(context, R.color.status_success_light));
             } else {
-                stock.setBackgroundResource(R.drawable.bg_admin_stock_ok);
-                stock.setTextColor(ContextCompat.getColor(context, R.color.status_success_light));
+                itemView.setAlpha(1.0f);
+                int stockQty = product.getStock();
+                stock.setText(context.getString(R.string.admin_stock_format, stockQty));
+                if (stockQty < 15) {
+                    stock.setBackgroundResource(R.drawable.bg_admin_stock_low);
+                    stock.setTextColor(ContextCompat.getColor(context, R.color.status_error_light));
+                } else {
+                    stock.setBackgroundResource(R.drawable.bg_admin_stock_ok);
+                    stock.setTextColor(ContextCompat.getColor(context, R.color.status_success_light));
+                }
+                btnDelete.setColorFilter(ContextCompat.getColor(context, R.color.status_error_light));
             }
 
             // ── Size chips (hiển thị tối đa 4, phần dư dùng +N) ───────────
