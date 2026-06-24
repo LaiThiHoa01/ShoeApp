@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shoeapp.model.Order;
@@ -17,7 +19,7 @@ import com.google.android.material.button.MaterialButton;
 import java.util.List;
 import java.util.Locale;
 public class AdminOrderAdapter
-        extends RecyclerView.Adapter<AdminOrderAdapter.ViewHolder> {
+        extends ListAdapter<Order, AdminOrderAdapter.ViewHolder> {
 
     public interface OnOrderActionListener {
         void onViewDetailsClick(Order order, int position);
@@ -26,14 +28,29 @@ public class AdminOrderAdapter
         void onCancelOrderClick(Order order, int position);
     }
     private final Context               context;
-    private final List<Order>           orders;
     private final OnOrderActionListener listener;
 
+    private static final DiffUtil.ItemCallback<Order> DIFF_CALLBACK =
+            new DiffUtil.ItemCallback<Order>() {
+                @Override
+                public boolean areItemsTheSame(@NonNull Order oldItem, @NonNull Order newItem) {
+                    return oldItem.getOrderId().equals(newItem.getOrderId());
+                }
+
+                @Override
+                public boolean areContentsTheSame(@NonNull Order oldItem, @NonNull Order newItem) {
+                    return oldItem.getStatus() == newItem.getStatus()
+                            && oldItem.getCustomerName().equals(newItem.getCustomerName())
+                            && Double.compare(oldItem.getTotal(), newItem.getTotal()) == 0
+                            && oldItem.getItemCount() == newItem.getItemCount()
+                            && oldItem.getDate().equals(newItem.getDate());
+                }
+            };
+
     public AdminOrderAdapter(Context context,
-                             List<Order> orders,
                              OnOrderActionListener listener) {
+        super(DIFF_CALLBACK);
         this.context  = context;
-        this.orders   = orders;
         this.listener = listener;
     }
 
@@ -47,13 +64,8 @@ public class AdminOrderAdapter
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Order order = orders.get(position);
+        Order order = getItem(position);
         holder.bind(order, position);
-    }
-
-    @Override
-    public int getItemCount() {
-        return orders.size();
     }
 
     // ── ViewHolder ──────────────────────────────────────────────────────────

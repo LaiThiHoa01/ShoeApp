@@ -148,7 +148,7 @@ public class AdminOrderManagementActivity extends AppCompatActivity
     }
 
     private void setupRecyclerView() {
-        adapter = new AdminOrderAdapter(this, filteredOrders, this);
+        adapter = new AdminOrderAdapter(this, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
         int gapPx = (int) (12 * getResources().getDisplayMetrics().density);
@@ -236,7 +236,7 @@ public class AdminOrderManagementActivity extends AppCompatActivity
             boolean matchTime = matchesTimeFilter(o.getDate());
             if (matchStatus && matchSearch && matchTime) filteredOrders.add(o);
         }
-        adapter.notifyDataSetChanged();
+        adapter.submitList(new ArrayList<>(filteredOrders));
     }
 
     private boolean matchesTimeFilter(String dateStr) {
@@ -313,7 +313,6 @@ public class AdminOrderManagementActivity extends AppCompatActivity
     public void onMarkShippedClick(Order order, int position) {
         order.setStatus(Order.Status.SHIPPED);
         updateOrderStatusInDb(order.getOrderId(), "SHIPPED");
-        adapter.notifyItemChanged(position);
         updateStats();
         applyFilters();
         Toast.makeText(this, "Cập nhật: " + order.getOrderId() + " → Đã gửi", Toast.LENGTH_SHORT).show();
@@ -323,7 +322,6 @@ public class AdminOrderManagementActivity extends AppCompatActivity
     public void onMarkDeliveredClick(Order order, int position) {
         order.setStatus(Order.Status.DELIVERED);
         updateOrderStatusInDb(order.getOrderId(), "DELIVERED");
-        adapter.notifyItemChanged(position);
         updateStats();
         applyFilters();
         Toast.makeText(this, "Cập nhật: " + order.getOrderId() + " → Đã giao", Toast.LENGTH_SHORT).show();
@@ -333,7 +331,6 @@ public class AdminOrderManagementActivity extends AppCompatActivity
     public void onCancelOrderClick(Order order, int position) {
         order.setStatus(Order.Status.CANCELLED);
         updateOrderStatusInDb(order.getOrderId(), "CANCELLED");
-        adapter.notifyItemChanged(position);
         updateStats();
         applyFilters();
         Toast.makeText(this, "Đã hủy đơn hàng: " + order.getOrderId(), Toast.LENGTH_SHORT).show();

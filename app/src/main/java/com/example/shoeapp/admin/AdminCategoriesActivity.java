@@ -126,15 +126,16 @@ public class AdminCategoriesActivity extends AppCompatActivity
         }
 
         if (adapter != null) {
-            adapter.notifyDataSetChanged();
+            adapter.submitList(new ArrayList<>(categories));
         }
         updateSubtitle();
     }
 
     private void setupRecyclerView() {
-        adapter = new AdminCategoryAdapter(this, categories, this);
+        adapter = new AdminCategoryAdapter(this, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
+        adapter.submitList(new ArrayList<>(categories));
         int gapPx = (int) (12 * getResources().getDisplayMetrics().density);
         recyclerView.addItemDecoration(new AdminProductsActivity.SpaceItemDecoration(gapPx));
     }

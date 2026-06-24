@@ -159,9 +159,10 @@ public class AdminProductsActivity extends AppCompatActivity
     }
 
     private void setupRecyclerView() {
-        adapter = new AdminProductAdapter(this, filteredProducts, this);
+        adapter = new AdminProductAdapter(this, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
+        adapter.submitList(new ArrayList<>(filteredProducts));
         int gapPx = (int) (12 * getResources().getDisplayMetrics().density);
         recyclerView.addItemDecoration(new SpaceItemDecoration(gapPx));
     }
@@ -283,7 +284,7 @@ public class AdminProductsActivity extends AppCompatActivity
             }
             if (matchCategory && matchSearch && matchStock) filteredProducts.add(p);
         }
-        adapter.notifyDataSetChanged();
+        adapter.submitList(new ArrayList<>(filteredProducts));
     }
 
     private void onAddProductClick() {

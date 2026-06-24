@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shoeapp.model.Product;
@@ -16,8 +18,10 @@ import com.example.shoeapp.R;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
+
 public class AdminProductAdapter
-        extends RecyclerView.Adapter<AdminProductAdapter.ViewHolder> {
+        extends ListAdapter<Product, AdminProductAdapter.ViewHolder> {
 
     public interface OnProductActionListener {
         void onEditClick(Product product, int position);
@@ -25,15 +29,37 @@ public class AdminProductAdapter
         void onVariantsClick(Product product, int position);
     }
 
+    private static final DiffUtil.ItemCallback<Product> DIFF_CALLBACK = new DiffUtil.ItemCallback<Product>() {
+        @Override
+        public boolean areItemsTheSame(@NonNull Product oldItem, @NonNull Product newItem) {
+            return oldItem.getId() == newItem.getId();
+        }
+
+        @Override
+        public boolean areContentsTheSame(@NonNull Product oldItem, @NonNull Product newItem) {
+            return oldItem.getId() == newItem.getId()
+                    && Objects.equals(oldItem.getName(), newItem.getName())
+                    && Objects.equals(oldItem.getBrand(), newItem.getBrand())
+                    && Objects.equals(oldItem.getCategory(), newItem.getCategory())
+                    && Double.compare(oldItem.getPrice(), newItem.getPrice()) == 0
+                    && Double.compare(oldItem.getOriginalPrice(), newItem.getOriginalPrice()) == 0
+                    && oldItem.getStock() == newItem.getStock()
+                    && oldItem.isNew() == newItem.isNew()
+                    && Objects.equals(oldItem.getSizes(), newItem.getSizes())
+                    && Float.compare(oldItem.getRating(), newItem.getRating()) == 0
+                    && oldItem.getReviewCount() == newItem.getReviewCount()
+                    && oldItem.getImageResId() == newItem.getImageResId()
+                    && Objects.equals(oldItem.getImageUrl(), newItem.getImageUrl());
+        }
+    };
+
     private final Context                context;
-    private final List<Product>          products;
     private final OnProductActionListener listener;
 
     public AdminProductAdapter(Context context,
-                               List<Product> products,
                                OnProductActionListener listener) {
+        super(DIFF_CALLBACK);
         this.context  = context;
-        this.products = products;
         this.listener = listener;
     }
 
@@ -47,14 +73,10 @@ public class AdminProductAdapter
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Product product = products.get(position);
+        Product product = getItem(position);
         holder.bind(product, position);
     }
 
-    @Override
-    public int getItemCount() {
-        return products.size();
-    }
     class ViewHolder extends RecyclerView.ViewHolder {
 
         final ImageView   image;
