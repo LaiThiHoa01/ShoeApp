@@ -86,7 +86,7 @@
                     android:id="@+id/checkout_name_input"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
-                    android:layout_marginTop="@dimen/space_10"
+                    android:layout_marginTop="@dimen/space_5"
                     android:background="@drawable/bg_input_selector"
                     android:hint="Họ và tên"
                     android:inputType="textPersonName"
@@ -94,13 +94,14 @@
                     android:paddingEnd="@dimen/space_12"
                     android:singleLine="true"
                     android:textColor="@color/text_primary"
-                    android:textColorHint="@color/text_muted" />
+                    android:textColorHint="@color/text_muted"
+                    android:textSize="14sp" />
 
                 <EditText
                     android:id="@+id/checkout_phone_input"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
-                    android:layout_marginTop="@dimen/space_8"
+                    android:layout_marginTop="@dimen/space_5"
                     android:background="@drawable/bg_input_selector"
                     android:hint="Số điện thoại"
                     android:inputType="phone"
@@ -108,26 +109,28 @@
                     android:paddingEnd="@dimen/space_12"
                     android:singleLine="true"
                     android:textColor="@color/text_primary"
-                    android:textColorHint="@color/text_muted" />
+                    android:textColorHint="@color/text_muted"
+                    android:textSize="14sp" />
 
                 <EditText
                     android:id="@+id/checkout_address_input"
                     android:layout_width="match_parent"
                     android:layout_height="72dp"
-                    android:layout_marginTop="@dimen/space_8"
+                    android:layout_marginTop="@dimen/space_5"
                     android:background="@drawable/bg_input_selector"
                     android:gravity="top"
                     android:hint="Địa chỉ giao hàng"
                     android:inputType="textPostalAddress|textMultiLine"
                     android:padding="@dimen/space_12"
                     android:textColor="@color/text_primary"
-                    android:textColorHint="@color/text_muted" />
+                    android:textColorHint="@color/text_muted"
+                    android:textSize="14sp" />
 
                 <EditText
                     android:id="@+id/checkout_note_input"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
-                    android:layout_marginTop="@dimen/space_8"
+                    android:layout_marginTop="@dimen/space_5"
                     android:background="@drawable/bg_input_selector"
                     android:hint="Ghi chú cho shop hoặc shipper"
                     android:inputType="text"
@@ -135,7 +138,8 @@
                     android:paddingEnd="@dimen/space_12"
                     android:singleLine="true"
                     android:textColor="@color/text_primary"
-                    android:textColorHint="@color/text_muted" />
+                    android:textColorHint="@color/text_muted"
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -160,7 +164,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="72dp"
                     android:layout_marginTop="@dimen/space_10"
-                    android:background="@drawable/bg_checkout_selected"
+                    android:background="@drawable/selector_checkout_option"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:padding="@dimen/space_10">
@@ -208,7 +212,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="72dp"
                     android:layout_marginTop="@dimen/space_8"
-                    android:background="@drawable/bg_checkout_option"
+                    android:background="@drawable/selector_checkout_option"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:padding="@dimen/space_10">
@@ -256,15 +260,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="72dp"
                     android:layout_marginTop="@dimen/space_8"
-                    android:background="@drawable/bg_checkout_option"
+                    android:background="@drawable/selector_checkout_option"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:padding="@dimen/space_10">
 
                     <ImageView
                         android:layout_width="@dimen/icon_md"
-                        android:layout_height="@dimen/icon_md"
-                        android:src="@drawable/ic_check_circle"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_delivery_truck_speed"
                         android:tint="@color/text_secondary" />
 
                     <LinearLayout
@@ -277,7 +281,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Giao trong ngày"
+                            android:text="Giao hoả tốc"
                             android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
                             android:textColor="@color/text_primary"
                             android:textStyle="bold" />
@@ -322,7 +326,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="62dp"
                     android:layout_marginTop="@dimen/space_10"
-                    android:background="@drawable/bg_checkout_selected"
+                    android:background="@drawable/selector_checkout_option"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:padding="@dimen/space_10">
@@ -330,14 +334,14 @@
                     <ImageView
                         android:layout_width="@dimen/icon_md"
                         android:layout_height="@dimen/icon_md"
-                        android:src="@drawable/ic_qr_small" />
+                        android:src="@drawable/logo" />
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/space_10"
                         android:layout_weight="1"
-                        android:text="Chuyển khoản QR"
+                        android:text="Thanh toán bằng ZaloPay"
                         android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
                         android:textColor="@color/text_primary"
                         android:textStyle="bold" />
@@ -348,7 +352,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="62dp"
                     android:layout_marginTop="@dimen/space_8"
-                    android:background="@drawable/bg_checkout_option"
+                    android:background="@drawable/selector_checkout_option"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:padding="@dimen/space_10">
@@ -370,31 +374,31 @@
                         android:textStyle="bold" />
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/payment_card"
-                    android:layout_width="match_parent"
-                    android:layout_height="62dp"
-                    android:layout_marginTop="@dimen/space_8"
-                    android:background="@drawable/bg_checkout_option"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/space_10">
+<!--                <LinearLayout-->
+<!--                    android:id="@+id/payment_card"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="62dp"-->
+<!--                    android:layout_marginTop="@dimen/space_8"-->
+<!--                    android:background="@drawable/bg_checkout_option"-->
+<!--                    android:gravity="center_vertical"-->
+<!--                    android:orientation="horizontal"-->
+<!--                    android:padding="@dimen/space_10">-->
 
-                    <ImageView
-                        android:layout_width="@dimen/icon_md"
-                        android:layout_height="@dimen/icon_md"
-                        android:src="@drawable/ic_card" />
+<!--                    <ImageView-->
+<!--                        android:layout_width="@dimen/icon_md"-->
+<!--                        android:layout_height="@dimen/icon_md"-->
+<!--                        android:src="@drawable/ic_card" />-->
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/space_10"
-                        android:layout_weight="1"
-                        android:text="Thẻ nội địa hoặc quốc tế"
-                        android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
-                        android:textColor="@color/text_primary"
-                        android:textStyle="bold" />
-                </LinearLayout>
+<!--                    <TextView-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginStart="@dimen/space_10"-->
+<!--                        android:layout_weight="1"-->
+<!--                        android:text="Thẻ nội địa hoặc quốc tế"-->
+<!--                        android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"-->
+<!--                        android:textColor="@color/text_primary"-->
+<!--                        android:textStyle="bold" />-->
+<!--                </LinearLayout>-->
             </LinearLayout>
 
             <LinearLayout

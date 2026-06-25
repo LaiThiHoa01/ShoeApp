@@ -201,7 +201,7 @@
     <style name="TextAppearance.SoleStep.Body" parent="TextAppearance.MaterialComponents.Body1">
         <item name="android:textSize">@dimen/font_body</item>
         <item name="android:textColor">@color/text_secondary</item>
-        <item name="android:lineSpacingMultiplier">1.5</item>
+        <item name="android:lineSpacingMultiplier">1.0</item>
     </style>
 
     <!-- BodySmall — Hint text, secondary info -->

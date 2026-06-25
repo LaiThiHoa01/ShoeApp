@@ -2,7 +2,10 @@ package com.example.shoeapp.user;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -10,29 +13,26 @@ import android.widget.Toast;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.shoeapp.Api.CreateOrder;
 import com.example.shoeapp.R;
+import com.example.shoeapp.data.AppDatabase;
+import com.example.shoeapp.data.entity.User;
 import com.example.shoeapp.data.model.CartItemView;
 import com.example.shoeapp.ui.BaseSoleStepActivity;
 import com.example.shoeapp.ui.BottomNavHelper;
 import com.google.android.material.button.MaterialButton;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class CheckoutActivity extends BaseSoleStepActivity {
-    public static final String EXTRA_ORDER_REF = "order_ref";
-    public static final String EXTRA_PAYMENT_METHOD = "payment_method";
-    public static final String EXTRA_DELIVERY_METHOD = "delivery_method";
-    public static final String EXTRA_SUBTOTAL = "subtotal";
-    public static final String EXTRA_SHIPPING_FEE = "shipping_fee";
-    public static final String EXTRA_DISCOUNT = "discount";
-    public static final String EXTRA_GRAND_TOTAL = "grand_total";
-    public static final String EXTRA_ITEM_COUNT = "item_count";
-    public static final String EXTRA_CUSTOMER_NAME = "customer_name";
-    public static final String EXTRA_PHONE = "phone";
-    public static final String EXTRA_ADDRESS = "address";
-    public static final String EXTRA_NOTE = "note";
+import vn.zalopay.sdk.Environment;
+import vn.zalopay.sdk.ZaloPayError;
+import vn.zalopay.sdk.ZaloPaySDK;
+import vn.zalopay.sdk.listeners.PayOrderListener;
 
+public class CheckoutActivity extends BaseSoleStepActivity {
     private static final double STANDARD_SHIPPING = 30000;
     private static final double EXPRESS_SHIPPING = 60000;
     private static final double NEXT_DAY_SHIPPING = 90000;
@@ -58,34 +58,10 @@ public class CheckoutActivity extends BaseSoleStepActivity {
     private View deliveryNextDay;
     private View paymentQr;
     private View paymentCod;
-    private View paymentCard;
 
     private String selectedDelivery = "Giao tiêu chuẩn";
-    private String selectedPayment = "QR";
+    private String selectedPayment = "ZALOPAY";
     private double shippingFee = STANDARD_SHIPPING;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_checkout);
-        setupScreen(BottomNavHelper.TAG_CART);
-
-        cartRepository = new ClientCartRepository(this);
-        bindViews();
-        setupList();
-        setupOptions();
-        setupDefaults();
-        refreshCheckout();
-
-        findViewById(R.id.back_button).setOnClickListener(v -> finish());
-        placeOrderButton.setOnClickListener(v -> continueToPayment());
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        refreshCheckout();
-    }
 
     private void bindViews() {
         nameInput = findViewById(R.id.checkout_name_input);
@@ -104,8 +80,91 @@ public class CheckoutActivity extends BaseSoleStepActivity {
         deliveryNextDay = findViewById(R.id.delivery_nextday);
         paymentQr = findViewById(R.id.payment_qr);
         paymentCod = findViewById(R.id.payment_cod);
-        paymentCard = findViewById(R.id.payment_card);
     }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_checkout);
+        setupScreen(BottomNavHelper.TAG_CART);
+
+        cartRepository = new ClientCartRepository(this);
+        bindViews();
+        setupList();
+        setupOptions();
+        setupDefaults();
+        refreshCheckout();
+        StrictMode.ThreadPolicy policy = new
+                StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        // ZaloPay SDK Init
+        ZaloPaySDK.init(553, Environment.SANDBOX);
+
+        findViewById(R.id.back_button).setOnClickListener(v -> finish());
+        placeOrderButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                double subtotal = cartRepository.subtotal(items);
+                double deliveryFee = items.isEmpty() ? 0 : shippingFee;
+                double discount = cartRepository.discount(items);
+                double total = subtotal + deliveryFee - discount;
+                long amountVal = Math.round(total);
+
+                CreateOrder orderApi = new CreateOrder();
+                try {
+                    JSONObject data = orderApi.createOrder(String.valueOf(amountVal));
+                    if (data == null) {
+                        Toast.makeText(CheckoutActivity.this, "Không nhận được phản hồi từ ZaloPay", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    Log.d("ZaloPayPayment", "Response: " + data.toString());
+                    String code = data.getString("returncode");
+                    if (code.equals("1")) {
+                        String token = data.getString("zptranstoken");
+                        ZaloPaySDK.getInstance().payOrder(CheckoutActivity.this, token, "demozpdk://app", new PayOrderListener() {
+                            @Override
+                            public void onPaymentSucceeded(String s, String s1, String s2) {
+                                Intent intent1 = new Intent(CheckoutActivity.this, PaymentNotification.class);
+                                intent1.putExtra("result", "Thanh toán thành công");
+                                startActivity(intent1);
+                            }
+
+                            @Override
+                            public void onPaymentCanceled(String s, String s1) {
+                                Intent intent1 = new Intent(CheckoutActivity.this, PaymentNotification.class);
+                                intent1.putExtra("result", "Hủy thanh toán");
+                                startActivity(intent1);
+                            }
+
+                            @Override
+                            public void onPaymentError(ZaloPayError zaloPayError, String s, String s1) {
+                                Intent intent1 = new Intent(CheckoutActivity.this, PaymentNotification.class);
+                                intent1.putExtra("result", "Lỗi thanh toán");
+                                startActivity(intent1);
+                            }
+                        });
+                    } else {
+                        String msg = data.optString("returnmessage", "Lỗi tạo đơn hàng");
+                        Toast.makeText(CheckoutActivity.this, "Lỗi: " + msg, Toast.LENGTH_LONG).show();
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Toast.makeText(CheckoutActivity.this, "Đã xảy ra lỗi: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refreshCheckout();
+    }
+
+
 
     private void setupList() {
         RecyclerView itemsList = findViewById(R.id.checkout_items_list);
@@ -119,15 +178,22 @@ public class CheckoutActivity extends BaseSoleStepActivity {
         deliveryExpress.setOnClickListener(v -> selectDelivery("Giao nhanh", EXPRESS_SHIPPING));
         deliveryNextDay.setOnClickListener(v -> selectDelivery("Giao trong ngày", NEXT_DAY_SHIPPING));
 
-        paymentQr.setOnClickListener(v -> selectPayment("QR"));
+        paymentQr.setOnClickListener(v -> selectPayment("ZALOPAY"));
         paymentCod.setOnClickListener(v -> selectPayment("COD"));
-        paymentCard.setOnClickListener(v -> selectPayment("CARD"));
     }
 
     private void setupDefaults() {
-        nameInput.setText("Khách hàng");
-        phoneInput.setText("0900000000");
-        addressInput.setText("TP. Hồ Chí Minh");
+        AppDatabase db = AppDatabase.getDatabase(this);
+        User user = db.userDao().getUserById(ClientCartRepository.DEMO_USER_ID);
+        if (user != null) {
+            nameInput.setText(user.fullName);
+            phoneInput.setText(user.phoneNumber);
+            addressInput.setText(user.address);
+        } else {
+            nameInput.setText("Khách hàng");
+            phoneInput.setText("0900000000");
+            addressInput.setText("TP. Hồ Chí Minh");
+        }
         selectDelivery(selectedDelivery, shippingFee);
         selectPayment(selectedPayment);
     }
@@ -135,24 +201,18 @@ public class CheckoutActivity extends BaseSoleStepActivity {
     private void selectDelivery(String delivery, double fee) {
         selectedDelivery = delivery;
         shippingFee = fee;
-        deliveryStandard.setBackgroundResource("Giao tiêu chuẩn".equals(delivery)
-                ? R.drawable.bg_checkout_selected : R.drawable.bg_checkout_option);
-        deliveryExpress.setBackgroundResource("Giao nhanh".equals(delivery)
-                ? R.drawable.bg_checkout_selected : R.drawable.bg_checkout_option);
-        deliveryNextDay.setBackgroundResource("Giao trong ngày".equals(delivery)
-                ? R.drawable.bg_checkout_selected : R.drawable.bg_checkout_option);
+        deliveryStandard.setSelected("Giao tiêu chuẩn".equals(delivery));
+        deliveryExpress.setSelected("Giao nhanh".equals(delivery));
+        deliveryNextDay.setSelected("Giao trong ngày".equals(delivery));
         updateTotals();
     }
 
     private void selectPayment(String payment) {
         selectedPayment = payment;
-        paymentQr.setBackgroundResource("QR".equals(payment)
-                ? R.drawable.bg_checkout_selected : R.drawable.bg_checkout_option);
-        paymentCod.setBackgroundResource("COD".equals(payment)
-                ? R.drawable.bg_checkout_selected : R.drawable.bg_checkout_option);
-        paymentCard.setBackgroundResource("CARD".equals(payment)
-                ? R.drawable.bg_checkout_selected : R.drawable.bg_checkout_option);
+        paymentQr.setSelected("ZALOPAY".equals(payment));
+        paymentCod.setSelected("COD".equals(payment));
     }
+
 
     private void refreshCheckout() {
         items.clear();
@@ -181,51 +241,9 @@ public class CheckoutActivity extends BaseSoleStepActivity {
         placeOrderButton.setText("Tiếp tục thanh toán - " + cartRepository.formatPrice(total));
     }
 
-    private void continueToPayment() {
-        if (items.isEmpty()) {
-            Toast.makeText(this, "Giỏ hàng đang trống", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        String name = nameInput.getText().toString().trim();
-        String phone = phoneInput.getText().toString().trim();
-        String address = addressInput.getText().toString().trim();
-        String note = noteInput.getText().toString().trim();
-
-        if (name.isEmpty()) {
-            nameInput.requestFocus();
-            nameInput.setError("Vui lòng nhập họ tên");
-            return;
-        }
-        if (phone.isEmpty()) {
-            phoneInput.requestFocus();
-            phoneInput.setError("Vui lòng nhập số điện thoại");
-            return;
-        }
-        if (address.isEmpty()) {
-            addressInput.requestFocus();
-            addressInput.setError("Vui lòng nhập địa chỉ giao hàng");
-            return;
-        }
-
-        double subtotal = cartRepository.subtotal(items);
-        double deliveryFee = shippingFee;
-        double discount = cartRepository.discount(items);
-        double total = subtotal + deliveryFee - discount;
-        String orderRef = "SS" + System.currentTimeMillis();
-
-        Intent intent = new Intent(this, QRPaymentActivity.class);
-        intent.putExtra(EXTRA_ORDER_REF, orderRef);
-        intent.putExtra(EXTRA_CUSTOMER_NAME, name);
-        intent.putExtra(EXTRA_PHONE, phone);
-        intent.putExtra(EXTRA_ADDRESS, address);
-        intent.putExtra(EXTRA_NOTE, note);
-        intent.putExtra(EXTRA_DELIVERY_METHOD, selectedDelivery);
-        intent.putExtra(EXTRA_PAYMENT_METHOD, selectedPayment);
-        intent.putExtra(EXTRA_SUBTOTAL, subtotal);
-        intent.putExtra(EXTRA_SHIPPING_FEE, deliveryFee);
-        intent.putExtra(EXTRA_DISCOUNT, discount);
-        intent.putExtra(EXTRA_GRAND_TOTAL, total);
-        intent.putExtra(EXTRA_ITEM_COUNT, cartRepository.getQuantity());
-        startActivity(intent);
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        ZaloPaySDK.getInstance().onResult(intent);
     }
 }

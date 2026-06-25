@@ -41,6 +41,7 @@ public class MainActivity extends BaseSoleStepActivity {
         setupProductGrid();
         setupBrands();
         setupSeeAll();
+        setupChatbotFAB();
     }
 
     private void setupSearch() {
@@ -181,6 +182,16 @@ public class MainActivity extends BaseSoleStepActivity {
         Intent intent = new Intent(this, ProductDetailActivity.class);
         intent.putExtra("product_id", product.getId());
         startActivity(intent);
+    }
+
+    private void setupChatbotFAB() {
+        View fabChat = findViewById(R.id.fab_chat);
+        if (fabChat != null) {
+            fabChat.setOnClickListener(v -> {
+                Intent intent = new Intent(this, ChatActivity.class);
+                startActivity(intent);
+            });
+        }
     }
 
     private int dp(int value) {

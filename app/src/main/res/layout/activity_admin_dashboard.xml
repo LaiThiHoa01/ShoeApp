@@ -810,7 +810,7 @@
                             android:layout_height="140dp"
                             android:background="@drawable/bg_product_thumb"
                             android:padding="16dp"
-                            android:src="@drawable/shooq_logo"
+                            android:src="@drawable/shoe_logo_app"
                             android:scaleType="centerInside"/>
 
                         <LinearLayout
@@ -859,7 +859,7 @@
                             android:layout_height="140dp"
                             android:background="@color/bg_dark_surface_3"
                             android:padding="16dp"
-                            android:src="@drawable/shooq_logo"
+                            android:src="@drawable/shoe_logo_app"
                             android:scaleType="centerInside"/>
 
                         <LinearLayout

@@ -1,0 +1,27 @@
+[
+  {
+    "keywords": ["chính sách đổi trả", "đổi trả", "đổi hàng", "trả hàng", "hoàn tiền"],
+    "question": "Chính sách đổi trả của shop như thế nào?",
+    "answer": "SoleStep hỗ trợ đổi trả sản phẩm miễn phí trong vòng 7 ngày kể từ ngày nhận hàng với điều kiện sản phẩm còn nguyên tem mác, chưa qua sử dụng và có hóa đơn mua hàng đi kèm."
+  },
+  {
+    "keywords": ["giao hàng", "vận chuyển", "ship", "bao lâu", "phí ship"],
+    "question": "Thời gian giao hàng và phí vận chuyển là bao nhiêu?",
+    "answer": "SoleStep miễn phí giao hàng toàn quốc cho đơn hàng từ 1.000.000đ trở lên. Với các đơn hàng dưới 1.000.000đ, phí vận chuyển đồng giá 30.000đ. Thời gian giao hàng nội thành là 1-2 ngày, ngoại tỉnh là 3-5 ngày."
+  },
+  {
+    "keywords": ["địa chỉ", "cửa hàng ở đâu", "shop ở đâu", "showroom", "đến thử"],
+    "question": "Địa chỉ cửa hàng ở đâu?",
+    "answer": "Showroom chính của SoleStep nằm tại địa chỉ: 123 Đường Sư Vạn Hạnh, Quận 10, Thành phố Hồ Chí Minh. Chúng tôi mở cửa từ 8:30 đến 21:30 tất cả các ngày trong tuần để phục vụ bạn!"
+  },
+  {
+    "keywords": ["thanh toán", "chuyển khoản", "cod", "thẻ", "momo"],
+    "question": "Shop có những hình thức thanh toán nào?",
+    "answer": "SoleStep chấp nhận các hình thức thanh toán linh hoạt: Trả tiền mặt khi nhận hàng (COD), Chuyển khoản ngân hàng qua mã QR (QR Payment), và thanh toán trực tiếp qua ví điện tử MoMo."
+  },
+  {
+    "keywords": ["liên hệ", "sđt", "hotline", "số điện thoại", "hỗ trợ"],
+    "question": "Làm thế nào để liên hệ trực tiếp với shop?",
+    "answer": "Bạn có thể liên hệ trực tiếp với hotline chăm sóc khách hàng của SoleStep qua số điện thoại: 1900 8198 hoặc gửi email hỗ trợ về địa chỉ: support@solestep.com để được phản hồi nhanh nhất."
+  }
+]
