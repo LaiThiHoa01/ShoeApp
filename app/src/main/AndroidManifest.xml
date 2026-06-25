@@ -9,11 +9,14 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/shoe_logo_app"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/shoe_logo_app"
         android:supportsRtl="true"
         android:theme="@style/Theme.SoleStep">
+        <activity
+            android:name=".user.PaymentNotification"
+            android:exported="true" />
         <activity
             android:name=".admin.UserManagementActivity"
             android:exported="false"
@@ -32,7 +35,20 @@
             android:exported="false" />
         <activity
             android:name=".user.CheckoutActivity"
-            android:exported="false" />
+            android:exported="true"
+            android:label="Merchant Demo"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="app"
+                    android:scheme="demozpdk" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".user.CatalogActivity"
             android:exported="false" />
@@ -48,7 +64,6 @@
         <activity
             android:name=".user.MainActivity"
             android:exported="false" />
-
         <activity
             android:name=".authentication.ChangePasswordActivity"
             android:exported="false" />
@@ -57,24 +72,23 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".authentication.SignUpActivity"
             android:exported="false" />
-
         <activity
             android:name=".admin.AdminDashboardActivity"
             android:exported="false"
             android:theme="@style/Theme.SoleStep.Admin">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
-
-
         <activity
             android:name=".admin.AdminProductsActivity"
             android:exported="false"
@@ -99,7 +113,6 @@
             android:name=".admin.AdminProductVariantActivity"
             android:exported="false"
             android:theme="@style/Theme.SoleStep.Admin" />
-
     </application>
 
 </manifest>

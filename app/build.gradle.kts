@@ -7,7 +7,11 @@ plugins {
 
 android {
     namespace = "com.example.shoeapp"
-    compileSdk = 35
+    compileSdk = 36
+
+    buildFeatures {
+        buildConfig = true
+    }
 
     buildFeatures {
         buildConfig = true
@@ -55,6 +59,12 @@ android {
 }
 
 dependencies {
+    implementation(fileTree(mapOf(
+        "dir" to "/Users/laiqua/Downloads/ZaloPayLib",
+        "include" to listOf("*.aar", "*.jar"),
+        "exclude" to listOf("")
+    )))
+    implementation(libs.activity.ktx)
     val room_version = "2.6.1"
     implementation("androidx.room:room-runtime:$room_version")
     annotationProcessor("androidx.room:room-compiler:$room_version")
@@ -72,4 +82,6 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    implementation("com.squareup.okhttp3:okhttp:4.6.0")
+    implementation("commons-codec:commons-codec:1.14")
 }

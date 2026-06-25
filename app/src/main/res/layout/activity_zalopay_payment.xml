@@ -41,19 +41,6 @@
             android:layout_weight="1"
             android:text="@string/qr_title"
             android:textAppearance="@style/TextAppearance.SoleStep.Subheading" />
-
-        <TextView
-            android:id="@+id/qr_security_badge"
-            android:layout_width="wrap_content"
-            android:layout_height="32dp"
-            android:background="@drawable/bg_status_delivered"
-            android:gravity="center"
-            android:paddingStart="@dimen/space_8"
-            android:paddingEnd="@dimen/space_8"
-            android:text="@string/qr_secure"
-            android:textAppearance="@style/TextAppearance.SoleStep.Caption"
-            android:textColor="@color/status_success"
-            android:textStyle="bold" />
     </LinearLayout>
 
     <View
