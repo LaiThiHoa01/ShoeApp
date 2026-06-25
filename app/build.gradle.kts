@@ -13,6 +13,10 @@ android {
         buildConfig = true
     }
 
+    buildFeatures {
+        buildConfig = true
+    }
+
     defaultConfig {
         applicationId = "com.example.shoeapp"
         minSdk = 24
