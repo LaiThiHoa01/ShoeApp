@@ -398,9 +398,11 @@
                         android:textColor="@color/brand_orange" />
                 </LinearLayout>
 
-                <include layout="@layout/item_detail_review_mike" />
-
-                <include layout="@layout/item_detail_review_sarah" />
+                <LinearLayout
+                    android:id="@+id/detail_reviews_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

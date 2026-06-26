@@ -18,12 +18,17 @@ public class ProductReviewActivity extends BaseSoleStepActivity {
     private ImageButton[] stars;
     private TextView ratingLabel;
     private int rating = 4;
+    private int productId = -1;
+    private int userId = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_review);
         setupScreen(BottomNavHelper.TAG_ORDERS);
+
+        productId = getIntent().getIntExtra("product_id", -1);
+        userId = getIntent().getIntExtra("user_id", -1);
 
         stars = new ImageButton[]{
                 findViewById(R.id.star_1),
@@ -57,8 +62,38 @@ public class ProductReviewActivity extends BaseSoleStepActivity {
             }
         });
 
-        findViewById(R.id.submit_review_button).setOnClickListener(v ->
-                Toast.makeText(this, getString(R.string.review_submitted_title), Toast.LENGTH_SHORT).show());
+        setupTag(findViewById(R.id.review_tag_comfortable));
+        setupTag(findViewById(R.id.review_tag_true_to_size));
+        setupTag(findViewById(R.id.review_tag_quality));
+        setupTag(findViewById(R.id.review_tag_fast_delivery));
+
+        findViewById(R.id.submit_review_button).setOnClickListener(v -> {
+            String content = reviewEditText.getText().toString();
+            saveReview(rating, content);
+        });
+    }
+
+    private void setupTag(TextView tagView) {
+        tagView.setTag(false);
+        updateTagState(tagView, false);
+        
+        tagView.setOnClickListener(v -> {
+            boolean isSelected = !(boolean) v.getTag();
+            v.setTag(isSelected);
+            updateTagState((TextView) v, isSelected);
+        });
+    }
+
+    private void updateTagState(TextView tagView, boolean isSelected) {
+        if (isSelected) {
+            tagView.setBackgroundResource(R.drawable.bg_review_tag_selected);
+            tagView.setTextColor(ContextCompat.getColor(this, R.color.brand_white));
+            tagView.setTypeface(null, android.graphics.Typeface.BOLD);
+        } else {
+            tagView.setBackgroundResource(R.drawable.bg_review_tag);
+            tagView.setTextColor(ContextCompat.getColor(this, R.color.text_secondary));
+            tagView.setTypeface(null, android.graphics.Typeface.NORMAL);
+        }
     }
 
     private void setRating(int value) {
@@ -81,5 +116,48 @@ public class ProductReviewActivity extends BaseSoleStepActivity {
 
     private void updateCharacterCount(TextView view, int length) {
         view.setText(length + "/500");
+    }
+
+    private void saveReview(int rating, String content) {
+        if (productId == -1 || userId == -1) {
+            Toast.makeText(this, "Lỗi: Không tìm thấy thông tin sản phẩm", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        
+        StringBuilder finalContent = new StringBuilder();
+        TextView[] tags = {
+            findViewById(R.id.review_tag_comfortable),
+            findViewById(R.id.review_tag_true_to_size),
+            findViewById(R.id.review_tag_quality),
+            findViewById(R.id.review_tag_fast_delivery)
+        };
+        
+        for (TextView tag : tags) {
+            if (tag.getTag() != null && (boolean) tag.getTag()) {
+                finalContent.append("[").append(tag.getText()).append("] ");
+            }
+        }
+        finalContent.append(content);
+        String savedContent = finalContent.toString().trim();
+        
+        java.util.concurrent.ExecutorService executor = java.util.concurrent.Executors.newSingleThreadExecutor();
+        executor.execute(() -> {
+            com.example.shoeapp.data.AppDatabase db = com.example.shoeapp.data.AppDatabase.getDatabase(this);
+            com.example.shoeapp.data.entity.ProductReview review = new com.example.shoeapp.data.entity.ProductReview();
+            review.productId = productId;
+            review.userId = userId;
+            review.rating = rating;
+            review.content = savedContent;
+            
+            java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss", java.util.Locale.getDefault());
+            review.createdAt = sdf.format(new java.util.Date());
+            
+            db.productDao().insertReview(review);
+            
+            runOnUiThread(() -> {
+                Toast.makeText(this, getString(R.string.review_submitted_title), Toast.LENGTH_SHORT).show();
+                finish();
+            });
+        });
     }
 }

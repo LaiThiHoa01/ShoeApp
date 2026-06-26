@@ -36,9 +36,7 @@ public class OrderDetailActivity extends BaseSoleStepActivity {
         setContentView(R.layout.activity_order_detail);
         setupScreen(BottomNavHelper.TAG_ORDERS);
 
-        findViewById(R.id.rate_products_button).setOnClickListener(v ->
-                startActivity(new Intent(this, ProductReviewActivity.class)));
-                
+        // Set up listener later in populateData
         // Setup RecyclerView
         RecyclerView recyclerView = findViewById(R.id.order_items_recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -47,11 +45,18 @@ public class OrderDetailActivity extends BaseSoleStepActivity {
 
         // Fetch Data
         int orderId = getIntent().getIntExtra("order_id", -1);
-        if (orderId != -1) {
-            loadOrderData(orderId);
-        } else {
+        if (orderId == -1) {
             Toast.makeText(this, "Không tìm thấy đơn hàng", Toast.LENGTH_SHORT).show();
             finish();
+        }
+    }
+    
+    @Override
+    protected void onResume() {
+        super.onResume();
+        int orderId = getIntent().getIntExtra("order_id", -1);
+        if (orderId != -1) {
+            loadOrderData(orderId);
         }
     }
     
@@ -65,7 +70,19 @@ public class OrderDetailActivity extends BaseSoleStepActivity {
                 User user = db.userDao().getUserById(order.userId);
                 List<OrderItemView> items = db.orderDao().getOrderItems(orderId);
                 
-                runOnUiThread(() -> populateData(order, user, items));
+                boolean alreadyReviewed = false;
+                if (!items.isEmpty()) {
+                    List<com.example.shoeapp.data.entity.ProductReview> reviews = db.productDao().getReviewsByProduct(items.get(0).productId);
+                    for (com.example.shoeapp.data.entity.ProductReview r : reviews) {
+                        if (r.userId == order.userId) {
+                            alreadyReviewed = true;
+                            break;
+                        }
+                    }
+                }
+                boolean finalAlreadyReviewed = alreadyReviewed;
+                
+                runOnUiThread(() -> populateData(order, user, items, finalAlreadyReviewed));
             } else {
                 runOnUiThread(() -> {
                     Toast.makeText(this, "Đơn hàng không tồn tại", Toast.LENGTH_SHORT).show();
@@ -75,7 +92,7 @@ public class OrderDetailActivity extends BaseSoleStepActivity {
         });
     }
     
-    private void populateData(Order order, User user, List<OrderItemView> items) {
+    private void populateData(Order order, User user, List<OrderItemView> items, boolean alreadyReviewed) {
         // Order Reference and Date
         ((TextView) findViewById(R.id.order_detail_id_text)).setText(order.ordersId);
         
@@ -129,5 +146,21 @@ public class OrderDetailActivity extends BaseSoleStepActivity {
 
         // Items list
         adapter.submitList(items);
+
+        // Rate Product Button
+        View rateBtn = findViewById(R.id.rate_products_button);
+        boolean isDelivered = "DELIVERED".equalsIgnoreCase(order.orderStatus) || "COMPLETED".equalsIgnoreCase(order.orderStatus);
+        
+        if (isDelivered && !alreadyReviewed && items != null && !items.isEmpty()) {
+            rateBtn.setVisibility(View.VISIBLE);
+            rateBtn.setOnClickListener(v -> {
+                Intent intent = new Intent(this, ProductReviewActivity.class);
+                intent.putExtra("product_id", items.get(0).productId);
+                intent.putExtra("user_id", order.userId);
+                startActivity(intent);
+            });
+        } else {
+            rateBtn.setVisibility(View.GONE);
+        }
     }
 }

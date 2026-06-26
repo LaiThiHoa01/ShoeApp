@@ -159,16 +159,16 @@
     <string name="order_timeline_shipped_desc">16 Tháng 5, 9:00 SA · Đơn hàng đang được giao</string>
 
     <!-- ─── Review ─── -->
-    <string name="review_title">Rate &amp; Review</string>
-    <string name="review_overall">Overall Rating</string>
-    <string name="review_tags_title">Quick Tags</string>
-    <string name="review_text_hint">Share your experience with this product…</string>
-    <string name="review_photos_title">Add Photos (Optional)</string>
-    <string name="review_btn_submit">Submit Review</string>
-    <string name="review_submitted_title">Review Submitted!</string>
-    <string name="review_submitted_body">Thank you for your feedback</string>
+    <string name="review_title">Đánh giá sản phẩm</string>
+    <string name="review_overall">Đánh giá tổng quan</string>
+    <string name="review_tags_title">Thẻ nhanh</string>
+    <string name="review_text_hint">Chia sẻ trải nghiệm của bạn về sản phẩm này…</string>
+    <string name="review_photos_title">Thêm ảnh (Tùy chọn)</string>
+    <string name="review_btn_submit">Gửi đánh giá</string>
+    <string name="review_submitted_title">Đã gửi đánh giá!</string>
+    <string name="review_submitted_body">Cảm ơn bạn đã phản hồi</string>
     <string name="review_char_count">%d/500</string>
-    <string name="review_your_review">Your Review</string>
+    <string name="review_your_review">Đánh giá của bạn</string>
 
     <!-- ─── Bottom navigation ─── -->
     <string name="nav_home">Trang chủ</string>
@@ -183,11 +183,11 @@
     <string name="admin_nav_orders">Đơn hàng</string>
 
     <!-- ─── Rating labels ─── -->
-    <string name="rating_1">Poor</string>
-    <string name="rating_2">Fair</string>
-    <string name="rating_3">Good</string>
-    <string name="rating_4">Great</string>
-    <string name="rating_5">Excellent!</string>
+    <string name="rating_1">Tệ</string>
+    <string name="rating_2">Tạm được</string>
+    <string name="rating_3">Tốt</string>
+    <string name="rating_4">Tuyệt vời</string>
+    <string name="rating_5">Xuất sắc!</string>
 
     <!-- ─── Admin Dashboard ─── -->
     <string name="admin_dashboard_title">SoleStep</string>

@@ -112,6 +112,14 @@ public class ClientProductRepository {
         return productDao.getAllBrands();
     }
 
+    public List<com.example.shoeapp.data.entity.ProductReview> getReviewsByProduct(int productId) {
+        return productDao.getReviewsByProduct(productId);
+    }
+
+    public com.example.shoeapp.data.entity.User getUserById(Context context, int userId) {
+        return AppDatabase.getDatabase(context).userDao().getUserById(userId);
+    }
+
     public List<com.example.shoeapp.model.Product> getProductsByCategory(int categoryId) {
         List<com.example.shoeapp.model.Product> result = new ArrayList<>();
         for (com.example.shoeapp.data.entity.Product p : productDao.getProductsByCategoryActive(categoryId)) {
