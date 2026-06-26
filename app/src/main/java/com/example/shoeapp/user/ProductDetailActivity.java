@@ -76,6 +76,7 @@ public class ProductDetailActivity extends BaseSoleStepActivity {
         setupColorOptions();
         setupThumbnails();
         setupQuantityControls();
+        loadReviews();
         findViewById(R.id.add_to_cart_button).setOnClickListener(v -> addToCart());
     }
 
@@ -259,5 +260,62 @@ public class ProductDetailActivity extends BaseSoleStepActivity {
 
     private int dp(int value) {
         return (int) (value * getResources().getDisplayMetrics().density);
+    }
+
+    private void loadReviews() {
+        LinearLayout reviewsContainer = findViewById(R.id.detail_reviews_container);
+        if (reviewsContainer == null) return;
+        reviewsContainer.removeAllViews();
+        
+        List<com.example.shoeapp.data.entity.ProductReview> reviews = productRepository.getReviewsByProduct(product.id);
+        
+        if (reviews.isEmpty()) {
+            TextView emptyText = new TextView(this);
+            emptyText.setText("Chưa có đánh giá nào.");
+            emptyText.setTextColor(getColor(R.color.text_secondary));
+            emptyText.setPadding(0, dp(16), 0, dp(16));
+            reviewsContainer.addView(emptyText);
+            return;
+        }
+
+        for (com.example.shoeapp.data.entity.ProductReview review : reviews) {
+            View reviewView = getLayoutInflater().inflate(R.layout.item_product_review, reviewsContainer, false);
+            
+            TextView avatar = reviewView.findViewById(R.id.review_avatar_text);
+            TextView name = reviewView.findViewById(R.id.review_author_name);
+            TextView stars = reviewView.findViewById(R.id.review_stars);
+            TextView date = reviewView.findViewById(R.id.review_date);
+            TextView content = reviewView.findViewById(R.id.review_content);
+            
+            com.example.shoeapp.data.entity.User user = productRepository.getUserById(this, review.userId);
+            if (user != null && user.fullName != null && !user.fullName.isEmpty()) {
+                name.setText(user.fullName);
+                avatar.setText(user.fullName.substring(0, 1).toUpperCase());
+            } else {
+                name.setText("Khách");
+                avatar.setText("K");
+            }
+            
+            StringBuilder starsStr = new StringBuilder();
+            for (int i = 0; i < review.rating; i++) starsStr.append("★");
+            for (int i = review.rating; i < 5; i++) starsStr.append("☆");
+            stars.setText(starsStr.toString());
+            
+            if (review.createdAt != null) {
+                try {
+                    java.text.SimpleDateFormat inputFormat = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                    java.util.Date d = inputFormat.parse(review.createdAt);
+                    java.text.SimpleDateFormat outputFormat = new java.text.SimpleDateFormat("dd MMM", new Locale("vi", "VN"));
+                    date.setText(outputFormat.format(d));
+                } catch (Exception e) {
+                    date.setText(review.createdAt);
+                }
+            } else {
+                date.setText("");
+            }
+            
+            content.setText(review.content);
+            reviewsContainer.addView(reviewView);
+        }
     }
 }

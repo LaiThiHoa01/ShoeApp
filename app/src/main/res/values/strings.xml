@@ -136,36 +136,39 @@
     <string name="qr_btn_simulate_payment">Simulate Payment</string>
 
     <!-- ─── Orders ─── -->
-    <string name="orders_title">My Orders</string>
-    <string name="orders_tab_all">All</string>
-    <string name="orders_tab_pending">Pending</string>
-    <string name="orders_tab_shipping">Shipping</string>
-    <string name="orders_tab_delivered">Delivered</string>
-    <string name="orders_btn_track">Track Order</string>
-    <string name="orders_btn_rate">Rate Products</string>
+    <string name="orders_title">Đơn hàng của tôi</string>
+    <string name="orders_tab_all">Tất cả</string>
+    <string name="orders_tab_pending">Chờ xử lý</string>
+    <string name="orders_tab_shipping">Đang giao</string>
+    <string name="orders_tab_delivered">Đã giao</string>
+    <string name="orders_btn_track">Theo dõi</string>
+    <string name="orders_btn_rate">Đánh giá</string>
 
     <!-- ─── Order detail ─── -->
-    <string name="order_detail_title">Order Details</string>
-    <string name="order_detail_timeline">Order Timeline</string>
-    <string name="order_detail_items">Items Ordered</string>
-    <string name="order_detail_address">Shipping Address</string>
-    <string name="order_detail_payment">Payment Summary</string>
-    <string name="order_detail_ref">Order Reference</string>
-    <string name="order_detail_btn_invoice">Get Invoice</string>
-    <string name="order_detail_btn_rate">Rate Products</string>
-    <string name="order_detail_total_paid">Total Paid</string>
+    <string name="order_detail_title">Chi tiết đơn hàng</string>
+    <string name="order_detail_timeline">Tiến trình đơn hàng</string>
+    <string name="order_detail_items">Sản phẩm đã đặt</string>
+    <string name="order_detail_address">Địa chỉ nhận hàng</string>
+    <string name="order_detail_payment">Chi tiết thanh toán</string>
+    <string name="order_detail_ref">Mã tham chiếu đơn hàng</string>
+    <string name="order_detail_btn_invoice">Tải hóa đơn</string>
+    <string name="order_detail_btn_rate">Đánh giá sản phẩm</string>
+    <string name="order_detail_total_paid">Tổng thanh toán</string>
+    <string name="order_timeline_placed">Đã đặt hàng</string>
+    <string name="order_timeline_placed_desc">15 Tháng 5, 10:32 SA · Đơn hàng đã được xác nhận</string>
+    <string name="order_timeline_shipped_desc">16 Tháng 5, 9:00 SA · Đơn hàng đang được giao</string>
 
     <!-- ─── Review ─── -->
-    <string name="review_title">Rate &amp; Review</string>
-    <string name="review_overall">Overall Rating</string>
-    <string name="review_tags_title">Quick Tags</string>
-    <string name="review_text_hint">Share your experience with this product…</string>
-    <string name="review_photos_title">Add Photos (Optional)</string>
-    <string name="review_btn_submit">Submit Review</string>
-    <string name="review_submitted_title">Review Submitted!</string>
-    <string name="review_submitted_body">Thank you for your feedback</string>
+    <string name="review_title">Đánh giá sản phẩm</string>
+    <string name="review_overall">Đánh giá tổng quan</string>
+    <string name="review_tags_title">Thẻ nhanh</string>
+    <string name="review_text_hint">Chia sẻ trải nghiệm của bạn về sản phẩm này…</string>
+    <string name="review_photos_title">Thêm ảnh (Tùy chọn)</string>
+    <string name="review_btn_submit">Gửi đánh giá</string>
+    <string name="review_submitted_title">Đã gửi đánh giá!</string>
+    <string name="review_submitted_body">Cảm ơn bạn đã phản hồi</string>
     <string name="review_char_count">%d/500</string>
-    <string name="review_your_review">Your Review</string>
+    <string name="review_your_review">Đánh giá của bạn</string>
 
     <!-- ─── Bottom navigation ─── -->
     <string name="nav_home">Trang chủ</string>
@@ -180,11 +183,11 @@
     <string name="admin_nav_orders">Đơn hàng</string>
 
     <!-- ─── Rating labels ─── -->
-    <string name="rating_1">Poor</string>
-    <string name="rating_2">Fair</string>
-    <string name="rating_3">Good</string>
-    <string name="rating_4">Great</string>
-    <string name="rating_5">Excellent!</string>
+    <string name="rating_1">Tệ</string>
+    <string name="rating_2">Tạm được</string>
+    <string name="rating_3">Tốt</string>
+    <string name="rating_4">Tuyệt vời</string>
+    <string name="rating_5">Xuất sắc!</string>
 
     <!-- ─── Admin Dashboard ─── -->
     <string name="admin_dashboard_title">SoleStep</string>

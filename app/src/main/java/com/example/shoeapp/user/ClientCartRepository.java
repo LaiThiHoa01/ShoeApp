@@ -91,6 +91,10 @@ public class ClientCartRepository {
         cartDao.deleteItemById(item.cartItemId);
     }
 
+    public void clearCart() {
+        cartDao.deleteItemsByCart(getCart().id);
+    }
+
     public double subtotal(List<CartItemView> items) {
         double subtotal = 0;
         for (CartItemView item : items) {

@@ -1,0 +1,1476 @@
+Index: app/src/main/res/layout/activity_main.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<androidx.constraintlayout.widget.ConstraintLayout\n    xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\n    xmlns:tools=\"http://schemas.android.com/tools\"\n    android:id=\"@+id/main\"\n    android:layout_width=\"match_parent\"\n    android:layout_height=\"match_parent\"\n    android:background=\"@color/bg_primary\"\n    tools:context=\".user.MainActivity\">\n\n    <FrameLayout\n        android:id=\"@+id/headerLayout\"\n        android:layout_width=\"match_parent\"\n        android:layout_height=\"@dimen/auth_header_height\"\n        android:background=\"@drawable/bg_auth_header\"\n        app:layout_constraintTop_toTopOf=\"parent\"\n        app:layout_constraintStart_toStartOf=\"parent\"\n        app:layout_constraintEnd_toEndOf=\"parent\">\n\n        <View\n            android:layout_width=\"104dp\"\n            android:layout_height=\"104dp\"\n            android:layout_gravity=\"top|end\"\n            android:layout_marginTop=\"-54dp\"\n            android:layout_marginEnd=\"18dp\"\n            android:background=\"@drawable/bg_header_ring\" />\n\n        <View\n            android:layout_width=\"64dp\"\n            android:layout_height=\"64dp\"\n            android:layout_gravity=\"top|end\"\n            android:layout_marginTop=\"-34dp\"\n            android:layout_marginEnd=\"38dp\"\n            android:background=\"@drawable/bg_header_ring\" />\n\n        <LinearLayout\n            android:layout_width=\"wrap_content\"\n            android:layout_height=\"wrap_content\"\n            android:layout_gravity=\"center\"\n            android:gravity=\"center\"\n            android:orientation=\"vertical\">\n\n            <LinearLayout\n                android:layout_width=\"wrap_content\"\n                android:layout_height=\"wrap_content\"\n                android:gravity=\"center_vertical\"\n                android:orientation=\"horizontal\">\n\n                <FrameLayout\n                    android:layout_width=\"@dimen/auth_logo_size\"\n                    android:layout_height=\"@dimen/auth_logo_size\"\n                    android:background=\"@drawable/bg_logo_tile\">\n\n                    <ImageView\n                        android:layout_width=\"22dp\"\n                        android:layout_height=\"22dp\"\n                        android:layout_gravity=\"center\"\n                        android:contentDescription=\"@null\"\n                        android:src=\"@drawable/ic_sole_step_mark\" />\n                </FrameLayout>\n\n                <TextView\n                    android:layout_width=\"wrap_content\"\n                    android:layout_height=\"wrap_content\"\n                    android:layout_marginStart=\"8dp\"\n                    android:fontFamily=\"sans-serif\"\n                    android:text=\"@string/auth_brand\"\n                    android:textColor=\"@color/brand_white\"\n                    android:textSize=\"23sp\"\n                    android:textStyle=\"bold\" />\n            </LinearLayout>\n\n            <TextView\n                android:layout_width=\"wrap_content\"\n                android:layout_height=\"wrap_content\"\n                android:layout_marginTop=\"6dp\"\n                android:fontFamily=\"sans-serif-medium\"\n                android:letterSpacing=\"0.18\"\n                android:text=\"@string/auth_tagline\"\n                android:textColor=\"@color/auth_tagline\"\n                android:textSize=\"10sp\" />\n        </LinearLayout>\n    </FrameLayout>\n\n    <ScrollView\n        android:layout_width=\"match_parent\"\n        android:layout_height=\"0dp\"\n        android:clipToPadding=\"false\"\n        android:fillViewport=\"true\"\n        android:overScrollMode=\"never\"\n        app:layout_constraintTop_toBottomOf=\"@id/headerLayout\"\n        app:layout_constraintBottom_toBottomOf=\"parent\"\n        app:layout_constraintStart_toStartOf=\"parent\"\n        app:layout_constraintEnd_toEndOf=\"parent\">\n\n        <LinearLayout\n            android:layout_width=\"match_parent\"\n            android:layout_height=\"wrap_content\"\n            android:orientation=\"vertical\"\n            android:paddingStart=\"@dimen/auth_content_padding\"\n            android:paddingTop=\"32dp\"\n            android:paddingEnd=\"@dimen/auth_content_padding\"\n            android:paddingBottom=\"24dp\">\n\n            <TextView\n                android:layout_width=\"wrap_content\"\n                android:layout_height=\"wrap_content\"\n                android:fontFamily=\"sans-serif\"\n                android:text=\"@string/auth_welcome_back\"\n                android:textColor=\"@color/text_primary\"\n                android:textSize=\"@dimen/font_title\"\n                android:textStyle=\"bold\" />\n\n            <TextView\n                android:layout_width=\"wrap_content\"\n                android:layout_height=\"wrap_content\"\n                android:layout_marginTop=\"4dp\"\n                android:fontFamily=\"sans-serif\"\n                android:text=\"@string/auth_sign_in_subtitle\"\n                android:textColor=\"@color/text_muted\"\n                android:textSize=\"@dimen/font_body\" />\n\n            <TextView\n                android:layout_width=\"wrap_content\"\n                android:layout_height=\"wrap_content\"\n                android:layout_marginTop=\"27dp\"\n                android:fontFamily=\"sans-serif-medium\"\n                android:letterSpacing=\"0.12\"\n                android:text=\"@string/auth_label_email\"\n                android:textAllCaps=\"true\"\n                android:textColor=\"@color/text_secondary\"\n                android:textSize=\"@dimen/font_label\" />\n\n            <EditText\n                android:id=\"@+id/emailInput\"\n                android:layout_width=\"match_parent\"\n                android:layout_height=\"@dimen/input_height\"\n                android:layout_marginTop=\"7dp\"\n                android:autofillHints=\"emailAddress\"\n                android:background=\"@drawable/bg_input_selector\"\n                android:fontFamily=\"sans-serif\"\n                android:inputType=\"textEmailAddress\"\n                android:paddingStart=\"@dimen/input_padding_h\"\n                android:paddingEnd=\"@dimen/input_padding_h\"\n                android:selectAllOnFocus=\"false\"\n                android:singleLine=\"true\"\n                android:text=\"@string/auth_email_value\"\n                android:textColor=\"@color/text_primary\"\n                android:textSize=\"@dimen/font_body\" />\n\n            <TextView\n                android:layout_width=\"wrap_content\"\n                android:layout_height=\"wrap_content\"\n                android:layout_marginTop=\"17dp\"\n                android:fontFamily=\"sans-serif-medium\"\n                android:letterSpacing=\"0.12\"\n                android:text=\"@string/auth_label_password\"\n                android:textAllCaps=\"true\"\n                android:textColor=\"@color/text_secondary\"\n                android:textSize=\"@dimen/font_label\" />\n\n            <FrameLayout\n                android:id=\"@+id/passwordField\"\n                android:layout_width=\"match_parent\"\n                android:layout_height=\"@dimen/input_height\"\n                android:layout_marginTop=\"7dp\"\n                android:background=\"@drawable/bg_input_light\">\n\n                <EditText\n                    android:id=\"@+id/passwordInput\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"match_parent\"\n                    android:autofillHints=\"password\"\n                    android:background=\"@android:color/transparent\"\n                    android:fontFamily=\"sans-serif\"\n                    android:inputType=\"textPassword\"\n                    android:paddingStart=\"@dimen/input_padding_h\"\n                    android:paddingEnd=\"48dp\"\n                    android:singleLine=\"true\"\n                    android:text=\"@string/auth_password_value\"\n                    android:textColor=\"@color/text_primary\"\n                    android:textSize=\"@dimen/font_body\" />\n\n                <ImageButton\n                    android:id=\"@+id/passwordVisibility\"\n                    android:layout_width=\"44dp\"\n                    android:layout_height=\"match_parent\"\n                    android:layout_gravity=\"end\"\n                    android:background=\"?attr/selectableItemBackgroundBorderless\"\n                    android:contentDescription=\"@string/auth_show_password\"\n                    android:padding=\"13dp\"\n                    android:src=\"@drawable/ic_visibility\" />\n            </FrameLayout>\n\n            <TextView\n                android:id=\"@+id/forgotPassword\"\n                android:layout_width=\"wrap_content\"\n                android:layout_height=\"wrap_content\"\n                android:layout_gravity=\"end\"\n                android:layout_marginTop=\"18dp\"\n                android:fontFamily=\"sans-serif-medium\"\n                android:text=\"@string/auth_forgot_password\"\n                android:textColor=\"@color/brand_orange\"\n                android:textSize=\"11sp\" />\n\n            <com.google.android.material.button.MaterialButton\n                android:id=\"@+id/signInButton\"\n                android:layout_width=\"match_parent\"\n                android:layout_height=\"@dimen/btn_height_large\"\n                android:layout_marginTop=\"18dp\"\n                android:elevation=\"7dp\"\n                android:fontFamily=\"sans-serif-medium\"\n                android:gravity=\"center\"\n                android:insetBottom=\"0dp\"\n                android:insetTop=\"0dp\"\n                android:minHeight=\"0dp\"\n                android:minWidth=\"0dp\"\n                android:paddingStart=\"20dp\"\n                android:paddingEnd=\"20dp\"\n                android:text=\"@string/auth_btn_sign_in\"\n                android:textAllCaps=\"false\"\n                android:textColor=\"@color/brand_white\"\n                android:textSize=\"@dimen/font_button\"\n                android:textStyle=\"bold\"\n                app:backgroundTint=\"@color/brand_orange\"\n                app:cornerRadius=\"@dimen/radius_button\"\n                app:icon=\"@drawable/ic_arrow_right\"\n                app:iconGravity=\"textEnd\"\n                app:iconPadding=\"10dp\"\n                app:iconTint=\"@color/brand_white\"\n                app:rippleColor=\"@color/brand_orange_dark\" />\n\n            <com.google.android.material.button.MaterialButton\n                android:id=\"@+id/googleSignInButton\"\n                android:layout_width=\"match_parent\"\n                android:layout_height=\"@dimen/btn_height_large\"\n                android:layout_marginTop=\"16dp\"\n                android:fontFamily=\"sans-serif-medium\"\n                android:gravity=\"center\"\n                android:insetBottom=\"0dp\"\n                android:insetTop=\"0dp\"\n                android:minHeight=\"0dp\"\n                android:minWidth=\"0dp\"\n                android:paddingStart=\"20dp\"\n                android:paddingEnd=\"20dp\"\n                android:text=\"@string/auth_google\"\n                android:textAllCaps=\"false\"\n                android:textColor=\"@color/text_primary\"\n                android:textSize=\"@dimen/font_button\"\n                app:backgroundTint=\"@color/bg_secondary\"\n                app:cornerRadius=\"@dimen/radius_button\"\n                app:icon=\"@drawable/ic_google_g\"\n                app:iconGravity=\"textStart\"\n                app:iconPadding=\"10dp\"\n                app:iconTint=\"@null\"\n                app:rippleColor=\"@color/border_light\"\n                app:strokeColor=\"@color/border_light\"\n                app:strokeWidth=\"@dimen/stroke_thin\" />\n\n            <LinearLayout\n                android:layout_width=\"wrap_content\"\n                android:layout_height=\"wrap_content\"\n                android:layout_gravity=\"center_horizontal\"\n                android:layout_marginTop=\"27dp\"\n                android:gravity=\"center_vertical\"\n                android:orientation=\"horizontal\">\n\n                <TextView\n                    android:layout_width=\"wrap_content\"\n                    android:layout_height=\"wrap_content\"\n                    android:fontFamily=\"sans-serif\"\n                    android:text=\"@string/auth_no_account\"\n                    android:textColor=\"@color/text_muted\"\n                    android:textSize=\"11sp\" />\n\n                <TextView\n                    android:id=\"@+id/signUp\"\n                    android:layout_width=\"wrap_content\"\n                    android:layout_height=\"wrap_content\"\n                    android:layout_marginStart=\"4dp\"\n                    android:fontFamily=\"sans-serif-medium\"\n                    android:text=\"@string/auth_btn_sign_up\"\n                    android:textColor=\"@color/brand_orange\"\n                    android:textSize=\"@dimen/font_body\" />\n            </LinearLayout>\n        </LinearLayout>\n    </ScrollView>\n\n</androidx.constraintlayout.widget.ConstraintLayout>\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/activity_main.xml b/app/src/main/res/layout/activity_main.xml
+--- a/app/src/main/res/layout/activity_main.xml	(revision 7610b7c7bafc05d09e376f1012a871c2fc8f9027)
++++ b/app/src/main/res/layout/activity_main.xml	(date 1782362818395)
+@@ -145,7 +145,7 @@
+                 android:paddingEnd="@dimen/input_padding_h"
+                 android:selectAllOnFocus="false"
+                 android:singleLine="true"
+-                android:text="@string/auth_email_value"
++                android:hint="email"
+                 android:textColor="@color/text_primary"
+                 android:textSize="@dimen/font_body" />
+ 
+@@ -155,7 +155,7 @@
+                 android:layout_marginTop="17dp"
+                 android:fontFamily="sans-serif-medium"
+                 android:letterSpacing="0.12"
+-                android:text="@string/auth_label_password"
++                android:hint="@string/auth_label_password"
+                 android:textAllCaps="true"
+                 android:textColor="@color/text_secondary"
+                 android:textSize="@dimen/font_label" />
+@@ -178,7 +178,7 @@
+                     android:paddingStart="@dimen/input_padding_h"
+                     android:paddingEnd="48dp"
+                     android:singleLine="true"
+-                    android:text="@string/auth_password_value"
++                    android:hint="Nhập mật khaaur"
+                     android:textColor="@color/text_primary"
+                     android:textSize="@dimen/font_body" />
+ 
+Index: app/src/main/res/layout/activity_admin_dashboard.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<androidx.constraintlayout.widget.ConstraintLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\n    xmlns:tools=\"http://schemas.android.com/tools\"\n    android:id=\"@+id/admin_dashboard_root\"\n    android:layout_width=\"match_parent\"\n    android:layout_height=\"match_parent\"\n    android:background=\"@color/bg_dark_primary\"\n    tools:context=\".admin.AdminDashboardActivity\">\n\n    <androidx.core.widget.NestedScrollView\n        android:layout_width=\"match_parent\"\n        android:layout_height=\"0dp\"\n        android:clipToPadding=\"false\"\n        android:paddingBottom=\"24dp\"\n        app:layout_constraintBottom_toTopOf=\"@id/admin_bottom_nav\"\n        app:layout_constraintTop_toTopOf=\"parent\">\n\n        <LinearLayout\n            android:layout_width=\"match_parent\"\n            android:layout_height=\"wrap_content\"\n            android:orientation=\"vertical\"\n            android:paddingHorizontal=\"20dp\"\n            android:paddingTop=\"20dp\">\n\n            <androidx.constraintlayout.widget.ConstraintLayout\n                android:layout_width=\"match_parent\"\n                android:layout_height=\"wrap_content\"\n                android:layout_marginBottom=\"32dp\">\n\n                <View\n                    android:id=\"@+id/profile_image_bg\"\n                    android:layout_width=\"54dp\"\n                    android:layout_height=\"54dp\"\n                    android:background=\"@drawable/bg_circle_orange\"\n                    app:layout_constraintBottom_toBottomOf=\"parent\"\n                    app:layout_constraintStart_toStartOf=\"parent\"\n                    app:layout_constraintTop_toTopOf=\"parent\" />\n\n                <ImageView\n                    android:layout_width=\"28dp\"\n                    android:layout_height=\"28dp\"\n                    android:src=\"@drawable/ic_shoe\"\n                    app:layout_constraintBottom_toBottomOf=\"@id/profile_image_bg\"\n                    app:layout_constraintEnd_toEndOf=\"@id/profile_image_bg\"\n                    app:layout_constraintStart_toStartOf=\"@id/profile_image_bg\"\n                    app:layout_constraintTop_toTopOf=\"@id/profile_image_bg\"\n                    app:tint=\"@color/brand_white\" />\n\n                <TextView\n                    android:id=\"@+id/admin_label\"\n                    android:layout_width=\"wrap_content\"\n                    android:layout_height=\"wrap_content\"\n                    android:layout_marginStart=\"14dp\"\n                    android:text=\"Bảng điều khiển Admin\"\n                    android:textColor=\"@color/text_dark_tertiary\"\n                    android:textSize=\"14sp\"\n                    app:layout_constraintStart_toEndOf=\"@id/profile_image_bg\"\n                    app:layout_constraintTop_toTopOf=\"@id/profile_image_bg\" />\n\n                <TextView\n                    android:id=\"@+id/app_name_label\"\n                    android:layout_width=\"wrap_content\"\n                    android:layout_height=\"wrap_content\"\n                    android:layout_marginTop=\"-4dp\"\n                    android:text=\"SoleStep\"\n                    android:textColor=\"@color/text_dark_primary\"\n                    android:textSize=\"28sp\"\n                    android:textStyle=\"bold\"\n                    app:layout_constraintStart_toStartOf=\"@id/admin_label\"\n                    app:layout_constraintTop_toBottomOf=\"@id/admin_label\" />\n\n                <FrameLayout\n                    android:layout_width=\"54dp\"\n                    android:layout_height=\"54dp\"\n                    android:background=\"@drawable/bg_circle_dark\"\n                    app:layout_constraintBottom_toBottomOf=\"parent\"\n                    app:layout_constraintEnd_toEndOf=\"parent\"\n                    app:layout_constraintTop_toTopOf=\"parent\">\n\n                    <ImageView\n                        android:layout_width=\"24dp\"\n                        android:layout_height=\"24dp\"\n                        android:layout_gravity=\"center\"\n                        android:src=\"@drawable/ic_home_bell\"\n                        app:tint=\"@color/text_dark_primary\" />\n\n                    <TextView\n                        android:layout_width=\"18dp\"\n                        android:layout_height=\"18dp\"\n                        android:layout_gravity=\"top|end\"\n                        android:layout_marginTop=\"6dp\"\n                        android:layout_marginEnd=\"6dp\"\n                        android:background=\"@drawable/bg_badge_orange\"\n                        android:gravity=\"center\"\n                        android:text=\"5\"\n                        android:textColor=\"@color/brand_white\"\n                        android:textSize=\"10sp\"\n                        android:textStyle=\"bold\" />\n                </FrameLayout>\n            </androidx.constraintlayout.widget.ConstraintLayout>\n\n            <androidx.constraintlayout.widget.ConstraintLayout\n                android:layout_width=\"match_parent\"\n                android:layout_height=\"wrap_content\"\n                android:background=\"@drawable/bg_orange_gradient\"\n                android:padding=\"28dp\">\n\n                <TextView\n                    android:id=\"@+id/revenue_title\"\n                    android:layout_width=\"wrap_content\"\n                    android:layout_height=\"wrap_content\"\n                    android:text=\"@string/admin_today_revenue\"\n                    android:textColor=\"@color/text_dark_secondary\"\n                    android:textSize=\"16sp\"\n                    app:layout_constraintStart_toStartOf=\"parent\"\n                    app:layout_constraintTop_toTopOf=\"parent\" />\n\n                <TextView\n                    android:id=\"@+id/revenue_amount\"\n                    android:layout_width=\"wrap_content\"\n                    android:layout_height=\"wrap_content\"\n                    android:layout_marginTop=\"10dp\"\n                    android:text=\"3.284.500 ₫\"\n                    android:textColor=\"@color/brand_white\"\n                    android:textSize=\"52sp\"\n                    android:textStyle=\"bold\"\n                    app:layout_constraintStart_toStartOf=\"parent\"\n                    app:layout_constraintTop_toBottomOf=\"@id/revenue_title\" />\n\n                <LinearLayout\n                    android:layout_width=\"wrap_content\"\n                    android:layout_height=\"wrap_content\"\n                    android:layout_marginTop=\"14dp\"\n                    android:gravity=\"center_vertical\"\n                    android:orientation=\"horizontal\"\n                    app:layout_constraintStart_toStartOf=\"parent\"\n                    app:layout_constraintTop_toBottomOf=\"@id/revenue_amount\">\n\n                    <ImageView\n                        android:layout_width=\"18dp\"\n                        android:layout_height=\"18dp\"\n                        android:src=\"@drawable/ic_home_trending\"\n                        app:tint=\"@color/text_dark_secondary\" />\n\n                    <TextView\n                        android:layout_width=\"wrap_content\"\n                        android:layout_height=\"wrap_content\"\n                        android:layout_marginStart=\"6dp\"\n                        android:text=\"+18.2% so với hôm qua\"\n                        android:textColor=\"@color/text_dark_secondary\"\n                        android:textSize=\"15sp\" />\n                </LinearLayout>\n            </androidx.constraintlayout.widget.ConstraintLayout>\n\n            <!-- ══════════════════════════════════════\n                 STATISTICS GRID\n                 ══════════════════════════════════════ -->\n            <GridLayout\n                android:layout_width=\"match_parent\"\n                android:layout_height=\"wrap_content\"\n                android:layout_marginTop=\"24dp\"\n                android:columnCount=\"2\"\n                android:useDefaultMargins=\"true\">\n\n                <!-- Stat: Revenue -->\n                <LinearLayout\n                    android:layout_width=\"0dp\"\n                    android:layout_height=\"wrap_content\"\n                    android:layout_columnWeight=\"1\"\n                    android:background=\"@drawable/bg_card_dark\"\n                    android:orientation=\"vertical\"\n                    android:padding=\"16dp\">\n\n                    <androidx.constraintlayout.widget.ConstraintLayout\n                        android:layout_width=\"match_parent\"\n                        android:layout_height=\"wrap_content\">\n\n                        <View\n                            android:id=\"@+id/stat_icon_1\"\n                            android:layout_width=\"36dp\"\n                            android:layout_height=\"36dp\"\n                            android:background=\"@drawable/bg_circle_dark\"\n                            android:backgroundTint=\"@color/stat_revenue_bg\"\n                            app:layout_constraintStart_toStartOf=\"parent\"\n                            app:layout_constraintTop_toTopOf=\"parent\" />\n\n                        <TextView\n                            android:layout_width=\"wrap_content\"\n                            android:layout_height=\"wrap_content\"\n                            android:text=\"$\"\n                            android:textColor=\"@color/stat_revenue\"\n                            android:textSize=\"16sp\"\n                            android:textStyle=\"bold\"\n                            app:layout_constraintBottom_toBottomOf=\"@id/stat_icon_1\"\n                            app:layout_constraintEnd_toEndOf=\"@id/stat_icon_1\"\n                            app:layout_constraintStart_toStartOf=\"@id/stat_icon_1\"\n                            app:layout_constraintTop_toTopOf=\"@id/stat_icon_1\" />\n\n                        <TextView\n                            android:layout_width=\"wrap_content\"\n                            android:layout_height=\"wrap_content\"\n                            android:text=\"↗ +12%\"\n                            android:textColor=\"@color/status_success\"\n                            android:textSize=\"10sp\"\n                            android:textStyle=\"bold\"\n                            app:layout_constraintEnd_toEndOf=\"parent\"\n                            app:layout_constraintTop_toTopOf=\"parent\" />\n                    </androidx.constraintlayout.widget.ConstraintLayout>\n\n                    <TextView\n                        android:layout_width=\"wrap_content\"\n                        android:layout_height=\"wrap_content\"\n                        android:layout_marginTop=\"12dp\"\n                        android:text=\"48.2M\"\n                        android:textColor=\"@color/text_dark_primary\"\n                        android:textSize=\"20sp\"\n                        android:textStyle=\"bold\" />\n\n                    <TextView\n                        android:layout_width=\"wrap_content\"\n                        android:layout_height=\"wrap_content\"\n                        android:text=\"@string/admin_stat_revenue\"\n                        android:textColor=\"@color/text_dark_tertiary\"\n                        android:textSize=\"13sp\" />\n                </LinearLayout>\n\n                <!-- Stat: Orders -->\n                <LinearLayout\n                    android:layout_width=\"0dp\"\n                    android:layout_height=\"wrap_content\"\n                    android:layout_columnWeight=\"1\"\n                    android:background=\"@drawable/bg_card_dark\"\n                    android:orientation=\"vertical\"\n                    android:padding=\"16dp\">\n\n                    <androidx.constraintlayout.widget.ConstraintLayout\n                        android:layout_width=\"match_parent\"\n                        android:layout_height=\"wrap_content\">\n\n                        <View\n                            android:id=\"@+id/stat_icon_2\"\n                            android:layout_width=\"36dp\"\n                            android:layout_height=\"36dp\"\n                            android:background=\"@drawable/bg_circle_dark\"\n                            android:backgroundTint=\"@color/stat_orders_bg\"\n                            app:layout_constraintStart_toStartOf=\"parent\"\n                            app:layout_constraintTop_toTopOf=\"parent\" />\n\n                        <ImageView\n                            android:layout_width=\"18dp\"\n                            android:layout_height=\"18dp\"\n                            android:src=\"@drawable/ic_material_shopping_cart\"\n                            app:layout_constraintBottom_toBottomOf=\"@id/stat_icon_2\"\n                            app:layout_constraintEnd_toEndOf=\"@id/stat_icon_2\"\n                            app:layout_constraintStart_toStartOf=\"@id/stat_icon_2\"\n                            app:layout_constraintTop_toTopOf=\"@id/stat_icon_2\"\n                            app:tint=\"@color/stat_orders\" />\n\n                        <TextView\n                            android:layout_width=\"wrap_content\"\n                            android:layout_height=\"wrap_content\"\n                            android:text=\"↗ +8%\"\n                            android:textColor=\"@color/status_success\"\n                            android:textSize=\"10sp\"\n                            android:textStyle=\"bold\"\n                            app:layout_constraintEnd_toEndOf=\"parent\"\n                            app:layout_constraintTop_toTopOf=\"parent\" />\n                    </androidx.constraintlayout.widget.ConstraintLayout>\n\n                    <TextView\n                        android:layout_width=\"wrap_content\"\n                        android:layout_height=\"wrap_content\"\n                        android:layout_marginTop=\"12dp\"\n                        android:text=\"284\"\n                        android:textColor=\"@color/text_dark_primary\"\n                        android:textSize=\"20sp\"\n                        android:textStyle=\"bold\" />\n\n                    <TextView\n                        android:layout_width=\"wrap_content\"\n                        android:layout_height=\"wrap_content\"\n                        android:text=\"@string/admin_stat_orders\"\n                        android:textColor=\"@color/text_dark_tertiary\"\n                        android:textSize=\"13sp\" />\n                </LinearLayout>\n\n                <!-- Stat: Products -->\n                <LinearLayout\n                    android:layout_width=\"0dp\"\n                    android:layout_height=\"wrap_content\"\n                    android:layout_columnWeight=\"1\"\n                    android:background=\"@drawable/bg_card_dark\"\n                    android:orientation=\"vertical\"\n                    android:padding=\"16dp\">\n\n                    <androidx.constraintlayout.widget.ConstraintLayout\n                        android:layout_width=\"match_parent\"\n                        android:layout_height=\"wrap_content\">\n\n                        <View\n                            android:id=\"@+id/stat_icon_4\"\n                            android:layout_width=\"36dp\"\n                            android:layout_height=\"36dp\"\n                            android:background=\"@drawable/bg_circle_dark\"\n                            android:backgroundTint=\"@color/stat_products_bg\"\n                            app:layout_constraintStart_toStartOf=\"parent\"\n                            app:layout_constraintTop_toTopOf=\"parent\" />\n\n                        <ImageView\n                            android:layout_width=\"18dp\"\n                            android:layout_height=\"18dp\"\n                            android:src=\"@drawable/ic_material_inventory_2\"\n                            app:layout_constraintBottom_toBottomOf=\"@id/stat_icon_4\"\n                            app:layout_constraintEnd_toEndOf=\"@id/stat_icon_4\"\n                            app:layout_constraintStart_toStartOf=\"@id/stat_icon_4\"\n                            app:layout_constraintTop_toTopOf=\"@id/stat_icon_4\"\n                            app:tint=\"@color/stat_products\" />\n\n                        <TextView\n                            android:layout_width=\"wrap_content\"\n                            android:layout_height=\"wrap_content\"\n                            android:text=\"↘ -2%\"\n                            android:textColor=\"@color/status_error\"\n                            android:textSize=\"10sp\"\n                            android:textStyle=\"bold\"\n                            app:layout_constraintEnd_toEndOf=\"parent\"\n                            app:layout_constraintTop_toTopOf=\"parent\" />\n                    </androidx.constraintlayout.widget.ConstraintLayout>\n\n                    <TextView\n                        android:layout_width=\"wrap_content\"\n                        android:layout_height=\"wrap_content\"\n                        android:layout_marginTop=\"12dp\"\n                        android:text=\"156\"\n                        android:textColor=\"@color/text_dark_primary\"\n                        android:textSize=\"20sp\"\n                        android:textStyle=\"bold\" />\n\n                    <TextView\n                        android:layout_width=\"wrap_content\"\n                        android:layout_height=\"wrap_content\"\n                        android:text=\"@string/admin_stat_products\"\n                        android:textColor=\"@color/text_dark_tertiary\"\n                        android:textSize=\"13sp\" />\n                </LinearLayout>\n\n                <!-- Stat: Categories -->\n                <LinearLayout\n                    android:layout_width=\"0dp\"\n                    android:layout_height=\"wrap_content\"\n                    android:layout_columnWeight=\"1\"\n                    android:background=\"@drawable/bg_card_dark\"\n                    android:orientation=\"vertical\"\n                    android:padding=\"16dp\">\n\n                    <androidx.constraintlayout.widget.ConstraintLayout\n                        android:layout_width=\"match_parent\"\n                        android:layout_height=\"wrap_content\">\n\n                        <View\n                            android:id=\"@+id/stat_icon_3\"\n                            android:layout_width=\"36dp\"\n                            android:layout_height=\"36dp\"\n                            android:background=\"@drawable/bg_circle_dark\"\n                            android:backgroundTint=\"@color/orange_tint_10\"\n                            app:layout_constraintStart_toStartOf=\"parent\"\n                            app:layout_constraintTop_toTopOf=\"parent\" />\n\n                        <ImageView\n                            android:layout_width=\"18dp\"\n                            android:layout_height=\"18dp\"\n                            android:src=\"@drawable/ic_tag\"\n                            app:layout_constraintBottom_toBottomOf=\"@id/stat_icon_3\"\n                            app:layout_constraintEnd_toEndOf=\"@id/stat_icon_3\"\n                            app:layout_constraintStart_toStartOf=\"@id/stat_icon_3\"\n                            app:layout_constraintTop_toTopOf=\"@id/stat_icon_3\"\n                            app:tint=\"@color/brand_orange\" />\n\n                        <TextView\n                            android:layout_width=\"wrap_content\"\n                            android:layout_height=\"wrap_content\"\n                            android:text=\"Ổn định\"\n                            android:textColor=\"@color/status_info\"\n                            android:textSize=\"10sp\"\n                            android:textStyle=\"bold\"\n                            app:layout_constraintEnd_toEndOf=\"parent\"\n                            app:layout_constraintTop_toTopOf=\"parent\" />\n                    </androidx.constraintlayout.widget.ConstraintLayout>\n\n                    <TextView\n                        android:layout_width=\"wrap_content\"\n                        android:layout_height=\"wrap_content\"\n                        android:layout_marginTop=\"12dp\"\n                        android:text=\"12\"\n                        android:textColor=\"@color/text_dark_primary\"\n                        android:textSize=\"20sp\"\n                        android:textStyle=\"bold\" />\n\n                    <TextView\n                        android:layout_width=\"wrap_content\"\n                        android:layout_height=\"wrap_content\"\n                        android:text=\"@string/admin_stat_categories\"\n                        android:textColor=\"@color/text_dark_tertiary\"\n                        android:textSize=\"13sp\" />\n                </LinearLayout>\n            </GridLayout>\n\n            <androidx.constraintlayout.widget.ConstraintLayout\n                android:layout_width=\"match_parent\"\n                android:layout_height=\"wrap_content\"\n                android:layout_marginTop=\"36dp\">\n\n                <TextView\n                    android:layout_width=\"wrap_content\"\n                    android:layout_height=\"wrap_content\"\n                    android:text=\"@string/admin_recent_orders\"\n                    android:textColor=\"@color/text_dark_primary\"\n                    android:textSize=\"20sp\"\n                    android:textStyle=\"bold\"\n                    app:layout_constraintBottom_toBottomOf=\"parent\"\n                    app:layout_constraintStart_toStartOf=\"parent\"\n                    app:layout_constraintTop_toTopOf=\"parent\" />\n\n                <TextView\n                    android:id=\"@+id/btn_view_all_orders\"\n                    android:layout_width=\"wrap_content\"\n                    android:layout_height=\"wrap_content\"\n                    android:clickable=\"true\"\n                    android:focusable=\"true\"\n                    android:foreground=\"?attr/selectableItemBackground\"\n                    android:padding=\"4dp\"\n                    android:text=\"Xem tất cả ›\"\n                    android:textColor=\"@color/brand_orange\"\n                    android:textSize=\"15sp\"\n                    app:layout_constraintBottom_toBottomOf=\"parent\"\n                    app:layout_constraintEnd_toEndOf=\"parent\"\n                    app:layout_constraintTop_toTopOf=\"parent\" />\n            </androidx.constraintlayout.widget.ConstraintLayout>\n\n            <LinearLayout\n                android:layout_width=\"match_parent\"\n                android:layout_height=\"wrap_content\"\n                android:layout_marginTop=\"18dp\"\n                android:background=\"@drawable/bg_card_dark\"\n                android:orientation=\"vertical\"\n                android:padding=\"8dp\">\n\n                <androidx.constraintlayout.widget.ConstraintLayout\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"wrap_content\"\n                    android:padding=\"14dp\">\n\n                    <View\n                        android:id=\"@+id/order_img_1\"\n                        android:layout_width=\"52dp\"\n                        android:layout_height=\"52dp\"\n                        android:background=\"@drawable/bg_circle_dark\"\n                        android:backgroundTint=\"@color/orange_tint_10\"\n                        app:layout_constraintBottom_toBottomOf=\"parent\"\n                        app:layout_constraintStart_toStartOf=\"parent\"\n                        app:layout_constraintTop_toTopOf=\"parent\" />\n\n                    <ImageView\n                        android:layout_width=\"24dp\"\n                        android:layout_height=\"24dp\"\n                        android:src=\"@drawable/ic_material_shopping_cart\"\n                        app:layout_constraintBottom_toBottomOf=\"@id/order_img_1\"\n                        app:layout_constraintEnd_toEndOf=\"@id/order_img_1\"\n                        app:layout_constraintStart_toStartOf=\"@id/order_img_1\"\n                        app:layout_constraintTop_toTopOf=\"@id/order_img_1\"\n                        app:tint=\"@color/brand_orange\" />\n\n                    <TextView\n                        android:id=\"@+id/order_id_1\"\n                        android:layout_width=\"wrap_content\"\n                        android:layout_height=\"wrap_content\"\n                        android:layout_marginStart=\"16dp\"\n                        android:text=\"SS-10495\"\n                        android:textColor=\"@color/text_dark_primary\"\n                        android:textSize=\"18sp\"\n                        android:textStyle=\"bold\"\n                        app:layout_constraintStart_toEndOf=\"@id/order_img_1\"\n                        app:layout_constraintTop_toTopOf=\"@id/order_img_1\" />\n\n                    <TextView\n                        android:layout_width=\"wrap_content\"\n                        android:layout_height=\"wrap_content\"\n                        android:text=\"Alex Johnson\"\n                        android:textColor=\"@color/text_dark_tertiary\"\n                        android:textSize=\"15sp\"\n                        app:layout_constraintStart_toStartOf=\"@id/order_id_1\"\n                        app:layout_constraintTop_toBottomOf=\"@id/order_id_1\" />\n\n                    <TextView\n                        android:id=\"@+id/order_p_1\"\n                        android:layout_width=\"wrap_content\"\n                        android:layout_height=\"wrap_content\"\n                        android:text=\"$419.98\"\n                        android:textColor=\"@color/text_dark_primary\"\n                        android:textSize=\"18sp\"\n                        android:textStyle=\"bold\"\n                        app:layout_constraintEnd_toEndOf=\"parent\"\n                        app:layout_constraintTop_toTopOf=\"parent\" />\n\n                    <TextView\n                        android:layout_width=\"wrap_content\"\n                        android:layout_height=\"wrap_content\"\n                        android:layout_marginTop=\"6dp\"\n                        android:background=\"@drawable/bg_status_processing_dark\"\n                        android:paddingHorizontal=\"14dp\"\n                        android:paddingVertical=\"4dp\"\n                        android:text=\"@string/status_processing\"\n                        android:textColor=\"@color/status_warning\"\n                        android:textSize=\"13sp\"\n                        android:textStyle=\"bold\"\n                        app:layout_constraintEnd_toEndOf=\"parent\"\n                        app:layout_constraintTop_toBottomOf=\"@id/order_p_1\" />\n                </androidx.constraintlayout.widget.ConstraintLayout>\n\n                <View\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"1dp\"\n                    android:layout_marginHorizontal=\"14dp\"\n                    android:background=\"@color/border_dark_light\" />\n\n                <androidx.constraintlayout.widget.ConstraintLayout\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"wrap_content\"\n                    android:padding=\"14dp\">\n\n                    <View\n                        android:id=\"@+id/order_img_2\"\n                        android:layout_width=\"52dp\"\n                        android:layout_height=\"52dp\"\n                        android:background=\"@drawable/bg_circle_dark\"\n                        android:backgroundTint=\"@color/orange_tint_10\"\n                        app:layout_constraintBottom_toBottomOf=\"parent\"\n                        app:layout_constraintStart_toStartOf=\"parent\"\n                        app:layout_constraintTop_toTopOf=\"parent\" />\n\n                    <ImageView\n                        android:layout_width=\"24dp\"\n                        android:layout_height=\"24dp\"\n                        android:src=\"@drawable/ic_material_shopping_cart\"\n                        app:layout_constraintBottom_toBottomOf=\"@id/order_img_2\"\n                        app:layout_constraintEnd_toEndOf=\"@id/order_img_2\"\n                        app:layout_constraintStart_toStartOf=\"@id/order_img_2\"\n                        app:layout_constraintTop_toTopOf=\"@id/order_img_2\"\n                        app:tint=\"@color/brand_orange\" />\n\n                    <TextView\n                        android:id=\"@+id/order_id_2\"\n                        android:layout_width=\"wrap_content\"\n                        android:layout_height=\"wrap_content\"\n                        android:layout_marginStart=\"16dp\"\n                        android:text=\"SS-10494\"\n                        android:textColor=\"@color/text_dark_primary\"\n                        android:textSize=\"18sp\"\n                        android:textStyle=\"bold\"\n                        app:layout_constraintStart_toEndOf=\"@id/order_img_2\"\n                        app:layout_constraintTop_toTopOf=\"@id/order_img_2\" />\n\n                    <TextView\n                        android:layout_width=\"wrap_content\"\n                        android:layout_height=\"wrap_content\"\n                        android:text=\"Maria Garcia\"\n                        android:textColor=\"@color/text_dark_tertiary\"\n                        android:textSize=\"15sp\"\n                        app:layout_constraintStart_toStartOf=\"@id/order_id_2\"\n                        app:layout_constraintTop_toBottomOf=\"@id/order_id_2\" />\n\n                    <TextView\n                        android:id=\"@+id/order_p_2\"\n                        android:layout_width=\"wrap_content\"\n                        android:layout_height=\"wrap_content\"\n                        android:text=\"$229.99\"\n                        android:textColor=\"@color/text_dark_primary\"\n                        android:textSize=\"18sp\"\n                        android:textStyle=\"bold\"\n                        app:layout_constraintEnd_toEndOf=\"parent\"\n                        app:layout_constraintTop_toTopOf=\"parent\" />\n\n                    <TextView\n                        android:layout_width=\"wrap_content\"\n                        android:layout_height=\"wrap_content\"\n                        android:layout_marginTop=\"6dp\"\n                        android:background=\"@drawable/bg_status_processing_dark\"\n                        android:paddingHorizontal=\"14dp\"\n                        android:paddingVertical=\"4dp\"\n                        android:text=\"@string/status_processing\"\n                        android:textColor=\"@color/status_warning\"\n                        android:textSize=\"13sp\"\n                        android:textStyle=\"bold\"\n                        app:layout_constraintEnd_toEndOf=\"parent\"\n                        app:layout_constraintTop_toBottomOf=\"@id/order_p_2\" />\n                </androidx.constraintlayout.widget.ConstraintLayout>\n\n                <View\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"1dp\"\n                    android:layout_marginHorizontal=\"14dp\"\n                    android:background=\"@color/border_dark_light\" />\n\n                <androidx.constraintlayout.widget.ConstraintLayout\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"wrap_content\"\n                    android:padding=\"14dp\">\n\n                    <View\n                        android:id=\"@+id/order_img_3\"\n                        android:layout_width=\"52dp\"\n                        android:layout_height=\"52dp\"\n                        android:background=\"@drawable/bg_circle_dark\"\n                        android:backgroundTint=\"@color/orange_tint_10\"\n                        app:layout_constraintBottom_toBottomOf=\"parent\"\n                        app:layout_constraintStart_toStartOf=\"parent\"\n                        app:layout_constraintTop_toTopOf=\"parent\" />\n\n                    <ImageView\n                        android:layout_width=\"24dp\"\n                        android:layout_height=\"24dp\"\n                        android:src=\"@drawable/ic_material_shopping_cart\"\n                        app:layout_constraintBottom_toBottomOf=\"@id/order_img_3\"\n                        app:layout_constraintEnd_toEndOf=\"@id/order_img_3\"\n                        app:layout_constraintStart_toStartOf=\"@id/order_img_3\"\n                        app:layout_constraintTop_toTopOf=\"@id/order_img_3\"\n                        app:tint=\"@color/brand_orange\" />\n\n                    <TextView\n                        android:id=\"@+id/order_id_3\"\n                        android:layout_width=\"wrap_content\"\n                        android:layout_height=\"wrap_content\"\n                        android:layout_marginStart=\"16dp\"\n                        android:text=\"SS-10493\"\n                        android:textColor=\"@color/text_dark_primary\"\n                        android:textSize=\"18sp\"\n                        android:textStyle=\"bold\"\n                        app:layout_constraintStart_toEndOf=\"@id/order_img_3\"\n                        app:layout_constraintTop_toTopOf=\"@id/order_img_3\" />\n\n                    <TextView\n                        android:layout_width=\"wrap_content\"\n                        android:layout_height=\"wrap_content\"\n                        android:text=\"James Lee\"\n                        android:textColor=\"@color/text_dark_tertiary\"\n                        android:textSize=\"15sp\"\n                        app:layout_constraintStart_toStartOf=\"@id/order_id_3\"\n                        app:layout_constraintTop_toBottomOf=\"@id/order_id_3\" />\n\n                    <TextView\n                        android:id=\"@+id/order_p_3\"\n                        android:layout_width=\"wrap_content\"\n                        android:layout_height=\"wrap_content\"\n                        android:text=\"$379.97\"\n                        android:textColor=\"@color/text_dark_primary\"\n                        android:textSize=\"18sp\"\n                        android:textStyle=\"bold\"\n                        app:layout_constraintEnd_toEndOf=\"parent\"\n                        app:layout_constraintTop_toTopOf=\"parent\" />\n\n                    <TextView\n                        android:layout_width=\"wrap_content\"\n                        android:layout_height=\"wrap_content\"\n                        android:layout_marginTop=\"6dp\"\n                        android:background=\"@drawable/bg_status_shipped_dark\"\n                        android:paddingHorizontal=\"14dp\"\n                        android:paddingVertical=\"4dp\"\n                        android:text=\"@string/status_shipped\"\n                        android:textColor=\"@color/status_info\"\n                        android:textSize=\"13sp\"\n                        android:textStyle=\"bold\"\n                        app:layout_constraintEnd_toEndOf=\"parent\"\n                        app:layout_constraintTop_toBottomOf=\"@id/order_p_3\" />\n                </androidx.constraintlayout.widget.ConstraintLayout>\n\n                <View\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"1dp\"\n                    android:layout_marginHorizontal=\"14dp\"\n                    android:background=\"@color/border_dark_light\" />\n\n                <androidx.constraintlayout.widget.ConstraintLayout\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"wrap_content\"\n                    android:padding=\"14dp\">\n\n                    <View\n                        android:id=\"@+id/order_img_4\"\n                        android:layout_width=\"52dp\"\n                        android:layout_height=\"52dp\"\n                        android:background=\"@drawable/bg_circle_dark\"\n                        android:backgroundTint=\"@color/orange_tint_10\"\n                        app:layout_constraintBottom_toBottomOf=\"parent\"\n                        app:layout_constraintStart_toStartOf=\"parent\"\n                        app:layout_constraintTop_toTopOf=\"parent\" />\n\n                    <ImageView\n                        android:layout_width=\"24dp\"\n                        android:layout_height=\"24dp\"\n                        android:src=\"@drawable/ic_material_shopping_cart\"\n                        app:layout_constraintBottom_toBottomOf=\"@id/order_img_4\"\n                        app:layout_constraintEnd_toEndOf=\"@id/order_img_4\"\n                        app:layout_constraintStart_toStartOf=\"@id/order_img_4\"\n                        app:layout_constraintTop_toTopOf=\"@id/order_img_4\"\n                        app:tint=\"@color/brand_orange\" />\n\n                    <TextView\n                        android:id=\"@+id/order_id_4\"\n                        android:layout_width=\"wrap_content\"\n                        android:layout_height=\"wrap_content\"\n                        android:layout_marginStart=\"16dp\"\n                        android:text=\"SS-10492\"\n                        android:textColor=\"@color/text_dark_primary\"\n                        android:textSize=\"18sp\"\n                        android:textStyle=\"bold\"\n                        app:layout_constraintStart_toEndOf=\"@id/order_img_4\"\n                        app:layout_constraintTop_toTopOf=\"@id/order_img_4\" />\n\n                    <TextView\n                        android:layout_width=\"wrap_content\"\n                        android:layout_height=\"wrap_content\"\n                        android:text=\"Sarah Chen\"\n                        android:textColor=\"@color/text_dark_tertiary\"\n                        android:textSize=\"15sp\"\n                        app:layout_constraintStart_toStartOf=\"@id/order_id_4\"\n                        app:layout_constraintTop_toBottomOf=\"@id/order_id_4\" />\n\n                    <TextView\n                        android:id=\"@+id/order_p_4\"\n                        android:layout_width=\"wrap_content\"\n                        android:layout_height=\"wrap_content\"\n                        android:text=\"$149.99\"\n                        android:textColor=\"@color/text_dark_primary\"\n                        android:textSize=\"18sp\"\n                        android:textStyle=\"bold\"\n                        app:layout_constraintEnd_toEndOf=\"parent\"\n                        app:layout_constraintTop_toTopOf=\"parent\" />\n\n                    <TextView\n                        android:layout_width=\"wrap_content\"\n                        android:layout_height=\"wrap_content\"\n                        android:layout_marginTop=\"6dp\"\n                        android:background=\"@drawable/bg_status_shipped_dark\"\n                        android:paddingHorizontal=\"14dp\"\n                        android:paddingVertical=\"4dp\"\n                        android:text=\"@string/status_shipped\"\n                        android:textColor=\"@color/status_info\"\n                        android:textSize=\"13sp\"\n                        android:textStyle=\"bold\"\n                        app:layout_constraintEnd_toEndOf=\"parent\"\n                        app:layout_constraintTop_toBottomOf=\"@id/order_p_4\" />\n                </androidx.constraintlayout.widget.ConstraintLayout>\n            </LinearLayout>\n\n            <androidx.constraintlayout.widget.ConstraintLayout\n                android:layout_width=\"match_parent\"\n                android:layout_height=\"wrap_content\"\n                android:layout_marginTop=\"36dp\">\n\n                <TextView\n                    android:layout_width=\"wrap_content\"\n                    android:layout_height=\"wrap_content\"\n                    android:text=\"@string/admin_top_products\"\n                    android:textColor=\"@color/text_dark_primary\"\n                    android:textSize=\"20sp\"\n                    android:textStyle=\"bold\"\n                    app:layout_constraintBottom_toBottomOf=\"parent\"\n                    app:layout_constraintStart_toStartOf=\"parent\"\n                    app:layout_constraintTop_toTopOf=\"parent\" />\n\n                <TextView\n                    android:id=\"@+id/btn_view_all_products\"\n                    android:layout_width=\"wrap_content\"\n                    android:layout_height=\"wrap_content\"\n                    android:clickable=\"true\"\n                    android:focusable=\"true\"\n                    android:foreground=\"?attr/selectableItemBackground\"\n                    android:padding=\"4dp\"\n                    android:text=\"Xem tất cả ›\"\n                    android:textColor=\"@color/brand_orange\"\n                    android:textSize=\"15sp\"\n                    app:layout_constraintBottom_toBottomOf=\"parent\"\n                    app:layout_constraintEnd_toEndOf=\"parent\"\n                    app:layout_constraintTop_toTopOf=\"parent\" />\n            </androidx.constraintlayout.widget.ConstraintLayout>\n\n            <HorizontalScrollView\n                android:layout_width=\"match_parent\"\n                android:layout_height=\"wrap_content\"\n                android:layout_marginTop=\"18dp\"\n                android:clipToPadding=\"false\"\n                android:scrollbars=\"none\">\n\n                <LinearLayout\n                    android:layout_width=\"wrap_content\"\n                    android:layout_height=\"wrap_content\"\n                    android:orientation=\"horizontal\">\n\n                    <LinearLayout\n                        android:layout_width=\"200dp\"\n                        android:layout_height=\"wrap_content\"\n                        android:layout_marginEnd=\"16dp\"\n                        android:background=\"@drawable/bg_card_dark\"\n                        android:orientation=\"vertical\"\n                        android:padding=\"8dp\">\n\n                        <ImageView\n                            android:layout_width=\"match_parent\"\n                            android:layout_height=\"140dp\"\n                            android:background=\"@drawable/bg_product_thumb\"\n                            android:padding=\"16dp\"\n                            android:src=\"@drawable/shooq_logo\"\n                            android:scaleType=\"centerInside\"/>\n\n                        <LinearLayout\n                            android:layout_width=\"match_parent\"\n                            android:layout_height=\"wrap_content\"\n                            android:orientation=\"vertical\"\n                            android:padding=\"12dp\">\n\n                            <TextView\n                                android:layout_width=\"match_parent\"\n                                android:layout_height=\"wrap_content\"\n                                android:ellipsize=\"end\"\n                                android:maxLines=\"1\"\n                                android:text=\"Air Phantom Pro\"\n                                android:textColor=\"@color/text_dark_primary\"\n                                android:textSize=\"17sp\"\n                                android:textStyle=\"bold\" />\n\n                            <TextView\n                                android:layout_width=\"wrap_content\"\n                                android:layout_height=\"wrap_content\"\n                                android:text=\"$189.99\"\n                                android:textColor=\"@color/brand_orange\"\n                                android:textSize=\"16sp\"\n                                android:textStyle=\"bold\" />\n\n                            <TextView\n                                android:layout_width=\"wrap_content\"\n                                android:layout_height=\"wrap_content\"\n                                android:text=\"Kho: 45\"\n                                android:textColor=\"@color/text_dark_tertiary\"\n                                android:textSize=\"14sp\" />\n                        </LinearLayout>\n                    </LinearLayout>\n\n                    <LinearLayout\n                        android:layout_width=\"200dp\"\n                        android:layout_height=\"wrap_content\"\n                        android:layout_marginEnd=\"16dp\"\n                        android:background=\"@drawable/bg_card_dark\"\n                        android:orientation=\"vertical\"\n                        android:padding=\"8dp\">\n\n                        <ImageView\n                            android:layout_width=\"match_parent\"\n                            android:layout_height=\"140dp\"\n                            android:background=\"@color/bg_dark_surface_3\"\n                            android:padding=\"16dp\"\n                            android:src=\"@drawable/shooq_logo\"\n                            android:scaleType=\"centerInside\"/>\n\n                        <LinearLayout\n                            android:layout_width=\"match_parent\"\n                            android:layout_height=\"wrap_content\"\n                            android:orientation=\"vertical\"\n                            android:padding=\"12dp\">\n\n                            <TextView\n                                android:layout_width=\"match_parent\"\n                                android:layout_height=\"wrap_content\"\n                                android:ellipsize=\"end\"\n                                android:maxLines=\"1\"\n                                android:text=\"Urban Stride X\"\n                                android:textColor=\"@color/text_dark_primary\"\n                                android:textSize=\"17sp\"\n                                android:textStyle=\"bold\" />\n\n                            <TextView\n                                android:layout_width=\"wrap_content\"\n                                android:layout_height=\"wrap_content\"\n                                android:text=\"$149.99\"\n                                android:textColor=\"@color/brand_orange\"\n                                android:textSize=\"16sp\"\n                                android:textStyle=\"bold\" />\n\n                            <TextView\n                                android:layout_width=\"wrap_content\"\n                                android:layout_height=\"wrap_content\"\n                                android:text=\"Kho: 30\"\n                                android:textColor=\"@color/text_dark_tertiary\"\n                                android:textSize=\"14sp\" />\n                        </LinearLayout>\n                    </LinearLayout>\n                </LinearLayout>\n            </HorizontalScrollView>\n\n        </LinearLayout>\n    </androidx.core.widget.NestedScrollView>\n\n    <include\n        layout=\"@layout/view_admin_bottom_nav\"\n        android:layout_width=\"match_parent\"\n        android:layout_height=\"wrap_content\"\n        app:layout_constraintBottom_toBottomOf=\"parent\"\n        app:layout_constraintStart_toStartOf=\"parent\"\n        app:layout_constraintEnd_toEndOf=\"parent\" />\n\n</androidx.constraintlayout.widget.ConstraintLayout>\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/activity_admin_dashboard.xml b/app/src/main/res/layout/activity_admin_dashboard.xml
+--- a/app/src/main/res/layout/activity_admin_dashboard.xml	(revision 7610b7c7bafc05d09e376f1012a871c2fc8f9027)
++++ b/app/src/main/res/layout/activity_admin_dashboard.xml	(date 1782362818394)
+@@ -810,7 +810,7 @@
+                             android:layout_height="140dp"
+                             android:background="@drawable/bg_product_thumb"
+                             android:padding="16dp"
+-                            android:src="@drawable/shooq_logo"
++                            android:src="@drawable/shoe_logo_app"
+                             android:scaleType="centerInside"/>
+ 
+                         <LinearLayout
+@@ -859,7 +859,7 @@
+                             android:layout_height="140dp"
+                             android:background="@color/bg_dark_surface_3"
+                             android:padding="16dp"
+-                            android:src="@drawable/shooq_logo"
++                            android:src="@drawable/shoe_logo_app"
+                             android:scaleType="centerInside"/>
+ 
+                         <LinearLayout
+Index: app/src/main/res/layout/activity_checkout.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<androidx.constraintlayout.widget.ConstraintLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\n    xmlns:tools=\"http://schemas.android.com/tools\"\n    android:id=\"@+id/main\"\n    android:layout_width=\"match_parent\"\n    android:layout_height=\"match_parent\"\n    android:background=\"@color/bg_secondary\"\n    tools:context=\".user.CheckoutActivity\">\n\n    <ScrollView\n        android:id=\"@+id/checkout_scroll\"\n        android:layout_width=\"0dp\"\n        android:layout_height=\"0dp\"\n        android:overScrollMode=\"never\"\n        app:layout_constraintBottom_toTopOf=\"@id/checkout_bottom_bar\"\n        app:layout_constraintEnd_toEndOf=\"parent\"\n        app:layout_constraintStart_toStartOf=\"parent\"\n        app:layout_constraintTop_toTopOf=\"parent\">\n\n        <LinearLayout\n            android:layout_width=\"match_parent\"\n            android:layout_height=\"wrap_content\"\n            android:orientation=\"vertical\"\n            android:paddingStart=\"@dimen/space_screen_horizontal\"\n            android:paddingTop=\"@dimen/space_10\"\n            android:paddingEnd=\"@dimen/space_screen_horizontal\"\n            android:paddingBottom=\"@dimen/space_16\">\n\n            <LinearLayout\n                android:id=\"@+id/checkout_header\"\n                android:layout_width=\"match_parent\"\n                android:layout_height=\"48dp\"\n                android:gravity=\"center_vertical\"\n                android:orientation=\"horizontal\">\n\n                <ImageButton\n                    android:id=\"@+id/back_button\"\n                    android:layout_width=\"@dimen/btn_icon_size\"\n                    android:layout_height=\"@dimen/btn_icon_size\"\n                    android:background=\"@drawable/bg_home_notification\"\n                    android:contentDescription=\"@string/action_back\"\n                    android:padding=\"@dimen/space_8\"\n                    android:src=\"@drawable/ic_arrow_back\"\n                    android:tint=\"@color/text_secondary\" />\n\n                <TextView\n                    android:layout_width=\"0dp\"\n                    android:layout_height=\"wrap_content\"\n                    android:layout_marginStart=\"@dimen/space_10\"\n                    android:layout_weight=\"1\"\n                    android:text=\"Thanh toán\"\n                    android:textAppearance=\"@style/TextAppearance.SoleStep.Headline\"\n                    android:textColor=\"@color/text_primary\" />\n\n                <TextView\n                    android:id=\"@+id/checkout_item_count_text\"\n                    android:layout_width=\"wrap_content\"\n                    android:layout_height=\"28dp\"\n                    android:background=\"@drawable/bg_home_brand_chip\"\n                    android:gravity=\"center\"\n                    android:paddingStart=\"@dimen/space_10\"\n                    android:paddingEnd=\"@dimen/space_10\"\n                    android:textAppearance=\"@style/TextAppearance.SoleStep.Caption\"\n                    android:textColor=\"@color/text_secondary\" />\n            </LinearLayout>\n\n            <LinearLayout\n                android:layout_width=\"match_parent\"\n                android:layout_height=\"wrap_content\"\n                android:layout_marginTop=\"@dimen/space_10\"\n                android:background=\"@drawable/bg_cart_item_card\"\n                android:orientation=\"vertical\"\n                android:padding=\"@dimen/space_12\">\n\n                <TextView\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"wrap_content\"\n                    android:text=\"Thông tin nhận hàng\"\n                    android:textAppearance=\"@style/TextAppearance.SoleStep.Body\"\n                    android:textColor=\"@color/text_primary\"\n                    android:textSize=\"16sp\"\n                    android:textStyle=\"bold\" />\n\n                <EditText\n                    android:id=\"@+id/checkout_name_input\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"48dp\"\n                    android:layout_marginTop=\"@dimen/space_10\"\n                    android:background=\"@drawable/bg_input_selector\"\n                    android:hint=\"Họ và tên\"\n                    android:inputType=\"textPersonName\"\n                    android:paddingStart=\"@dimen/space_12\"\n                    android:paddingEnd=\"@dimen/space_12\"\n                    android:singleLine=\"true\"\n                    android:textColor=\"@color/text_primary\"\n                    android:textColorHint=\"@color/text_muted\" />\n\n                <EditText\n                    android:id=\"@+id/checkout_phone_input\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"48dp\"\n                    android:layout_marginTop=\"@dimen/space_8\"\n                    android:background=\"@drawable/bg_input_selector\"\n                    android:hint=\"Số điện thoại\"\n                    android:inputType=\"phone\"\n                    android:paddingStart=\"@dimen/space_12\"\n                    android:paddingEnd=\"@dimen/space_12\"\n                    android:singleLine=\"true\"\n                    android:textColor=\"@color/text_primary\"\n                    android:textColorHint=\"@color/text_muted\" />\n\n                <EditText\n                    android:id=\"@+id/checkout_address_input\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"72dp\"\n                    android:layout_marginTop=\"@dimen/space_8\"\n                    android:background=\"@drawable/bg_input_selector\"\n                    android:gravity=\"top\"\n                    android:hint=\"Địa chỉ giao hàng\"\n                    android:inputType=\"textPostalAddress|textMultiLine\"\n                    android:padding=\"@dimen/space_12\"\n                    android:textColor=\"@color/text_primary\"\n                    android:textColorHint=\"@color/text_muted\" />\n\n                <EditText\n                    android:id=\"@+id/checkout_note_input\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"48dp\"\n                    android:layout_marginTop=\"@dimen/space_8\"\n                    android:background=\"@drawable/bg_input_selector\"\n                    android:hint=\"Ghi chú cho shop hoặc shipper\"\n                    android:inputType=\"text\"\n                    android:paddingStart=\"@dimen/space_12\"\n                    android:paddingEnd=\"@dimen/space_12\"\n                    android:singleLine=\"true\"\n                    android:textColor=\"@color/text_primary\"\n                    android:textColorHint=\"@color/text_muted\" />\n            </LinearLayout>\n\n            <LinearLayout\n                android:layout_width=\"match_parent\"\n                android:layout_height=\"wrap_content\"\n                android:layout_marginTop=\"@dimen/space_10\"\n                android:background=\"@drawable/bg_cart_item_card\"\n                android:orientation=\"vertical\"\n                android:padding=\"@dimen/space_12\">\n\n                <TextView\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"wrap_content\"\n                    android:text=\"Phương thức giao hàng\"\n                    android:textAppearance=\"@style/TextAppearance.SoleStep.Body\"\n                    android:textColor=\"@color/text_primary\"\n                    android:textSize=\"16sp\"\n                    android:textStyle=\"bold\" />\n\n                <LinearLayout\n                    android:id=\"@+id/delivery_standard\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"72dp\"\n                    android:layout_marginTop=\"@dimen/space_10\"\n                    android:background=\"@drawable/bg_checkout_selected\"\n                    android:gravity=\"center_vertical\"\n                    android:orientation=\"horizontal\"\n                    android:padding=\"@dimen/space_10\">\n\n                    <ImageView\n                        android:layout_width=\"@dimen/icon_md\"\n                        android:layout_height=\"@dimen/icon_md\"\n                        android:src=\"@drawable/ic_truck\"\n                        android:tint=\"@color/brand_orange\" />\n\n                    <LinearLayout\n                        android:layout_width=\"0dp\"\n                        android:layout_height=\"wrap_content\"\n                        android:layout_marginStart=\"@dimen/space_10\"\n                        android:layout_weight=\"1\"\n                        android:orientation=\"vertical\">\n\n                        <TextView\n                            android:layout_width=\"wrap_content\"\n                            android:layout_height=\"wrap_content\"\n                            android:text=\"Giao tiêu chuẩn\"\n                            android:textAppearance=\"@style/TextAppearance.SoleStep.BodySmall\"\n                            android:textColor=\"@color/text_primary\"\n                            android:textStyle=\"bold\" />\n\n                        <TextView\n                            android:layout_width=\"wrap_content\"\n                            android:layout_height=\"wrap_content\"\n                            android:text=\"Nhận hàng trong 3-5 ngày\"\n                            android:textAppearance=\"@style/TextAppearance.SoleStep.Caption\"\n                            android:textColor=\"@color/text_muted\" />\n                    </LinearLayout>\n\n                    <TextView\n                        android:layout_width=\"wrap_content\"\n                        android:layout_height=\"wrap_content\"\n                        android:text=\"30.000 đ\"\n                        android:textAppearance=\"@style/TextAppearance.SoleStep.BodySmall\"\n                        android:textColor=\"@color/text_primary\"\n                        android:textStyle=\"bold\" />\n                </LinearLayout>\n\n                <LinearLayout\n                    android:id=\"@+id/delivery_express\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"72dp\"\n                    android:layout_marginTop=\"@dimen/space_8\"\n                    android:background=\"@drawable/bg_checkout_option\"\n                    android:gravity=\"center_vertical\"\n                    android:orientation=\"horizontal\"\n                    android:padding=\"@dimen/space_10\">\n\n                    <ImageView\n                        android:layout_width=\"@dimen/icon_md\"\n                        android:layout_height=\"@dimen/icon_md\"\n                        android:src=\"@drawable/ic_clock\"\n                        android:tint=\"@color/text_secondary\" />\n\n                    <LinearLayout\n                        android:layout_width=\"0dp\"\n                        android:layout_height=\"wrap_content\"\n                        android:layout_marginStart=\"@dimen/space_10\"\n                        android:layout_weight=\"1\"\n                        android:orientation=\"vertical\">\n\n                        <TextView\n                            android:layout_width=\"wrap_content\"\n                            android:layout_height=\"wrap_content\"\n                            android:text=\"Giao nhanh\"\n                            android:textAppearance=\"@style/TextAppearance.SoleStep.BodySmall\"\n                            android:textColor=\"@color/text_primary\"\n                            android:textStyle=\"bold\" />\n\n                        <TextView\n                            android:layout_width=\"wrap_content\"\n                            android:layout_height=\"wrap_content\"\n                            android:text=\"Nhận hàng trong 1-2 ngày\"\n                            android:textAppearance=\"@style/TextAppearance.SoleStep.Caption\"\n                            android:textColor=\"@color/text_muted\" />\n                    </LinearLayout>\n\n                    <TextView\n                        android:layout_width=\"wrap_content\"\n                        android:layout_height=\"wrap_content\"\n                        android:text=\"60.000 đ\"\n                        android:textAppearance=\"@style/TextAppearance.SoleStep.BodySmall\"\n                        android:textColor=\"@color/text_primary\"\n                        android:textStyle=\"bold\" />\n                </LinearLayout>\n\n                <LinearLayout\n                    android:id=\"@+id/delivery_nextday\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"72dp\"\n                    android:layout_marginTop=\"@dimen/space_8\"\n                    android:background=\"@drawable/bg_checkout_option\"\n                    android:gravity=\"center_vertical\"\n                    android:orientation=\"horizontal\"\n                    android:padding=\"@dimen/space_10\">\n\n                    <ImageView\n                        android:layout_width=\"@dimen/icon_md\"\n                        android:layout_height=\"@dimen/icon_md\"\n                        android:src=\"@drawable/ic_check_circle\"\n                        android:tint=\"@color/text_secondary\" />\n\n                    <LinearLayout\n                        android:layout_width=\"0dp\"\n                        android:layout_height=\"wrap_content\"\n                        android:layout_marginStart=\"@dimen/space_10\"\n                        android:layout_weight=\"1\"\n                        android:orientation=\"vertical\">\n\n                        <TextView\n                            android:layout_width=\"wrap_content\"\n                            android:layout_height=\"wrap_content\"\n                            android:text=\"Giao trong ngày\"\n                            android:textAppearance=\"@style/TextAppearance.SoleStep.BodySmall\"\n                            android:textColor=\"@color/text_primary\"\n                            android:textStyle=\"bold\" />\n\n                        <TextView\n                            android:layout_width=\"wrap_content\"\n                            android:layout_height=\"wrap_content\"\n                            android:text=\"Áp dụng nội thành\"\n                            android:textAppearance=\"@style/TextAppearance.SoleStep.Caption\"\n                            android:textColor=\"@color/text_muted\" />\n                    </LinearLayout>\n\n                    <TextView\n                        android:layout_width=\"wrap_content\"\n                        android:layout_height=\"wrap_content\"\n                        android:text=\"90.000 đ\"\n                        android:textAppearance=\"@style/TextAppearance.SoleStep.BodySmall\"\n                        android:textColor=\"@color/text_primary\"\n                        android:textStyle=\"bold\" />\n                </LinearLayout>\n            </LinearLayout>\n\n            <LinearLayout\n                android:layout_width=\"match_parent\"\n                android:layout_height=\"wrap_content\"\n                android:layout_marginTop=\"@dimen/space_10\"\n                android:background=\"@drawable/bg_cart_item_card\"\n                android:orientation=\"vertical\"\n                android:padding=\"@dimen/space_12\">\n\n                <TextView\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"wrap_content\"\n                    android:text=\"Phương thức thanh toán\"\n                    android:textAppearance=\"@style/TextAppearance.SoleStep.Body\"\n                    android:textColor=\"@color/text_primary\"\n                    android:textSize=\"16sp\"\n                    android:textStyle=\"bold\" />\n\n                <LinearLayout\n                    android:id=\"@+id/payment_qr\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"62dp\"\n                    android:layout_marginTop=\"@dimen/space_10\"\n                    android:background=\"@drawable/bg_checkout_selected\"\n                    android:gravity=\"center_vertical\"\n                    android:orientation=\"horizontal\"\n                    android:padding=\"@dimen/space_10\">\n\n                    <ImageView\n                        android:layout_width=\"@dimen/icon_md\"\n                        android:layout_height=\"@dimen/icon_md\"\n                        android:src=\"@drawable/ic_qr_small\" />\n\n                    <TextView\n                        android:layout_width=\"0dp\"\n                        android:layout_height=\"wrap_content\"\n                        android:layout_marginStart=\"@dimen/space_10\"\n                        android:layout_weight=\"1\"\n                        android:text=\"Chuyển khoản QR\"\n                        android:textAppearance=\"@style/TextAppearance.SoleStep.BodySmall\"\n                        android:textColor=\"@color/text_primary\"\n                        android:textStyle=\"bold\" />\n                </LinearLayout>\n\n                <LinearLayout\n                    android:id=\"@+id/payment_cod\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"62dp\"\n                    android:layout_marginTop=\"@dimen/space_8\"\n                    android:background=\"@drawable/bg_checkout_option\"\n                    android:gravity=\"center_vertical\"\n                    android:orientation=\"horizontal\"\n                    android:padding=\"@dimen/space_10\">\n\n                    <ImageView\n                        android:layout_width=\"@dimen/icon_md\"\n                        android:layout_height=\"@dimen/icon_md\"\n                        android:src=\"@drawable/ic_truck\"\n                        android:tint=\"@color/text_secondary\" />\n\n                    <TextView\n                        android:layout_width=\"0dp\"\n                        android:layout_height=\"wrap_content\"\n                        android:layout_marginStart=\"@dimen/space_10\"\n                        android:layout_weight=\"1\"\n                        android:text=\"Thanh toán khi nhận hàng\"\n                        android:textAppearance=\"@style/TextAppearance.SoleStep.BodySmall\"\n                        android:textColor=\"@color/text_primary\"\n                        android:textStyle=\"bold\" />\n                </LinearLayout>\n\n                <LinearLayout\n                    android:id=\"@+id/payment_card\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"62dp\"\n                    android:layout_marginTop=\"@dimen/space_8\"\n                    android:background=\"@drawable/bg_checkout_option\"\n                    android:gravity=\"center_vertical\"\n                    android:orientation=\"horizontal\"\n                    android:padding=\"@dimen/space_10\">\n\n                    <ImageView\n                        android:layout_width=\"@dimen/icon_md\"\n                        android:layout_height=\"@dimen/icon_md\"\n                        android:src=\"@drawable/ic_card\" />\n\n                    <TextView\n                        android:layout_width=\"0dp\"\n                        android:layout_height=\"wrap_content\"\n                        android:layout_marginStart=\"@dimen/space_10\"\n                        android:layout_weight=\"1\"\n                        android:text=\"Thẻ nội địa hoặc quốc tế\"\n                        android:textAppearance=\"@style/TextAppearance.SoleStep.BodySmall\"\n                        android:textColor=\"@color/text_primary\"\n                        android:textStyle=\"bold\" />\n                </LinearLayout>\n            </LinearLayout>\n\n            <LinearLayout\n                android:layout_width=\"match_parent\"\n                android:layout_height=\"wrap_content\"\n                android:layout_marginTop=\"@dimen/space_10\"\n                android:background=\"@drawable/bg_cart_item_card\"\n                android:orientation=\"vertical\"\n                android:padding=\"@dimen/space_12\">\n\n                <TextView\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"wrap_content\"\n                    android:text=\"Sản phẩm trong đơn\"\n                    android:textAppearance=\"@style/TextAppearance.SoleStep.Body\"\n                    android:textColor=\"@color/text_primary\"\n                    android:textSize=\"16sp\"\n                    android:textStyle=\"bold\" />\n\n                <TextView\n                    android:id=\"@+id/checkout_empty_text\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"wrap_content\"\n                    android:layout_marginTop=\"@dimen/space_10\"\n                    android:gravity=\"center\"\n                    android:padding=\"@dimen/space_16\"\n                    android:text=\"Giỏ hàng đang trống\"\n                    android:textAppearance=\"@style/TextAppearance.SoleStep.BodySmall\"\n                    android:textColor=\"@color/text_muted\"\n                    android:visibility=\"gone\" />\n\n                <androidx.recyclerview.widget.RecyclerView\n                    android:id=\"@+id/checkout_items_list\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"wrap_content\"\n                    android:layout_marginTop=\"@dimen/space_6\"\n                    android:nestedScrollingEnabled=\"false\"\n                    tools:itemCount=\"2\"\n                    tools:listitem=\"@layout/item_checkout_product\" />\n\n                <View\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"@dimen/stroke_thin\"\n                    android:layout_marginTop=\"@dimen/space_8\"\n                    android:layout_marginBottom=\"@dimen/space_8\"\n                    android:background=\"@color/border_light\" />\n\n                <LinearLayout\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"30dp\"\n                    android:gravity=\"center_vertical\"\n                    android:orientation=\"horizontal\">\n\n                    <TextView\n                        android:layout_width=\"0dp\"\n                        android:layout_height=\"wrap_content\"\n                        android:layout_weight=\"1\"\n                        android:text=\"Tạm tính\"\n                        android:textAppearance=\"@style/TextAppearance.SoleStep.BodySmall\"\n                        android:textColor=\"@color/text_secondary\" />\n\n                    <TextView\n                        android:id=\"@+id/checkout_subtotal_value\"\n                        android:layout_width=\"wrap_content\"\n                        android:layout_height=\"wrap_content\"\n                        android:textAppearance=\"@style/TextAppearance.SoleStep.BodySmall\"\n                        android:textColor=\"@color/text_primary\" />\n                </LinearLayout>\n\n                <LinearLayout\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"30dp\"\n                    android:gravity=\"center_vertical\"\n                    android:orientation=\"horizontal\">\n\n                    <TextView\n                        android:layout_width=\"0dp\"\n                        android:layout_height=\"wrap_content\"\n                        android:layout_weight=\"1\"\n                        android:text=\"Phí giao hàng\"\n                        android:textAppearance=\"@style/TextAppearance.SoleStep.BodySmall\"\n                        android:textColor=\"@color/text_secondary\" />\n\n                    <TextView\n                        android:id=\"@+id/checkout_shipping_value\"\n                        android:layout_width=\"wrap_content\"\n                        android:layout_height=\"wrap_content\"\n                        android:textAppearance=\"@style/TextAppearance.SoleStep.BodySmall\"\n                        android:textColor=\"@color/text_primary\" />\n                </LinearLayout>\n\n                <LinearLayout\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"30dp\"\n                    android:gravity=\"center_vertical\"\n                    android:orientation=\"horizontal\">\n\n                    <TextView\n                        android:layout_width=\"0dp\"\n                        android:layout_height=\"wrap_content\"\n                        android:layout_weight=\"1\"\n                        android:text=\"Giảm giá\"\n                        android:textAppearance=\"@style/TextAppearance.SoleStep.BodySmall\"\n                        android:textColor=\"@color/text_secondary\" />\n\n                    <TextView\n                        android:id=\"@+id/checkout_discount_value\"\n                        android:layout_width=\"wrap_content\"\n                        android:layout_height=\"wrap_content\"\n                        android:textAppearance=\"@style/TextAppearance.SoleStep.BodySmall\"\n                        android:textColor=\"@color/status_success\" />\n                </LinearLayout>\n\n                <View\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"@dimen/stroke_thin\"\n                    android:layout_marginTop=\"@dimen/space_8\"\n                    android:layout_marginBottom=\"@dimen/space_8\"\n                    android:background=\"@color/border_light\" />\n\n                <LinearLayout\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"36dp\"\n                    android:gravity=\"center_vertical\"\n                    android:orientation=\"horizontal\">\n\n                    <TextView\n                        android:layout_width=\"0dp\"\n                        android:layout_height=\"wrap_content\"\n                        android:layout_weight=\"1\"\n                        android:text=\"Tổng thanh toán\"\n                        android:textAppearance=\"@style/TextAppearance.SoleStep.Body\"\n                        android:textColor=\"@color/text_primary\"\n                        android:textStyle=\"bold\" />\n\n                    <TextView\n                        android:id=\"@+id/checkout_total_value\"\n                        android:layout_width=\"wrap_content\"\n                        android:layout_height=\"wrap_content\"\n                        android:textAppearance=\"@style/TextAppearance.SoleStep.PriceMedium\"\n                        android:textSize=\"18sp\" />\n                </LinearLayout>\n            </LinearLayout>\n        </LinearLayout>\n    </ScrollView>\n\n    <LinearLayout\n        android:id=\"@+id/checkout_bottom_bar\"\n        android:layout_width=\"0dp\"\n        android:layout_height=\"112dp\"\n        android:background=\"@color/bg_primary\"\n        android:elevation=\"@dimen/elev_bottom_nav\"\n        android:gravity=\"top\"\n        android:orientation=\"vertical\"\n        android:paddingStart=\"@dimen/space_screen_horizontal\"\n        android:paddingTop=\"@dimen/space_10\"\n        android:paddingEnd=\"@dimen/space_screen_horizontal\"\n        app:layout_constraintBottom_toBottomOf=\"parent\"\n        app:layout_constraintEnd_toEndOf=\"parent\"\n        app:layout_constraintStart_toStartOf=\"parent\">\n\n        <com.google.android.material.button.MaterialButton\n            android:id=\"@+id/place_order_button\"\n            style=\"@style/Widget.SoleStep.Button.Primary\"\n            android:layout_width=\"match_parent\"\n            android:layout_height=\"56dp\"\n            android:text=\"Tiếp tục thanh toán\" />\n\n        <TextView\n            android:layout_width=\"match_parent\"\n            android:layout_height=\"wrap_content\"\n            android:layout_marginTop=\"@dimen/space_6\"\n            android:gravity=\"center\"\n            android:text=\"Thông tin đơn hàng sẽ được chuyển sang bước thanh toán\"\n            android:textAppearance=\"@style/TextAppearance.SoleStep.Caption\"\n            android:textColor=\"@color/text_muted\" />\n    </LinearLayout>\n</androidx.constraintlayout.widget.ConstraintLayout>\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/activity_checkout.xml b/app/src/main/res/layout/activity_checkout.xml
+--- a/app/src/main/res/layout/activity_checkout.xml	(revision 7610b7c7bafc05d09e376f1012a871c2fc8f9027)
++++ b/app/src/main/res/layout/activity_checkout.xml	(date 1782362818394)
+@@ -86,7 +86,7 @@
+                     android:id="@+id/checkout_name_input"
+                     android:layout_width="match_parent"
+                     android:layout_height="48dp"
+-                    android:layout_marginTop="@dimen/space_10"
++                    android:layout_marginTop="@dimen/space_5"
+                     android:background="@drawable/bg_input_selector"
+                     android:hint="Họ và tên"
+                     android:inputType="textPersonName"
+@@ -94,13 +94,14 @@
+                     android:paddingEnd="@dimen/space_12"
+                     android:singleLine="true"
+                     android:textColor="@color/text_primary"
+-                    android:textColorHint="@color/text_muted" />
++                    android:textColorHint="@color/text_muted"
++                    android:textSize="14sp" />
+ 
+                 <EditText
+                     android:id="@+id/checkout_phone_input"
+                     android:layout_width="match_parent"
+                     android:layout_height="48dp"
+-                    android:layout_marginTop="@dimen/space_8"
++                    android:layout_marginTop="@dimen/space_5"
+                     android:background="@drawable/bg_input_selector"
+                     android:hint="Số điện thoại"
+                     android:inputType="phone"
+@@ -108,26 +109,28 @@
+                     android:paddingEnd="@dimen/space_12"
+                     android:singleLine="true"
+                     android:textColor="@color/text_primary"
+-                    android:textColorHint="@color/text_muted" />
++                    android:textColorHint="@color/text_muted"
++                    android:textSize="14sp" />
+ 
+                 <EditText
+                     android:id="@+id/checkout_address_input"
+                     android:layout_width="match_parent"
+                     android:layout_height="72dp"
+-                    android:layout_marginTop="@dimen/space_8"
++                    android:layout_marginTop="@dimen/space_5"
+                     android:background="@drawable/bg_input_selector"
+                     android:gravity="top"
+                     android:hint="Địa chỉ giao hàng"
+                     android:inputType="textPostalAddress|textMultiLine"
+                     android:padding="@dimen/space_12"
+                     android:textColor="@color/text_primary"
+-                    android:textColorHint="@color/text_muted" />
++                    android:textColorHint="@color/text_muted"
++                    android:textSize="14sp" />
+ 
+                 <EditText
+                     android:id="@+id/checkout_note_input"
+                     android:layout_width="match_parent"
+                     android:layout_height="48dp"
+-                    android:layout_marginTop="@dimen/space_8"
++                    android:layout_marginTop="@dimen/space_5"
+                     android:background="@drawable/bg_input_selector"
+                     android:hint="Ghi chú cho shop hoặc shipper"
+                     android:inputType="text"
+@@ -135,7 +138,8 @@
+                     android:paddingEnd="@dimen/space_12"
+                     android:singleLine="true"
+                     android:textColor="@color/text_primary"
+-                    android:textColorHint="@color/text_muted" />
++                    android:textColorHint="@color/text_muted"
++                    android:textSize="14sp" />
+             </LinearLayout>
+ 
+             <LinearLayout
+@@ -160,7 +164,7 @@
+                     android:layout_width="match_parent"
+                     android:layout_height="72dp"
+                     android:layout_marginTop="@dimen/space_10"
+-                    android:background="@drawable/bg_checkout_selected"
++                    android:background="@drawable/selector_checkout_option"
+                     android:gravity="center_vertical"
+                     android:orientation="horizontal"
+                     android:padding="@dimen/space_10">
+@@ -208,7 +212,7 @@
+                     android:layout_width="match_parent"
+                     android:layout_height="72dp"
+                     android:layout_marginTop="@dimen/space_8"
+-                    android:background="@drawable/bg_checkout_option"
++                    android:background="@drawable/selector_checkout_option"
+                     android:gravity="center_vertical"
+                     android:orientation="horizontal"
+                     android:padding="@dimen/space_10">
+@@ -256,15 +260,15 @@
+                     android:layout_width="match_parent"
+                     android:layout_height="72dp"
+                     android:layout_marginTop="@dimen/space_8"
+-                    android:background="@drawable/bg_checkout_option"
++                    android:background="@drawable/selector_checkout_option"
+                     android:gravity="center_vertical"
+                     android:orientation="horizontal"
+                     android:padding="@dimen/space_10">
+ 
+                     <ImageView
+                         android:layout_width="@dimen/icon_md"
+-                        android:layout_height="@dimen/icon_md"
+-                        android:src="@drawable/ic_check_circle"
++                        android:layout_height="wrap_content"
++                        android:src="@drawable/ic_delivery_truck_speed"
+                         android:tint="@color/text_secondary" />
+ 
+                     <LinearLayout
+@@ -277,7 +281,7 @@
+                         <TextView
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+-                            android:text="Giao trong ngày"
++                            android:text="Giao hoả tốc"
+                             android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
+                             android:textColor="@color/text_primary"
+                             android:textStyle="bold" />
+@@ -322,7 +326,7 @@
+                     android:layout_width="match_parent"
+                     android:layout_height="62dp"
+                     android:layout_marginTop="@dimen/space_10"
+-                    android:background="@drawable/bg_checkout_selected"
++                    android:background="@drawable/selector_checkout_option"
+                     android:gravity="center_vertical"
+                     android:orientation="horizontal"
+                     android:padding="@dimen/space_10">
+@@ -330,14 +334,14 @@
+                     <ImageView
+                         android:layout_width="@dimen/icon_md"
+                         android:layout_height="@dimen/icon_md"
+-                        android:src="@drawable/ic_qr_small" />
++                        android:src="@drawable/logo" />
+ 
+                     <TextView
+                         android:layout_width="0dp"
+                         android:layout_height="wrap_content"
+                         android:layout_marginStart="@dimen/space_10"
+                         android:layout_weight="1"
+-                        android:text="Chuyển khoản QR"
++                        android:text="Thanh toán bằng ZaloPay"
+                         android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
+                         android:textColor="@color/text_primary"
+                         android:textStyle="bold" />
+@@ -348,7 +352,7 @@
+                     android:layout_width="match_parent"
+                     android:layout_height="62dp"
+                     android:layout_marginTop="@dimen/space_8"
+-                    android:background="@drawable/bg_checkout_option"
++                    android:background="@drawable/selector_checkout_option"
+                     android:gravity="center_vertical"
+                     android:orientation="horizontal"
+                     android:padding="@dimen/space_10">
+@@ -370,31 +374,31 @@
+                         android:textStyle="bold" />
+                 </LinearLayout>
+ 
+-                <LinearLayout
+-                    android:id="@+id/payment_card"
+-                    android:layout_width="match_parent"
+-                    android:layout_height="62dp"
+-                    android:layout_marginTop="@dimen/space_8"
+-                    android:background="@drawable/bg_checkout_option"
+-                    android:gravity="center_vertical"
+-                    android:orientation="horizontal"
+-                    android:padding="@dimen/space_10">
++<!--                <LinearLayout-->
++<!--                    android:id="@+id/payment_card"-->
++<!--                    android:layout_width="match_parent"-->
++<!--                    android:layout_height="62dp"-->
++<!--                    android:layout_marginTop="@dimen/space_8"-->
++<!--                    android:background="@drawable/bg_checkout_option"-->
++<!--                    android:gravity="center_vertical"-->
++<!--                    android:orientation="horizontal"-->
++<!--                    android:padding="@dimen/space_10">-->
+ 
+-                    <ImageView
+-                        android:layout_width="@dimen/icon_md"
+-                        android:layout_height="@dimen/icon_md"
+-                        android:src="@drawable/ic_card" />
++<!--                    <ImageView-->
++<!--                        android:layout_width="@dimen/icon_md"-->
++<!--                        android:layout_height="@dimen/icon_md"-->
++<!--                        android:src="@drawable/ic_card" />-->
+ 
+-                    <TextView
+-                        android:layout_width="0dp"
+-                        android:layout_height="wrap_content"
+-                        android:layout_marginStart="@dimen/space_10"
+-                        android:layout_weight="1"
+-                        android:text="Thẻ nội địa hoặc quốc tế"
+-                        android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
+-                        android:textColor="@color/text_primary"
+-                        android:textStyle="bold" />
+-                </LinearLayout>
++<!--                    <TextView-->
++<!--                        android:layout_width="0dp"-->
++<!--                        android:layout_height="wrap_content"-->
++<!--                        android:layout_marginStart="@dimen/space_10"-->
++<!--                        android:layout_weight="1"-->
++<!--                        android:text="Thẻ nội địa hoặc quốc tế"-->
++<!--                        android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"-->
++<!--                        android:textColor="@color/text_primary"-->
++<!--                        android:textStyle="bold" />-->
++<!--                </LinearLayout>-->
+             </LinearLayout>
+ 
+             <LinearLayout
+Index: app/src/main/res/layout/activity_qr_payment.xml
+===================================================================
+diff --git a/app/src/main/res/layout/activity_qr_payment.xml b/app/src/main/res/layout/activity_qr_payment.xml
+deleted file mode 100644
+--- a/app/src/main/res/layout/activity_qr_payment.xml	(revision 7610b7c7bafc05d09e376f1012a871c2fc8f9027)
++++ /dev/null	(revision 7610b7c7bafc05d09e376f1012a871c2fc8f9027)
+@@ -1,299 +0,0 @@
+-<?xml version="1.0" encoding="utf-8"?>
+-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+-    xmlns:app="http://schemas.android.com/apk/res-auto"
+-    xmlns:tools="http://schemas.android.com/tools"
+-    android:id="@+id/main"
+-    android:layout_width="match_parent"
+-    android:layout_height="match_parent"
+-    android:background="@color/bg_primary"
+-    tools:context=".user.QRPaymentActivity">
+-
+-    <LinearLayout
+-        android:id="@+id/header"
+-        android:layout_width="0dp"
+-        android:layout_height="wrap_content"
+-        android:background="@color/bg_primary"
+-        android:gravity="center_vertical"
+-        android:orientation="horizontal"
+-        android:paddingStart="@dimen/space_screen_horizontal"
+-        android:paddingTop="@dimen/space_screen_vertical"
+-        android:paddingEnd="@dimen/space_screen_horizontal"
+-        android:paddingBottom="@dimen/space_screen_vertical"
+-        app:layout_constraintEnd_toEndOf="parent"
+-        app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintTop_toTopOf="parent">
+-
+-        <ImageButton
+-            android:id="@+id/back_button"
+-            android:layout_width="@dimen/btn_icon_size"
+-            android:layout_height="@dimen/btn_icon_size"
+-            android:background="@drawable/bg_rounded_gray"
+-            android:contentDescription="@string/action_back"
+-            android:padding="@dimen/space_8"
+-            android:src="@drawable/ic_arrow_back"
+-            android:tint="@color/text_secondary" />
+-
+-        <TextView
+-            android:id="@+id/qr_title_text"
+-            android:layout_width="0dp"
+-            android:layout_height="wrap_content"
+-            android:layout_marginStart="@dimen/space_8"
+-            android:layout_weight="1"
+-            android:text="@string/qr_title"
+-            android:textAppearance="@style/TextAppearance.SoleStep.Subheading" />
+-
+-        <TextView
+-            android:id="@+id/qr_security_badge"
+-            android:layout_width="wrap_content"
+-            android:layout_height="32dp"
+-            android:background="@drawable/bg_status_delivered"
+-            android:gravity="center"
+-            android:paddingStart="@dimen/space_8"
+-            android:paddingEnd="@dimen/space_8"
+-            android:text="@string/qr_secure"
+-            android:textAppearance="@style/TextAppearance.SoleStep.Caption"
+-            android:textColor="@color/status_success"
+-            android:textStyle="bold" />
+-    </LinearLayout>
+-
+-    <View
+-        android:id="@+id/header_divider"
+-        android:layout_width="0dp"
+-        android:layout_height="@dimen/stroke_thin"
+-        android:background="@color/border_light"
+-        app:layout_constraintEnd_toEndOf="parent"
+-        app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintTop_toBottomOf="@id/header" />
+-
+-    <ScrollView
+-        android:id="@+id/content_scroll"
+-        android:layout_width="0dp"
+-        android:layout_height="0dp"
+-        android:fillViewport="true"
+-        android:overScrollMode="never"
+-        app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
+-        app:layout_constraintEnd_toEndOf="parent"
+-        app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintTop_toBottomOf="@id/header_divider">
+-
+-        <LinearLayout
+-            android:layout_width="match_parent"
+-            android:layout_height="wrap_content"
+-            android:gravity="center_horizontal"
+-            android:orientation="vertical"
+-            android:paddingStart="@dimen/space_screen_horizontal"
+-            android:paddingTop="@dimen/space_10"
+-            android:paddingEnd="@dimen/space_screen_horizontal"
+-            android:paddingBottom="@dimen/space_12">
+-
+-            <LinearLayout
+-                android:layout_width="match_parent"
+-                android:layout_height="wrap_content"
+-                android:background="@drawable/bg_amount_card"
+-                android:gravity="center"
+-                android:orientation="vertical"
+-                android:padding="@dimen/space_card_padding">
+-
+-                <TextView
+-                    android:layout_width="wrap_content"
+-                    android:layout_height="wrap_content"
+-                    android:text="@string/qr_label_amount"
+-                    android:textAppearance="@style/TextAppearance.SoleStep.Caption"
+-                    android:textColor="@color/text_dark_muted" />
+-
+-                <TextView
+-                    android:id="@+id/qr_amount_text"
+-                    android:layout_width="wrap_content"
+-                    android:layout_height="wrap_content"
+-                    android:layout_marginTop="@dimen/space_2"
+-                    android:text="$377.97"
+-                    android:textAppearance="@style/TextAppearance.SoleStep.PriceLarge"
+-                    android:textColor="@color/brand_white" />
+-
+-                <TextView
+-                    android:id="@+id/qr_order_id_text"
+-                    android:layout_width="wrap_content"
+-                    android:layout_height="wrap_content"
+-                    android:text="Order #SS-10495"
+-                    android:textAppearance="@style/TextAppearance.SoleStep.Caption"
+-                    android:textColor="@color/text_dark_faint" />
+-            </LinearLayout>
+-
+-            <FrameLayout
+-                android:layout_width="wrap_content"
+-                android:layout_height="wrap_content"
+-                android:layout_marginTop="@dimen/space_12"
+-                android:background="@drawable/bg_qr_frame"
+-                android:elevation="@dimen/elev_raised"
+-                android:padding="@dimen/qr_frame_padding">
+-
+-                <com.example.shoeapp.ui.FakeQrCodeView
+-                    android:id="@+id/qr_code_view"
+-                    android:layout_width="@dimen/qr_code_size"
+-                    android:layout_height="@dimen/qr_code_size"
+-                    android:layout_gravity="center" />
+-
+-            </FrameLayout>
+-
+-            <LinearLayout
+-                android:layout_width="wrap_content"
+-                android:layout_height="wrap_content"
+-                android:layout_marginTop="@dimen/space_8"
+-                android:gravity="center"
+-                android:orientation="horizontal">
+-
+-                <View
+-                    android:layout_width="6dp"
+-                    android:layout_height="6dp"
+-                    android:background="@drawable/bg_circle_orange" />
+-
+-                <TextView
+-                    android:layout_width="wrap_content"
+-                    android:layout_height="wrap_content"
+-                    android:layout_marginStart="@dimen/space_4"
+-                    android:text="@string/qr_expires"
+-                    android:textAppearance="@style/TextAppearance.SoleStep.Caption" />
+-
+-                <TextView
+-                    android:id="@+id/qr_timer_text"
+-                    android:layout_width="wrap_content"
+-                    android:layout_height="wrap_content"
+-                    android:layout_marginStart="@dimen/space_2"
+-                    android:text="14:58"
+-                    android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
+-                    android:textColor="@color/brand_orange"
+-                    android:textStyle="bold" />
+-
+-            </LinearLayout>
+-
+-            <LinearLayout
+-                android:id="@+id/payment_instructions_container"
+-                android:layout_width="match_parent"
+-                android:layout_height="wrap_content"
+-                android:layout_marginTop="@dimen/space_10"
+-                android:orientation="vertical">
+-
+-                <include layout="@layout/row_payment_instruction_1" />
+-
+-                <include layout="@layout/row_payment_instruction_2" />
+-
+-                <include layout="@layout/row_payment_instruction_3" />
+-
+-                <include layout="@layout/row_payment_instruction_4" />
+-            </LinearLayout>
+-
+-            <LinearLayout
+-                android:layout_width="match_parent"
+-                android:layout_height="wrap_content"
+-                android:layout_marginTop="@dimen/space_10"
+-                android:background="@drawable/bg_input_light"
+-                android:gravity="center_vertical"
+-                android:orientation="horizontal"
+-                android:padding="@dimen/space_8">
+-
+-                <LinearLayout
+-                    android:layout_width="0dp"
+-                    android:layout_height="wrap_content"
+-                    android:layout_weight="1"
+-                    android:orientation="vertical">
+-
+-                    <TextView
+-                        android:layout_width="wrap_content"
+-                        android:layout_height="wrap_content"
+-                        android:text="@string/qr_label_ref"
+-                        android:textAppearance="@style/TextAppearance.SoleStep.Caption" />
+-
+-                    <TextView
+-                        android:id="@+id/qr_reference_text"
+-                        android:layout_width="wrap_content"
+-                        android:layout_height="wrap_content"
+-                        android:text="SS-PAY-2026-10495"
+-                        android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
+-                        android:textColor="@color/text_primary"
+-                        android:textStyle="bold" />
+-                </LinearLayout>
+-
+-                <ImageButton
+-                    android:id="@+id/copy_qr_reference_button"
+-                    android:layout_width="@dimen/btn_icon_size_small"
+-                    android:layout_height="@dimen/btn_icon_size_small"
+-                    android:background="@drawable/bg_rounded_gray"
+-                    android:contentDescription="@string/action_copy"
+-                    android:padding="@dimen/space_6"
+-                    android:src="@drawable/ic_copy"
+-                    android:tint="@color/text_tertiary" />
+-            </LinearLayout>
+-
+-            <TextView
+-                android:id="@+id/qr_accepted_text"
+-                android:layout_width="wrap_content"
+-                android:layout_height="wrap_content"
+-                android:layout_marginTop="@dimen/space_8"
+-                android:text="@string/qr_accepted"
+-                android:textAppearance="@style/TextAppearance.SoleStep.Caption" />
+-
+-            <LinearLayout
+-                android:id="@+id/accepted_payments_container"
+-                android:layout_width="wrap_content"
+-                android:layout_height="wrap_content"
+-                android:layout_marginTop="@dimen/space_4"
+-                android:gravity="center"
+-                android:orientation="horizontal">
+-
+-                <TextView
+-                    android:id="@+id/accepted_payment_one"
+-                    android:layout_width="wrap_content"
+-                    android:layout_height="wrap_content"
+-                    android:background="@drawable/bg_bank_chip"
+-                    android:paddingStart="@dimen/space_6"
+-                    android:paddingTop="@dimen/space_2"
+-                    android:paddingEnd="@dimen/space_6"
+-                    android:paddingBottom="@dimen/space_2"
+-                    android:text="Chase"
+-                    android:textAppearance="@style/TextAppearance.SoleStep.Caption" />
+-
+-                <TextView
+-                    android:id="@+id/accepted_payment_two"
+-                    android:layout_width="wrap_content"
+-                    android:layout_height="wrap_content"
+-                    android:layout_marginStart="@dimen/space_4"
+-                    android:background="@drawable/bg_bank_chip"
+-                    android:paddingStart="@dimen/space_6"
+-                    android:paddingTop="@dimen/space_2"
+-                    android:paddingEnd="@dimen/space_6"
+-                    android:paddingBottom="@dimen/space_2"
+-                    android:text="PayPal"
+-                    android:textAppearance="@style/TextAppearance.SoleStep.Caption" />
+-
+-                <TextView
+-                    android:id="@+id/accepted_payment_three"
+-                    android:layout_width="wrap_content"
+-                    android:layout_height="wrap_content"
+-                    android:layout_marginStart="@dimen/space_4"
+-                    android:background="@drawable/bg_bank_chip"
+-                    android:paddingStart="@dimen/space_6"
+-                    android:paddingTop="@dimen/space_2"
+-                    android:paddingEnd="@dimen/space_6"
+-                    android:paddingBottom="@dimen/space_2"
+-                    android:text="Zelle"
+-                    android:textAppearance="@style/TextAppearance.SoleStep.Caption" />
+-            </LinearLayout>
+-
+-            <com.google.android.material.button.MaterialButton
+-                android:id="@+id/simulate_payment_button"
+-                style="@style/Widget.SoleStep.Button.Primary"
+-                android:layout_width="match_parent"
+-                android:layout_height="wrap_content"
+-                android:layout_marginTop="@dimen/space_12"
+-                android:text="@string/qr_btn_simulate_payment" />
+-        </LinearLayout>
+-    </ScrollView>
+-
+-    <include
+-        layout="@layout/view_bottom_navigation"
+-        android:layout_width="0dp"
+-        android:layout_height="@dimen/bottom_nav_height"
+-        app:layout_constraintBottom_toBottomOf="parent"
+-        app:layout_constraintEnd_toEndOf="parent"
+-        app:layout_constraintStart_toStartOf="parent" />
+-</androidx.constraintlayout.widget.ConstraintLayout>
+Index: app/src/main/java/com/example/shoeapp/user/QRPaymentActivity.java
+===================================================================
+diff --git a/app/src/main/java/com/example/shoeapp/user/QRPaymentActivity.java b/app/src/main/java/com/example/shoeapp/user/QRPaymentActivity.java
+deleted file mode 100644
+--- a/app/src/main/java/com/example/shoeapp/user/QRPaymentActivity.java	(revision 7610b7c7bafc05d09e376f1012a871c2fc8f9027)
++++ /dev/null	(revision 7610b7c7bafc05d09e376f1012a871c2fc8f9027)
+@@ -1,79 +0,0 @@
+-package com.example.shoeapp.user;
+-
+-import android.content.Intent;
+-import android.os.Bundle;
+-import android.os.CountDownTimer;
+-import android.widget.TextView;
+-
+-import com.example.shoeapp.ui.BaseSoleStepActivity;
+-import com.example.shoeapp.ui.BottomNavHelper;
+-import com.example.shoeapp.R;
+-
+-import java.text.NumberFormat;
+-import java.util.Locale;
+-
+-public class QRPaymentActivity extends BaseSoleStepActivity {
+-    private CountDownTimer countDownTimer;
+-
+-    @Override
+-    protected void onCreate(Bundle savedInstanceState) {
+-        super.onCreate(savedInstanceState);
+-        setContentView(R.layout.activity_qr_payment);
+-        setupScreen(BottomNavHelper.TAG_ORDERS);
+-
+-        bindCheckoutPayload();
+-
+-        TextView timerText = findViewById(R.id.qr_timer_text);
+-        countDownTimer = new CountDownTimer(15 * 60 * 1000L, 1000L) {
+-            @Override
+-            public void onTick(long millisUntilFinished) {
+-                long totalSeconds = millisUntilFinished / 1000L;
+-                long minutes = totalSeconds / 60L;
+-                long seconds = totalSeconds % 60L;
+-                timerText.setText(String.format("%02d:%02d", minutes, seconds));
+-            }
+-
+-            @Override
+-            public void onFinish() {
+-                timerText.setText("00:00");
+-            }
+-        };
+-        countDownTimer.start();
+-
+-        findViewById(R.id.simulate_payment_button).setOnClickListener(v ->
+-                startActivity(new Intent(this, OrderDetailActivity.class)));
+-    }
+-
+-    private void bindCheckoutPayload() {
+-        Intent intent = getIntent();
+-        if (!intent.hasExtra(CheckoutActivity.EXTRA_GRAND_TOTAL)) {
+-            return;
+-        }
+-
+-        double total = intent.getDoubleExtra(CheckoutActivity.EXTRA_GRAND_TOTAL, 0);
+-        String orderRef = intent.getStringExtra(CheckoutActivity.EXTRA_ORDER_REF);
+-        String paymentMethod = intent.getStringExtra(CheckoutActivity.EXTRA_PAYMENT_METHOD);
+-        String displayRef = orderRef == null ? "" : orderRef;
+-
+-        ((TextView) findViewById(R.id.qr_amount_text)).setText(formatPrice(total));
+-        ((TextView) findViewById(R.id.qr_order_id_text)).setText("Đơn hàng #" + displayRef);
+-        ((TextView) findViewById(R.id.qr_reference_text)).setText(displayRef);
+-        if ("COD".equals(paymentMethod)) {
+-            ((TextView) findViewById(R.id.qr_title_text)).setText("Xác nhận đơn hàng");
+-            ((TextView) findViewById(R.id.qr_amount_text)).setText(formatPrice(total));
+-        }
+-    }
+-
+-    private String formatPrice(double price) {
+-        NumberFormat formatter = NumberFormat.getNumberInstance(new Locale("vi", "VN"));
+-        return formatter.format(Math.round(price)) + " đ";
+-    }
+-
+-    @Override
+-    protected void onDestroy() {
+-        if (countDownTimer != null) {
+-            countDownTimer.cancel();
+-        }
+-        super.onDestroy();
+-    }
+-}
+Index: app/src/main/res/layout/item_cart_product.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<LinearLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    android:layout_width=\"match_parent\"\n    android:layout_height=\"112dp\"\n    android:layout_marginTop=\"@dimen/space_10\"\n    android:background=\"@drawable/bg_cart_item_card\"\n    android:gravity=\"center_vertical\"\n    android:orientation=\"horizontal\"\n    android:padding=\"@dimen/space_8\">\n\n    <FrameLayout\n        android:layout_width=\"78dp\"\n        android:layout_height=\"78dp\"\n        android:background=\"@drawable/bg_home_product_image_light\">\n\n        <ImageView\n            android:id=\"@+id/cart_item_image\"\n            android:layout_width=\"68dp\"\n            android:layout_height=\"52dp\"\n            android:layout_gravity=\"center\"\n            android:contentDescription=\"@string/product_image_desc\"\n            android:rotation=\"-10\"\n            android:src=\"@drawable/ic_shoe\"\n            android:tint=\"@color/text_disabled\" />\n    </FrameLayout>\n\n    <LinearLayout\n        android:layout_width=\"0dp\"\n        android:layout_height=\"match_parent\"\n        android:layout_marginStart=\"@dimen/space_10\"\n        android:layout_weight=\"1\"\n        android:orientation=\"vertical\">\n\n        <TextView\n            android:id=\"@+id/cart_item_brand\"\n            android:layout_width=\"wrap_content\"\n            android:layout_height=\"wrap_content\"\n            android:textAppearance=\"@style/TextAppearance.SoleStep.Caption\" />\n\n        <TextView\n            android:id=\"@+id/cart_item_name\"\n            android:layout_width=\"wrap_content\"\n            android:layout_height=\"wrap_content\"\n            android:ellipsize=\"end\"\n            android:maxLines=\"1\"\n            android:textAppearance=\"@style/TextAppearance.SoleStep.BodySmall\"\n            android:textColor=\"@color/text_primary\"\n            android:textStyle=\"bold\" />\n\n        <LinearLayout\n            android:layout_width=\"wrap_content\"\n            android:layout_height=\"wrap_content\"\n            android:layout_marginTop=\"@dimen/space_3\"\n            android:orientation=\"horizontal\">\n\n            <TextView\n                android:id=\"@+id/cart_item_size\"\n                android:layout_width=\"wrap_content\"\n                android:layout_height=\"20dp\"\n                android:background=\"@drawable/bg_home_brand_chip\"\n                android:gravity=\"center\"\n                android:paddingStart=\"@dimen/space_6\"\n                android:paddingEnd=\"@dimen/space_6\"\n                android:textAppearance=\"@style/TextAppearance.SoleStep.Caption\"\n                android:textColor=\"@color/text_muted\" />\n\n            <TextView\n                android:id=\"@+id/cart_item_color\"\n                android:layout_width=\"wrap_content\"\n                android:layout_height=\"20dp\"\n                android:layout_marginStart=\"@dimen/space_4\"\n                android:background=\"@drawable/bg_home_brand_chip\"\n                android:gravity=\"center\"\n                android:paddingStart=\"@dimen/space_6\"\n                android:paddingEnd=\"@dimen/space_6\"\n                android:textAppearance=\"@style/TextAppearance.SoleStep.Caption\"\n                android:textColor=\"@color/text_muted\" />\n        </LinearLayout>\n\n        <TextView\n            android:id=\"@+id/cart_item_price\"\n            android:layout_width=\"wrap_content\"\n            android:layout_height=\"0dp\"\n            android:layout_weight=\"1\"\n            android:gravity=\"bottom\"\n            android:textAppearance=\"@style/TextAppearance.SoleStep.PriceSmall\"\n            android:textSize=\"16sp\" />\n    </LinearLayout>\n\n    <LinearLayout\n        android:layout_width=\"86dp\"\n        android:layout_height=\"match_parent\"\n        android:gravity=\"end\"\n        android:orientation=\"vertical\">\n\n        <FrameLayout\n            android:id=\"@+id/cart_item_delete\"\n            android:layout_width=\"30dp\"\n            android:layout_height=\"30dp\"\n            android:background=\"@drawable/bg_cart_delete\">\n\n            <ImageView\n                android:layout_width=\"@dimen/icon_sm\"\n                android:layout_height=\"@dimen/icon_sm\"\n                android:layout_gravity=\"center\"\n                android:contentDescription=\"@string/action_delete\"\n                android:src=\"@drawable/ic_trash\" />\n        </FrameLayout>\n\n        <LinearLayout\n            android:layout_width=\"wrap_content\"\n            android:layout_height=\"0dp\"\n            android:layout_weight=\"1\"\n            android:gravity=\"bottom|center_vertical\"\n            android:orientation=\"horizontal\">\n\n            <TextView\n                android:id=\"@+id/cart_item_minus\"\n                android:layout_width=\"28dp\"\n                android:layout_height=\"28dp\"\n                android:background=\"@drawable/bg_cart_stepper\"\n                android:gravity=\"center\"\n                android:text=\"-\"\n                android:textAppearance=\"@style/TextAppearance.SoleStep.Body\"\n                android:textColor=\"@color/text_secondary\" />\n\n            <TextView\n                android:id=\"@+id/cart_item_quantity\"\n                android:layout_width=\"32dp\"\n                android:layout_height=\"28dp\"\n                android:gravity=\"center\"\n                android:textAppearance=\"@style/TextAppearance.SoleStep.BodySmall\"\n                android:textColor=\"@color/text_primary\"\n                android:textStyle=\"bold\" />\n\n            <TextView\n                android:id=\"@+id/cart_item_plus\"\n                android:layout_width=\"28dp\"\n                android:layout_height=\"28dp\"\n                android:background=\"@drawable/bg_circle_orange\"\n                android:gravity=\"center\"\n                android:text=\"+\"\n                android:textAppearance=\"@style/TextAppearance.SoleStep.Body\"\n                android:textColor=\"@color/brand_white\" />\n        </LinearLayout>\n    </LinearLayout>\n</LinearLayout>\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/item_cart_product.xml b/app/src/main/res/layout/item_cart_product.xml
+--- a/app/src/main/res/layout/item_cart_product.xml	(revision 7610b7c7bafc05d09e376f1012a871c2fc8f9027)
++++ b/app/src/main/res/layout/item_cart_product.xml	(date 1782362818395)
+@@ -88,7 +88,7 @@
+     </LinearLayout>
+ 
+     <LinearLayout
+-        android:layout_width="86dp"
++        android:layout_width="97dp"
+         android:layout_height="match_parent"
+         android:gravity="end"
+         android:orientation="vertical">
+Index: app/build.gradle.kts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>plugins {\n    alias(libs.plugins.android.application)\n}\n\nandroid {\n    namespace = \"com.example.shoeapp\"\n    compileSdk = 35\n\n    defaultConfig {\n        applicationId = \"com.example.shoeapp\"\n        minSdk = 24\n        targetSdk = 35\n        versionCode = 1\n        versionName = \"1.0\"\n\n        testInstrumentationRunner = \"androidx.test.runner.AndroidJUnitRunner\"\n    }\n\n    buildTypes {\n        release {\n            isMinifyEnabled = false\n            proguardFiles(\n                getDefaultProguardFile(\"proguard-android-optimize.txt\"),\n                \"proguard-rules.pro\"\n            )\n        }\n    }\n    compileOptions {\n        sourceCompatibility = JavaVersion.VERSION_17\n        targetCompatibility = JavaVersion.VERSION_17\n    }\n\n    lint {\n        disable += listOf(\"MissingTranslation\", \"ExtraTranslation\", \"UseAppTint\")\n        abortOnError = false\n    }\n}\n\ndependencies {\n    val room_version = \"2.6.1\"\n    implementation(\"androidx.room:room-runtime:$room_version\")\n    annotationProcessor(\"androidx.room:room-compiler:$room_version\")\n\n    implementation(\"com.github.bumptech.glide:glide:4.16.0\")\n    annotationProcessor(\"com.github.bumptech.glide:compiler:4.16.0\")\n\n    implementation(libs.appcompat)\n    implementation(libs.material)\n    implementation(libs.activity)\n    implementation(libs.constraintlayout)\n    testImplementation(libs.junit)\n    androidTestImplementation(libs.ext.junit)\n    androidTestImplementation(libs.espresso.core)\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/build.gradle.kts b/app/build.gradle.kts
+--- a/app/build.gradle.kts	(revision 7610b7c7bafc05d09e376f1012a871c2fc8f9027)
++++ b/app/build.gradle.kts	(date 1782362818379)
+@@ -4,7 +4,7 @@
+ 
+ android {
+     namespace = "com.example.shoeapp"
+-    compileSdk = 35
++    compileSdk = 36
+ 
+     defaultConfig {
+         applicationId = "com.example.shoeapp"
+@@ -37,6 +37,12 @@
+ }
+ 
+ dependencies {
++    implementation(fileTree(mapOf(
++        "dir" to "/Users/laiqua/Downloads/ZaloPayLib",
++        "include" to listOf("*.aar", "*.jar"),
++        "exclude" to listOf("")
++    )))
++    implementation(libs.activity.ktx)
+     val room_version = "2.6.1"
+     implementation("androidx.room:room-runtime:$room_version")
+     annotationProcessor("androidx.room:room-compiler:$room_version")
+@@ -51,4 +57,6 @@
+     testImplementation(libs.junit)
+     androidTestImplementation(libs.ext.junit)
+     androidTestImplementation(libs.espresso.core)
++    implementation("com.squareup.okhttp3:okhttp:4.6.0")
++    implementation("commons-codec:commons-codec:1.14")
+ }
+\ No newline at end of file
+Index: gradle/libs.versions.toml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>[versions]\nagp = \"9.1.1\"\njunit = \"4.13.2\"\njunitVersion = \"1.1.5\"\nespressoCore = \"3.5.1\"\nappcompat = \"1.6.1\"\nmaterial = \"1.10.0\"\nactivity = \"1.8.0\"\nconstraintlayout = \"2.1.4\"\n\n[libraries]\njunit = { group = \"junit\", name = \"junit\", version.ref = \"junit\" }\next-junit = { group = \"androidx.test.ext\", name = \"junit\", version.ref = \"junitVersion\" }\nespresso-core = { group = \"androidx.test.espresso\", name = \"espresso-core\", version.ref = \"espressoCore\" }\nappcompat = { group = \"androidx.appcompat\", name = \"appcompat\", version.ref = \"appcompat\" }\nmaterial = { group = \"com.google.android.material\", name = \"material\", version.ref = \"material\" }\nactivity = { group = \"androidx.activity\", name = \"activity\", version.ref = \"activity\" }\nconstraintlayout = { group = \"androidx.constraintlayout\", name = \"constraintlayout\", version.ref = \"constraintlayout\" }\n\n[plugins]\nandroid-application = { id = \"com.android.application\", version.ref = \"agp\" }\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/gradle/libs.versions.toml b/gradle/libs.versions.toml
+--- a/gradle/libs.versions.toml	(revision 7610b7c7bafc05d09e376f1012a871c2fc8f9027)
++++ b/gradle/libs.versions.toml	(date 1782362818395)
+@@ -7,6 +7,7 @@
+ material = "1.10.0"
+ activity = "1.8.0"
+ constraintlayout = "2.1.4"
++activityKtx = "1.8.0"
+ 
+ [libraries]
+ junit = { group = "junit", name = "junit", version.ref = "junit" }
+@@ -16,6 +17,7 @@
+ material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+ activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
+ constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
++activity-ktx = { group = "androidx.activity", name = "activity-ktx", version.ref = "activityKtx" }
+ 
+ [plugins]
+ android-application = { id = "com.android.application", version.ref = "agp" }
+Index: app/src/main/java/com/example/shoeapp/user/CheckoutActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.shoeapp.user;\n\nimport android.content.Intent;\nimport android.os.Bundle;\nimport android.view.View;\nimport android.widget.EditText;\nimport android.widget.TextView;\nimport android.widget.Toast;\n\nimport androidx.recyclerview.widget.LinearLayoutManager;\nimport androidx.recyclerview.widget.RecyclerView;\n\nimport com.example.shoeapp.R;\nimport com.example.shoeapp.data.model.CartItemView;\nimport com.example.shoeapp.ui.BaseSoleStepActivity;\nimport com.example.shoeapp.ui.BottomNavHelper;\nimport com.google.android.material.button.MaterialButton;\n\nimport java.util.ArrayList;\nimport java.util.List;\n\npublic class CheckoutActivity extends BaseSoleStepActivity {\n    public static final String EXTRA_ORDER_REF = \"order_ref\";\n    public static final String EXTRA_PAYMENT_METHOD = \"payment_method\";\n    public static final String EXTRA_DELIVERY_METHOD = \"delivery_method\";\n    public static final String EXTRA_SUBTOTAL = \"subtotal\";\n    public static final String EXTRA_SHIPPING_FEE = \"shipping_fee\";\n    public static final String EXTRA_DISCOUNT = \"discount\";\n    public static final String EXTRA_GRAND_TOTAL = \"grand_total\";\n    public static final String EXTRA_ITEM_COUNT = \"item_count\";\n    public static final String EXTRA_CUSTOMER_NAME = \"customer_name\";\n    public static final String EXTRA_PHONE = \"phone\";\n    public static final String EXTRA_ADDRESS = \"address\";\n    public static final String EXTRA_NOTE = \"note\";\n\n    private static final double STANDARD_SHIPPING = 30000;\n    private static final double EXPRESS_SHIPPING = 60000;\n    private static final double NEXT_DAY_SHIPPING = 90000;\n\n    private ClientCartRepository cartRepository;\n    private CheckoutItemAdapter adapter;\n    private final List<CartItemView> items = new ArrayList<>();\n\n    private EditText nameInput;\n    private EditText phoneInput;\n    private EditText addressInput;\n    private EditText noteInput;\n    private MaterialButton placeOrderButton;\n    private TextView itemCountText;\n    private TextView emptyText;\n    private TextView subtotalValue;\n    private TextView shippingValue;\n    private TextView discountValue;\n    private TextView totalValue;\n\n    private View deliveryStandard;\n    private View deliveryExpress;\n    private View deliveryNextDay;\n    private View paymentQr;\n    private View paymentCod;\n    private View paymentCard;\n\n    private String selectedDelivery = \"Giao tiêu chuẩn\";\n    private String selectedPayment = \"QR\";\n    private double shippingFee = STANDARD_SHIPPING;\n\n    @Override\n    protected void onCreate(Bundle savedInstanceState) {\n        super.onCreate(savedInstanceState);\n        setContentView(R.layout.activity_checkout);\n        setupScreen(BottomNavHelper.TAG_CART);\n\n        cartRepository = new ClientCartRepository(this);\n        bindViews();\n        setupList();\n        setupOptions();\n        setupDefaults();\n        refreshCheckout();\n\n        findViewById(R.id.back_button).setOnClickListener(v -> finish());\n        placeOrderButton.setOnClickListener(v -> continueToPayment());\n    }\n\n    @Override\n    protected void onResume() {\n        super.onResume();\n        refreshCheckout();\n    }\n\n    private void bindViews() {\n        nameInput = findViewById(R.id.checkout_name_input);\n        phoneInput = findViewById(R.id.checkout_phone_input);\n        addressInput = findViewById(R.id.checkout_address_input);\n        noteInput = findViewById(R.id.checkout_note_input);\n        placeOrderButton = findViewById(R.id.place_order_button);\n        itemCountText = findViewById(R.id.checkout_item_count_text);\n        emptyText = findViewById(R.id.checkout_empty_text);\n        subtotalValue = findViewById(R.id.checkout_subtotal_value);\n        shippingValue = findViewById(R.id.checkout_shipping_value);\n        discountValue = findViewById(R.id.checkout_discount_value);\n        totalValue = findViewById(R.id.checkout_total_value);\n        deliveryStandard = findViewById(R.id.delivery_standard);\n        deliveryExpress = findViewById(R.id.delivery_express);\n        deliveryNextDay = findViewById(R.id.delivery_nextday);\n        paymentQr = findViewById(R.id.payment_qr);\n        paymentCod = findViewById(R.id.payment_cod);\n        paymentCard = findViewById(R.id.payment_card);\n    }\n\n    private void setupList() {\n        RecyclerView itemsList = findViewById(R.id.checkout_items_list);\n        adapter = new CheckoutItemAdapter(cartRepository);\n        itemsList.setLayoutManager(new LinearLayoutManager(this));\n        itemsList.setAdapter(adapter);\n    }\n\n    private void setupOptions() {\n        deliveryStandard.setOnClickListener(v -> selectDelivery(\"Giao tiêu chuẩn\", STANDARD_SHIPPING));\n        deliveryExpress.setOnClickListener(v -> selectDelivery(\"Giao nhanh\", EXPRESS_SHIPPING));\n        deliveryNextDay.setOnClickListener(v -> selectDelivery(\"Giao trong ngày\", NEXT_DAY_SHIPPING));\n\n        paymentQr.setOnClickListener(v -> selectPayment(\"QR\"));\n        paymentCod.setOnClickListener(v -> selectPayment(\"COD\"));\n        paymentCard.setOnClickListener(v -> selectPayment(\"CARD\"));\n    }\n\n    private void setupDefaults() {\n        nameInput.setText(\"Khách hàng\");\n        phoneInput.setText(\"0900000000\");\n        addressInput.setText(\"TP. Hồ Chí Minh\");\n        selectDelivery(selectedDelivery, shippingFee);\n        selectPayment(selectedPayment);\n    }\n\n    private void selectDelivery(String delivery, double fee) {\n        selectedDelivery = delivery;\n        shippingFee = fee;\n        deliveryStandard.setBackgroundResource(\"Giao tiêu chuẩn\".equals(delivery)\n                ? R.drawable.bg_checkout_selected : R.drawable.bg_checkout_option);\n        deliveryExpress.setBackgroundResource(\"Giao nhanh\".equals(delivery)\n                ? R.drawable.bg_checkout_selected : R.drawable.bg_checkout_option);\n        deliveryNextDay.setBackgroundResource(\"Giao trong ngày\".equals(delivery)\n                ? R.drawable.bg_checkout_selected : R.drawable.bg_checkout_option);\n        updateTotals();\n    }\n\n    private void selectPayment(String payment) {\n        selectedPayment = payment;\n        paymentQr.setBackgroundResource(\"QR\".equals(payment)\n                ? R.drawable.bg_checkout_selected : R.drawable.bg_checkout_option);\n        paymentCod.setBackgroundResource(\"COD\".equals(payment)\n                ? R.drawable.bg_checkout_selected : R.drawable.bg_checkout_option);\n        paymentCard.setBackgroundResource(\"CARD\".equals(payment)\n                ? R.drawable.bg_checkout_selected : R.drawable.bg_checkout_option);\n    }\n\n    private void refreshCheckout() {\n        items.clear();\n        items.addAll(cartRepository.getItems());\n        adapter.submit(items);\n\n        boolean isEmpty = items.isEmpty();\n        emptyText.setVisibility(isEmpty ? View.VISIBLE : View.GONE);\n        itemCountText.setText(cartRepository.getQuantity() + \" sản phẩm\");\n        placeOrderButton.setEnabled(!isEmpty);\n        updateTotals();\n    }\n\n    private void updateTotals() {\n        double subtotal = cartRepository.subtotal(items);\n        double deliveryFee = items.isEmpty() ? 0 : shippingFee;\n        double discount = cartRepository.discount(items);\n        double total = subtotal + deliveryFee - discount;\n\n        subtotalValue.setText(cartRepository.formatPrice(subtotal));\n        shippingValue.setText(cartRepository.formatPrice(deliveryFee));\n        discountValue.setText(discount > 0\n                ? \"-\" + cartRepository.formatPrice(discount)\n                : cartRepository.formatPrice(0));\n        totalValue.setText(cartRepository.formatPrice(total));\n        placeOrderButton.setText(\"Tiếp tục thanh toán - \" + cartRepository.formatPrice(total));\n    }\n\n    private void continueToPayment() {\n        if (items.isEmpty()) {\n            Toast.makeText(this, \"Giỏ hàng đang trống\", Toast.LENGTH_SHORT).show();\n            return;\n        }\n        String name = nameInput.getText().toString().trim();\n        String phone = phoneInput.getText().toString().trim();\n        String address = addressInput.getText().toString().trim();\n        String note = noteInput.getText().toString().trim();\n\n        if (name.isEmpty()) {\n            nameInput.requestFocus();\n            nameInput.setError(\"Vui lòng nhập họ tên\");\n            return;\n        }\n        if (phone.isEmpty()) {\n            phoneInput.requestFocus();\n            phoneInput.setError(\"Vui lòng nhập số điện thoại\");\n            return;\n        }\n        if (address.isEmpty()) {\n            addressInput.requestFocus();\n            addressInput.setError(\"Vui lòng nhập địa chỉ giao hàng\");\n            return;\n        }\n\n        double subtotal = cartRepository.subtotal(items);\n        double deliveryFee = shippingFee;\n        double discount = cartRepository.discount(items);\n        double total = subtotal + deliveryFee - discount;\n        String orderRef = \"SS\" + System.currentTimeMillis();\n\n        Intent intent = new Intent(this, QRPaymentActivity.class);\n        intent.putExtra(EXTRA_ORDER_REF, orderRef);\n        intent.putExtra(EXTRA_CUSTOMER_NAME, name);\n        intent.putExtra(EXTRA_PHONE, phone);\n        intent.putExtra(EXTRA_ADDRESS, address);\n        intent.putExtra(EXTRA_NOTE, note);\n        intent.putExtra(EXTRA_DELIVERY_METHOD, selectedDelivery);\n        intent.putExtra(EXTRA_PAYMENT_METHOD, selectedPayment);\n        intent.putExtra(EXTRA_SUBTOTAL, subtotal);\n        intent.putExtra(EXTRA_SHIPPING_FEE, deliveryFee);\n        intent.putExtra(EXTRA_DISCOUNT, discount);\n        intent.putExtra(EXTRA_GRAND_TOTAL, total);\n        intent.putExtra(EXTRA_ITEM_COUNT, cartRepository.getQuantity());\n        startActivity(intent);\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/shoeapp/user/CheckoutActivity.java b/app/src/main/java/com/example/shoeapp/user/CheckoutActivity.java
+--- a/app/src/main/java/com/example/shoeapp/user/CheckoutActivity.java	(revision 7610b7c7bafc05d09e376f1012a871c2fc8f9027)
++++ b/app/src/main/java/com/example/shoeapp/user/CheckoutActivity.java	(date 1782362818380)
+@@ -2,7 +2,10 @@
+ 
+ import android.content.Intent;
+ import android.os.Bundle;
++import android.os.StrictMode;
++import android.util.Log;
+ import android.view.View;
++import android.widget.Button;
+ import android.widget.EditText;
+ import android.widget.TextView;
+ import android.widget.Toast;
+@@ -10,29 +13,26 @@
+ import androidx.recyclerview.widget.LinearLayoutManager;
+ import androidx.recyclerview.widget.RecyclerView;
+ 
++import com.example.shoeapp.Api.CreateOrder;
+ import com.example.shoeapp.R;
++import com.example.shoeapp.data.AppDatabase;
++import com.example.shoeapp.data.entity.User;
+ import com.example.shoeapp.data.model.CartItemView;
+ import com.example.shoeapp.ui.BaseSoleStepActivity;
+ import com.example.shoeapp.ui.BottomNavHelper;
+ import com.google.android.material.button.MaterialButton;
+ 
++import org.json.JSONObject;
++
+ import java.util.ArrayList;
+ import java.util.List;
+ 
++import vn.zalopay.sdk.Environment;
++import vn.zalopay.sdk.ZaloPayError;
++import vn.zalopay.sdk.ZaloPaySDK;
++import vn.zalopay.sdk.listeners.PayOrderListener;
++
+ public class CheckoutActivity extends BaseSoleStepActivity {
+-    public static final String EXTRA_ORDER_REF = "order_ref";
+-    public static final String EXTRA_PAYMENT_METHOD = "payment_method";
+-    public static final String EXTRA_DELIVERY_METHOD = "delivery_method";
+-    public static final String EXTRA_SUBTOTAL = "subtotal";
+-    public static final String EXTRA_SHIPPING_FEE = "shipping_fee";
+-    public static final String EXTRA_DISCOUNT = "discount";
+-    public static final String EXTRA_GRAND_TOTAL = "grand_total";
+-    public static final String EXTRA_ITEM_COUNT = "item_count";
+-    public static final String EXTRA_CUSTOMER_NAME = "customer_name";
+-    public static final String EXTRA_PHONE = "phone";
+-    public static final String EXTRA_ADDRESS = "address";
+-    public static final String EXTRA_NOTE = "note";
+-
+     private static final double STANDARD_SHIPPING = 30000;
+     private static final double EXPRESS_SHIPPING = 60000;
+     private static final double NEXT_DAY_SHIPPING = 90000;
+@@ -58,35 +58,11 @@
+     private View deliveryNextDay;
+     private View paymentQr;
+     private View paymentCod;
+-    private View paymentCard;
+ 
+     private String selectedDelivery = "Giao tiêu chuẩn";
+-    private String selectedPayment = "QR";
++    private String selectedPayment = "ZALOPAY";
+     private double shippingFee = STANDARD_SHIPPING;
+ 
+-    @Override
+-    protected void onCreate(Bundle savedInstanceState) {
+-        super.onCreate(savedInstanceState);
+-        setContentView(R.layout.activity_checkout);
+-        setupScreen(BottomNavHelper.TAG_CART);
+-
+-        cartRepository = new ClientCartRepository(this);
+-        bindViews();
+-        setupList();
+-        setupOptions();
+-        setupDefaults();
+-        refreshCheckout();
+-
+-        findViewById(R.id.back_button).setOnClickListener(v -> finish());
+-        placeOrderButton.setOnClickListener(v -> continueToPayment());
+-    }
+-
+-    @Override
+-    protected void onResume() {
+-        super.onResume();
+-        refreshCheckout();
+-    }
+-
+     private void bindViews() {
+         nameInput = findViewById(R.id.checkout_name_input);
+         phoneInput = findViewById(R.id.checkout_phone_input);
+@@ -104,8 +80,91 @@
+         deliveryNextDay = findViewById(R.id.delivery_nextday);
+         paymentQr = findViewById(R.id.payment_qr);
+         paymentCod = findViewById(R.id.payment_cod);
+-        paymentCard = findViewById(R.id.payment_card);
+     }
++
++    @Override
++    protected void onCreate(Bundle savedInstanceState) {
++        super.onCreate(savedInstanceState);
++        setContentView(R.layout.activity_checkout);
++        setupScreen(BottomNavHelper.TAG_CART);
++
++        cartRepository = new ClientCartRepository(this);
++        bindViews();
++        setupList();
++        setupOptions();
++        setupDefaults();
++        refreshCheckout();
++        StrictMode.ThreadPolicy policy = new
++                StrictMode.ThreadPolicy.Builder().permitAll().build();
++        StrictMode.setThreadPolicy(policy);
++
++        // ZaloPay SDK Init
++        ZaloPaySDK.init(553, Environment.SANDBOX);
++
++        findViewById(R.id.back_button).setOnClickListener(v -> finish());
++        placeOrderButton.setOnClickListener(new View.OnClickListener() {
++            @Override
++            public void onClick(View view) {
++                double subtotal = cartRepository.subtotal(items);
++                double deliveryFee = items.isEmpty() ? 0 : shippingFee;
++                double discount = cartRepository.discount(items);
++                double total = subtotal + deliveryFee - discount;
++                long amountVal = Math.round(total);
++
++                CreateOrder orderApi = new CreateOrder();
++                try {
++                    JSONObject data = orderApi.createOrder(String.valueOf(amountVal));
++                    if (data == null) {
++                        Toast.makeText(CheckoutActivity.this, "Không nhận được phản hồi từ ZaloPay", Toast.LENGTH_SHORT).show();
++                        return;
++                    }
++                    Log.d("ZaloPayPayment", "Response: " + data.toString());
++                    String code = data.getString("returncode");
++                    if (code.equals("1")) {
++                        String token = data.getString("zptranstoken");
++                        ZaloPaySDK.getInstance().payOrder(CheckoutActivity.this, token, "demozpdk://app", new PayOrderListener() {
++                            @Override
++                            public void onPaymentSucceeded(String s, String s1, String s2) {
++                                Intent intent1 = new Intent(CheckoutActivity.this, PaymentNotification.class);
++                                intent1.putExtra("result", "Thanh toán thành công");
++                                startActivity(intent1);
++                            }
++
++                            @Override
++                            public void onPaymentCanceled(String s, String s1) {
++                                Intent intent1 = new Intent(CheckoutActivity.this, PaymentNotification.class);
++                                intent1.putExtra("result", "Hủy thanh toán");
++                                startActivity(intent1);
++                            }
++
++                            @Override
++                            public void onPaymentError(ZaloPayError zaloPayError, String s, String s1) {
++                                Intent intent1 = new Intent(CheckoutActivity.this, PaymentNotification.class);
++                                intent1.putExtra("result", "Lỗi thanh toán");
++                                startActivity(intent1);
++                            }
++                        });
++                    } else {
++                        String msg = data.optString("returnmessage", "Lỗi tạo đơn hàng");
++                        Toast.makeText(CheckoutActivity.this, "Lỗi: " + msg, Toast.LENGTH_LONG).show();
++                    }
++
++                } catch (Exception e) {
++                    e.printStackTrace();
++                    Toast.makeText(CheckoutActivity.this, "Đã xảy ra lỗi: " + e.getMessage(), Toast.LENGTH_SHORT).show();
++                }
++            }
++        });
++
++    }
++
++    @Override
++    protected void onResume() {
++        super.onResume();
++        refreshCheckout();
++    }
++
++
+ 
+     private void setupList() {
+         RecyclerView itemsList = findViewById(R.id.checkout_items_list);
+@@ -119,15 +178,22 @@
+         deliveryExpress.setOnClickListener(v -> selectDelivery("Giao nhanh", EXPRESS_SHIPPING));
+         deliveryNextDay.setOnClickListener(v -> selectDelivery("Giao trong ngày", NEXT_DAY_SHIPPING));
+ 
+-        paymentQr.setOnClickListener(v -> selectPayment("QR"));
++        paymentQr.setOnClickListener(v -> selectPayment("ZALOPAY"));
+         paymentCod.setOnClickListener(v -> selectPayment("COD"));
+-        paymentCard.setOnClickListener(v -> selectPayment("CARD"));
+     }
+ 
+     private void setupDefaults() {
+-        nameInput.setText("Khách hàng");
+-        phoneInput.setText("0900000000");
+-        addressInput.setText("TP. Hồ Chí Minh");
++        AppDatabase db = AppDatabase.getDatabase(this);
++        User user = db.userDao().getUserById(ClientCartRepository.DEMO_USER_ID);
++        if (user != null) {
++            nameInput.setText(user.fullName);
++            phoneInput.setText(user.phoneNumber);
++            addressInput.setText(user.address);
++        } else {
++            nameInput.setText("Khách hàng");
++            phoneInput.setText("0900000000");
++            addressInput.setText("TP. Hồ Chí Minh");
++        }
+         selectDelivery(selectedDelivery, shippingFee);
+         selectPayment(selectedPayment);
+     }
+@@ -135,24 +201,18 @@
+     private void selectDelivery(String delivery, double fee) {
+         selectedDelivery = delivery;
+         shippingFee = fee;
+-        deliveryStandard.setBackgroundResource("Giao tiêu chuẩn".equals(delivery)
+-                ? R.drawable.bg_checkout_selected : R.drawable.bg_checkout_option);
+-        deliveryExpress.setBackgroundResource("Giao nhanh".equals(delivery)
+-                ? R.drawable.bg_checkout_selected : R.drawable.bg_checkout_option);
+-        deliveryNextDay.setBackgroundResource("Giao trong ngày".equals(delivery)
+-                ? R.drawable.bg_checkout_selected : R.drawable.bg_checkout_option);
++        deliveryStandard.setSelected("Giao tiêu chuẩn".equals(delivery));
++        deliveryExpress.setSelected("Giao nhanh".equals(delivery));
++        deliveryNextDay.setSelected("Giao trong ngày".equals(delivery));
+         updateTotals();
+     }
+ 
+     private void selectPayment(String payment) {
+         selectedPayment = payment;
+-        paymentQr.setBackgroundResource("QR".equals(payment)
+-                ? R.drawable.bg_checkout_selected : R.drawable.bg_checkout_option);
+-        paymentCod.setBackgroundResource("COD".equals(payment)
+-                ? R.drawable.bg_checkout_selected : R.drawable.bg_checkout_option);
+-        paymentCard.setBackgroundResource("CARD".equals(payment)
+-                ? R.drawable.bg_checkout_selected : R.drawable.bg_checkout_option);
++        paymentQr.setSelected("ZALOPAY".equals(payment));
++        paymentCod.setSelected("COD".equals(payment));
+     }
++
+ 
+     private void refreshCheckout() {
+         items.clear();
+@@ -181,51 +241,9 @@
+         placeOrderButton.setText("Tiếp tục thanh toán - " + cartRepository.formatPrice(total));
+     }
+ 
+-    private void continueToPayment() {
+-        if (items.isEmpty()) {
+-            Toast.makeText(this, "Giỏ hàng đang trống", Toast.LENGTH_SHORT).show();
+-            return;
+-        }
+-        String name = nameInput.getText().toString().trim();
+-        String phone = phoneInput.getText().toString().trim();
+-        String address = addressInput.getText().toString().trim();
+-        String note = noteInput.getText().toString().trim();
+-
+-        if (name.isEmpty()) {
+-            nameInput.requestFocus();
+-            nameInput.setError("Vui lòng nhập họ tên");
+-            return;
+-        }
+-        if (phone.isEmpty()) {
+-            phoneInput.requestFocus();
+-            phoneInput.setError("Vui lòng nhập số điện thoại");
+-            return;
+-        }
+-        if (address.isEmpty()) {
+-            addressInput.requestFocus();
+-            addressInput.setError("Vui lòng nhập địa chỉ giao hàng");
+-            return;
+-        }
+-
+-        double subtotal = cartRepository.subtotal(items);
+-        double deliveryFee = shippingFee;
+-        double discount = cartRepository.discount(items);
+-        double total = subtotal + deliveryFee - discount;
+-        String orderRef = "SS" + System.currentTimeMillis();
+-
+-        Intent intent = new Intent(this, QRPaymentActivity.class);
+-        intent.putExtra(EXTRA_ORDER_REF, orderRef);
+-        intent.putExtra(EXTRA_CUSTOMER_NAME, name);
+-        intent.putExtra(EXTRA_PHONE, phone);
+-        intent.putExtra(EXTRA_ADDRESS, address);
+-        intent.putExtra(EXTRA_NOTE, note);
+-        intent.putExtra(EXTRA_DELIVERY_METHOD, selectedDelivery);
+-        intent.putExtra(EXTRA_PAYMENT_METHOD, selectedPayment);
+-        intent.putExtra(EXTRA_SUBTOTAL, subtotal);
+-        intent.putExtra(EXTRA_SHIPPING_FEE, deliveryFee);
+-        intent.putExtra(EXTRA_DISCOUNT, discount);
+-        intent.putExtra(EXTRA_GRAND_TOTAL, total);
+-        intent.putExtra(EXTRA_ITEM_COUNT, cartRepository.getQuantity());
+-        startActivity(intent);
++    @Override
++    protected void onNewIntent(Intent intent) {
++        super.onNewIntent(intent);
++        ZaloPaySDK.getInstance().onResult(intent);
+     }
+ }
+Index: app/src/main/res/values/themes.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n\n<resources xmlns:tools=\"http://schemas.android.com/tools\">\n\n    <style name=\"Theme.SoleStep\" parent=\"Theme.MaterialComponents.DayNight.NoActionBar\">\n\n        <!-- ─── Màu hệ thống Material ─── -->\n        <item name=\"colorPrimary\">@color/brand_orange</item>\n        <item name=\"colorPrimaryVariant\">@color/brand_orange_dark</item>\n        <item name=\"colorPrimaryDark\">@color/brand_orange_dark</item>\n        <item name=\"colorOnPrimary\">@color/brand_white</item>\n\n        <item name=\"colorSecondary\">@color/brand_black</item>\n        <item name=\"colorSecondaryVariant\">@color/bg_dark_surface_2</item>\n        <item name=\"colorOnSecondary\">@color/brand_white</item>\n\n        <item name=\"colorSurface\">@color/bg_primary</item>\n        <item name=\"colorOnSurface\">@color/text_primary</item>\n\n        <item name=\"android:colorBackground\">@color/bg_secondary</item>\n        <item name=\"colorOnBackground\">@color/text_primary</item>\n\n        <item name=\"colorError\">@color/status_error</item>\n        <item name=\"colorOnError\">@color/brand_white</item>\n\n        <!-- ─── Status bar & Navigation bar ─── -->\n        <item name=\"android:statusBarColor\">@color/brand_white</item>\n        <item name=\"android:navigationBarColor\">@color/brand_white</item>\n        <item name=\"android:windowLightStatusBar\" tools:targetApi=\"m\">true</item>\n\n        <!-- ─── Window ─── -->\n        <item name=\"android:windowBackground\">@color/bg_secondary</item>\n        <item name=\"android:windowNoTitle\">true</item>\n        <item name=\"android:windowFullscreen\">false</item>\n\n        <!-- ─── Shapes ─── -->\n        <item name=\"shapeAppearanceSmallComponent\">@style/ShapeAppearance.SoleStep.Small</item>\n        <item name=\"shapeAppearanceMediumComponent\">@style/ShapeAppearance.SoleStep.Medium</item>\n        <item name=\"shapeAppearanceLargeComponent\">@style/ShapeAppearance.SoleStep.Large</item>\n\n        <!-- ─── Typography ─── -->\n        <item name=\"textAppearanceHeadline1\">@style/TextAppearance.SoleStep.Display</item>\n        <item name=\"textAppearanceHeadline2\">@style/TextAppearance.SoleStep.TitleLarge</item>\n        <item name=\"textAppearanceHeadline3\">@style/TextAppearance.SoleStep.Title</item>\n        <item name=\"textAppearanceHeadline4\">@style/TextAppearance.SoleStep.Headline</item>\n        <item name=\"textAppearanceHeadline5\">@style/TextAppearance.SoleStep.Subheading</item>\n        <item name=\"textAppearanceHeadline6\">@style/TextAppearance.SoleStep.Label</item>\n        <item name=\"textAppearanceBody1\">@style/TextAppearance.SoleStep.Body</item>\n        <item name=\"textAppearanceBody2\">@style/TextAppearance.SoleStep.BodySmall</item>\n        <item name=\"textAppearanceCaption\">@style/TextAppearance.SoleStep.Caption</item>\n        <item name=\"textAppearanceOverline\">@style/TextAppearance.SoleStep.Overline</item>\n        <item name=\"textAppearanceButton\">@style/TextAppearance.SoleStep.Button</item>\n\n        <!-- ─── Components ─── -->\n        <item name=\"bottomNavigationStyle\">@style/Widget.SoleStep.BottomNavigationView</item>\n        <item name=\"materialButtonStyle\">@style/Widget.SoleStep.Button.Primary</item>\n        <item name=\"textInputStyle\">@style/Widget.SoleStep.TextInputLayout</item>\n        <item name=\"chipStyle\">@style/Widget.SoleStep.Chip</item>\n        <item name=\"cardViewStyle\">@style/Widget.SoleStep.CardView</item>\n        <item name=\"toolbarStyle\">@style/Widget.SoleStep.Toolbar</item>\n        <item name=\"floatingActionButtonStyle\">@style/Widget.SoleStep.FAB</item>\n    </style>\n\n<!--admin theme-->\n    <style name=\"Theme.SoleStep.Admin\" parent=\"Theme.Material3.DayNight.NoActionBar\">\n\n        <item name=\"colorPrimary\">@color/brand_orange</item>\n        <item name=\"colorPrimaryVariant\">@color/brand_orange_light</item>\n        <item name=\"colorOnPrimary\">@color/brand_white</item>\n\n        <item name=\"colorSecondary\">@color/brand_indigo</item>\n        <item name=\"colorOnSecondary\">@color/brand_white</item>\n\n        <item name=\"colorSurface\">@color/bg_dark_surface_2</item>\n        <item name=\"colorOnSurface\">@color/brand_white</item>\n\n        <item name=\"android:colorBackground\">@color/bg_dark_primary</item>\n        <item name=\"colorOnBackground\">@color/brand_white</item>\n\n        <item name=\"android:statusBarColor\">@color/bg_dark_primary</item>\n        <item name=\"android:navigationBarColor\">@color/bg_dark_primary</item>\n        <item name=\"android:windowLightStatusBar\" tools:targetApi=\"m\">false</item>\n\n        <item name=\"android:windowBackground\">@color/bg_dark_primary</item>\n\n        <item name=\"shapeAppearanceSmallComponent\">@style/ShapeAppearance.SoleStep.Small</item>\n        <item name=\"shapeAppearanceMediumComponent\">@style/ShapeAppearance.SoleStep.Medium</item>\n        <item name=\"shapeAppearanceLargeComponent\">@style/ShapeAppearance.SoleStep.Large</item>\n    </style>\n\n    <style name=\"Widget.App.Indicator\" parent=\"Widget.Material3.BottomNavigationView.ActiveIndicator\">\n        <item name=\"android:color\">@color/brand_orange</item>\n        <item name=\"android:width\">64dp</item>\n        <item name=\"android:height\">32dp</item>\n        <item name=\"marginHorizontal\">4dp</item>\n        <item name=\"shapeAppearance\">@style/ShapeAppearance.App.Indicator</item>\n    </style>\n\n    <style name=\"ShapeAppearance.App.Indicator\" parent=\"ShapeAppearance.Material3.SmallComponent\">\n        <item name=\"cornerSize\">50%</item>\n    </style>\n\n    <!-- Admin bottom nav label text -->\n    <style name=\"TextAppearance.SoleStep.BottomNav.Admin\" parent=\"TextAppearance.Material3.LabelSmall\">\n        <item name=\"android:textSize\">11sp</item>\n        <item name=\"android:fontFamily\">sans-serif-medium</item>\n        <item name=\"android:textStyle\">bold</item>\n    </style>\n\n    <style name=\"CustomBottomSheetDialog\" parent=\"Theme.Design.Light.BottomSheetDialog\">\n        <item name=\"bottomSheetStyle\">@style/CustomBottomSheetStyle</item>\n    </style>\n\n    <style name=\"CustomBottomSheetStyle\" parent=\"Widget.Design.BottomSheet.Modal\">\n        <item name=\"android:background\">@android:color/transparent</item>\n    </style>\n\n\n    <style name=\"Theme.SoleStep.Splash\" parent=\"Theme.SoleStep\">\n        <item name=\"android:windowBackground\">@color/brand_black</item>\n        <item name=\"android:statusBarColor\">@color/brand_black</item>\n        <item name=\"android:navigationBarColor\">@color/brand_black</item>\n        <item name=\"android:windowLightStatusBar\" tools:targetApi=\"m\">false</item>\n    </style>\n\n    <style name=\"ShapeAppearance.SoleStep.Small\" parent=\"\">\n        <item name=\"cornerFamily\">rounded</item>\n        <item name=\"cornerSize\">@dimen/radius_sm</item>\n    </style>\n\n    <style name=\"ShapeAppearance.SoleStep.Medium\" parent=\"\">\n        <item name=\"cornerFamily\">rounded</item>\n        <item name=\"cornerSize\">@dimen/radius_lg</item>\n    </style>\n\n    <style name=\"ShapeAppearance.SoleStep.Large\" parent=\"\">\n        <item name=\"cornerFamily\">rounded</item>\n        <item name=\"cornerSize\">@dimen/radius_2xl</item>\n    </style>\n\n    <style name=\"ShapeAppearance.SoleStep.Pill\" parent=\"\">\n        <item name=\"cornerFamily\">rounded</item>\n        <item name=\"cornerSize\">@dimen/radius_pill</item>\n    </style>\n\n    <style name=\"ShapeAppearance.SoleStep.BottomSheet\" parent=\"\">\n        <item name=\"cornerFamily\">rounded</item>\n        <item name=\"cornerSizeTopLeft\">@dimen/radius_bottom_sheet</item>\n        <item name=\"cornerSizeTopRight\">@dimen/radius_bottom_sheet</item>\n        <item name=\"cornerSizeBottomLeft\">0dp</item>\n        <item name=\"cornerSizeBottomRight\">0dp</item>\n    </style>\n\n\n    <!-- Display — Hero title (Home banner, App name) -->\n    <style name=\"TextAppearance.SoleStep.Display\" parent=\"TextAppearance.MaterialComponents.Headline1\">\n        <item name=\"android:textSize\">@dimen/font_display</item>\n        <item name=\"android:textStyle\">bold</item>\n        <item name=\"android:letterSpacing\">0</item>\n        <item name=\"android:textColor\">@color/text_primary</item>\n    </style>\n\n    <!-- TitleLarge — Screen title, Section header -->\n    <style name=\"TextAppearance.SoleStep.TitleLarge\" parent=\"TextAppearance.MaterialComponents.Headline2\">\n        <item name=\"android:textSize\">@dimen/font_title_large</item>\n        <item name=\"android:textStyle\">bold</item>\n        <item name=\"android:textColor\">@color/text_primary</item>\n    </style>\n\n    <!-- Title — Dialog title, card title -->\n    <style name=\"TextAppearance.SoleStep.Title\" parent=\"TextAppearance.MaterialComponents.Headline3\">\n        <item name=\"android:textSize\">@dimen/font_title</item>\n        <item name=\"android:textStyle\">bold</item>\n        <item name=\"android:textColor\">@color/text_primary</item>\n    </style>\n\n    <!-- Headline — Subheading, card head -->\n    <style name=\"TextAppearance.SoleStep.Headline\" parent=\"TextAppearance.MaterialComponents.Headline4\">\n        <item name=\"android:textSize\">@dimen/font_headline</item>\n        <item name=\"android:textStyle\">bold</item>\n        <item name=\"android:textColor\">@color/text_primary</item>\n    </style>\n\n    <!-- Subheading — Section subtitle -->\n    <style name=\"TextAppearance.SoleStep.Subheading\" parent=\"TextAppearance.MaterialComponents.Headline5\">\n        <item name=\"android:textSize\">@dimen/font_subheading</item>\n        <item name=\"android:textStyle\">bold</item>\n        <item name=\"android:textColor\">@color/text_primary</item>\n    </style>\n\n    <!-- Label — Form labels, nav labels -->\n    <style name=\"TextAppearance.SoleStep.Label\" parent=\"TextAppearance.MaterialComponents.Headline6\">\n        <item name=\"android:textSize\">@dimen/font_label</item>\n        <item name=\"android:textStyle\">bold</item>\n        <item name=\"android:textColor\">@color/text_secondary</item>\n        <item name=\"android:letterSpacing\">0</item>\n        <item name=\"android:textAllCaps\">true</item>\n    </style>\n\n    <!-- Body — Descriptions, review text -->\n    <style name=\"TextAppearance.SoleStep.Body\" parent=\"TextAppearance.MaterialComponents.Body1\">\n        <item name=\"android:textSize\">@dimen/font_body</item>\n        <item name=\"android:textColor\">@color/text_secondary</item>\n        <item name=\"android:lineSpacingMultiplier\">1.5</item>\n    </style>\n\n    <!-- BodySmall — Hint text, secondary info -->\n    <style name=\"TextAppearance.SoleStep.BodySmall\" parent=\"TextAppearance.MaterialComponents.Body2\">\n        <item name=\"android:textSize\">@dimen/font_caption</item>\n        <item name=\"android:textColor\">@color/text_tertiary</item>\n    </style>\n\n    <!-- Caption — Date, ref ID, small labels -->\n    <style name=\"TextAppearance.SoleStep.Caption\" parent=\"TextAppearance.MaterialComponents.Caption\">\n        <item name=\"android:textSize\">@dimen/font_caption_small</item>\n        <item name=\"android:textColor\">@color/text_muted</item>\n    </style>\n\n    <!-- Overline — Section header uppercase -->\n    <style name=\"TextAppearance.SoleStep.Overline\" parent=\"TextAppearance.MaterialComponents.Overline\">\n        <item name=\"android:textSize\">@dimen/font_overline</item>\n        <item name=\"android:letterSpacing\">0</item>\n        <item name=\"android:textAllCaps\">true</item>\n        <item name=\"android:textStyle\">bold</item>\n        <item name=\"android:textColor\">@color/text_muted</item>\n    </style>\n\n    <!-- Button text -->\n    <style name=\"TextAppearance.SoleStep.Button\" parent=\"TextAppearance.MaterialComponents.Button\">\n        <item name=\"android:textSize\">@dimen/font_label</item>\n        <item name=\"android:textStyle\">bold</item>\n        <item name=\"android:letterSpacing\">0</item>\n        <item name=\"android:textAllCaps\">false</item>\n    </style>\n\n    <!-- Price text — Large orange price -->\n    <style name=\"TextAppearance.SoleStep.PriceLarge\" parent=\"TextAppearance.SoleStep.TitleLarge\">\n        <item name=\"android:textSize\">@dimen/font_price_large</item>\n        <item name=\"android:textColor\">@color/brand_orange</item>\n        <item name=\"android:textStyle\">bold</item>\n    </style>\n\n    <!-- Price text — Medium -->\n    <style name=\"TextAppearance.SoleStep.PriceMedium\" parent=\"TextAppearance.SoleStep.Title\">\n        <item name=\"android:textSize\">@dimen/font_price_medium</item>\n        <item name=\"android:textColor\">@color/brand_orange</item>\n        <item name=\"android:textStyle\">bold</item>\n    </style>\n\n    <!-- Price text — Small (product card) -->\n    <style name=\"TextAppearance.SoleStep.PriceSmall\" parent=\"TextAppearance.SoleStep.Body\">\n        <item name=\"android:textSize\">@dimen/font_price_small</item>\n        <item name=\"android:textColor\">@color/brand_orange</item>\n        <item name=\"android:textStyle\">bold</item>\n    </style>\n\n</resources>\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/values/themes.xml b/app/src/main/res/values/themes.xml
+--- a/app/src/main/res/values/themes.xml	(revision 7610b7c7bafc05d09e376f1012a871c2fc8f9027)
++++ b/app/src/main/res/values/themes.xml	(date 1782362818395)
+@@ -201,7 +201,7 @@
+     <style name="TextAppearance.SoleStep.Body" parent="TextAppearance.MaterialComponents.Body1">
+         <item name="android:textSize">@dimen/font_body</item>
+         <item name="android:textColor">@color/text_secondary</item>
+-        <item name="android:lineSpacingMultiplier">1.5</item>
++        <item name="android:lineSpacingMultiplier">1.0</item>
+     </style>
+ 
+     <!-- BodySmall — Hint text, secondary info -->
+Index: app/src/main/res/layout/activity_zalopay_payment.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/activity_zalopay_payment.xml b/app/src/main/res/layout/activity_zalopay_payment.xml
+new file mode 100644
+--- /dev/null	(date 1782362818395)
++++ b/app/src/main/res/layout/activity_zalopay_payment.xml	(date 1782362818395)
+@@ -0,0 +1,286 @@
++<?xml version="1.0" encoding="utf-8"?>
++<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:app="http://schemas.android.com/apk/res-auto"
++    xmlns:tools="http://schemas.android.com/tools"
++    android:id="@+id/main"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent"
++    android:background="@color/bg_primary"
++    tools:context=".user.QRPaymentActivity">
++
++    <LinearLayout
++        android:id="@+id/header"
++        android:layout_width="0dp"
++        android:layout_height="wrap_content"
++        android:background="@color/bg_primary"
++        android:gravity="center_vertical"
++        android:orientation="horizontal"
++        android:paddingStart="@dimen/space_screen_horizontal"
++        android:paddingTop="@dimen/space_screen_vertical"
++        android:paddingEnd="@dimen/space_screen_horizontal"
++        android:paddingBottom="@dimen/space_screen_vertical"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toTopOf="parent">
++
++        <ImageButton
++            android:id="@+id/back_button"
++            android:layout_width="@dimen/btn_icon_size"
++            android:layout_height="@dimen/btn_icon_size"
++            android:background="@drawable/bg_rounded_gray"
++            android:contentDescription="@string/action_back"
++            android:padding="@dimen/space_8"
++            android:src="@drawable/ic_arrow_back"
++            android:tint="@color/text_secondary" />
++
++        <TextView
++            android:id="@+id/qr_title_text"
++            android:layout_width="0dp"
++            android:layout_height="wrap_content"
++            android:layout_marginStart="@dimen/space_8"
++            android:layout_weight="1"
++            android:text="@string/qr_title"
++            android:textAppearance="@style/TextAppearance.SoleStep.Subheading" />
++    </LinearLayout>
++
++    <View
++        android:id="@+id/header_divider"
++        android:layout_width="0dp"
++        android:layout_height="@dimen/stroke_thin"
++        android:background="@color/border_light"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toBottomOf="@id/header" />
++
++    <ScrollView
++        android:id="@+id/content_scroll"
++        android:layout_width="0dp"
++        android:layout_height="0dp"
++        android:fillViewport="true"
++        android:overScrollMode="never"
++        app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toBottomOf="@id/header_divider">
++
++        <LinearLayout
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:gravity="center_horizontal"
++            android:orientation="vertical"
++            android:paddingStart="@dimen/space_screen_horizontal"
++            android:paddingTop="@dimen/space_10"
++            android:paddingEnd="@dimen/space_screen_horizontal"
++            android:paddingBottom="@dimen/space_12">
++
++            <LinearLayout
++                android:layout_width="match_parent"
++                android:layout_height="wrap_content"
++                android:background="@drawable/bg_amount_card"
++                android:gravity="center"
++                android:orientation="vertical"
++                android:padding="@dimen/space_card_padding">
++
++                <TextView
++                    android:layout_width="wrap_content"
++                    android:layout_height="wrap_content"
++                    android:text="@string/qr_label_amount"
++                    android:textAppearance="@style/TextAppearance.SoleStep.Caption"
++                    android:textColor="@color/text_dark_muted" />
++
++                <TextView
++                    android:id="@+id/qr_amount_text"
++                    android:layout_width="wrap_content"
++                    android:layout_height="wrap_content"
++                    android:layout_marginTop="@dimen/space_2"
++                    android:text="$377.97"
++                    android:textAppearance="@style/TextAppearance.SoleStep.PriceLarge"
++                    android:textColor="@color/brand_white" />
++
++                <TextView
++                    android:id="@+id/qr_order_id_text"
++                    android:layout_width="wrap_content"
++                    android:layout_height="wrap_content"
++                    android:text="Order #SS-10495"
++                    android:textAppearance="@style/TextAppearance.SoleStep.Caption"
++                    android:textColor="@color/text_dark_faint" />
++            </LinearLayout>
++
++            <FrameLayout
++                android:layout_width="wrap_content"
++                android:layout_height="wrap_content"
++                android:layout_marginTop="@dimen/space_12"
++                android:background="@drawable/bg_qr_frame"
++                android:elevation="@dimen/elev_raised"
++                android:padding="@dimen/qr_frame_padding">
++
++                <com.example.shoeapp.ui.FakeQrCodeView
++                    android:id="@+id/qr_code_view"
++                    android:layout_width="@dimen/qr_code_size"
++                    android:layout_height="@dimen/qr_code_size"
++                    android:layout_gravity="center" />
++
++            </FrameLayout>
++
++            <LinearLayout
++                android:layout_width="wrap_content"
++                android:layout_height="wrap_content"
++                android:layout_marginTop="@dimen/space_8"
++                android:gravity="center"
++                android:orientation="horizontal">
++
++                <View
++                    android:layout_width="6dp"
++                    android:layout_height="6dp"
++                    android:background="@drawable/bg_circle_orange" />
++
++                <TextView
++                    android:layout_width="wrap_content"
++                    android:layout_height="wrap_content"
++                    android:layout_marginStart="@dimen/space_4"
++                    android:text="@string/qr_expires"
++                    android:textAppearance="@style/TextAppearance.SoleStep.Caption" />
++
++                <TextView
++                    android:id="@+id/qr_timer_text"
++                    android:layout_width="wrap_content"
++                    android:layout_height="wrap_content"
++                    android:layout_marginStart="@dimen/space_2"
++                    android:text="14:58"
++                    android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
++                    android:textColor="@color/brand_orange"
++                    android:textStyle="bold" />
++
++            </LinearLayout>
++
++            <LinearLayout
++                android:id="@+id/payment_instructions_container"
++                android:layout_width="match_parent"
++                android:layout_height="wrap_content"
++                android:layout_marginTop="@dimen/space_10"
++                android:orientation="vertical">
++
++                <include layout="@layout/row_payment_instruction_1" />
++
++                <include layout="@layout/row_payment_instruction_2" />
++
++                <include layout="@layout/row_payment_instruction_3" />
++
++                <include layout="@layout/row_payment_instruction_4" />
++            </LinearLayout>
++
++            <LinearLayout
++                android:layout_width="match_parent"
++                android:layout_height="wrap_content"
++                android:layout_marginTop="@dimen/space_10"
++                android:background="@drawable/bg_input_light"
++                android:gravity="center_vertical"
++                android:orientation="horizontal"
++                android:padding="@dimen/space_8">
++
++                <LinearLayout
++                    android:layout_width="0dp"
++                    android:layout_height="wrap_content"
++                    android:layout_weight="1"
++                    android:orientation="vertical">
++
++                    <TextView
++                        android:layout_width="wrap_content"
++                        android:layout_height="wrap_content"
++                        android:text="@string/qr_label_ref"
++                        android:textAppearance="@style/TextAppearance.SoleStep.Caption" />
++
++                    <TextView
++                        android:id="@+id/qr_reference_text"
++                        android:layout_width="wrap_content"
++                        android:layout_height="wrap_content"
++                        android:text="SS-PAY-2026-10495"
++                        android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
++                        android:textColor="@color/text_primary"
++                        android:textStyle="bold" />
++                </LinearLayout>
++
++                <ImageButton
++                    android:id="@+id/copy_qr_reference_button"
++                    android:layout_width="@dimen/btn_icon_size_small"
++                    android:layout_height="@dimen/btn_icon_size_small"
++                    android:background="@drawable/bg_rounded_gray"
++                    android:contentDescription="@string/action_copy"
++                    android:padding="@dimen/space_6"
++                    android:src="@drawable/ic_copy"
++                    android:tint="@color/text_tertiary" />
++            </LinearLayout>
++
++            <TextView
++                android:id="@+id/qr_accepted_text"
++                android:layout_width="wrap_content"
++                android:layout_height="wrap_content"
++                android:layout_marginTop="@dimen/space_8"
++                android:text="@string/qr_accepted"
++                android:textAppearance="@style/TextAppearance.SoleStep.Caption" />
++
++            <LinearLayout
++                android:id="@+id/accepted_payments_container"
++                android:layout_width="wrap_content"
++                android:layout_height="wrap_content"
++                android:layout_marginTop="@dimen/space_4"
++                android:gravity="center"
++                android:orientation="horizontal">
++
++                <TextView
++                    android:id="@+id/accepted_payment_one"
++                    android:layout_width="wrap_content"
++                    android:layout_height="wrap_content"
++                    android:background="@drawable/bg_bank_chip"
++                    android:paddingStart="@dimen/space_6"
++                    android:paddingTop="@dimen/space_2"
++                    android:paddingEnd="@dimen/space_6"
++                    android:paddingBottom="@dimen/space_2"
++                    android:text="Chase"
++                    android:textAppearance="@style/TextAppearance.SoleStep.Caption" />
++
++                <TextView
++                    android:id="@+id/accepted_payment_two"
++                    android:layout_width="wrap_content"
++                    android:layout_height="wrap_content"
++                    android:layout_marginStart="@dimen/space_4"
++                    android:background="@drawable/bg_bank_chip"
++                    android:paddingStart="@dimen/space_6"
++                    android:paddingTop="@dimen/space_2"
++                    android:paddingEnd="@dimen/space_6"
++                    android:paddingBottom="@dimen/space_2"
++                    android:text="PayPal"
++                    android:textAppearance="@style/TextAppearance.SoleStep.Caption" />
++
++                <TextView
++                    android:id="@+id/accepted_payment_three"
++                    android:layout_width="wrap_content"
++                    android:layout_height="wrap_content"
++                    android:layout_marginStart="@dimen/space_4"
++                    android:background="@drawable/bg_bank_chip"
++                    android:paddingStart="@dimen/space_6"
++                    android:paddingTop="@dimen/space_2"
++                    android:paddingEnd="@dimen/space_6"
++                    android:paddingBottom="@dimen/space_2"
++                    android:text="Zelle"
++                    android:textAppearance="@style/TextAppearance.SoleStep.Caption" />
++            </LinearLayout>
++
++            <com.google.android.material.button.MaterialButton
++                android:id="@+id/simulate_payment_button"
++                style="@style/Widget.SoleStep.Button.Primary"
++                android:layout_width="match_parent"
++                android:layout_height="wrap_content"
++                android:layout_marginTop="@dimen/space_12"
++                android:text="@string/qr_btn_simulate_payment" />
++        </LinearLayout>
++    </ScrollView>
++
++    <include
++        layout="@layout/view_bottom_navigation"
++        android:layout_width="0dp"
++        android:layout_height="@dimen/bottom_nav_height"
++        app:layout_constraintBottom_toBottomOf="parent"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintStart_toStartOf="parent" />
++</androidx.constraintlayout.widget.ConstraintLayout>
+Index: app/src/main/AndroidManifest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    xmlns:tools=\"http://tools.android.com/tools\">\n\n    <uses-permission android:name=\"android.permission.INTERNET\" />\n    <uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\" />\n\n    <application\n        android:allowBackup=\"true\"\n        android:dataExtractionRules=\"@xml/data_extraction_rules\"\n        android:fullBackupContent=\"@xml/backup_rules\"\n        android:icon=\"@mipmap/ic_launcher\"\n        android:label=\"@string/app_name\"\n        android:roundIcon=\"@mipmap/ic_launcher_round\"\n        android:supportsRtl=\"true\"\n        android:theme=\"@style/Theme.SoleStep\">\n        <activity\n            android:name=\".admin.UserManagementActivity\"\n            android:exported=\"false\"\n            android:theme=\"@style/Theme.SoleStep.Admin\" />\n        <activity\n            android:name=\".user.ProductReviewActivity\"\n            android:exported=\"false\" />\n        <activity\n            android:name=\".user.ProductDetailActivity\"\n            android:exported=\"false\" />\n        <activity\n            android:name=\".user.CartActivity\"\n            android:exported=\"false\" />\n        <activity\n            android:name=\".user.CheckoutActivity\"\n            android:exported=\"false\" />\n        <activity\n            android:name=\".user.CatalogActivity\"\n            android:exported=\"false\" />\n        <activity\n            android:name=\".user.MyOrdersActivity\"\n            android:exported=\"false\" />\n        <activity\n            android:name=\".user.OrderDetailActivity\"\n            android:exported=\"false\" />\n        <activity\n            android:name=\".user.QRPaymentActivity\"\n            android:exported=\"false\" />\n        <activity\n            android:name=\".user.MainActivity\"\n            android:exported=\"false\" />\n\n        <activity\n            android:name=\".authentication.ChangePasswordActivity\"\n            android:exported=\"false\" />\n        <activity\n            android:name=\".authentication.LoginActivity\"\n            android:exported=\"true\">\n            <intent-filter>\n                <action android:name=\"android.intent.action.MAIN\" />\n                <category android:name=\"android.intent.category.LAUNCHER\" />\n            </intent-filter>\n        </activity>\n        <activity\n            android:name=\".authentication.SignUpActivity\"\n            android:exported=\"false\" />\n\n        <activity\n            android:name=\".admin.AdminDashboardActivity\"\n            android:exported=\"false\"\n            android:theme=\"@style/Theme.SoleStep.Admin\">\n<!--            <intent-filter>-->\n<!--                <action android:name=\"android.intent.action.MAIN\" />-->\n<!--                <category android:name=\"android.intent.category.LAUNCHER\" />-->\n<!--            </intent-filter>-->\n        </activity>\n\n\n        <activity\n            android:name=\".admin.AdminProductsActivity\"\n            android:exported=\"false\"\n            android:theme=\"@style/Theme.SoleStep.Admin\" />\n        <activity\n            android:name=\".admin.AdminOrderManagementActivity\"\n            android:exported=\"false\"\n            android:theme=\"@style/Theme.SoleStep.Admin\" />\n        <activity\n            android:name=\".admin.AdminCategoriesActivity\"\n            android:exported=\"false\"\n            android:theme=\"@style/Theme.SoleStep.Admin\" />\n        <activity\n            android:name=\".admin.AdminAddProductActivity\"\n            android:exported=\"false\"\n            android:theme=\"@style/Theme.SoleStep.Admin\" />\n        <activity\n            android:name=\".admin.AdminOrderDetailActivity\"\n            android:exported=\"false\"\n            android:theme=\"@style/Theme.SoleStep.Admin\" />\n        <activity\n            android:name=\".admin.AdminProductVariantActivity\"\n            android:exported=\"false\"\n            android:theme=\"@style/Theme.SoleStep.Admin\" />\n\n    </application>\n\n</manifest>\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/AndroidManifest.xml b/app/src/main/AndroidManifest.xml
+--- a/app/src/main/AndroidManifest.xml	(revision 7610b7c7bafc05d09e376f1012a871c2fc8f9027)
++++ b/app/src/main/AndroidManifest.xml	(date 1782362818380)
+@@ -9,11 +9,14 @@
+         android:allowBackup="true"
+         android:dataExtractionRules="@xml/data_extraction_rules"
+         android:fullBackupContent="@xml/backup_rules"
+-        android:icon="@mipmap/ic_launcher"
++        android:icon="@drawable/shoe_logo_app"
+         android:label="@string/app_name"
+-        android:roundIcon="@mipmap/ic_launcher_round"
++        android:roundIcon="@drawable/shoe_logo_app"
+         android:supportsRtl="true"
+         android:theme="@style/Theme.SoleStep">
++        <activity
++            android:name=".user.PaymentNotification"
++            android:exported="true" />
+         <activity
+             android:name=".admin.UserManagementActivity"
+             android:exported="false"
+@@ -29,7 +32,20 @@
+             android:exported="false" />
+         <activity
+             android:name=".user.CheckoutActivity"
+-            android:exported="false" />
++            android:exported="true"
++            android:label="Merchant Demo"
++            android:launchMode="singleTask">
++            <intent-filter>
++                <action android:name="android.intent.action.VIEW" />
++
++                <category android:name="android.intent.category.DEFAULT" />
++                <category android:name="android.intent.category.BROWSABLE" />
++
++                <data
++                    android:host="app"
++                    android:scheme="demozpdk" />
++            </intent-filter>
++        </activity>
+         <activity
+             android:name=".user.CatalogActivity"
+             android:exported="false" />
+@@ -45,7 +61,6 @@
+         <activity
+             android:name=".user.MainActivity"
+             android:exported="false" />
+-
+         <activity
+             android:name=".authentication.ChangePasswordActivity"
+             android:exported="false" />
+@@ -54,24 +69,23 @@
+             android:exported="true">
+             <intent-filter>
+                 <action android:name="android.intent.action.MAIN" />
++
+                 <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>
+         </activity>
+         <activity
+             android:name=".authentication.SignUpActivity"
+             android:exported="false" />
+-
+         <activity
+             android:name=".admin.AdminDashboardActivity"
+             android:exported="false"
+             android:theme="@style/Theme.SoleStep.Admin">
+-<!--            <intent-filter>-->
+-<!--                <action android:name="android.intent.action.MAIN" />-->
+-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+-<!--            </intent-filter>-->
++
++            <!-- <intent-filter> -->
++            <!-- <action android:name="android.intent.action.MAIN" /> -->
++            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
++            <!-- </intent-filter> -->
+         </activity>
+-
+-
+         <activity
+             android:name=".admin.AdminProductsActivity"
+             android:exported="false"
+@@ -96,7 +110,6 @@
+             android:name=".admin.AdminProductVariantActivity"
+             android:exported="false"
+             android:theme="@style/Theme.SoleStep.Admin" />
+-
+     </application>
+ 
+-</manifest>
++</manifest>
+\ No newline at end of file

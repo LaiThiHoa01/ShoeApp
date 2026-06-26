@@ -229,7 +229,7 @@
                     android:layout_margin="@dimen/space_2"
                     android:background="@drawable/bg_review_tag_selected"
                     android:gravity="center"
-                    android:text="Comfortable"
+                    android:text="Thoải mái"
                     android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
                     android:textColor="@color/brand_white"
                     android:textStyle="bold" />
@@ -242,7 +242,7 @@
                     android:layout_margin="@dimen/space_2"
                     android:background="@drawable/bg_review_tag"
                     android:gravity="center"
-                    android:text="True to size"
+                    android:text="Đúng kích cỡ"
                     android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
                     android:textColor="@color/text_secondary" />
 
@@ -254,7 +254,7 @@
                     android:layout_margin="@dimen/space_2"
                     android:background="@drawable/bg_review_tag_selected"
                     android:gravity="center"
-                    android:text="Great quality"
+                    android:text="Chất lượng tuyệt vời"
                     android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
                     android:textColor="@color/brand_white"
                     android:textStyle="bold" />
@@ -267,7 +267,7 @@
                     android:layout_margin="@dimen/space_2"
                     android:background="@drawable/bg_review_tag"
                     android:gravity="center"
-                    android:text="Fast delivery"
+                    android:text="Giao hàng nhanh"
                     android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
                     android:textColor="@color/text_secondary" />
             </GridLayout>
@@ -291,7 +291,6 @@
                 android:inputType="textMultiLine|textCapSentences"
                 android:maxLength="500"
                 android:padding="@dimen/space_8"
-                android:text="Great fit and the cushioning feels premium. The shoes stayed comfortable after a full day of walking."
                 android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
                 android:textColor="@color/text_secondary"
                 android:textColorHint="@color/text_placeholder" />
@@ -339,7 +338,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Add"
+                        android:text="Thêm"
                         android:textAppearance="@style/TextAppearance.SoleStep.Caption"
                         android:textColor="@color/text_placeholder" />
                 </LinearLayout>

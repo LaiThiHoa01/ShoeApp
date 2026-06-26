@@ -48,4 +48,7 @@ public interface CartDao {
 
     @Query("DELETE FROM cart_items WHERE id = :itemId")
     void deleteItemById(int itemId);
+
+    @Query("DELETE FROM cart_items WHERE cart_id = :cartId")
+    void deleteItemsByCart(int cartId);
 }

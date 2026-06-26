@@ -1,4 +1,4 @@
-package com.example.shoeapp.user;
+package com.example.shoeapp.user.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shoeapp.R;
 import com.example.shoeapp.data.model.CartItemView;
+import com.example.shoeapp.user.ClientCartRepository;
+import com.example.shoeapp.user.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;

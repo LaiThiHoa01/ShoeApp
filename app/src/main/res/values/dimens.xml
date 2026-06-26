@@ -33,7 +33,7 @@
     <!-- ─── Semantic spacing aliases ─── -->
     <dimen name="space_screen_horizontal">20dp</dimen>  <!-- Padding trái/phải màn hình -->
     <dimen name="space_screen_vertical">12dp</dimen>    <!-- Padding trên/dưới màn hình -->
-    <dimen name="space_card_padding">16dp</dimen>       <!-- Padding bên trong card -->
+    <dimen name="space_card_padding">10dp</dimen>       <!-- Padding bên trong card -->
     <dimen name="space_card_gap">12dp</dimen>           <!-- Khoảng cách giữa các card -->
     <dimen name="space_section_gap">24dp</dimen>        <!-- Khoảng cách giữa các section -->
     <dimen name="space_list_item_gap">8dp</dimen>       <!-- Khoảng cách list item -->
