@@ -58,9 +58,7 @@
         <activity
             android:name=".user.OrderDetailActivity"
             android:exported="false" />
-        <activity
-            android:name=".user.QRPaymentActivity"
-            android:exported="false" />
+
         <activity
             android:name=".user.MainActivity"
             android:exported="false" />

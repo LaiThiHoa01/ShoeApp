@@ -94,8 +94,7 @@ public class CheckoutActivity extends BaseSoleStepActivity {
         setupOptions();
         setupDefaults();
         refreshCheckout();
-        StrictMode.ThreadPolicy policy = new
-                StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
         // ZaloPay SDK Init
@@ -111,39 +110,50 @@ public class CheckoutActivity extends BaseSoleStepActivity {
                 double total = subtotal + deliveryFee - discount;
                 long amountVal = Math.round(total);
 
+                if ("COD".equals(selectedPayment)) {
+                    cartRepository.clearCart();
+                    Intent intent1 = new Intent(CheckoutActivity.this, PaymentNotification.class);
+                    intent1.putExtra("result", "Đặt hàng thành công");
+                    startActivity(intent1);
+                    return;
+                }
+
                 CreateOrder orderApi = new CreateOrder();
                 try {
                     JSONObject data = orderApi.createOrder(String.valueOf(amountVal));
                     if (data == null) {
-                        Toast.makeText(CheckoutActivity.this, "Không nhận được phản hồi từ ZaloPay", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CheckoutActivity.this, "Không nhận được phản hồi từ ZaloPay", Toast.LENGTH_SHORT)
+                                .show();
                         return;
                     }
                     Log.d("ZaloPayPayment", "Response: " + data.toString());
                     String code = data.getString("returncode");
                     if (code.equals("1")) {
                         String token = data.getString("zptranstoken");
-                        ZaloPaySDK.getInstance().payOrder(CheckoutActivity.this, token, "demozpdk://app", new PayOrderListener() {
-                            @Override
-                            public void onPaymentSucceeded(String s, String s1, String s2) {
-                                Intent intent1 = new Intent(CheckoutActivity.this, PaymentNotification.class);
-                                intent1.putExtra("result", "Thanh toán thành công");
-                                startActivity(intent1);
-                            }
+                        ZaloPaySDK.getInstance().payOrder(CheckoutActivity.this, token, "demozpdk://app",
+                                new PayOrderListener() {
+                                    @Override
+                                    public void onPaymentSucceeded(String s, String s1, String s2) {
+                                        cartRepository.clearCart();
+                                        Intent intent1 = new Intent(CheckoutActivity.this, PaymentNotification.class);
+                                        intent1.putExtra("result", "Thanh toán thành công");
+                                        startActivity(intent1);
+                                    }
 
-                            @Override
-                            public void onPaymentCanceled(String s, String s1) {
-                                Intent intent1 = new Intent(CheckoutActivity.this, PaymentNotification.class);
-                                intent1.putExtra("result", "Hủy thanh toán");
-                                startActivity(intent1);
-                            }
+                                    @Override
+                                    public void onPaymentCanceled(String s, String s1) {
+                                        Intent intent1 = new Intent(CheckoutActivity.this, PaymentNotification.class);
+                                        intent1.putExtra("result", "Hủy thanh toán");
+                                        startActivity(intent1);
+                                    }
 
-                            @Override
-                            public void onPaymentError(ZaloPayError zaloPayError, String s, String s1) {
-                                Intent intent1 = new Intent(CheckoutActivity.this, PaymentNotification.class);
-                                intent1.putExtra("result", "Lỗi thanh toán");
-                                startActivity(intent1);
-                            }
-                        });
+                                    @Override
+                                    public void onPaymentError(ZaloPayError zaloPayError, String s, String s1) {
+                                        Intent intent1 = new Intent(CheckoutActivity.this, PaymentNotification.class);
+                                        intent1.putExtra("result", "Lỗi thanh toán");
+                                        startActivity(intent1);
+                                    }
+                                });
                     } else {
                         String msg = data.optString("returnmessage", "Lỗi tạo đơn hàng");
                         Toast.makeText(CheckoutActivity.this, "Lỗi: " + msg, Toast.LENGTH_LONG).show();
@@ -151,7 +161,8 @@ public class CheckoutActivity extends BaseSoleStepActivity {
 
                 } catch (Exception e) {
                     e.printStackTrace();
-                    Toast.makeText(CheckoutActivity.this, "Đã xảy ra lỗi: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CheckoutActivity.this, "Đã xảy ra lỗi: " + e.getMessage(), Toast.LENGTH_SHORT)
+                            .show();
                 }
             }
         });
@@ -163,8 +174,6 @@ public class CheckoutActivity extends BaseSoleStepActivity {
         super.onResume();
         refreshCheckout();
     }
-
-
 
     private void setupList() {
         RecyclerView itemsList = findViewById(R.id.checkout_items_list);
@@ -212,7 +221,6 @@ public class CheckoutActivity extends BaseSoleStepActivity {
         paymentQr.setSelected("ZALOPAY".equals(payment));
         paymentCod.setSelected("COD".equals(payment));
     }
-
 
     private void refreshCheckout() {
         items.clear();
