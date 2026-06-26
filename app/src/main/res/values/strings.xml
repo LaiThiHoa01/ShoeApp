@@ -145,15 +145,18 @@
     <string name="orders_btn_rate">Đánh giá</string>
 
     <!-- ─── Order detail ─── -->
-    <string name="order_detail_title">Order Details</string>
-    <string name="order_detail_timeline">Order Timeline</string>
-    <string name="order_detail_items">Items Ordered</string>
-    <string name="order_detail_address">Shipping Address</string>
-    <string name="order_detail_payment">Payment Summary</string>
-    <string name="order_detail_ref">Order Reference</string>
-    <string name="order_detail_btn_invoice">Get Invoice</string>
-    <string name="order_detail_btn_rate">Rate Products</string>
-    <string name="order_detail_total_paid">Total Paid</string>
+    <string name="order_detail_title">Chi tiết đơn hàng</string>
+    <string name="order_detail_timeline">Tiến trình đơn hàng</string>
+    <string name="order_detail_items">Sản phẩm đã đặt</string>
+    <string name="order_detail_address">Địa chỉ nhận hàng</string>
+    <string name="order_detail_payment">Chi tiết thanh toán</string>
+    <string name="order_detail_ref">Mã tham chiếu đơn hàng</string>
+    <string name="order_detail_btn_invoice">Tải hóa đơn</string>
+    <string name="order_detail_btn_rate">Đánh giá sản phẩm</string>
+    <string name="order_detail_total_paid">Tổng thanh toán</string>
+    <string name="order_timeline_placed">Đã đặt hàng</string>
+    <string name="order_timeline_placed_desc">15 Tháng 5, 10:32 SA · Đơn hàng đã được xác nhận</string>
+    <string name="order_timeline_shipped_desc">16 Tháng 5, 9:00 SA · Đơn hàng đang được giao</string>
 
     <!-- ─── Review ─── -->
     <string name="review_title">Rate &amp; Review</string>
