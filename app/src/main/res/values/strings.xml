@@ -136,13 +136,13 @@
     <string name="qr_btn_simulate_payment">Simulate Payment</string>
 
     <!-- ─── Orders ─── -->
-    <string name="orders_title">My Orders</string>
-    <string name="orders_tab_all">All</string>
-    <string name="orders_tab_pending">Pending</string>
-    <string name="orders_tab_shipping">Shipping</string>
-    <string name="orders_tab_delivered">Delivered</string>
-    <string name="orders_btn_track">Track Order</string>
-    <string name="orders_btn_rate">Rate Products</string>
+    <string name="orders_title">Đơn hàng của tôi</string>
+    <string name="orders_tab_all">Tất cả</string>
+    <string name="orders_tab_pending">Chờ xử lý</string>
+    <string name="orders_tab_shipping">Đang giao</string>
+    <string name="orders_tab_delivered">Đã giao</string>
+    <string name="orders_btn_track">Theo dõi</string>
+    <string name="orders_btn_rate">Đánh giá</string>
 
     <!-- ─── Order detail ─── -->
     <string name="order_detail_title">Order Details</string>

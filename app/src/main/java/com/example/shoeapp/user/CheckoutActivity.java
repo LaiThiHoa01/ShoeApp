@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,6 +19,7 @@ import com.example.shoeapp.data.entity.User;
 import com.example.shoeapp.data.model.CartItemView;
 import com.example.shoeapp.ui.BaseSoleStepActivity;
 import com.example.shoeapp.ui.BottomNavHelper;
+import com.example.shoeapp.user.adapter.CheckoutItemAdapter;
 import com.google.android.material.button.MaterialButton;
 
 import org.json.JSONObject;
@@ -102,7 +102,6 @@ public class CheckoutActivity extends BaseSoleStepActivity {
         // ZaloPay SDK Init
         ZaloPaySDK.init(553, Environment.SANDBOX);
 
-        findViewById(R.id.back_button).setOnClickListener(v -> finish());
         placeOrderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
