@@ -14,7 +14,7 @@ import java.util.List;
 public interface OrderDao {
 
     // ── Order ─────────────────────────────────────────
-    @Insert void insert(Order order);
+    @Insert long insert(Order order);
     @Update void update(Order order);
     @Delete void delete(Order order);
     @Query("SELECT * FROM orders ORDER BY created_at DESC") List<Order> getAllOrders();

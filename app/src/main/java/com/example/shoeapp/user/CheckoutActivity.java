@@ -38,6 +38,7 @@ public class CheckoutActivity extends BaseSoleStepActivity {
     private static final double NEXT_DAY_SHIPPING = 90000;
 
     private ClientCartRepository cartRepository;
+    private ClientOrderRepository orderRepository;
     private CheckoutItemAdapter adapter;
     private final List<CartItemView> items = new ArrayList<>();
 
@@ -89,6 +90,7 @@ public class CheckoutActivity extends BaseSoleStepActivity {
         setupScreen(BottomNavHelper.TAG_CART);
 
         cartRepository = new ClientCartRepository(this);
+        orderRepository = new ClientOrderRepository(this);
         bindViews();
         setupList();
         setupOptions();
@@ -111,6 +113,7 @@ public class CheckoutActivity extends BaseSoleStepActivity {
                 long amountVal = Math.round(total);
 
                 if ("COD".equals(selectedPayment)) {
+                    saveOrderToDb("COD", "UNPAID");
                     cartRepository.clearCart();
                     Intent intent1 = new Intent(CheckoutActivity.this, PaymentNotification.class);
                     intent1.putExtra("result", "Đặt hàng thành công");
@@ -134,6 +137,7 @@ public class CheckoutActivity extends BaseSoleStepActivity {
                                 new PayOrderListener() {
                                     @Override
                                     public void onPaymentSucceeded(String s, String s1, String s2) {
+                                        saveOrderToDb("ZALOPAY", "PAID");
                                         cartRepository.clearCart();
                                         Intent intent1 = new Intent(CheckoutActivity.this, PaymentNotification.class);
                                         intent1.putExtra("result", "Thanh toán thành công");
@@ -167,6 +171,25 @@ public class CheckoutActivity extends BaseSoleStepActivity {
             }
         });
 
+    }
+
+    private void saveOrderToDb(String paymentMethod, String paymentStatus) {
+        double subtotal = cartRepository.subtotal(items);
+        double deliveryFee = items.isEmpty() ? 0 : shippingFee;
+        double discount = cartRepository.discount(items);
+        double total = subtotal + deliveryFee - discount;
+
+        orderRepository.saveOrder(
+                items,
+                deliveryFee,
+                subtotal,
+                total,
+                addressInput.getText().toString(),
+                phoneInput.getText().toString(),
+                paymentMethod,
+                paymentStatus,
+                noteInput.getText().toString()
+        );
     }
 
     @Override
