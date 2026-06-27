@@ -7,12 +7,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.shoeapp.R;
+import com.example.shoeapp.authentication.SessionManager;
 import com.example.shoeapp.data.AppDatabase;
 import com.example.shoeapp.data.entity.DeliveryAddress;
 import com.example.shoeapp.data.entity.User;
 import com.example.shoeapp.ui.BaseSoleStepActivity;
 import com.example.shoeapp.ui.BottomNavHelper;
 import com.google.android.material.button.MaterialButton;
+import com.example.shoeapp.admin.AdminDashboardActivity;
+import com.example.shoeapp.authentication.LoginActivity;
 
 public class ProfileActivity extends BaseSoleStepActivity {
     private TextView emailText;
@@ -39,6 +42,29 @@ public class ProfileActivity extends BaseSoleStepActivity {
             Intent intent = new Intent(ProfileActivity.this, AddressBookActivity.class);
             startActivity(intent);
         });
+
+        MaterialButton adminPageButton = findViewById(R.id.btn_admin_page);
+        MaterialButton logoutButton = findViewById(R.id.btn_logout);
+
+        if (SessionManager.isAdmin(this)) {
+            adminPageButton.setVisibility(View.VISIBLE);
+        } else {
+            adminPageButton.setVisibility(View.GONE);
+        }
+
+        adminPageButton.setOnClickListener(v -> {
+            Intent intent = new Intent(ProfileActivity.this, AdminDashboardActivity.class);
+            startActivity(intent);
+        });
+
+        logoutButton.setOnClickListener(v -> {
+            SessionManager.clear(ProfileActivity.this);
+
+            Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        });
     }
 
     @Override
@@ -55,24 +81,24 @@ public class ProfileActivity extends BaseSoleStepActivity {
     }
 
     private void loadUser() {
-        currentUser = db.userDao().getUserById(ClientCartRepository.DEMO_USER_ID);
+        int currentUserId = SessionManager.getUserId(this);
 
-        if (currentUser == null) {
-            currentUser = new User();
-            currentUser.id = ClientCartRepository.DEMO_USER_ID;
-            currentUser.email = "khachhang@solestep.vn";
-            currentUser.fullName = "Khách hàng";
-            currentUser.phoneNumber = "";
-            currentUser.role = "USER";
-            currentUser.isActive = true;
-            currentUser.createdAt = "2026-06-26";
-            currentUser.userId = "USR-DEMO-CLIENT";
-            db.userDao().insert(currentUser);
-            currentUser = db.userDao().getUserByEmail(currentUser.email);
+        if (currentUserId == -1) {
+            Toast.makeText(this, "Bạn chưa đăng nhập", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
         }
 
-        emailText.setText("Email: "+currentUser.email);
-        nameText.setText("Họ tên: "+currentUser.fullName);
+        currentUser = db.userDao().getUserById(currentUserId);
+
+        if (currentUser == null) {
+            Toast.makeText(this, "Không tìm thấy tài khoản", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+
+        emailText.setText("Email: " + currentUser.email);
+        nameText.setText("Họ tên: " + currentUser.fullName);
         avatarText.setText(getInitial(currentUser.fullName));
 
         loadDefaultAddress();

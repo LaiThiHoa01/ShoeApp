@@ -34,12 +34,12 @@
     <string name="auth_btn_continue">Tiếp tục</string>
     <string name="auth_btn_update_password">Cập nhật mật khẩu</string>
     <string name="auth_forgot_password">Quên mật khẩu?</string>
-    <string name="auth_no_account">Chưa có tài khoản? Đăng ký</string>
-    <string name="auth_have_account">Đã là thành viên? Đăng nhập</string>
+    <string name="auth_no_account">Chưa có tài khoản?</string>
+    <string name="auth_have_account">Đã là thành viên?</string>
     <string name="auth_google">Tiếp tục với Google</string>
     <string name="auth_label_email">Email</string>
     <string name="auth_label_password">Mật khẩu</string>
-    <string name="auth_label_current_password">Mật khẩu hiện tại</string>
+    <string name="auth_label_current_password">Email tài khoản</string>
     <string name="auth_label_new_password">Mật khẩu mới</string>
     <string name="auth_label_confirm_password">Xác nhận mật khẩu mới</string>
     <string name="auth_label_first_name">Tên</string>
@@ -64,7 +64,7 @@
     <string name="home_brands_title">Thương hiệu nổi bật</string>
     <string name="home_see_all">Xem tất cả</string>
     <string name="home_banner_label">Hàng mới</string>
-    <string name="home_banner_offer">Giảm đến 30% chỉ hôm nay</string>
+    <string name="home_banner_offer">Giảm đến 30%% chỉ hôm nay</string>
     <string name="home_banner_cta">Mua ngay</string>
 
     <!-- ─── Catalog &amp; filter ─── -->

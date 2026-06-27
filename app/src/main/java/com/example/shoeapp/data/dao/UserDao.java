@@ -38,4 +38,13 @@ public interface UserDao {
     List<CartItem> getCartItems(int cartId);
     @Query("DELETE FROM cart_items WHERE cart_id = :cartId")
     void clearCart(int cartId);
+
+    // ── Auth ──────────────────────────────────────
+    @Query("SELECT COUNT(*) FROM users WHERE email = :email")
+    int countByEmail(String email);
+
+    @Query("UPDATE users SET password_hash = :newPasswordHash WHERE email = :email")
+    void updatePasswordByEmail(String email, String newPasswordHash);
+
+
 }

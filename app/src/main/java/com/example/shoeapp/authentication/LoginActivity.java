@@ -74,53 +74,30 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void handleLogin() {
-        String email    = emailInput.getText().toString().trim();
+        String email = emailInput.getText().toString().trim();
         String password = passwordInput.getText().toString().trim();
 
-        // Validate input
-        if (TextUtils.isEmpty(email)) {
-            emailInput.setError("Vui lòng nhập email");
-            emailInput.requestFocus();
-            return;
-        }
-        if (TextUtils.isEmpty(password)) {
-            passwordInput.setError("Vui lòng nhập mật khẩu");
-            passwordInput.requestFocus();
-            return;
-        }
+        try {
+            AuthRepository authRepository = new AuthRepository(this);
+            User user = authRepository.login(email, password);
 
-        // Truy vấn user từ Room DB theo email
-        AppDatabase db   = AppDatabase.getDatabase(this);
-        User user        = db.userDao().getUserByEmail(email);
+            Toast.makeText(this, "Xin chào, " + user.fullName + "!", Toast.LENGTH_SHORT).show();
+            SessionManager.saveSession(this, user.id, user.role);
 
-        if (user == null) {
-            Toast.makeText(this, "Email không tồn tại", Toast.LENGTH_SHORT).show();
-            return;
+            Intent intent;
+            if ("ADMIN".equals(user.role)) {
+                intent = new Intent(this, AdminDashboardActivity.class);
+            } else {
+                intent = new Intent(this, MainActivity.class);
+            }
+
+            intent.putExtra("user_id", user.id);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+
+        } catch (AuthRepository.AuthException e) {
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
-
-        // So sánh mật khẩu plain text (test data)
-        if (!user.passwordHash.equals(password)) {
-            Toast.makeText(this, "Mật khẩu không đúng", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        if (!user.isActive) {
-            Toast.makeText(this, "Tài khoản đã bị khóa", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        // Điều hướng theo role
-        Toast.makeText(this, "Xin chào, " + user.fullName + "!", Toast.LENGTH_SHORT).show();
-
-        Intent intent;
-        if ("ADMIN".equals(user.role)) {
-            intent = new Intent(this, AdminDashboardActivity.class);
-        } else {
-            intent = new Intent(this, MainActivity.class);
-        }
-        intent.putExtra("user_id", user.id);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        finish();
     }
 }
