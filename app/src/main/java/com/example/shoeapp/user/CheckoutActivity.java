@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shoeapp.Api.CreateOrder;
 import com.example.shoeapp.R;
+import com.example.shoeapp.authentication.SessionManager;
 import com.example.shoeapp.data.AppDatabase;
 import com.example.shoeapp.data.entity.DeliveryAddress;
 import com.example.shoeapp.data.entity.User;
@@ -217,30 +218,42 @@ public class CheckoutActivity extends BaseSoleStepActivity {
 
     private void setupDefaults() {
         AppDatabase db = AppDatabase.getDatabase(this);
-        User user = db.userDao().getUserById(ClientCartRepository.DEMO_USER_ID);
-        if (user != null) {
-            try {
-                DeliveryAddress defaultAddress = db.addressDao().getDefaultAddress(user.userId);
-                if (defaultAddress != null) {
-//                    nameInput.setText(defaultAddress.receiverName);
-                    phoneInput.setText(defaultAddress.phoneNumber);
-                    addressInput.setText(defaultAddress.address);
-                } else {
-                    nameInput.setText(user.fullName);
-                    phoneInput.setText(user.phoneNumber);
-//                    addressInput.setText(user.address);
-                }
-            } catch (Exception e) {
-                Log.e("CheckoutActivity", "Lỗi lấy địa chỉ mặc định: " + e.getMessage());
-                nameInput.setText(user.fullName);
-                phoneInput.setText(user.phoneNumber);
-//                addressInput.setText(user.address);
-            }
-        } else {
-            nameInput.setText("Khách hàng");
-            phoneInput.setText("0900000000");
-            addressInput.setText("TP. Hồ Chí Minh");
+
+        int loggedInUserId = SessionManager.getUserId(this);
+        if (loggedInUserId == -1) {
+            Toast.makeText(this, "Bạn chưa đăng nhập", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
         }
+
+        User user = db.userDao().getUserById(loggedInUserId);
+        if (user == null) {
+            Toast.makeText(this, "Không tìm thấy thông tin tài khoản", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+
+        try {
+            DeliveryAddress defaultAddress = db.addressDao().getDefaultAddress(user.userId);
+
+            nameInput.setText(user.fullName);
+            phoneInput.setText(user.phoneNumber);
+
+            if (defaultAddress != null) {
+                phoneInput.setText(defaultAddress.phoneNumber);
+                addressInput.setText(defaultAddress.address);
+            } else {
+                addressInput.setText("");
+            }
+
+        } catch (Exception e) {
+            Log.e("CheckoutActivity", "Lỗi lấy địa chỉ mặc định: " + e.getMessage());
+
+            nameInput.setText(user.fullName);
+            phoneInput.setText(user.phoneNumber);
+            addressInput.setText("");
+        }
+
         selectDelivery(selectedDelivery, shippingFee);
         selectPayment(selectedPayment);
     }

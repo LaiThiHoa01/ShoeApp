@@ -16,8 +16,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shoeapp.R;
+import com.example.shoeapp.authentication.SessionManager;
 import com.example.shoeapp.data.AppDatabase;
 import com.example.shoeapp.data.entity.DeliveryAddress;
+import com.example.shoeapp.data.entity.User;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
@@ -37,10 +39,23 @@ public class AddressBookActivity extends AppCompatActivity {
 
         db = AppDatabase.getDatabase(this);
 
-        com.example.shoeapp.data.entity.User user = db.userDao().getUserById(ClientCartRepository.DEMO_USER_ID);
-        if (user != null) {
-            this.currentUserId = user.userId;
+        int loggedInUserId = SessionManager.getUserId(this);
+
+        if (loggedInUserId == -1) {
+            Toast.makeText(this, "Bạn chưa đăng nhập", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
         }
+
+        User user = db.userDao().getUserById(loggedInUserId);
+
+        if (user == null) {
+            Toast.makeText(this, "Không tìm thấy thông tin tài khoản", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+
+        this.currentUserId = user.userId;
 
         recyclerView = findViewById(R.id.address_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
