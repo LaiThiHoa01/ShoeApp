@@ -22,6 +22,9 @@ public interface UserDao {
     @Query("SELECT * FROM users WHERE id = :id") User getUserById(int id);
     @Query("SELECT * FROM users WHERE email = :email") User getUserByEmail(String email);
     @Query("SELECT * FROM users WHERE role = :role") List<User> getUsersByRole(String role);
+    
+    @Query("SELECT COUNT(*) FROM users WHERE role = 'CUSTOMER'")
+    int countCustomers();
 
     // ── Cart ──────────────────────────────────────────
     @Insert void insertCart(Cart cart);
