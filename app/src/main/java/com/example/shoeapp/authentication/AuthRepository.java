@@ -147,4 +147,46 @@ public class AuthRepository {
 
         userDao.updatePasswordByEmail(email, PasswordHasher.hash(newPassword));
     }
+
+    public User loginWithGoogle(String firebaseUid, String email, String fullName, String avatarUrl) throws AuthException {
+        if (isBlank(firebaseUid)) {
+            throw new AuthException("Không lấy được Firebase UID");
+        }
+
+        email = normalizeEmail(email);
+        validateEmail(email);
+
+        User user = userDao.getUserByFirebaseUid(firebaseUid);
+        if (user != null) {
+            if (!user.isActive) {
+                throw new AuthException("Tài khoản đã bị khóa");
+            }
+            return user;
+        }
+
+        user = userDao.getUserByEmail(email);
+        if (user != null) {
+            user.firebaseUid = firebaseUid;
+            user.fullName = isBlank(user.fullName) ? fullName : user.fullName;
+            user.avatarUrl = avatarUrl;
+            userDao.update(user);
+            return userDao.getUserByEmail(email);
+        }
+
+        User newUser = new User();
+        newUser.email = email;
+        newUser.passwordHash = "";
+        newUser.phoneNumber = "";
+        newUser.fullName = isBlank(fullName) ? "Google User" : fullName;
+        newUser.role = "CUSTOMER";
+        newUser.avatarUrl = avatarUrl;
+        newUser.firebaseUid = firebaseUid;
+        newUser.isActive = true;
+        newUser.createdAt = now();
+        newUser.userId = "USR" + System.currentTimeMillis();
+
+        userDao.insert(newUser);
+
+        return userDao.getUserByEmail(email);
+    }
 }

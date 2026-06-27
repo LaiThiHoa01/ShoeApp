@@ -76,6 +76,14 @@ public interface ProductDao {
     @Query("SELECT COUNT(*) FROM product")
     int countProducts();
 
+    // ── Queries for Admin Dashboard ───────────────────
+
+    /**
+     * Lấy danh sách sản phẩm bán chạy nhất dựa trên số lượng trong đơn hàng
+     */
+    @Query("SELECT p.* FROM product p INNER JOIN order_detail od ON p.id = od.product_id GROUP BY p.id ORDER BY SUM(od.quantity) DESC LIMIT :limit")
+    List<Product> getTopSellingProducts(int limit);
+
     // ── Brand ─────────────────────────────────────────
     @Update
     void updateBrand(Brand brand);
