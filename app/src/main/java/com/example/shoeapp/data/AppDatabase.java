@@ -53,7 +53,7 @@ import java.util.List;
         TokenType.class,
         User.class,
         DeliveryAddress.class
-}, version = 6, exportSchema = false)
+}, version = 8, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract UserDao userDao();

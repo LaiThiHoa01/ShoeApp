@@ -74,7 +74,7 @@ public class OrderDetailActivity extends BaseSoleStepActivity {
                 if (!items.isEmpty()) {
                     List<com.example.shoeapp.data.entity.ProductReview> reviews = db.productDao().getReviewsByProduct(items.get(0).productId);
                     for (com.example.shoeapp.data.entity.ProductReview r : reviews) {
-                        if (r.userId == order.userId) {
+                        if (r.userId == order.userId && r.orderId != null && r.orderId == order.id) {
                             alreadyReviewed = true;
                             break;
                         }
@@ -95,6 +95,16 @@ public class OrderDetailActivity extends BaseSoleStepActivity {
     private void populateData(Order order, User user, List<OrderItemView> items, boolean alreadyReviewed) {
         // Order Reference and Date
         ((TextView) findViewById(R.id.order_detail_id_text)).setText(order.ordersId);
+        ((TextView) findViewById(R.id.order_reference_text)).setText(order.ordersId);
+
+        findViewById(R.id.copy_order_reference_button).setOnClickListener(v -> {
+            android.content.ClipboardManager clipboard = (android.content.ClipboardManager) getSystemService(android.content.Context.CLIPBOARD_SERVICE);
+            android.content.ClipData clip = android.content.ClipData.newPlainText("Order Reference", order.ordersId);
+            if (clipboard != null) {
+                clipboard.setPrimaryClip(clip);
+                Toast.makeText(this, "Đã sao chép mã đơn hàng", Toast.LENGTH_SHORT).show();
+            }
+        });
         
         TextView dateText = findViewById(R.id.order_detail_date_text);
         try {
@@ -110,18 +120,20 @@ public class OrderDetailActivity extends BaseSoleStepActivity {
         TextView statusBadge = findViewById(R.id.order_detail_status_badge);
         if ("PENDING".equalsIgnoreCase(order.orderStatus)) {
             statusBadge.setText(R.string.orders_tab_pending);
-            statusBadge.setBackgroundResource(R.drawable.bg_status_pending);
-            statusBadge.setTextColor(getResources().getColor(R.color.brand_orange));
+            statusBadge.setActivated(false);
+            statusBadge.setSelected(false);
         } else if ("DELIVERED".equalsIgnoreCase(order.orderStatus) || "COMPLETED".equalsIgnoreCase(order.orderStatus)) {
             statusBadge.setText(R.string.status_delivered);
-            statusBadge.setBackgroundResource(R.drawable.bg_status_delivered);
-            statusBadge.setTextColor(getResources().getColor(R.color.status_success));
+            statusBadge.setActivated(true);
+            statusBadge.setSelected(false);
         } else if ("CANCELLED".equalsIgnoreCase(order.orderStatus)) {
             statusBadge.setText(R.string.status_cancelled);
-            statusBadge.setBackgroundResource(R.drawable.bg_status_cancelled);
-            statusBadge.setTextColor(getResources().getColor(R.color.status_error));
+            statusBadge.setActivated(false);
+            statusBadge.setSelected(true);
         } else {
             statusBadge.setText(order.orderStatus);
+            statusBadge.setActivated(false);
+            statusBadge.setSelected(false);
         }
 
         // Address
@@ -159,6 +171,7 @@ public class OrderDetailActivity extends BaseSoleStepActivity {
                 Intent intent = new Intent(this, ProductReviewActivity.class);
                 intent.putExtra("product_id", items.get(0).productId);
                 intent.putExtra("user_id", order.userId);
+                intent.putExtra("order_id", order.id);
                 startActivity(intent);
             });
         } else {
