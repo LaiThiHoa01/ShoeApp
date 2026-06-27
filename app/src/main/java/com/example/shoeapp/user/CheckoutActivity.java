@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.shoeapp.Api.CreateOrder;
 import com.example.shoeapp.R;
 import com.example.shoeapp.data.AppDatabase;
+import com.example.shoeapp.data.entity.DeliveryAddress;
 import com.example.shoeapp.data.entity.User;
 import com.example.shoeapp.data.model.CartItemView;
 import com.example.shoeapp.ui.BaseSoleStepActivity;
@@ -195,6 +196,7 @@ public class CheckoutActivity extends BaseSoleStepActivity {
     protected void onResume() {
         super.onResume();
         refreshCheckout();
+        setupDefaults();
     }
 
     private void setupList() {
@@ -217,9 +219,23 @@ public class CheckoutActivity extends BaseSoleStepActivity {
         AppDatabase db = AppDatabase.getDatabase(this);
         User user = db.userDao().getUserById(ClientCartRepository.DEMO_USER_ID);
         if (user != null) {
-            nameInput.setText(user.fullName);
-            phoneInput.setText(user.phoneNumber);
-            addressInput.setText(user.address);
+            try {
+                DeliveryAddress defaultAddress = db.addressDao().getDefaultAddress(user.userId);
+                if (defaultAddress != null) {
+//                    nameInput.setText(defaultAddress.receiverName);
+                    phoneInput.setText(defaultAddress.phoneNumber);
+                    addressInput.setText(defaultAddress.address);
+                } else {
+                    nameInput.setText(user.fullName);
+                    phoneInput.setText(user.phoneNumber);
+//                    addressInput.setText(user.address);
+                }
+            } catch (Exception e) {
+                Log.e("CheckoutActivity", "Lỗi lấy địa chỉ mặc định: " + e.getMessage());
+                nameInput.setText(user.fullName);
+                phoneInput.setText(user.phoneNumber);
+//                addressInput.setText(user.address);
+            }
         } else {
             nameInput.setText("Khách hàng");
             phoneInput.setText("0900000000");

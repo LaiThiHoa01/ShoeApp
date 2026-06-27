@@ -127,7 +127,7 @@ public class ClientCartRepository {
         user.email = "khachhang@solestep.vn";
         user.passwordHash = "";
         user.phoneNumber = "0900000000";
-        user.address = "TP. Hồ Chí Minh";
+//        user.address = "TP. Hồ Chí Minh";
         user.role = "USER";
         user.fullName = "Khách hàng";
         user.avatarUrl = "";
