@@ -23,7 +23,7 @@ public class User {
     @ColumnInfo(name = "phone_number")
     public String phoneNumber;
 
-    public String address;
+//    public String address;
     public String role;
 
     @ColumnInfo(name = "full_name")

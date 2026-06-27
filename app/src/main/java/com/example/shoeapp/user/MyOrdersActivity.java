@@ -3,11 +3,13 @@ package com.example.shoeapp.user;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shoeapp.R;
+import com.example.shoeapp.authentication.SessionManager;
 import com.example.shoeapp.data.AppDatabase;
 import com.example.shoeapp.data.model.OrderView;
 import com.example.shoeapp.ui.BaseSoleStepActivity;
@@ -71,16 +73,26 @@ public class MyOrdersActivity extends BaseSoleStepActivity {
     }
 
     private void loadOrdersFromDb() {
+        int loggedInUserId = SessionManager.getUserId(this);
+
+        if (loggedInUserId == -1) {
+            Toast.makeText(this, "Bạn chưa đăng nhập", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+
         new Thread(() -> {
-            List<OrderView> list = db.orderDao().getOrdersByUserWithCount(ClientCartRepository.DEMO_USER_ID);
+            List<OrderView> list = db.orderDao().getOrdersByUserWithCount(loggedInUserId);
+
             runOnUiThread(() -> {
                 allOrders.clear();
+
                 if (list != null) {
                     allOrders.addAll(list);
                 }
+
                 badgeText.setText(String.valueOf(allOrders.size()));
-                
-                // Refresh list based on the currently selected tab
+
                 if (tabAll.isSelected()) {
                     filterOrders("ALL");
                 } else if (tabPending.isSelected()) {

@@ -14,27 +14,27 @@ import java.util.List;
 import java.util.Locale;
 
 public class ClientCartRepository {
-    public static final int DEMO_USER_ID = 1;
     private static final double SHIPPING_FEE = 30000;
     private final CartDao cartDao;
+    private final int userId;
 
     public ClientCartRepository(Context context) {
         cartDao = AppDatabase.getDatabase(context).cartDao();
-        ensureDemoUser();
+        userId = com.example.shoeapp.authentication.SessionManager.getUserId(context);
     }
 
     public Cart getCart() {
-        Cart cart = cartDao.getCartByUser(DEMO_USER_ID);
+        Cart cart = cartDao.getCartByUser(userId);
         if (cart != null) {
             return cart;
         }
         Cart newCart = new Cart();
         newCart.id = 1;
-        newCart.userId = DEMO_USER_ID;
+        newCart.userId = userId;
         newCart.createdAt = "2026-06-23";
         newCart.updatedAt = "2026-06-23";
         cartDao.insertCart(newCart);
-        return cartDao.getCartByUser(DEMO_USER_ID);
+        return cartDao.getCartByUser(userId);
     }
 
     public void addToCart(int productId, int colorId, int sizeId, int quantity, double unitPrice) {
@@ -123,11 +123,11 @@ public class ClientCartRepository {
 
     private void ensureDemoUser() {
         User user = new User();
-        user.id = DEMO_USER_ID;
+        user.id = userId;
         user.email = "khachhang@solestep.vn";
         user.passwordHash = "";
         user.phoneNumber = "0900000000";
-        user.address = "TP. Hồ Chí Minh";
+//        user.address = "TP. Hồ Chí Minh";
         user.role = "USER";
         user.fullName = "Khách hàng";
         user.avatarUrl = "";

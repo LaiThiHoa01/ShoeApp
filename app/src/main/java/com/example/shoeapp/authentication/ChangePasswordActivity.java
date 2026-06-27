@@ -1,9 +1,14 @@
 package com.example.shoeapp.authentication;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.text.method.PasswordTransformationMethod;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +19,9 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.shoeapp.R;
 
 public class ChangePasswordActivity extends AppCompatActivity {
+    private EditText emailInput;
+    private EditText newPasswordInput;
+    private EditText confirmPasswordInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,19 +35,75 @@ public class ChangePasswordActivity extends AppCompatActivity {
             return insets;
         });
 
+        emailInput = findViewById(R.id.emailInput);
+        newPasswordInput = findViewById(R.id.newPasswordInput);
+        confirmPasswordInput = findViewById(R.id.confirmPasswordInput);
+        View confirmPasswordField = findViewById(R.id.confirmPasswordField);
+
         findViewById(R.id.backButton).setOnClickListener(view -> finish());
-        setupPasswordToggle(R.id.currentPasswordInput, R.id.currentPasswordVisibility);
+
         setupPasswordToggle(R.id.newPasswordInput, R.id.newPasswordVisibility);
         setupPasswordToggle(R.id.confirmPasswordInput, R.id.confirmPasswordVisibility);
-        findViewById(R.id.updatePasswordButton).setOnClickListener(view -> finish());
+
+        findViewById(R.id.updatePasswordButton).setOnClickListener(view -> handleForgotPassword());
+
+
+        TextView checkMarkIcon = findViewById(R.id.checkMarkIcon);
+        TextView passwordMatchText = findViewById(R.id.passwordMatchText);
+
+        TextWatcher passwordWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String newPass = newPasswordInput.getText().toString();
+                String confirmPass = confirmPasswordInput.getText().toString();
+
+                if (!newPass.isEmpty() && newPass.equals(confirmPass)) {
+                    checkMarkIcon.setVisibility(View.VISIBLE);
+                    passwordMatchText.setVisibility(View.VISIBLE);
+                    confirmPasswordField.setBackgroundResource(R.drawable.bg_change_password_valid);
+                } else {
+                    checkMarkIcon.setVisibility(View.GONE);
+                    passwordMatchText.setVisibility(View.GONE);
+                    confirmPasswordField.setBackgroundResource(R.drawable.bg_signup_field);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        };
+
+        newPasswordInput.addTextChangedListener(passwordWatcher);
+        confirmPasswordInput.addTextChangedListener(passwordWatcher);
+    }
+
+    private void handleForgotPassword() {
+        String email = emailInput.getText().toString().trim();
+        String newPassword = newPasswordInput.getText().toString().trim();
+        String confirmPassword = confirmPasswordInput.getText().toString().trim();
+
+        try {
+            AuthRepository authRepository = new AuthRepository(this);
+            authRepository.forgotPassword(email, newPassword, confirmPassword);
+
+            Toast.makeText(this, "Đặt lại mật khẩu thành công", Toast.LENGTH_SHORT).show();
+            finish();
+
+        } catch (AuthRepository.AuthException e) {
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void setupPasswordToggle(int inputId, int buttonId) {
         EditText passwordInput = findViewById(inputId);
         ImageButton visibilityButton = findViewById(buttonId);
+
         visibilityButton.setOnClickListener(view -> {
             boolean passwordHidden =
                     passwordInput.getTransformationMethod() instanceof PasswordTransformationMethod;
+
             if (passwordHidden) {
                 passwordInput.setTransformationMethod(null);
                 visibilityButton.setContentDescription(getString(R.string.auth_hide_password));
@@ -47,6 +111,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
                 passwordInput.setTransformationMethod(PasswordTransformationMethod.getInstance());
                 visibilityButton.setContentDescription(getString(R.string.auth_show_password));
             }
+
             passwordInput.setSelection(passwordInput.length());
         });
     }

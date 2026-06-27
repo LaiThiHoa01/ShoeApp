@@ -6,7 +6,9 @@ import android.text.Spanned;
 import android.text.method.PasswordTransformationMethod;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
+import android.content.Intent;
 import android.widget.EditText;
+import android.widget.Toast;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -18,6 +20,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.shoeapp.R;
+import com.example.shoeapp.data.entity.User;
+import com.example.shoeapp.user.MainActivity;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -38,6 +42,38 @@ public class SignUpActivity extends AppCompatActivity {
 
         findViewById(R.id.signInLink).setOnClickListener(view -> finish());
         findViewById(R.id.bottomSignInLink).setOnClickListener(view -> finish());
+        findViewById(R.id.continueButton).setOnClickListener(view -> handleSignUp());
+    }
+
+    private void handleSignUp() {
+        EditText firstNameInput = findViewById(R.id.firstNameInput);
+        EditText lastNameInput = findViewById(R.id.lastNameInput);
+        EditText emailInput = findViewById(R.id.emailInput);
+        EditText phoneInput = findViewById(R.id.phoneInput);
+        EditText passwordInput = findViewById(R.id.passwordInput);
+
+        String firstName = firstNameInput.getText().toString().trim();
+        String lastName = lastNameInput.getText().toString().trim();
+        String email = emailInput.getText().toString().trim();
+        String phone = phoneInput.getText().toString().trim();
+        String password = passwordInput.getText().toString().trim();
+
+        try {
+            AuthRepository authRepository = new AuthRepository(this);
+            User user = authRepository.register(firstName, lastName, email, phone, password);
+
+            Toast.makeText(this, "Đăng ký thành công", Toast.LENGTH_SHORT).show();
+            SessionManager.saveUserId(this, user.id);
+
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra("user_id", user.id);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+
+        } catch (AuthRepository.AuthException e) {
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void setupPasswordToggle() {
@@ -85,4 +121,5 @@ public class SignUpActivity extends AppCompatActivity {
                 start + target.length(),
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
+
 }
