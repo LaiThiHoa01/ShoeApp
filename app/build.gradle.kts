@@ -59,12 +59,12 @@ android {
 }
 
 dependencies {
+    implementation(libs.activity.ktx)
     implementation(fileTree(mapOf(
-        "dir" to "/Users/laiqua/Downloads/ZaloPayLib",
+        "dir" to "D:\\Mobile\\ZaloPayLib",
         "include" to listOf("*.aar", "*.jar"),
         "exclude" to listOf("")
     )))
-    implementation(libs.activity.ktx)
     val room_version = "2.6.1"
     implementation("androidx.room:room-runtime:$room_version")
     annotationProcessor("androidx.room:room-compiler:$room_version")

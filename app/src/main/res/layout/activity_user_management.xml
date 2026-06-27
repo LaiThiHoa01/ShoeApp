@@ -30,13 +30,15 @@
 
                 <TextView
                     android:id="@+id/tv_title"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="12dp"
                     android:text="@string/admin_users_title"
                     android:textColor="@color/text_dark_primary"
                     android:textSize="26sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/btn_add_user"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -75,6 +77,7 @@
                     app:tint="@color/text_dark_muted" />
 
                 <EditText
+                    android:id="@+id/et_search_users"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
