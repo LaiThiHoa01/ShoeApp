@@ -301,8 +301,17 @@ public class CheckoutActivity extends BaseSoleStepActivity {
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data != null) {
+            ZaloPaySDK.getInstance().onResult(data);
+        }
+    }
+
+    @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+        setIntent(intent);
         ZaloPaySDK.getInstance().onResult(intent);
     }
 }

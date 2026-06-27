@@ -29,7 +29,6 @@ public class ClientCartRepository {
             return cart;
         }
         Cart newCart = new Cart();
-        newCart.id = 1;
         newCart.userId = userId;
         newCart.createdAt = "2026-06-23";
         newCart.updatedAt = "2026-06-23";

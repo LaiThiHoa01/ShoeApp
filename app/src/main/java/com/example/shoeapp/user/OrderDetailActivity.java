@@ -135,9 +135,11 @@ public class OrderDetailActivity extends BaseSoleStepActivity {
         ((TextView) findViewById(R.id.shipping_phone_text)).setText(order.phoneNumber);
 
         // Payment
-        ((TextView) findViewById(R.id.payment_method_text)).setText(
-                "MOMO".equalsIgnoreCase(order.paymentMethod) ? "Ví MoMo" : "Thanh toán khi nhận hàng (COD)"
-        );
+        String methodText = "Thanh toán khi nhận hàng (COD)";
+        if ("ZALOPAY".equalsIgnoreCase(order.paymentMethod)) {
+            methodText = "Ví ZaloPay";
+        }
+        ((TextView) findViewById(R.id.payment_method_text)).setText(methodText);
         
         NumberFormat formatter = NumberFormat.getNumberInstance(new Locale("vi", "VN"));
         ((TextView) findViewById(R.id.payment_subtotal_value)).setText(formatter.format(order.subTotal) + " đ");

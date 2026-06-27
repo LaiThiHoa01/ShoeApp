@@ -362,7 +362,7 @@ public abstract class AppDatabase extends RoomDatabase {
             o2.shippingAddress = "456 Đường User, Hà Nội";
             o2.phoneNumber = "0987654321";
             o2.orderStatus = "SHIPPED";
-            o2.paymentMethod = "MOMO";
+            o2.paymentMethod = "ZALOPAY";
             o2.paymentStatus = "PAID";
             o2.orderNote = "";
             o2.shippingStatus = "SHIPPING";
