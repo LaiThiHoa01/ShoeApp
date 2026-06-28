@@ -32,4 +32,9 @@ public class Helpers {
     public static String getMac(@NotNull String key, @NotNull String data) throws NoSuchAlgorithmException, InvalidKeyException {
         return Objects.requireNonNull(HMacUtil.HMacHexStringEncode(HMacUtil.HMACSHA256, key, data));
      }
+
+    public static String formatPrice(double price) {
+        java.text.NumberFormat formatter = java.text.NumberFormat.getNumberInstance(new java.util.Locale("vi", "VN"));
+        return formatter.format(Math.round(price)) + " đ";
+    }
 }

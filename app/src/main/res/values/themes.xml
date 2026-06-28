@@ -79,7 +79,7 @@
 
         <item name="android:statusBarColor">@color/bg_dark_primary</item>
         <item name="android:navigationBarColor">@color/bg_dark_primary</item>
-        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
 
         <item name="android:windowBackground">@color/bg_dark_primary</item>
 

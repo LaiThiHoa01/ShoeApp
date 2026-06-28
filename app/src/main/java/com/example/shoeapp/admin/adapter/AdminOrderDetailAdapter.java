@@ -93,8 +93,8 @@ public class AdminOrderDetailAdapter extends RecyclerView.Adapter<AdminOrderDeta
             tvName.setText(item.productName != null ? item.productName : "Giày");
             tvSize.setText("Kích cỡ: " + (item.sizeName != null ? item.sizeName : "—"));
             tvColor.setText(item.colorName != null ? item.colorName : "—");
-            tvQtyPrice.setText(String.format(Locale.US, "$%.2f x %d", item.unitPrice, item.quantity));
-            tvSubtotal.setText(String.format(Locale.US, "$%.2f", item.subtotal));
+            tvQtyPrice.setText(com.example.shoeapp.Helper.Helpers.formatPrice(item.unitPrice) + " x " + item.quantity);
+            tvSubtotal.setText(com.example.shoeapp.Helper.Helpers.formatPrice(item.subtotal));
 
             // Load product image dynamically
             if (item.imageUrl != null && !item.imageUrl.isEmpty()) {

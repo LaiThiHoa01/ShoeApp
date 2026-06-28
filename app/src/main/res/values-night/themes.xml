@@ -5,7 +5,7 @@
   ║  Tự động áp dụng khi người dùng bật Dark Mode trên thiết bị  ║
   ╚══════════════════════════════════════════════════════════════╝
 -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="Theme.SoleStep" parent="Theme.MaterialComponents.DayNight.NoActionBar">
 
@@ -33,6 +33,11 @@
 
         <!-- Window -->
         <item name="android:windowBackground">@color/bg_dark_primary</item>
+    </style>
+
+    <!-- Admin override for dark mode (keep status bar white icons) -->
+    <style name="Theme.SoleStep.Admin" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
     </style>
 
 </resources>

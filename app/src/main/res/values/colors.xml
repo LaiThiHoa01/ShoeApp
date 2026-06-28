@@ -35,7 +35,7 @@
     <color name="bg_tertiary">#F4F4F4</color>
     <color name="bg_input">#F0F0F2</color>
 
-    <!-- Dark mode backgrounds (admin + canvas) -> Đã chuyển sang Light Mode -->
+    <!-- Dark mode backgrounds (admin + canvas) -> Đã chuyển sang Light Mode nền trắng -->
     <color name="bg_dark_primary">#FFFFFF</color>
     <color name="bg_dark_secondary">#F8F8F8</color>
     <color name="bg_dark_surface_1">#FFFFFF</color>
@@ -54,13 +54,16 @@
     <color name="text_placeholder">#D1D5DB</color>
     <color name="text_disabled">#E5E7EB</color>
 
-    <!-- Dark theme text -->
-    <color name="text_dark_primary">#0A0A0A</color>
-    <color name="text_dark_secondary">#374151</color>
-    <color name="text_dark_tertiary">#374151</color>
-    <color name="text_dark_muted">#374151</color>
-    <color name="text_dark_faint">#374151</color>
-    <color name="text_dark_ghost">#374151</color>
+
+
+    <!-- Light theme text values for text_dark_ (used for Admin screens in light mode) -->
+    <color name="text_dark_primary">#0A0A0A</color>     <!-- Chữ đen chính -->
+    <color name="text_dark_secondary">#374151</color>   <!-- Chữ xám đậm -->
+    <color name="text_dark_tertiary">#6B7280</color>    <!-- Chữ xám vừa -->
+    <color name="text_dark_muted">#9CA3AF</color>       <!-- Chữ xám nhạt -->
+    <color name="text_dark_faint">#D1D5DB</color>
+    <color name="text_dark_ghost">#E5E7EB</color>
+
 
     <!-- Accent text -->
     <color name="text_accent">#FF5500</color>

@@ -105,7 +105,7 @@ public class AdminOrderAdapter
             orderId.setText(order.getOrderId());
             customerName.setText(order.getCustomerName());
             date.setText(order.getDate());
-            total.setText(String.format(Locale.US, "$%.2f", order.getTotal()));
+            total.setText(com.example.shoeapp.Helper.Helpers.formatPrice(order.getTotal()));
 
             int count = order.getItemCount();
             itemCount.setText(context.getResources()
@@ -125,7 +125,7 @@ public class AdminOrderAdapter
                 case PROCESSING:
                     btnAction.setVisibility(View.VISIBLE);
                     btnAction.setText(context.getString(R.string.admin_mark_shipped));
-                    btnAction.setIconResource(R.drawable.ic_truck);
+                    btnAction.setIcon(null);
                     btnAction.setEnabled(true);
                     btnAction.setBackgroundTintList(
                             ContextCompat.getColorStateList(context, R.color.brand_orange));
@@ -144,7 +144,7 @@ public class AdminOrderAdapter
                 case SHIPPED:
                     btnAction.setVisibility(View.VISIBLE);
                     btnAction.setText(context.getString(R.string.admin_mark_delivered));
-                    btnAction.setIconResource(R.drawable.ic_check_circle);
+                    btnAction.setIcon(null);
                     btnAction.setEnabled(true);
                     btnAction.setBackgroundTintList(
                             ContextCompat.getColorStateList(context, R.color.status_info));
@@ -158,7 +158,7 @@ public class AdminOrderAdapter
                 case DELIVERED:
                     btnAction.setVisibility(View.VISIBLE);
                     btnAction.setText(context.getString(R.string.admin_order_completed));
-                    btnAction.setIconResource(R.drawable.ic_check_circle);
+                    btnAction.setIcon(null);
                     btnAction.setEnabled(false);
                     btnAction.setBackgroundTintList(
                             ContextCompat.getColorStateList(context, R.color.status_success_bg));
@@ -170,7 +170,7 @@ public class AdminOrderAdapter
                 case CANCELLED:
                     btnAction.setVisibility(View.VISIBLE);
                     btnAction.setText(context.getString(R.string.status_cancelled));
-                    btnAction.setIconResource(R.drawable.ic_clock);
+                    btnAction.setIcon(null);
                     btnAction.setEnabled(false);
                     btnAction.setBackgroundTintList(
                             ContextCompat.getColorStateList(context, R.color.status_error_bg));

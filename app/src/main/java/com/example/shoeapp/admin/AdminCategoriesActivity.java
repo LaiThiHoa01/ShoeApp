@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class AdminCategoriesActivity extends AppCompatActivity
+public class AdminCategoriesActivity extends BaseAdminActivity
         implements AdminCategoryAdapter.OnCategoryActionListener {
 
     private RecyclerView         recyclerView;

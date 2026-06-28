@@ -37,7 +37,7 @@ import android.widget.Toast;
 /**
  * Dashboard Admin - Đã sửa lỗi StatusBar và Navigation Menu.
  */
-public class AdminDashboardActivity extends AppCompatActivity {
+public class AdminDashboardActivity extends BaseAdminActivity {
 
     private AppDatabase db;
     private final DecimalFormat currencyFormat = new DecimalFormat("#,### ₫");
@@ -58,6 +58,8 @@ public class AdminDashboardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_admin_dashboard);
 
         db = AppDatabase.getDatabase(this);
+        // Đảm bảo dữ liệu mẫu (24 sản phẩm và 5 đơn hàng) được nạp đầy đủ nếu chưa có
+        new com.example.shoeapp.user.ClientProductRepository(this).ensureSeedData();
 
         // 2. Xử lý vùng an toàn (Insets) để không bị đè bởi StatusBar và NavBar hệ thống
         View root = findViewById(R.id.admin_dashboard_root);
@@ -111,7 +113,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
             bottomNav.setOnItemSelectedListener(item -> {
                 int id = item.getItemId();
                 if (id == R.id.nav_dashboard) return true;
-                
+
                 Intent intent = null;
                 if (id == R.id.nav_users) {
                     intent = new Intent(this, UserManagementActivity.class);
@@ -122,7 +124,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
                 } else if (id == R.id.nav_orders) {
                     intent = new Intent(this, AdminOrderManagementActivity.class);
                 }
-                
+
                 if (intent != null) {
                     startActivity(intent);
                     overridePendingTransition(0, 0); // Hiệu ứng mượt mà
@@ -177,7 +179,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
             int orderCount = db.orderDao().countOrders();
             int productCount = db.productDao().countProducts();
             int customerCount = db.userDao().countCustomers();
-            
+
             Double totalRevValue = db.orderDao().getTotalRevenue();
             double totalRevenue = (totalRevValue != null) ? totalRevValue : 0.0;
 
@@ -222,7 +224,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
             TextView tvCustomers = findViewById(R.id.tv_stat_customers_value);
             if (tvCustomers != null) tvCustomers.setText(String.valueOf(customerCount));
-            
+
             TextView tvStatRev = findViewById(R.id.tv_stat_revenue_value);
             if (tvStatRev != null) {
                 if (totalRevenue >= 1000000) {
@@ -241,7 +243,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
     private void loadRecentOrdersList() {
         LinearLayout container = findViewById(R.id.layout_recent_orders);
         if (container == null) return;
-        
+
         container.removeAllViews();
         List<OrderWithUser> recentOrders = db.orderDao().getRecentOrdersWithUser(4);
         LayoutInflater inflater = LayoutInflater.from(this);
@@ -258,7 +260,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
             if (tvOrderId != null) tvOrderId.setText(item.order.ordersId);
             if (tvCustName != null) tvCustName.setText(item.userName);
             if (tvPrice != null) tvPrice.setText(currencyFormat.format(item.order.grandTotal));
-            
+
             if (tvStatus != null) {
                 String status = item.order.orderStatus;
                 if ("DELIVERED".equals(status)) {
@@ -286,7 +288,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
     private void loadTopProductsList() {
         LinearLayout container = findViewById(R.id.layout_top_products);
         if (container == null) return;
-        
+
         container.removeAllViews();
         List<Product> products = db.productDao().getTopSellingProducts(5);
         if (products.isEmpty()) products = db.productDao().getAllProducts();

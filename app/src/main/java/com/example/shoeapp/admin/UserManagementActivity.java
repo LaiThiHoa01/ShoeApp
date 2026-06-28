@@ -28,7 +28,7 @@ import com.google.android.material.tabs.TabLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserManagementActivity extends AppCompatActivity implements AdminUserAdapter.OnUserActionListener {
+public class UserManagementActivity extends BaseAdminActivity implements AdminUserAdapter.OnUserActionListener {
 
     private AppDatabase db;
     private AdminUserAdapter adapter;
