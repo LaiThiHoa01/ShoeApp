@@ -92,6 +92,11 @@ public class CheckoutActivity extends BaseSoleStepActivity {
         setupScreen(BottomNavHelper.TAG_CART);
 
         cartRepository = new ClientCartRepository(this);
+        String appliedPromoCode = getIntent().getStringExtra("applied_promo_code");
+        if (appliedPromoCode != null) {
+            cartRepository.setAppliedPromoCode(appliedPromoCode);
+        }
+
         orderRepository = new ClientOrderRepository(this);
         bindViews();
         setupList();
@@ -301,8 +306,17 @@ public class CheckoutActivity extends BaseSoleStepActivity {
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data != null) {
+            ZaloPaySDK.getInstance().onResult(data);
+        }
+    }
+
+    @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+        setIntent(intent);
         ZaloPaySDK.getInstance().onResult(intent);
     }
 }

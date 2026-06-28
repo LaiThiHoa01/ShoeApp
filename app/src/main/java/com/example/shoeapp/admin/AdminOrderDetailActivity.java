@@ -158,7 +158,12 @@ public class AdminOrderDetailActivity extends AppCompatActivity {
                 order.orderNote : "Không có ghi chú");
 
         // Load Payment details
-        tvPayMethod.setText(order.paymentMethod != null ? order.paymentMethod : "COD");
+        String method = order.paymentMethod != null ? order.paymentMethod : "COD";
+        if ("ZALOPAY".equalsIgnoreCase(method)) {
+            tvPayMethod.setText("Ví ZaloPay");
+        } else {
+            tvPayMethod.setText("Thanh toán khi nhận hàng (COD)");
+        }
         String pStatus = order.paymentStatus != null ? order.paymentStatus : "UNPAID";
         if ("PAID".equalsIgnoreCase(pStatus)) {
             tvPayStatus.setText("ĐÃ THANH TOÁN");

@@ -70,10 +70,10 @@
             android:paddingTop="@dimen/space_4"
             android:paddingEnd="@dimen/space_8"
             android:paddingBottom="@dimen/space_4"
-            android:background="@drawable/bg_status_delivered"
+            android:background="@drawable/bg_status_badge"
             android:text="@string/status_delivered"
             android:textAppearance="@style/TextAppearance.SoleStep.Caption"
-            android:textColor="@color/status_success"
+            android:textColor="@color/color_status_badge"
             android:textStyle="bold" />
     </LinearLayout>
 
