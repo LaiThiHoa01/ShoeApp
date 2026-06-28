@@ -84,6 +84,18 @@ public class ChangePasswordActivity extends AppCompatActivity {
         String newPassword = newPasswordInput.getText().toString().trim();
         String confirmPassword = confirmPasswordInput.getText().toString().trim();
 
+        if (email.isEmpty()) { emailInput.setError("Vui lòng nhập email"); return; }
+        if (newPassword.isEmpty()) { newPasswordInput.setError("Vui lòng nhập mật khẩu mới"); return; }
+        if (confirmPassword.isEmpty()) { confirmPasswordInput.setError("Vui lòng xác nhận mật khẩu"); return; }
+        if (!newPassword.equals(confirmPassword)) {
+            confirmPasswordInput.setError("Mật khẩu không khớp");
+            return;
+        }
+        if (!isPasswordStrong(newPassword)) {
+            Toast.makeText(this, "Mật khẩu mới chưa đủ mạnh!", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         try {
             AuthRepository authRepository = new AuthRepository(this);
             authRepository.forgotPassword(email, newPassword, confirmPassword);
@@ -114,5 +126,16 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
             passwordInput.setSelection(passwordInput.length());
         });
+    }
+
+    private boolean isPasswordStrong(String password) {
+        if (password == null || password.length() < 8) {
+            return false;
+        }
+        boolean hasUppercase = !password.equals(password.toLowerCase());
+        boolean hasNumber = password.matches(".*\\d.*");
+        boolean hasSpecial = password.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?].*");
+
+        return hasUppercase && hasNumber && hasSpecial;
     }
 }
