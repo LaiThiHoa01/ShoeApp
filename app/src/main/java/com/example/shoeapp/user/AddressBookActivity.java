@@ -3,11 +3,9 @@ package com.example.shoeapp.user;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -20,6 +18,7 @@ import com.example.shoeapp.authentication.SessionManager;
 import com.example.shoeapp.data.AppDatabase;
 import com.example.shoeapp.data.entity.DeliveryAddress;
 import com.example.shoeapp.data.entity.User;
+import com.example.shoeapp.user.adapter.AddressAdapter;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
@@ -37,6 +36,12 @@ public class AddressBookActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address_book);
 
+        findViewById(R.id.backButton).setOnClickListener(v -> finish());
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle("Địa chỉ");
+        }
         db = AppDatabase.getDatabase(this);
 
         int loggedInUserId = SessionManager.getUserId(this);
@@ -59,7 +64,8 @@ public class AddressBookActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.address_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new AddressAdapter(new ArrayList<>(), this::setDefaultAddress);
+
+        adapter = new AddressAdapter(new ArrayList<>(), this::setDefaultAddress, this::deleteAddress);
         recyclerView.setAdapter(adapter);
 
         if (currentUserId != null) {
@@ -70,6 +76,15 @@ public class AddressBookActivity extends AppCompatActivity {
 
         MaterialButton btnAdd = findViewById(R.id.btn_add_address);
         btnAdd.setOnClickListener(v -> showAddAddressDialog());
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void loadAddresses() {
@@ -85,6 +100,18 @@ public class AddressBookActivity extends AppCompatActivity {
         Toast.makeText(this, "Đã đổi địa chỉ mặc định", Toast.LENGTH_SHORT).show();
     }
 
+    private void deleteAddress(DeliveryAddress address) {
+        new AlertDialog.Builder(this)
+                .setTitle("Xóa địa chỉ?")
+                .setMessage("Bạn có chắc muốn xóa địa chỉ này không?")
+                .setPositiveButton("Xóa", (dialog, which) -> {
+                    db.addressDao().deleteAddress(address);
+                    loadAddresses();
+                    Toast.makeText(this, "Đã xóa địa chỉ", Toast.LENGTH_SHORT).show();
+                })
+                .setNegativeButton("Hủy", null)
+                .show();
+    }
     private void showAddAddressDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Thêm địa chỉ mới");
@@ -124,62 +151,5 @@ public class AddressBookActivity extends AppCompatActivity {
         });
         builder.setNegativeButton("Hủy", (dialog, which) -> dialog.cancel());
         builder.show();
-    }
-
-    class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHolder> {
-        private List<DeliveryAddress> addresses;
-        private final OnAddressClickListener listener;
-
-        interface OnAddressClickListener {
-            void onDefaultClick(DeliveryAddress address);
-        }
-
-        AddressAdapter(List<DeliveryAddress> addresses, OnAddressClickListener listener) {
-            this.addresses = addresses;
-            this.listener = listener;
-        }
-
-        void setAddresses(List<DeliveryAddress> newAddresses) {
-            this.addresses = newAddresses;
-            notifyDataSetChanged();
-        }
-
-        @NonNull
-        @Override
-        public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_address, parent, false);
-            return new ViewHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-            DeliveryAddress addr = addresses.get(position);
-            holder.txtPhone.setText(addr.phoneNumber);
-            holder.txtFull.setText(addr.address);
-            holder.radioDefault.setChecked(addr.isDefault);
-
-            holder.itemView.setOnClickListener(v -> {
-                if (!addr.isDefault) {
-                    listener.onDefaultClick(addr);
-                }
-            });
-        }
-
-        @Override
-        public int getItemCount() {
-            return addresses.size();
-        }
-
-        class ViewHolder extends RecyclerView.ViewHolder {
-            TextView txtPhone, txtFull;
-            RadioButton radioDefault;
-
-            ViewHolder(View itemView) {
-                super(itemView);
-                txtPhone = itemView.findViewById(R.id.item_address_phone);
-                txtFull = itemView.findViewById(R.id.item_address_full);
-                radioDefault = itemView.findViewById(R.id.item_address_radio);
-            }
-        }
     }
 }

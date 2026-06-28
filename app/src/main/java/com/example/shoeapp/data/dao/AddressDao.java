@@ -1,6 +1,7 @@
 package com.example.shoeapp.data.dao;
 
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
@@ -24,4 +25,7 @@ public interface AddressDao {
 
     @Query("SELECT * FROM delivery_addresses WHERE userId = :userId AND isDefault = 1 LIMIT 1")
     DeliveryAddress getDefaultAddress(String userId);
+
+    @Delete
+    void deleteAddress(DeliveryAddress address);
 }
