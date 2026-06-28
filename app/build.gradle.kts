@@ -13,7 +13,14 @@ android {
     buildFeatures {
         buildConfig = true
     }
-
+    packaging {
+        resources {
+            excludes += setOf(
+                "META-INF/LICENSE.md",
+                "META-INF/NOTICE.md"
+            )
+        }
+    }
     defaultConfig {
         applicationId = "com.example.shoeapp"
         minSdk = 24
@@ -33,6 +40,13 @@ android {
         }
         val apiKey = localProperties.getProperty("GEMINI_API_KEY") ?: "YOUR_API_KEY_HERE"
         buildConfigField("String", "GEMINI_API_KEY", "\"$apiKey\"")
+
+        //Email
+        val smtpEmail = localProperties.getProperty("SMTP_EMAIL") ?: ""
+        val smtpAppPassword = localProperties.getProperty("SMTP_APP_PASSWORD") ?: ""
+
+        buildConfigField("String", "SMTP_EMAIL", "\"${smtpEmail.replace("\"", "\\\"")}\"")
+        buildConfigField("String", "SMTP_APP_PASSWORD", "\"${smtpAppPassword.replace("\"", "\\\"")}\"")
     }
 
     buildTypes {
@@ -64,7 +78,10 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
     // -----------------------------
     implementation("com.google.firebase:firebase-auth")
-    implementation("com.google.android.gms:play-services-auth:21.1.1")
+    implementation("com.google.android.gms:play-services-auth:21.2.0")
+    // --- EMAIL --------------------------
+    implementation("com.sun.mail:android-mail:1.6.7")
+    implementation("com.sun.mail:android-activation:1.6.7")
 
     val room_version = "2.6.1"
     implementation("androidx.room:room-runtime:$room_version")

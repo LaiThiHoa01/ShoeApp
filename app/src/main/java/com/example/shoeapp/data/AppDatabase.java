@@ -54,6 +54,7 @@ import com.example.shoeapp.data.entity.User;
         User.class,
         DeliveryAddress.class
 }, version = 14, exportSchema = false)
+
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract UserDao userDao();

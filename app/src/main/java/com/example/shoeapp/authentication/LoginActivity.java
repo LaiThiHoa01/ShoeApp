@@ -22,7 +22,6 @@ import com.example.shoeapp.data.AppDatabase;
 import com.example.shoeapp.data.entity.User;
 import com.example.shoeapp.user.MainActivity;
 
-import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -35,6 +34,8 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+
+import java.text.SimpleDateFormat;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -49,19 +50,19 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         
         try {
-            com.example.shoeapp.data.AppDatabase db = com.example.shoeapp.data.AppDatabase.getDatabase(this);
-            com.example.shoeapp.data.entity.User adminUser = db.userDao().getUserByEmail("admin@shoeapp.com");
+            AppDatabase db = com.example.shoeapp.data.AppDatabase.getDatabase(this);
+            User adminUser = db.userDao().getUserByEmail("admin@shoeapp.com");
             if (adminUser == null) {
-                com.example.shoeapp.data.entity.User newAdmin = new com.example.shoeapp.data.entity.User();
+                User newAdmin = new com.example.shoeapp.data.entity.User();
                 newAdmin.email = "admin@shoeapp.com";
-                newAdmin.passwordHash = com.example.shoeapp.authentication.PasswordHasher.hash("admin123");
+                newAdmin.passwordHash = PasswordHasher.hash("admin123");
                 newAdmin.phoneNumber = "0999999999";
                 newAdmin.fullName = "System Admin";
                 newAdmin.role = "ADMIN";
                 newAdmin.avatarUrl = "";
                 newAdmin.firebaseUid = "";
                 newAdmin.isActive = true;
-                newAdmin.createdAt = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss", java.util.Locale.getDefault()).format(new java.util.Date());
+                newAdmin.createdAt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", java.util.Locale.getDefault()).format(new java.util.Date());
                 newAdmin.userId = "ADM" + System.currentTimeMillis();
                 db.userDao().insert(newAdmin);
             }
@@ -82,9 +83,6 @@ public class LoginActivity extends AppCompatActivity {
         passwordInput    = findViewById(R.id.passwordInput);
         passwordField    = findViewById(R.id.passwordField);
         ImageButton passwordVisibility = findViewById(R.id.passwordVisibility);
-        
-        emailInput.setText("admin@shoeapp.com");
-        passwordInput.setText("admin123");
 
         passwordInput.setOnFocusChangeListener((view, focused) ->
                 passwordField.setBackgroundResource(
@@ -115,7 +113,7 @@ public class LoginActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-//                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
 
@@ -124,40 +122,49 @@ public class LoginActivity extends AppCompatActivity {
         googleSignInLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
-                    Intent data = result.getData();
-                    Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+                    if (result.getData() == null) {
+                        Toast.makeText(this, "Bạn đã hủy đăng nhập Google", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    Task<GoogleSignInAccount> task =
+                            GoogleSignIn.getSignedInAccountFromIntent(result.getData());
+
                     try {
                         GoogleSignInAccount account = task.getResult(ApiException.class);
-                        firebaseAuthWithGoogle(account.getIdToken());
+                        String idToken = account.getIdToken();
+
+                        if (idToken == null) {
+                            Toast.makeText(this, "Không lấy được Google ID Token", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        firebaseAuthWithGoogle(idToken);
+
                     } catch (ApiException e) {
-                        Toast.makeText(this, "Đăng nhập Google thất bại", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(
+                                this,
+                                "Đăng nhập Google thất bại: " + e.getStatusCode(),
+                                Toast.LENGTH_SHORT
+                        ).show();
                     }
                 }
         );
+        findViewById(R.id.googleSignInButton).setOnClickListener(v -> signInWithGoogle());
     }
 
     private void handleLogin() {
         String email = emailInput.getText().toString().trim();
         String password = passwordInput.getText().toString().trim();
-
+        if (email.isEmpty()) { emailInput.setError("Vui lòng nhập email"); return; }
+        if (password.isEmpty()) { passwordInput.setError("Vui lòng nhập mật khẩu"); return; }
         try {
             AuthRepository authRepository = new AuthRepository(this);
             User user = authRepository.login(email, password);
 
             Toast.makeText(this, "Xin chào, " + user.fullName + "!", Toast.LENGTH_SHORT).show();
             SessionManager.saveSession(this, user.id, user.role);
-
-            Intent intent;
-            if ("ADMIN".equals(user.role)) {
-                intent = new Intent(this, AdminDashboardActivity.class);
-            } else {
-                intent = new Intent(this, MainActivity.class);
-            }
-
-            intent.putExtra("user_id", user.id);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-            finish();
+            openHomeByRole(user);
 
         } catch (AuthRepository.AuthException e) {
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();

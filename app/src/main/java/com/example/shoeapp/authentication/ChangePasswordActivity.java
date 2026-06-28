@@ -1,5 +1,6 @@
 package com.example.shoeapp.authentication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -84,16 +85,30 @@ public class ChangePasswordActivity extends AppCompatActivity {
         String newPassword = newPasswordInput.getText().toString().trim();
         String confirmPassword = confirmPasswordInput.getText().toString().trim();
 
-        try {
-            AuthRepository authRepository = new AuthRepository(this);
-            authRepository.forgotPassword(email, newPassword, confirmPassword);
-
-            Toast.makeText(this, "Đặt lại mật khẩu thành công", Toast.LENGTH_SHORT).show();
-            finish();
-
-        } catch (AuthRepository.AuthException e) {
-            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+        if (email.isEmpty()) { emailInput.setError("Vui lòng nhập email"); return; }
+        if (newPassword.isEmpty()) { newPasswordInput.setError("Vui lòng nhập mật khẩu mới"); return; }
+        if (confirmPassword.isEmpty()) { confirmPasswordInput.setError("Vui lòng xác nhận mật khẩu"); return; }
+        if (!newPassword.equals(confirmPassword)) {
+            confirmPasswordInput.setError("Mật khẩu không khớp");
+            return;
         }
+        if (!isPasswordStrong(newPassword)) {
+            Toast.makeText(this, "Mật khẩu mới chưa đủ mạnh!", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        AuthRepository authRepository = new AuthRepository(this);
+        if (!authRepository.isEmailExists(email)) {
+            emailInput.setError("Email không tồn tại");
+            return;
+        }
+
+        Intent intent = new Intent(this, VerifyEmailOtpActivity.class);
+        intent.putExtra(VerifyEmailOtpActivity.EXTRA_MODE, VerifyEmailOtpActivity.MODE_RESET_PASSWORD);
+        intent.putExtra(VerifyEmailOtpActivity.EXTRA_EMAIL, email);
+        intent.putExtra(VerifyEmailOtpActivity.EXTRA_NEW_PASSWORD, newPassword);
+        intent.putExtra(VerifyEmailOtpActivity.EXTRA_CONFIRM_PASSWORD, confirmPassword);
+        startActivity(intent);
     }
 
     private void setupPasswordToggle(int inputId, int buttonId) {
@@ -114,5 +129,16 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
             passwordInput.setSelection(passwordInput.length());
         });
+    }
+
+    private boolean isPasswordStrong(String password) {
+        if (password == null || password.length() < 8) {
+            return false;
+        }
+        boolean hasUppercase = !password.equals(password.toLowerCase());
+        boolean hasNumber = password.matches(".*\\d.*");
+        boolean hasSpecial = password.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?].*");
+
+        return hasUppercase && hasNumber && hasSpecial;
     }
 }

@@ -78,24 +78,6 @@ public class AuthRepository {
         return userDao.getUserByEmail(email);
     }
 
-    public void resetPassword(String email, String newPassword, String confirmPassword) throws AuthException {
-        email = normalizeEmail(email);
-
-        validateEmail(email);
-        validatePassword(newPassword);
-
-        if (!newPassword.equals(confirmPassword)) {
-            throw new AuthException("Mật khẩu xác nhận không khớp");
-        }
-
-        User user = userDao.getUserByEmail(email);
-        if (user == null) {
-            throw new AuthException("Email không tồn tại");
-        }
-
-        userDao.updatePasswordByEmail(email, PasswordHasher.hash(newPassword));
-    }
-
     private static String normalizeEmail(String email) {
         return email == null ? "" : email.trim().toLowerCase(Locale.ROOT);
     }
@@ -107,8 +89,16 @@ public class AuthRepository {
     }
 
     private static void validatePassword(String password) throws AuthException {
-        if (isBlank(password) || password.length() < 6) {
-            throw new AuthException("Mật khẩu phải có ít nhất 6 ký tự");
+        if (isBlank(password) || password.length() < 8) {
+            throw new AuthException("Mật khẩu phải có ít nhất 8 ký tự");
+        }
+
+        boolean hasUppercase = !password.equals(password.toLowerCase(Locale.ROOT));
+        boolean hasNumber = password.matches(".*\\d.*");
+        boolean hasSpecial = password.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?].*");
+
+        if (!hasUppercase || !hasNumber || !hasSpecial) {
+            throw new AuthException("Mật khẩu phải gồm chữ hoa, chữ số và ký tự đặc biệt");
         }
     }
 
@@ -166,6 +156,10 @@ public class AuthRepository {
 
         user = userDao.getUserByEmail(email);
         if (user != null) {
+            if (!user.isActive) {
+                throw new AuthException("Tài khoản đã bị khóa");
+            }
+
             user.firebaseUid = firebaseUid;
             user.fullName = isBlank(user.fullName) ? fullName : user.fullName;
             user.avatarUrl = avatarUrl;
@@ -188,5 +182,9 @@ public class AuthRepository {
         userDao.insert(newUser);
 
         return userDao.getUserByEmail(email);
+    }
+    public boolean isEmailExists(String email) {
+        email = normalizeEmail(email);
+        return userDao.getUserByEmail(email) != null;
     }
 }
