@@ -59,6 +59,8 @@ public class AdminProductsActivity extends BaseAdminActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_products);
         db = AppDatabase.getDatabase(this);
+        // Đảm bảo dữ liệu mẫu được nạp đầy đủ nếu chưa có
+        new com.example.shoeapp.user.ClientProductRepository(this).ensureSeedData();
         setupEdgeToEdge();
         bindViews();
         loadFromDb();

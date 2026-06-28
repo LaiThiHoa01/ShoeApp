@@ -12,6 +12,9 @@ import com.example.shoeapp.data.entity.Product;
 import com.example.shoeapp.data.entity.ProductImg;
 import com.example.shoeapp.data.entity.ProductVariant;
 import com.example.shoeapp.data.entity.Size;
+import com.example.shoeapp.data.entity.Order;
+import com.example.shoeapp.data.entity.OrderDetail;
+import com.example.shoeapp.data.entity.User;
 import com.example.shoeapp.data.model.ProductColorOption;
 import com.example.shoeapp.data.model.ProductSizeOption;
 
@@ -24,9 +27,11 @@ import java.util.Locale;
 public class ClientProductRepository {
     private static final int SEED_PRODUCT_COUNT = 24;
     private final ProductDao productDao;
+    private final AppDatabase db;
 
     public ClientProductRepository(Context context) {
-        productDao = AppDatabase.getDatabase(context).productDao();
+        db = AppDatabase.getDatabase(context);
+        productDao = db.productDao();
     }
 
     public void ensureSeedData() {
@@ -48,6 +53,7 @@ public class ClientProductRepository {
             seedSizes();
             seedProducts();
             seedVariants();
+            seedMockOrders();
         }
     }
 
@@ -385,5 +391,183 @@ public class ClientProductRepository {
                 "https://images.unsplash.com/photo-1575537302964-96cd47c06b1b?auto=format&fit=crop&w=900&q=80"
         };
         return images[index % images.length];
+    }
+
+    private void seedMockOrders() {
+        int customerId = 2;
+        List<User> users = db.userDao().getAllUsers();
+        for (User u : users) {
+            if ("CUSTOMER".equals(u.role)) {
+                customerId = u.id;
+                break;
+            }
+        }
+
+        Order o1 = new Order();
+        o1.userId = customerId;
+        o1.createdAt = "2026-06-22 12:00:00";
+        o1.shippingFee = 5.0;
+        o1.subTotal = 2929000.0;
+        o1.grandTotal = 2934000.0;
+        o1.shippingAddress = "456 Đường User, Hà Nội";
+        o1.phoneNumber = "0987654321";
+        o1.orderStatus = "PROCESSING";
+        o1.paymentMethod = "COD";
+        o1.paymentStatus = "UNPAID";
+        o1.orderNote = "Giao giờ hành chính";
+        o1.shippingStatus = "PENDING";
+        o1.ordersId = "ORD-20260622-001";
+        db.orderDao().insert(o1);
+
+        Order o2 = new Order();
+        o2.userId = customerId;
+        o2.createdAt = "2026-06-22 14:00:00";
+        o2.shippingFee = 5.0;
+        o2.subTotal = 6758000.0;
+        o2.grandTotal = 6763000.0;
+        o2.shippingAddress = "456 Đường User, Hà Nội";
+        o2.phoneNumber = "0987654321";
+        o2.orderStatus = "SHIPPED";
+        o2.paymentMethod = "ZALOPAY";
+        o2.paymentStatus = "PAID";
+        o2.orderNote = "";
+        o2.shippingStatus = "SHIPPING";
+        o2.ordersId = "ORD-20260622-002";
+        db.orderDao().insert(o2);
+
+        Order o3 = new Order();
+        o3.userId = customerId;
+        o3.createdAt = "2026-06-23 09:30:00";
+        o3.shippingFee = 0.0;
+        o3.subTotal = 3829000.0;
+        o3.grandTotal = 3829000.0;
+        o3.shippingAddress = "789 Đường Lê Lợi, TP.HCM";
+        o3.phoneNumber = "0909090909";
+        o3.orderStatus = "DELIVERED";
+        o3.paymentMethod = "ZALOPAY";
+        o3.paymentStatus = "PAID";
+        o3.orderNote = "Gọi trước khi giao";
+        o3.shippingStatus = "DELIVERED";
+        o3.ordersId = "ORD-20260623-003";
+        db.orderDao().insert(o3);
+
+        Order o4 = new Order();
+        o4.userId = customerId;
+        o4.createdAt = "2026-06-24 15:45:00";
+        o4.shippingFee = 5.0;
+        o4.subTotal = 2929000.0;
+        o4.grandTotal = 2934000.0;
+        o4.shippingAddress = "123 Nguyễn Huệ, TP.HCM";
+        o4.phoneNumber = "0911111111";
+        o4.orderStatus = "CANCELLED";
+        o4.paymentMethod = "COD";
+        o4.paymentStatus = "UNPAID";
+        o4.orderNote = "Hủy do đổi ý";
+        o4.shippingStatus = "CANCELLED";
+        o4.ordersId = "ORD-20260624-004";
+        db.orderDao().insert(o4);
+
+        Order o5 = new Order();
+        o5.userId = customerId;
+        o5.createdAt = "2026-06-25 10:00:00";
+        o5.shippingFee = 5.0;
+        o5.subTotal = 6758000.0;
+        o5.grandTotal = 6763000.0;
+        o5.shippingAddress = "321 Trần Hưng Đạo, Đà Nẵng";
+        o5.phoneNumber = "0922222222";
+        o5.orderStatus = "PROCESSING";
+        o5.paymentMethod = "COD";
+        o5.paymentStatus = "UNPAID";
+        o5.orderNote = "";
+        o5.shippingStatus = "PENDING";
+        o5.ordersId = "ORD-20260625-005";
+        db.orderDao().insert(o5);
+
+        int o1Id = 1, o2Id = 2, o3Id = 3, o4Id = 4, o5Id = 5;
+        List<Order> orders = db.orderDao().getAllOrders();
+        for (Order o : orders) {
+            if ("ORD-20260622-001".equals(o.ordersId)) o1Id = o.id;
+            else if ("ORD-20260622-002".equals(o.ordersId)) o2Id = o.id;
+            else if ("ORD-20260623-003".equals(o.ordersId)) o3Id = o.id;
+            else if ("ORD-20260624-004".equals(o.ordersId)) o4Id = o.id;
+            else if ("ORD-20260625-005".equals(o.ordersId)) o5Id = o.id;
+        }
+
+        OrderDetail od1 = new OrderDetail();
+        od1.orderId = o1Id;
+        od1.productId = 1;
+        od1.colorId = 2; // Black
+        od1.sizeId = 5; // Size 40
+        od1.quantity = 1;
+        od1.unitPrice = 2929000.0;
+        od1.subtotal = 2929000.0;
+        od1.orderDetailId = "ORDDET-001";
+        db.orderDao().insertDetail(od1);
+
+        OrderDetail od2 = new OrderDetail();
+        od2.orderId = o2Id;
+        od2.productId = 2;
+        od2.colorId = 2; // Black
+        od2.sizeId = 6; // Size 41
+        od2.quantity = 1;
+        od2.unitPrice = 3829000.0;
+        od2.subtotal = 3829000.0;
+        od2.orderDetailId = "ORDDET-002";
+        db.orderDao().insertDetail(od2);
+
+        OrderDetail od3 = new OrderDetail();
+        od3.orderId = o2Id;
+        od3.productId = 3;
+        od3.colorId = 6; // Red
+        od3.sizeId = 7; // Size 42
+        od3.quantity = 1;
+        od3.unitPrice = 2929000.0;
+        od3.subtotal = 2929000.0;
+        od3.orderDetailId = "ORDDET-003";
+        db.orderDao().insertDetail(od3);
+
+        OrderDetail od4 = new OrderDetail();
+        od4.orderId = o3Id;
+        od4.productId = 2;
+        od4.colorId = 2; // Black
+        od4.sizeId = 6; // Size 41
+        od4.quantity = 1;
+        od4.unitPrice = 3829000.0;
+        od4.subtotal = 3829000.0;
+        od4.orderDetailId = "ORDDET-004";
+        db.orderDao().insertDetail(od4);
+
+        OrderDetail od5 = new OrderDetail();
+        od5.orderId = o4Id;
+        od5.productId = 1;
+        od5.colorId = 2; // Black
+        od5.sizeId = 5; // Size 40
+        od5.quantity = 1;
+        od5.unitPrice = 2929000.0;
+        od5.subtotal = 2929000.0;
+        od5.orderDetailId = "ORDDET-005";
+        db.orderDao().insertDetail(od5);
+
+        OrderDetail od6 = new OrderDetail();
+        od6.orderId = o5Id;
+        od6.productId = 1;
+        od6.colorId = 1; // White
+        od6.sizeId = 6; // Size 41
+        od6.quantity = 1;
+        od6.unitPrice = 2929000.0;
+        od6.subtotal = 2929000.0;
+        od6.orderDetailId = "ORDDET-006";
+        db.orderDao().insertDetail(od6);
+
+        OrderDetail od7 = new OrderDetail();
+        od7.orderId = o5Id;
+        od7.productId = 2;
+        od7.colorId = 2; // Black
+        od7.sizeId = 6; // Size 41
+        od7.quantity = 1;
+        od7.unitPrice = 3829000.0;
+        od7.subtotal = 3829000.0;
+        od7.orderDetailId = "ORDDET-007";
+        db.orderDao().insertDetail(od7);
     }
 }

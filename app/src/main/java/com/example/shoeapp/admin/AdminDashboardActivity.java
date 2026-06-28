@@ -29,7 +29,6 @@ import java.util.Locale;
 /**
  * Dashboard Admin - Đã sửa lỗi StatusBar và Navigation Menu.
  */
-public class AdminDashboardActivity extends AppCompatActivity {
 public class AdminDashboardActivity extends BaseAdminActivity {
 
     private AppDatabase db;
@@ -43,6 +42,8 @@ public class AdminDashboardActivity extends BaseAdminActivity {
         setContentView(R.layout.activity_admin_dashboard);
 
         db = AppDatabase.getDatabase(this);
+        // Đảm bảo dữ liệu mẫu (24 sản phẩm và 5 đơn hàng) được nạp đầy đủ nếu chưa có
+        new com.example.shoeapp.user.ClientProductRepository(this).ensureSeedData();
 
         // 2. Xử lý vùng an toàn (Insets) để không bị đè bởi StatusBar và NavBar hệ thống
         View root = findViewById(R.id.admin_dashboard_root);
