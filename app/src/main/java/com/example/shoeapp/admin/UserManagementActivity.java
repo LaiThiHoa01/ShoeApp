@@ -178,47 +178,4 @@ public class UserManagementActivity extends AppCompatActivity implements AdminUs
         AddUserBottomSheet bottomSheet = AddUserBottomSheet.newInstance(item.user.id, this::loadUsers);
         bottomSheet.show(getSupportFragmentManager(), "AddUserBottomSheet");
     }
-
-    @Override
-    public void onDeleteClick(UserWithStats item) {
-        new AlertDialog.Builder(this)
-                .setTitle("Xóa khách hàng")
-                .setMessage("Bạn có chắc chắn muốn xóa khách hàng " + item.user.fullName + "? Hành động này không thể hoàn tác.")
-                .setPositiveButton("Xóa", (dialog, which) -> deleteUser(item))
-                .setNegativeButton("Hủy", null)
-                .show();
-    }
-
-    private void deleteUser(UserWithStats item) {
-        new Thread(() -> {
-            try {
-                // Kiểm tra xem khách hàng có đơn hàng nào không
-                if (item.orderCount > 0) {
-                    runOnUiThread(() -> new AlertDialog.Builder(this)
-                            .setTitle("Không thể xóa")
-                            .setMessage("Khách hàng này đã có đơn hàng trong hệ thống. Để bảo toàn lịch sử đơn hàng, vui lòng chuyển trạng thái hoạt động của tài khoản sang 'Ngừng hoạt động' thay vì xóa hoàn toàn.")
-                            .setPositiveButton("Khóa tài khoản", (dialog, which) -> {
-                                new Thread(() -> {
-                                    item.user.isActive = false;
-                                    db.userDao().update(item.user);
-                                    loadUsers();
-                                }).start();
-                            })
-                            .setNegativeButton("Hủy", null)
-                            .show());
-                    return;
-                }
-
-                // Nếu không có đơn hàng thì xóa bình thường
-                db.userDao().delete(item.user);
-                runOnUiThread(() -> {
-                    Toast.makeText(this, "Xóa khách hàng thành công!", Toast.LENGTH_SHORT).show();
-                    loadUsers();
-                });
-            } catch (Exception e) {
-                e.printStackTrace();
-                runOnUiThread(() -> Toast.makeText(this, "Lỗi xảy ra khi xóa khách hàng!", Toast.LENGTH_SHORT).show());
-            }
-        }).start();
-    }
 }

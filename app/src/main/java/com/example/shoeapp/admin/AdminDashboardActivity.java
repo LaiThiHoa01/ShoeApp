@@ -7,12 +7,15 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.shoeapp.authentication.LoginActivity;
+import com.example.shoeapp.authentication.SessionManager;
 import com.example.shoeapp.data.AppDatabase;
 import com.example.shoeapp.data.entity.Product;
 import com.example.shoeapp.data.model.OrderWithUser;
@@ -112,6 +115,24 @@ public class AdminDashboardActivity extends AppCompatActivity {
             profile.setOnClickListener(v -> {
                 startActivity(new Intent(this, MainActivity.class));
                 finish();
+            });
+        }
+
+        View btnLogout = findViewById(R.id.btn_admin_logout);
+        if (btnLogout != null) {
+            btnLogout.setOnClickListener(v -> {
+                new AlertDialog.Builder(this)
+                        .setTitle("Đăng xuất")
+                        .setMessage("Bạn có chắc chắn muốn đăng xuất khỏi tài khoản Admin?")
+                        .setPositiveButton("Đăng xuất", (dialog, which) -> {
+                            SessionManager.clear(this);
+                            Intent intent = new Intent(this, LoginActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                            finish();
+                        })
+                        .setNegativeButton("Hủy", null)
+                        .show();
             });
         }
     }

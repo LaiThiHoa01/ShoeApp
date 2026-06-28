@@ -40,7 +40,13 @@
         android:textColor="@color/text_dark_primary"
         android:textSize="18sp"
         android:textStyle="bold"
+        android:ellipsize="end"
+        android:maxLines="1"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toEndOf="@id/avatar_container"
+        app:layout_constraintEnd_toStartOf="@id/tv_status_badge"
         app:layout_constraintTop_toTopOf="@id/avatar_container" />
 
     <TextView
@@ -48,6 +54,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:background="@drawable/bg_status_delivered"
         android:backgroundTint="#1A10B981"
         android:paddingHorizontal="10dp"
@@ -58,6 +65,7 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@id/tv_user_name"
         app:layout_constraintStart_toEndOf="@id/tv_user_name"
+        app:layout_constraintEnd_toStartOf="@id/actions_layout"
         app:layout_constraintTop_toTopOf="@id/tv_user_name" />
 
     <!-- Email người dùng -->
@@ -69,6 +77,8 @@
         android:text="alex@email.com"
         android:textColor="@color/text_dark_tertiary"
         android:textSize="14sp"
+        android:ellipsize="end"
+        android:maxLines="1"
         app:layout_constraintEnd_toStartOf="@id/actions_layout"
         app:layout_constraintStart_toStartOf="@id/tv_user_name"
         app:layout_constraintTop_toBottomOf="@id/tv_user_name" />
@@ -114,7 +124,6 @@
             android:id="@+id/btn_edit"
             android:layout_width="42dp"
             android:layout_height="42dp"
-            android:layout_marginEnd="12dp"
             android:background="@drawable/bg_circle_dark"
             android:backgroundTint="#1A3B82F6">
             <ImageView
@@ -123,20 +132,6 @@
                 android:layout_gravity="center"
                 android:src="@drawable/ic_edit"
                 app:tint="@color/stat_orders" />
-        </FrameLayout>
-
-        <FrameLayout
-            android:id="@+id/btn_delete"
-            android:layout_width="42dp"
-            android:layout_height="42dp"
-            android:background="@drawable/bg_circle_dark"
-            android:backgroundTint="#1AEF4444">
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_trash"
-                app:tint="@color/status_error" />
         </FrameLayout>
     </LinearLayout>
 

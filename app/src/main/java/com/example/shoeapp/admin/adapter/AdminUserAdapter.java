@@ -26,7 +26,6 @@ public class AdminUserAdapter extends ListAdapter<UserWithStats, AdminUserAdapte
 
     public interface OnUserActionListener {
         void onEditClick(UserWithStats userWithStats);
-        void onDeleteClick(UserWithStats userWithStats);
     }
 
     private static final DiffUtil.ItemCallback<UserWithStats> DIFF_CALLBACK = new DiffUtil.ItemCallback<UserWithStats>() {
@@ -78,7 +77,6 @@ public class AdminUserAdapter extends ListAdapter<UserWithStats, AdminUserAdapte
         final TextView tvSpentAmount;
         final TextView tvJoinedDate;
         final View btnEdit;
-        final View btnDelete;
         final View avatarContainer;
 
         ViewHolder(@NonNull View itemView) {
@@ -91,7 +89,6 @@ public class AdminUserAdapter extends ListAdapter<UserWithStats, AdminUserAdapte
             tvSpentAmount = itemView.findViewById(R.id.tv_spent_amount);
             tvJoinedDate = itemView.findViewById(R.id.tv_joined_date);
             btnEdit = itemView.findViewById(R.id.btn_edit);
-            btnDelete = itemView.findViewById(R.id.btn_delete);
             avatarContainer = itemView.findViewById(R.id.avatar_container);
         }
 
@@ -149,9 +146,6 @@ public class AdminUserAdapter extends ListAdapter<UserWithStats, AdminUserAdapte
             // Listeners
             btnEdit.setOnClickListener(v -> {
                 if (listener != null) listener.onEditClick(item);
-            });
-            btnDelete.setOnClickListener(v -> {
-                if (listener != null) listener.onDeleteClick(item);
             });
         }
     }
