@@ -72,14 +72,11 @@ public class MainActivity extends BaseSoleStepActivity {
         bannerViewPager = findViewById(R.id.home_banner_viewpager);
         sliderDots = findViewById(R.id.home_slider_dots);
         
-        List<Promotion> activePromotions = AppDatabase.getDatabase(this).productDao().getActivePromotions();
+        List<Promotion> activePromotions = AppDatabase.getDatabase(this).productDao().getBannerPromotions();
         
         if (activePromotions != null && !activePromotions.isEmpty() && bannerViewPager != null) {
             PromotionBannerAdapter adapter = new PromotionBannerAdapter(activePromotions, promotion -> {
-                Intent intent = new Intent(this, CatalogActivity.class);
-                intent.putExtra(CatalogActivity.EXTRA_TITLE, promotion.name);
-                intent.putExtra("promotion_id", promotion.id);
-                startActivity(intent);
+                showPromotionBottomSheet(promotion);
             });
             bannerViewPager.setAdapter(adapter);
             setupDots(activePromotions.size());
@@ -94,6 +91,38 @@ public class MainActivity extends BaseSoleStepActivity {
                 }
             });
         }
+    }
+
+    private void showPromotionBottomSheet(Promotion promotion) {
+        com.google.android.material.bottomsheet.BottomSheetDialog bottomSheetDialog = new com.google.android.material.bottomsheet.BottomSheetDialog(this);
+        View view = getLayoutInflater().inflate(R.layout.bottom_sheet_promotion, null);
+        bottomSheetDialog.setContentView(view);
+
+        ImageView ivCover = view.findViewById(R.id.iv_promo_cover);
+        TextView tvTitle = view.findViewById(R.id.tv_promo_title);
+        TextView tvDescription = view.findViewById(R.id.tv_promo_description);
+        TextView tvVoucherCode = view.findViewById(R.id.tv_promo_voucher_code);
+        android.widget.Button btnBuyNow = view.findViewById(R.id.btn_buy_now);
+
+        tvTitle.setText(promotion.name);
+        tvDescription.setText(promotion.description != null ? promotion.description : promotion.subtitle);
+        tvVoucherCode.setText(promotion.voucherCode != null ? promotion.voucherCode : "");
+
+        if (promotion.bannerUrl != null && !promotion.bannerUrl.isEmpty()) {
+            com.bumptech.glide.Glide.with(this).load(promotion.bannerUrl).into(ivCover);
+        } else {
+            ivCover.setImageResource(R.drawable.ic_shoe);
+        }
+
+        btnBuyNow.setOnClickListener(v -> {
+            bottomSheetDialog.dismiss();
+            Intent intent = new Intent(this, CatalogActivity.class);
+            intent.putExtra(CatalogActivity.EXTRA_TITLE, promotion.name);
+            intent.putExtra("promotion_id", promotion.id);
+            startActivity(intent);
+        });
+
+        bottomSheetDialog.show();
     }
 
     private void setupDots(int count) {

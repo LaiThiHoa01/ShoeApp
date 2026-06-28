@@ -91,6 +91,11 @@ public class ClientProductRepository {
         p1.isActive = true;
         p1.subtitle = "Giảm giá lên đến 20% cho toàn bộ sưu tập Hè";
         p1.bannerUrl = "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&q=80&w=800"; 
+        p1.voucherCode = "SUMMER20";
+        p1.description = "Nhập mã SUMMER20 để được giảm 20% cho tất cả các sản phẩm giày chạy bộ. Nhanh tay kẻo lỡ!";
+        p1.quantity = 100;
+        p1.targetType = "CATEGORY";
+        p1.categoryId = categoryIds[1]; // Giày chạy bộ
 
         com.example.shoeapp.data.entity.Promotion p2 = new com.example.shoeapp.data.entity.Promotion();
         p2.name = "BACK TO SCHOOL";
@@ -102,6 +107,10 @@ public class ClientProductRepository {
         p2.isActive = true;
         p2.subtitle = "Giảm ngay 100K cho học sinh, sinh viên";
         p2.bannerUrl = "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?auto=format&fit=crop&q=80&w=800"; 
+        p2.voucherCode = "B2SCHOOL100K";
+        p2.description = "Mã B2SCHOOL100K giảm trực tiếp 100.000đ cho các dòng giày đặc biệt dành riêng cho mùa tựu trường.";
+        p2.quantity = 50;
+        p2.targetType = "PRODUCTS";
 
         com.example.shoeapp.data.entity.Promotion p3 = new com.example.shoeapp.data.entity.Promotion();
         p3.name = "FLASH SALE CUỐI TUẦN";
@@ -113,6 +122,10 @@ public class ClientProductRepository {
         p3.isActive = true;
         p3.subtitle = "Ưu đãi chớp nhoáng giảm tới 50%";
         p3.bannerUrl = "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&q=80&w=800"; 
+        p3.voucherCode = "FLASH50";
+        p3.description = "Sale sốc cuối tuần lên đến 50%. Chỉ áp dụng cho một số sản phẩm nhất định trong thời gian ngắn.";
+        p3.quantity = 10;
+        p3.targetType = "PRODUCTS"; 
 
         productDao.insertPromotion(p1);
         productDao.insertPromotion(p2);

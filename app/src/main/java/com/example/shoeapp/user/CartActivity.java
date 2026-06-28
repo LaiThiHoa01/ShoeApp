@@ -91,6 +91,31 @@ public class CartActivity extends BaseSoleStepActivity {
 
         findViewById(R.id.cart_empty_text).setVisibility(items.isEmpty() ? View.VISIBLE : View.GONE);
         findViewById(R.id.cart_items_list).setVisibility(items.isEmpty() ? View.GONE : View.VISIBLE);
+        
+        // Show suggested promotion
+        com.example.shoeapp.data.entity.Promotion suggestedPromo = cartRepository.getSuggestedPromotion(items);
+        View layoutSuggestedPromo = findViewById(R.id.layout_suggested_promo);
+        if (suggestedPromo != null) {
+            layoutSuggestedPromo.setVisibility(View.VISIBLE);
+            TextView tvSuggestedPromoCode = findViewById(R.id.tv_suggested_promo_code);
+            String discountStr = "PERCENTAGE".equalsIgnoreCase(suggestedPromo.discountType) 
+                    ? String.format("Giảm %s%%", Math.round(suggestedPromo.discountValue))
+                    : "Giảm " + cartRepository.formatPrice(suggestedPromo.discountValue);
+            tvSuggestedPromoCode.setText(suggestedPromo.voucherCode + " - " + discountStr);
+            
+            findViewById(R.id.btn_use_suggested_promo).setOnClickListener(v -> {
+                if (cartRepository.checkAndApplyPromoCode(suggestedPromo.voucherCode)) {
+                    refreshCart();
+                    android.widget.Toast.makeText(this, "Áp dụng mã khuyến mãi thành công!", android.widget.Toast.LENGTH_SHORT).show();
+                    android.widget.EditText promoInput = findViewById(R.id.cart_promo_input);
+                    if (promoInput != null) {
+                        promoInput.setText(suggestedPromo.voucherCode);
+                    }
+                }
+            });
+        } else {
+            layoutSuggestedPromo.setVisibility(View.GONE);
+        }
 
         int quantity = cartRepository.getQuantity();
         ((TextView) findViewById(R.id.cart_count_badge)).setText(String.valueOf(quantity));

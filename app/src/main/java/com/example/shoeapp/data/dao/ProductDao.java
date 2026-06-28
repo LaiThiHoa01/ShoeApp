@@ -190,8 +190,11 @@ public interface ProductDao {
     ProductVariant getVariant(int productId, int colorId, int sizeId);
 
     // ── Promotion ─────────────────────────────────────
-    @Insert
+    @Insert(onConflict = androidx.room.OnConflictStrategy.IGNORE)
     void insertPromotion(Promotion promotion);
+    
+    @Insert
+    long insertPromotionReturnId(Promotion promotion);
 
     @Update
     void updatePromotion(Promotion promotion);
@@ -199,11 +202,22 @@ public interface ProductDao {
     @Delete
     void deletePromotion(Promotion promotion);
 
-    @Query("SELECT * FROM promotion WHERE is_active = 1")
+    @Query("SELECT * FROM promotion WHERE id = :id")
+    Promotion getPromotionById(int id);
+
+    @Query("SELECT * FROM promotion ORDER BY id DESC")
+    List<Promotion> getAllPromotions();
+
+    // Lấy 3 promotion mới nhất, sắp xếp thứ tự theo còn nhiều voucher hơn. Dù cho promotion có ở trạng thái inactive vẫn phải hiển thị
+    @Query("SELECT * FROM (SELECT * FROM promotion ORDER BY id DESC LIMIT 3) ORDER BY quantity DESC")
+    List<Promotion> getBannerPromotions();
+
+    // Lấy danh sách đang active thật sự
+    @Query("SELECT * FROM promotion WHERE is_active = 1 AND quantity > 0 AND date(start_date) <= date('now', 'localtime') AND date(end_date) >= date('now', 'localtime')")
     List<Promotion> getActivePromotions();
 
-    @Query("SELECT * FROM promotion WHERE UPPER(name) = UPPER(:name) AND is_active = 1 LIMIT 1")
-    Promotion getActivePromotionByName(String name);
+    @Query("SELECT * FROM promotion WHERE UPPER(voucher_code) = UPPER(:code) AND is_active = 1 AND quantity > 0 AND date(start_date) <= date('now', 'localtime') AND date(end_date) >= date('now', 'localtime') LIMIT 1")
+    Promotion getActivePromotionByVoucher(String code);
 
     // ── PromotionProduct ──────────────────────────────
     @Insert
@@ -211,9 +225,15 @@ public interface ProductDao {
 
     @Delete
     void deletePromotionProduct(PromotionProduct pp);
+    
+    @Query("DELETE FROM promotion_product WHERE promotion_id = :promoId")
+    void deleteProductsByPromotion(int promoId);
 
     @Query("SELECT * FROM promotion_product WHERE promotion_id = :promotionId")
     List<PromotionProduct> getProductsByPromotion(int promotionId);
+    
+    @Query("DELETE FROM promotion_product WHERE promotion_id = :promotionId")
+    void deletePromotionProductsByPromotion(int promotionId);
 
     // ── ProductReview ─────────────────────────────────
     @Insert

@@ -120,6 +120,10 @@
             android:name=".admin.AdminPromotionActivity"
             android:exported="false"
             android:theme="@style/Theme.SoleStep.Admin" />
+        <activity
+            android:name=".admin.AdminAddPromotionActivity"
+            android:exported="false"
+            android:theme="@style/Theme.SoleStep.Admin" />
     </application>
 
 </manifest>

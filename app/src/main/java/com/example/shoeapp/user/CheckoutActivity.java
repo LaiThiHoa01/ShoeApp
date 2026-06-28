@@ -221,6 +221,15 @@ public class CheckoutActivity extends BaseSoleStepActivity {
                 paymentStatus,
                 noteInput.getText().toString().trim()
         );
+        
+        String appliedPromoCode = cartRepository.getAppliedPromoCode();
+        if (appliedPromoCode != null && !appliedPromoCode.isEmpty()) {
+            com.example.shoeapp.data.entity.Promotion promo = db.productDao().getActivePromotionByVoucher(appliedPromoCode);
+            if (promo != null && promo.quantity > 0) {
+                promo.quantity -= 1;
+                db.productDao().updatePromotion(promo);
+            }
+        }
     }
 
     @Override

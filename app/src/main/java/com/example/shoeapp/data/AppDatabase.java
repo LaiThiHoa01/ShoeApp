@@ -5,6 +5,8 @@ import android.content.Context;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.migration.Migration;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.shoeapp.data.dao.AddressDao;
 import com.example.shoeapp.data.dao.CategoryDao;
@@ -51,7 +53,7 @@ import com.example.shoeapp.data.entity.User;
         TokenType.class,
         User.class,
         DeliveryAddress.class
-}, version = 11, exportSchema = false)
+}, version = 14, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract UserDao userDao();
@@ -64,12 +66,38 @@ public abstract class AppDatabase extends RoomDatabase {
 
     private static volatile AppDatabase INSTANCE;
 
+    public static final Migration MIGRATION_11_12 = new Migration(11, 12) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE promotion ADD COLUMN voucher_code TEXT");
+            database.execSQL("ALTER TABLE promotion ADD COLUMN description TEXT");
+            database.execSQL("ALTER TABLE promotion ADD COLUMN quantity INTEGER NOT NULL DEFAULT 0");
+            database.execSQL("ALTER TABLE promotion ADD COLUMN target_type TEXT");
+            database.execSQL("ALTER TABLE promotion ADD COLUMN category_id INTEGER");
+        }
+    };
+
+    public static final Migration MIGRATION_12_13 = new Migration(12, 13) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE promotion ADD COLUMN brand_id INTEGER");
+        }
+    };
+
+    public static final Migration MIGRATION_13_14 = new Migration(13, 14) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE promotion ADD COLUMN max_discount_amount REAL");
+        }
+    };
+
     public static AppDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
             synchronized (AppDatabase.class) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             AppDatabase.class, "shoeapp.db")
+                            .addMigrations(MIGRATION_11_12, MIGRATION_12_13, MIGRATION_13_14)
                             .fallbackToDestructiveMigration()
                             .allowMainThreadQueries()
                             .build();
