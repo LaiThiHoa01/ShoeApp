@@ -4,8 +4,10 @@ import android.content.Context;
 
 import com.example.shoeapp.data.AppDatabase;
 import com.example.shoeapp.data.dao.CartDao;
+import com.example.shoeapp.data.dao.ProductDao;
 import com.example.shoeapp.data.entity.Cart;
 import com.example.shoeapp.data.entity.CartItem;
+import com.example.shoeapp.data.entity.Promotion;
 import com.example.shoeapp.data.entity.User;
 import com.example.shoeapp.data.model.CartItemView;
 
@@ -16,10 +18,14 @@ import java.util.Locale;
 public class ClientCartRepository {
     private static final double SHIPPING_FEE = 30000;
     private final CartDao cartDao;
+    private final ProductDao productDao;
     private final int userId;
+    private String appliedPromoCode = "";
 
     public ClientCartRepository(Context context) {
-        cartDao = AppDatabase.getDatabase(context).cartDao();
+        AppDatabase db = AppDatabase.getDatabase(context);
+        cartDao = db.cartDao();
+        productDao = db.productDao();
         userId = com.example.shoeapp.authentication.SessionManager.getUserId(context);
     }
 
@@ -29,7 +35,6 @@ public class ClientCartRepository {
             return cart;
         }
         Cart newCart = new Cart();
-        newCart.id = 1;
         newCart.userId = userId;
         newCart.createdAt = "2026-06-23";
         newCart.updatedAt = "2026-06-23";
@@ -107,8 +112,35 @@ public class ClientCartRepository {
         return items.isEmpty() ? 0 : SHIPPING_FEE;
     }
 
+    public void setAppliedPromoCode(String code) {
+        this.appliedPromoCode = code;
+    }
+
+    public String getAppliedPromoCode() {
+        return this.appliedPromoCode;
+    }
+
+    public boolean checkAndApplyPromoCode(String code) {
+        Promotion promo = productDao.getActivePromotionByName(code);
+        if (promo != null) {
+            setAppliedPromoCode(promo.name);
+            return true;
+        }
+        return false;
+    }
+
     public double discount(List<CartItemView> items) {
         double subtotal = subtotal(items);
+        if (appliedPromoCode != null && !appliedPromoCode.isEmpty()) {
+            Promotion promo = productDao.getActivePromotionByName(appliedPromoCode);
+            if (promo != null) {
+                if ("PERCENTAGE".equalsIgnoreCase(promo.discountType)) {
+                    return subtotal * (promo.discountValue / 100.0);
+                } else if ("FIXED_AMOUNT".equalsIgnoreCase(promo.discountType)) {
+                    return promo.discountValue;
+                }
+            }
+        }
         return subtotal >= 3000000 ? 150000 : 0;
     }
 

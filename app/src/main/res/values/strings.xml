@@ -250,9 +250,9 @@
     <string name="admin_search_orders_hint">Tìm đơn hàng…</string>
     <string name="admin_view_details">Xem chi tiết</string>
     <string name="admin_btn_view_details">Xem chi tiết</string>
-    <string name="admin_mark_shipped">Xác nhận giao hàng</string>
+    <string name="admin_mark_shipped">Xác nhận</string>
     <string name="admin_btn_mark_shipped">Giao hàng</string>
-    <string name="admin_mark_delivered">Đã giao thành công</string>
+    <string name="admin_mark_delivered">Đã giao</string>
     <string name="admin_btn_mark_delivered">Hoàn tất đơn</string>
     <string name="admin_order_progress_title">Tiến trình đơn hàng</string>
     <string name="admin_status_completed">Đã hoàn thành</string>

@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
 import com.example.shoeapp.R;
+import com.example.shoeapp.authentication.SessionManager;
 import com.example.shoeapp.data.AppDatabase;
 import com.example.shoeapp.data.entity.User;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -35,9 +36,11 @@ public class AddUserBottomSheet extends BottomSheetDialogFragment {
     private int editUserId = -1;
     private User editUser;
     private boolean isActive = true;
+    private String selectedRole = "CUSTOMER";
 
     private EditText etFullName, etEmail, etPhone, etPassword;
     private TextView tvActive, tvInactive;
+    private TextView tvRoleCustomer, tvRoleAdmin;
     private TextView tvTitle;
     private com.google.android.material.button.MaterialButton btnCreateUser;
 
@@ -79,6 +82,8 @@ public class AddUserBottomSheet extends BottomSheetDialogFragment {
         etPassword = view.findViewById(R.id.et_password);
         tvActive = view.findViewById(R.id.status_active);
         tvInactive = view.findViewById(R.id.status_inactive);
+        tvRoleCustomer = view.findViewById(R.id.role_customer);
+        tvRoleAdmin = view.findViewById(R.id.role_admin);
         btnCreateUser = view.findViewById(R.id.btn_create_user);
 
         view.findViewById(R.id.btn_close).setOnClickListener(v -> dismiss());
@@ -87,11 +92,27 @@ public class AddUserBottomSheet extends BottomSheetDialogFragment {
         tvActive.setOnClickListener(v -> updateStatusUI(true));
         tvInactive.setOnClickListener(v -> updateStatusUI(false));
 
+        // Sự kiện chuyển đổi Vai trò
+        tvRoleCustomer.setOnClickListener(v -> updateRoleUI("CUSTOMER"));
+        tvRoleAdmin.setOnClickListener(v -> updateRoleUI("ADMIN"));
+
         // Nạp dữ liệu cũ nếu chỉnh sửa
         if (editUserId != -1) {
             loadUserData();
+            int currentAdminId = SessionManager.getUserId(requireContext());
+            if (editUserId == currentAdminId) {
+                tvActive.setEnabled(false);
+                tvInactive.setEnabled(false);
+                tvRoleCustomer.setEnabled(false);
+                tvRoleAdmin.setEnabled(false);
+                tvActive.setAlpha(0.5f);
+                tvInactive.setAlpha(0.5f);
+                tvRoleCustomer.setAlpha(0.5f);
+                tvRoleAdmin.setAlpha(0.5f);
+            }
         } else {
             updateStatusUI(true);
+            updateRoleUI("CUSTOMER");
         }
 
         btnCreateUser.setOnClickListener(v -> saveUser());
@@ -107,6 +128,27 @@ public class AddUserBottomSheet extends BottomSheetDialogFragment {
                 }
             }
         }, 200);
+    }
+
+    private void updateRoleUI(String role) {
+        this.selectedRole = role;
+        if (getContext() == null) return;
+        int colorActive = ContextCompat.getColor(getContext(), R.color.status_success);
+        int colorInactive = ContextCompat.getColor(getContext(), R.color.text_dark_tertiary);
+
+        if ("CUSTOMER".equals(role)) {
+            tvRoleCustomer.setBackgroundResource(R.drawable.bg_status_active_dark);
+            tvRoleCustomer.setTextColor(colorActive);
+            
+            tvRoleAdmin.setBackgroundResource(R.drawable.bg_card_dark);
+            tvRoleAdmin.setTextColor(colorInactive);
+        } else {
+            tvRoleAdmin.setBackgroundResource(R.drawable.bg_status_active_dark);
+            tvRoleAdmin.setTextColor(colorActive);
+            
+            tvRoleCustomer.setBackgroundResource(R.drawable.bg_card_dark);
+            tvRoleCustomer.setTextColor(colorInactive);
+        }
     }
 
     private void updateStatusUI(boolean active) {
@@ -142,6 +184,7 @@ public class AddUserBottomSheet extends BottomSheetDialogFragment {
                     etPassword.setHint("Để trống nếu giữ nguyên...");
                     btnCreateUser.setText("Cập nhật thông tin");
                     updateStatusUI(editUser.isActive);
+                    updateRoleUI(editUser.role != null ? editUser.role : "CUSTOMER");
                 });
             }
         }).start();
@@ -191,7 +234,7 @@ public class AddUserBottomSheet extends BottomSheetDialogFragment {
                 newUser.email = email;
                 newUser.phoneNumber = phone;
                 newUser.passwordHash = password; // Lưu thuần túy theo cấu trúc dự án hiện tại
-                newUser.role = "CUSTOMER";
+                newUser.role = selectedRole;
                 newUser.isActive = isActive;
                 newUser.userId = "USR-" + System.currentTimeMillis();
                 newUser.createdAt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).format(new Date());
@@ -202,6 +245,7 @@ public class AddUserBottomSheet extends BottomSheetDialogFragment {
                 editUser.fullName = fullName;
                 editUser.email = email;
                 editUser.phoneNumber = phone;
+                editUser.role = selectedRole;
                 editUser.isActive = isActive;
                 if (!password.isEmpty()) {
                     editUser.passwordHash = password;

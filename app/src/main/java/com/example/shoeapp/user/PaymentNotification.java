@@ -22,6 +22,12 @@ public class PaymentNotification extends AppCompatActivity {
 
         if (isSuccess) {
             setContentView(R.layout.activity_payment_notification);
+            if (result != null) {
+                TextView tvPaymentStatusTitle = findViewById(R.id.tvPaymentStatusTitle);
+                if (tvPaymentStatusTitle != null) {
+                    tvPaymentStatusTitle.setText(result);
+                }
+            }
         } else {
             setContentView(R.layout.activity_payment_failure);
             if (result != null) {
@@ -30,13 +36,22 @@ public class PaymentNotification extends AppCompatActivity {
                     tvPaymentStatusDesc.setText(result);
                 }
             }
+            TextView textViewNotify = findViewById(R.id.textViewNotify);
+            if (textViewNotify != null) {
+                textViewNotify.setText("Đang chuyển hướng về Giỏ hàng sau 2 giây...");
+            }
         }
 
 
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            Intent intentOrders = new Intent(PaymentNotification.this, MyOrdersActivity.class);
-            intentOrders.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intentOrders);
+            Intent nextIntent;
+            if (isSuccess) {
+                nextIntent = new Intent(PaymentNotification.this, MyOrdersActivity.class);
+            } else {
+                nextIntent = new Intent(PaymentNotification.this, CartActivity.class);
+            }
+            nextIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(nextIntent);
             finish();
         }, 2000);
     }

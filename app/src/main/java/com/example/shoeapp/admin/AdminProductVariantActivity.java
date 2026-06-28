@@ -27,7 +27,7 @@ import com.example.shoeapp.data.entity.Size;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdminProductVariantActivity extends AppCompatActivity
+public class AdminProductVariantActivity extends BaseAdminActivity
         implements AdminProductVariantAdapter.OnVariantActionListener,
         AdminProductVariantViewModel.OnStateChangedListener {
 

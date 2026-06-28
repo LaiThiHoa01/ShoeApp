@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class AdminProductsActivity extends AppCompatActivity
+public class AdminProductsActivity extends BaseAdminActivity
         implements AdminProductAdapter.OnProductActionListener {
 
     private RecyclerView         recyclerView;
@@ -59,6 +59,8 @@ public class AdminProductsActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_products);
         db = AppDatabase.getDatabase(this);
+        // Đảm bảo dữ liệu mẫu được nạp đầy đủ nếu chưa có
+        new com.example.shoeapp.user.ClientProductRepository(this).ensureSeedData();
         setupEdgeToEdge();
         bindViews();
         loadFromDb();

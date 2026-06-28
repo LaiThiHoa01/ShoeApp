@@ -23,19 +23,19 @@ public interface UserDao {
     @Query("SELECT * FROM users WHERE email = :email") User getUserByEmail(String email);
     @Query("SELECT * FROM users WHERE role = :role") List<User> getUsersByRole(String role);
     
-    @Query("SELECT COUNT(*) FROM users WHERE role = 'CUSTOMER'")
+    @Query("SELECT COUNT(*) FROM users")
     int countCustomers();
 
     @Query("SELECT u.*, " +
            "(SELECT COUNT(*) FROM orders o WHERE o.user_id = u.id) as order_count, " +
            "(SELECT COALESCE(SUM(o.grand_total), 0) FROM orders o WHERE o.user_id = u.id AND o.order_status != 'CANCELLED') as spent_amount " +
-           "FROM users u WHERE u.role = 'CUSTOMER'")
+           "FROM users u")
     List<com.example.shoeapp.data.model.UserWithStats> getAllCustomersWithStats();
 
     @Query("SELECT u.*, " +
            "(SELECT COUNT(*) FROM orders o WHERE o.user_id = u.id) as order_count, " +
            "(SELECT COALESCE(SUM(o.grand_total), 0) FROM orders o WHERE o.user_id = u.id AND o.order_status != 'CANCELLED') as spent_amount " +
-           "FROM users u WHERE u.role = 'CUSTOMER' AND (u.full_name LIKE '%' || :query || '%' OR u.email LIKE '%' || :query || '%')")
+           "FROM users u WHERE (u.full_name LIKE '%' || :query || '%' OR u.email LIKE '%' || :query || '%')")
     List<com.example.shoeapp.data.model.UserWithStats> searchCustomersWithStats(String query);
 
     // ── Cart ──────────────────────────────────────────

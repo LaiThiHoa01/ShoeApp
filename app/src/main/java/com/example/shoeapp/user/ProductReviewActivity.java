@@ -10,9 +10,9 @@ import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
 
+import com.example.shoeapp.R;
 import com.example.shoeapp.ui.BaseSoleStepActivity;
 import com.example.shoeapp.ui.BottomNavHelper;
-import com.example.shoeapp.R;
 
 public class ProductReviewActivity extends BaseSoleStepActivity {
     private ImageButton[] stars;
@@ -20,6 +20,9 @@ public class ProductReviewActivity extends BaseSoleStepActivity {
     private int rating = 4;
     private int productId = -1;
     private int userId = -1;
+    private int orderId = -1;
+    private androidx.activity.result.ActivityResultLauncher<String> pickImageLauncher;
+    private String selectedImageUri = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +32,91 @@ public class ProductReviewActivity extends BaseSoleStepActivity {
 
         productId = getIntent().getIntExtra("product_id", -1);
         userId = getIntent().getIntExtra("user_id", -1);
+        orderId = getIntent().getIntExtra("order_id", -1);
+
+        java.util.concurrent.ExecutorService infoExecutor =
+                java.util.concurrent.Executors.newSingleThreadExecutor();
+
+        infoExecutor.execute(() -> {
+            com.example.shoeapp.data.AppDatabase db =
+                    com.example.shoeapp.data.AppDatabase.getDatabase(this);
+
+            com.example.shoeapp.data.entity.Order order =
+                    db.orderDao().getOrderById(orderId);
+
+            java.util.List<com.example.shoeapp.data.model.OrderItemView> items =
+                    db.orderDao().getOrderItems(orderId);
+
+            com.example.shoeapp.data.model.OrderItemView targetItem = null;
+
+            if (items != null) {
+                for (com.example.shoeapp.data.model.OrderItemView item : items) {
+                    if (item.productId == productId) {
+                        targetItem = item;
+                        break;
+                    }
+                }
+            }
+
+            final com.example.shoeapp.data.model.OrderItemView finalItem = targetItem;
+
+            runOnUiThread(() -> {
+                if (finalItem != null) {
+                    TextView brandText = findViewById(R.id.review_product_brand_text);
+                    TextView nameText = findViewById(R.id.review_product_name_text);
+                    TextView metaText = findViewById(R.id.review_product_meta_text);
+                    android.widget.ImageView productImage = findViewById(R.id.review_product_image);
+
+                    if (brandText != null) {
+                        brandText.setText(finalItem.brandName);
+                    }
+
+                    if (nameText != null) {
+                        nameText.setText(finalItem.productName);
+                    }
+
+                    if (metaText != null) {
+                        String orderCode = order != null ? order.ordersId : String.valueOf(orderId);
+                        metaText.setText(
+                                "Size: " + finalItem.sizeName
+                                        + " · Màu: " + finalItem.colorName
+                                        + " · Đơn hàng #" + orderCode
+                        );
+                    }
+
+                    if (productImage != null) {
+                        ImageLoader.load(finalItem.imageUrl, productImage, R.drawable.ic_shoe);
+                    }
+                }
+            });
+        });
+
+        findViewById(R.id.review_photo_thumbnail).setVisibility(android.view.View.GONE);
+
+        pickImageLauncher = registerForActivityResult(
+                new androidx.activity.result.contract.ActivityResultContracts.GetContent(),
+                uri -> {
+                    if (uri != null) {
+                        selectedImageUri = uri.toString();
+
+                        android.view.View thumbnailContainer =
+                                findViewById(R.id.review_photo_thumbnail);
+
+                        android.widget.ImageView reviewPhotoImage =
+                                findViewById(R.id.review_photo_image);
+
+                        if (thumbnailContainer != null && reviewPhotoImage != null) {
+                            thumbnailContainer.setVisibility(android.view.View.VISIBLE);
+                            reviewPhotoImage.setImageURI(uri);
+                            reviewPhotoImage.clearColorFilter();
+                        }
+                    }
+                }
+        );
+
+        findViewById(R.id.add_review_photo_button).setOnClickListener(v -> {
+            pickImageLauncher.launch("image/*");
+        });
 
         stars = new ImageButton[]{
                 findViewById(R.id.star_1),
@@ -37,16 +125,21 @@ public class ProductReviewActivity extends BaseSoleStepActivity {
                 findViewById(R.id.star_4),
                 findViewById(R.id.star_5)
         };
+
         ratingLabel = findViewById(R.id.rating_label);
+
         for (int i = 0; i < stars.length; i++) {
             final int selectedRating = i + 1;
             stars[i].setOnClickListener(v -> setRating(selectedRating));
         }
+
         setRating(rating);
 
         EditText reviewEditText = findViewById(R.id.review_edit_text);
         TextView characterCount = findViewById(R.id.review_char_count);
+
         updateCharacterCount(characterCount, reviewEditText.getText().length());
+
         reviewEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -74,35 +167,23 @@ public class ProductReviewActivity extends BaseSoleStepActivity {
     }
 
     private void setupTag(TextView tagView) {
-        tagView.setTag(false);
-        updateTagState(tagView, false);
-        
-        tagView.setOnClickListener(v -> {
-            boolean isSelected = !(boolean) v.getTag();
-            v.setTag(isSelected);
-            updateTagState((TextView) v, isSelected);
-        });
-    }
+        tagView.setSelected(false);
 
-    private void updateTagState(TextView tagView, boolean isSelected) {
-        if (isSelected) {
-            tagView.setBackgroundResource(R.drawable.bg_review_tag_selected);
-            tagView.setTextColor(ContextCompat.getColor(this, R.color.brand_white));
-            tagView.setTypeface(null, android.graphics.Typeface.BOLD);
-        } else {
-            tagView.setBackgroundResource(R.drawable.bg_review_tag);
-            tagView.setTextColor(ContextCompat.getColor(this, R.color.text_secondary));
-            tagView.setTypeface(null, android.graphics.Typeface.NORMAL);
-        }
+        tagView.setOnClickListener(v -> {
+            v.setSelected(!v.isSelected());
+        });
     }
 
     private void setRating(int value) {
         rating = value;
+
         int filled = ContextCompat.getColor(this, R.color.star_filled);
         int empty = ContextCompat.getColor(this, R.color.star_empty);
+
         for (int i = 0; i < stars.length; i++) {
             stars[i].setColorFilter(i < rating ? filled : empty);
         }
+
         String[] labels = {
                 "",
                 getString(R.string.rating_1),
@@ -111,6 +192,7 @@ public class ProductReviewActivity extends BaseSoleStepActivity {
                 getString(R.string.rating_4),
                 getString(R.string.rating_5)
         };
+
         ratingLabel.setText(labels[rating]);
     }
 
@@ -123,39 +205,63 @@ public class ProductReviewActivity extends BaseSoleStepActivity {
             Toast.makeText(this, "Lỗi: Không tìm thấy thông tin sản phẩm", Toast.LENGTH_SHORT).show();
             return;
         }
-        
+
         StringBuilder finalContent = new StringBuilder();
+
         TextView[] tags = {
-            findViewById(R.id.review_tag_comfortable),
-            findViewById(R.id.review_tag_true_to_size),
-            findViewById(R.id.review_tag_quality),
-            findViewById(R.id.review_tag_fast_delivery)
+                findViewById(R.id.review_tag_comfortable),
+                findViewById(R.id.review_tag_true_to_size),
+                findViewById(R.id.review_tag_quality),
+                findViewById(R.id.review_tag_fast_delivery)
         };
-        
+
         for (TextView tag : tags) {
-            if (tag.getTag() != null && (boolean) tag.getTag()) {
+            if (tag.isSelected()) {
                 finalContent.append("[").append(tag.getText()).append("] ");
             }
         }
+
         finalContent.append(content);
         String savedContent = finalContent.toString().trim();
-        
-        java.util.concurrent.ExecutorService executor = java.util.concurrent.Executors.newSingleThreadExecutor();
+
+        java.util.concurrent.ExecutorService executor =
+                java.util.concurrent.Executors.newSingleThreadExecutor();
+
         executor.execute(() -> {
-            com.example.shoeapp.data.AppDatabase db = com.example.shoeapp.data.AppDatabase.getDatabase(this);
-            com.example.shoeapp.data.entity.ProductReview review = new com.example.shoeapp.data.entity.ProductReview();
+            com.example.shoeapp.data.AppDatabase db =
+                    com.example.shoeapp.data.AppDatabase.getDatabase(this);
+
+            com.example.shoeapp.data.entity.ProductReview review =
+                    new com.example.shoeapp.data.entity.ProductReview();
+
             review.productId = productId;
             review.userId = userId;
+
+            if (orderId != -1) {
+                review.orderId = orderId;
+            }
+
+            review.imageUrl = selectedImageUri;
             review.rating = rating;
             review.content = savedContent;
-            
-            java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss", java.util.Locale.getDefault());
+
+            java.text.SimpleDateFormat sdf =
+                    new java.text.SimpleDateFormat(
+                            "yyyy-MM-dd HH:mm:ss",
+                            java.util.Locale.getDefault()
+                    );
+
             review.createdAt = sdf.format(new java.util.Date());
-            
+
             db.productDao().insertReview(review);
-            
+
             runOnUiThread(() -> {
-                Toast.makeText(this, getString(R.string.review_submitted_title), Toast.LENGTH_SHORT).show();
+                Toast.makeText(
+                        this,
+                        getString(R.string.review_submitted_title),
+                        Toast.LENGTH_SHORT
+                ).show();
+
                 finish();
             });
         });

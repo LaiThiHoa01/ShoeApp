@@ -190,6 +190,9 @@ public interface ProductDao {
     @Query("SELECT * FROM promotion WHERE is_active = 1")
     List<Promotion> getActivePromotions();
 
+    @Query("SELECT * FROM promotion WHERE UPPER(name) = UPPER(:name) AND is_active = 1 LIMIT 1")
+    Promotion getActivePromotionByName(String name);
+
     // ── PromotionProduct ──────────────────────────────
     @Insert
     void insertPromotionProduct(PromotionProduct pp);

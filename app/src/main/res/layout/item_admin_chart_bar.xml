@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="62dp"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="bottom|center_horizontal"
+    android:paddingBottom="4dp">
+
+    <!-- Số tiền hiển thị rút gọn trên đầu cột -->
+    <TextView
+        android:id="@+id/tv_bar_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:text="500k"
+        android:textColor="@color/text_dark_secondary"
+        android:textSize="10sp"
+        android:textStyle="bold"
+        android:singleLine="true" />
+
+    <!-- Thân cột biểu đồ màu Gradient Cam -->
+    <View
+        android:id="@+id/view_bar_column"
+        android:layout_width="26dp"
+        android:layout_height="100dp"
+        android:background="@drawable/bg_bar_column"
+        android:clickable="true"
+        android:focusable="true" />
+
+    <!-- Nhãn ngày dưới chân cột (ví dụ: 28/06) -->
+    <TextView
+        android:id="@+id/tv_bar_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:text="28/06"
+        android:textColor="@color/text_dark_tertiary"
+        android:textSize="10sp" />
+
+</LinearLayout>

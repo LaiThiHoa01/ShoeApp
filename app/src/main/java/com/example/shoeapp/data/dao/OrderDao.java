@@ -40,6 +40,15 @@ public interface OrderDao {
     @Query("SELECT SUM(grand_total) FROM orders WHERE order_status != 'CANCELLED' AND created_at LIKE :datePrefix || '%'")
     Double getRevenueByDate(String datePrefix);
 
+    @Query("SELECT SUBSTR(created_at, 1, 10) as date, SUM(grand_total) as revenue " +
+           "FROM orders " +
+           "WHERE order_status != 'CANCELLED' " +
+           "AND SUBSTR(created_at, 1, 10) >= :startDate " +
+           "AND SUBSTR(created_at, 1, 10) <= :endDate " +
+           "GROUP BY SUBSTR(created_at, 1, 10) " +
+           "ORDER BY date ASC")
+    List<com.example.shoeapp.data.model.DateRevenue> getRevenueBetweenDates(String startDate, String endDate);
+
     @Query("SELECT COUNT(*) FROM orders")
     int countOrders();
 

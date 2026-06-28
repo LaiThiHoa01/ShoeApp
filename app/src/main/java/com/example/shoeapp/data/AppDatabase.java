@@ -53,7 +53,7 @@ import java.util.List;
         TokenType.class,
         User.class,
         DeliveryAddress.class
-}, version = 6, exportSchema = false)
+}, version = 8, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract UserDao userDao();
@@ -362,18 +362,69 @@ public abstract class AppDatabase extends RoomDatabase {
             o2.shippingAddress = "456 Đường User, Hà Nội";
             o2.phoneNumber = "0987654321";
             o2.orderStatus = "SHIPPED";
-            o2.paymentMethod = "MOMO";
+            o2.paymentMethod = "ZALOPAY";
             o2.paymentStatus = "PAID";
             o2.orderNote = "";
             o2.shippingStatus = "SHIPPING";
             o2.ordersId = "ORD-20260622-002";
             db.orderDao().insert(o2);
 
-            int o1Id = 1, o2Id = 2;
+            Order o3 = new Order();
+            o3.userId = customerId;
+            o3.createdAt = "2026-06-23 09:30:00";
+            o3.shippingFee = 0.0;
+            o3.subTotal = 180.0;
+            o3.grandTotal = 180.0;
+            o3.shippingAddress = "789 Đường Lê Lợi, TP.HCM";
+            o3.phoneNumber = "0909090909";
+            o3.orderStatus = "DELIVERED";
+            o3.paymentMethod = "ZALOPAY";
+            o3.paymentStatus = "PAID";
+            o3.orderNote = "Gọi trước khi giao";
+            o3.shippingStatus = "DELIVERED";
+            o3.ordersId = "ORD-20260623-003";
+            db.orderDao().insert(o3);
+
+            Order o4 = new Order();
+            o4.userId = customerId;
+            o4.createdAt = "2026-06-24 15:45:00";
+            o4.shippingFee = 5.0;
+            o4.subTotal = 150.0;
+            o4.grandTotal = 155.0;
+            o4.shippingAddress = "123 Nguyễn Huệ, TP.HCM";
+            o4.phoneNumber = "0911111111";
+            o4.orderStatus = "CANCELLED";
+            o4.paymentMethod = "COD";
+            o4.paymentStatus = "UNPAID";
+            o4.orderNote = "Hủy do đổi ý";
+            o4.shippingStatus = "CANCELLED";
+            o4.ordersId = "ORD-20260624-004";
+            db.orderDao().insert(o4);
+
+            Order o5 = new Order();
+            o5.userId = customerId;
+            o5.createdAt = "2026-06-25 10:00:00";
+            o5.shippingFee = 5.0;
+            o5.subTotal = 330.0;
+            o5.grandTotal = 335.0;
+            o5.shippingAddress = "321 Trần Hưng Đạo, Đà Nẵng";
+            o5.phoneNumber = "0922222222";
+            o5.orderStatus = "PROCESSING";
+            o5.paymentMethod = "COD";
+            o5.paymentStatus = "UNPAID";
+            o5.orderNote = "";
+            o5.shippingStatus = "PENDING";
+            o5.ordersId = "ORD-20260625-005";
+            db.orderDao().insert(o5);
+
+            int o1Id = 1, o2Id = 2, o3Id = 3, o4Id = 4, o5Id = 5;
             List<Order> orders = db.orderDao().getAllOrders();
             for (Order o : orders) {
                 if ("ORD-20260622-001".equals(o.ordersId)) o1Id = o.id;
                 else if ("ORD-20260622-002".equals(o.ordersId)) o2Id = o.id;
+                else if ("ORD-20260623-003".equals(o.ordersId)) o3Id = o.id;
+                else if ("ORD-20260624-004".equals(o.ordersId)) o4Id = o.id;
+                else if ("ORD-20260625-005".equals(o.ordersId)) o5Id = o.id;
             }
 
             // OrderDetails cho o1
@@ -410,6 +461,53 @@ public abstract class AppDatabase extends RoomDatabase {
             od3.subtotal = 170.0;
             od3.orderDetailId = "ORDDET-003";
             db.orderDao().insertDetail(od3);
+
+            // OrderDetails cho o3
+            OrderDetail od4 = new OrderDetail();
+            od4.orderId = o3Id;
+            od4.productId = p2Id;
+            od4.colorId = colBlackId;
+            od4.sizeId = sz41Id;
+            od4.quantity = 1;
+            od4.unitPrice = 180.0;
+            od4.subtotal = 180.0;
+            od4.orderDetailId = "ORDDET-004";
+            db.orderDao().insertDetail(od4);
+
+            // OrderDetails cho o4
+            OrderDetail od5 = new OrderDetail();
+            od5.orderId = o4Id;
+            od5.productId = p1Id;
+            od5.colorId = colBlackId;
+            od5.sizeId = sz40Id;
+            od5.quantity = 1;
+            od5.unitPrice = 150.0;
+            od5.subtotal = 150.0;
+            od5.orderDetailId = "ORDDET-005";
+            db.orderDao().insertDetail(od5);
+
+            // OrderDetails cho o5
+            OrderDetail od6 = new OrderDetail();
+            od6.orderId = o5Id;
+            od6.productId = p1Id;
+            od6.colorId = colWhiteId;
+            od6.sizeId = sz41Id;
+            od6.quantity = 1;
+            od6.unitPrice = 150.0;
+            od6.subtotal = 150.0;
+            od6.orderDetailId = "ORDDET-006";
+            db.orderDao().insertDetail(od6);
+
+            OrderDetail od7 = new OrderDetail();
+            od7.orderId = o5Id;
+            od7.productId = p2Id;
+            od7.colorId = colBlackId;
+            od7.sizeId = sz41Id;
+            od7.quantity = 1;
+            od7.unitPrice = 180.0;
+            od7.subtotal = 180.0;
+            od7.orderDetailId = "ORDDET-007";
+            db.orderDao().insertDetail(od7);
         }
     }
 }

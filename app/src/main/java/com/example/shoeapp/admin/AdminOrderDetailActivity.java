@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class AdminOrderDetailActivity extends AppCompatActivity {
+public class AdminOrderDetailActivity extends BaseAdminActivity {
 
     public static final String EXTRA_ORDER_ID = "EXTRA_ORDER_ID";
 
@@ -158,7 +158,12 @@ public class AdminOrderDetailActivity extends AppCompatActivity {
                 order.orderNote : "Không có ghi chú");
 
         // Load Payment details
-        tvPayMethod.setText(order.paymentMethod != null ? order.paymentMethod : "COD");
+        String method = order.paymentMethod != null ? order.paymentMethod : "COD";
+        if ("ZALOPAY".equalsIgnoreCase(method)) {
+            tvPayMethod.setText("Ví ZaloPay");
+        } else {
+            tvPayMethod.setText("Thanh toán khi nhận hàng (COD)");
+        }
         String pStatus = order.paymentStatus != null ? order.paymentStatus : "UNPAID";
         if ("PAID".equalsIgnoreCase(pStatus)) {
             tvPayStatus.setText("ĐÃ THANH TOÁN");
@@ -169,9 +174,9 @@ public class AdminOrderDetailActivity extends AppCompatActivity {
         }
         updatePaymentStatusBadge(order.paymentStatus);
 
-        tvPaySubtotal.setText(String.format(Locale.US, "$%.2f", order.subTotal != null ? order.subTotal : 0.0));
-        tvPayShipping.setText(String.format(Locale.US, "$%.2f", order.shippingFee != null ? order.shippingFee : 0.0));
-        tvPayTotal.setText(String.format(Locale.US, "$%.2f", order.grandTotal != null ? order.grandTotal : 0.0));
+        tvPaySubtotal.setText(com.example.shoeapp.Helper.Helpers.formatPrice(order.subTotal != null ? order.subTotal : 0.0));
+        tvPayShipping.setText(com.example.shoeapp.Helper.Helpers.formatPrice(order.shippingFee != null ? order.shippingFee : 0.0));
+        tvPayTotal.setText(com.example.shoeapp.Helper.Helpers.formatPrice(order.grandTotal != null ? order.grandTotal : 0.0));
 
         // Load order details / items
         List<OrderDetail> details = db.orderDao().getDetailsByOrder(order.id);

@@ -7,12 +7,15 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.shoeapp.authentication.LoginActivity;
+import com.example.shoeapp.authentication.SessionManager;
 import com.example.shoeapp.data.AppDatabase;
 import com.example.shoeapp.data.entity.Product;
 import com.example.shoeapp.data.model.OrderWithUser;
@@ -22,17 +25,30 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import android.widget.Toast;
 
 /**
  * Dashboard Admin - Đã sửa lỗi StatusBar và Navigation Menu.
  */
-public class AdminDashboardActivity extends AppCompatActivity {
+public class AdminDashboardActivity extends BaseAdminActivity {
 
     private AppDatabase db;
     private final DecimalFormat currencyFormat = new DecimalFormat("#,### ₫");
+    
+    private String startDateFilter;
+    private String endDateFilter;
+    private com.google.android.material.button.MaterialButton btnStartDate, btnEndDate;
+    private LinearLayout layoutChartBars;
+    private TextView tvChartNoData;
+    private final SimpleDateFormat dateFormatDb = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+    private final SimpleDateFormat dateFormatDisplay = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +58,8 @@ public class AdminDashboardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_admin_dashboard);
 
         db = AppDatabase.getDatabase(this);
+        // Đảm bảo dữ liệu mẫu (24 sản phẩm và 5 đơn hàng) được nạp đầy đủ nếu chưa có
+        new com.example.shoeapp.user.ClientProductRepository(this).ensureSeedData();
 
         // 2. Xử lý vùng an toàn (Insets) để không bị đè bởi StatusBar và NavBar hệ thống
         View root = findViewById(R.id.admin_dashboard_root);
@@ -54,8 +72,30 @@ public class AdminDashboardActivity extends AppCompatActivity {
             });
         }
 
+        // Khởi tạo khoảng lọc thời gian mặc định là 7 ngày gần nhất (từ 6 ngày trước đến hôm nay)
+        java.util.Calendar cal = java.util.Calendar.getInstance();
+        endDateFilter = dateFormatDb.format(cal.getTime());
+        cal.add(java.util.Calendar.DATE, -6);
+        startDateFilter = dateFormatDb.format(cal.getTime());
+
+        // Ánh xạ các View biểu đồ
+        btnStartDate = findViewById(R.id.btn_start_date);
+        btnEndDate = findViewById(R.id.btn_end_date);
+        layoutChartBars = findViewById(R.id.layout_chart_bars);
+        tvChartNoData = findViewById(R.id.tv_chart_no_data);
+
+        updateFilterButtonsLabel();
+
+        if (btnStartDate != null) {
+            btnStartDate.setOnClickListener(v -> showDatePicker(true));
+        }
+        if (btnEndDate != null) {
+            btnEndDate.setOnClickListener(v -> showDatePicker(false));
+        }
+
         setupNavigation();
         setupClickListeners();
+
     }
 
     @Override
@@ -73,7 +113,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
             bottomNav.setOnItemSelectedListener(item -> {
                 int id = item.getItemId();
                 if (id == R.id.nav_dashboard) return true;
-                
+
                 Intent intent = null;
                 if (id == R.id.nav_users) {
                     intent = new Intent(this, UserManagementActivity.class);
@@ -84,7 +124,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
                 } else if (id == R.id.nav_orders) {
                     intent = new Intent(this, AdminOrderManagementActivity.class);
                 }
-                
+
                 if (intent != null) {
                     startActivity(intent);
                     overridePendingTransition(0, 0); // Hiệu ứng mượt mà
@@ -114,6 +154,24 @@ public class AdminDashboardActivity extends AppCompatActivity {
                 finish();
             });
         }
+
+        View btnLogout = findViewById(R.id.btn_admin_logout);
+        if (btnLogout != null) {
+            btnLogout.setOnClickListener(v -> {
+                new AlertDialog.Builder(this)
+                        .setTitle("Đăng xuất")
+                        .setMessage("Bạn có chắc chắn muốn đăng xuất khỏi tài khoản Admin?")
+                        .setPositiveButton("Đăng xuất", (dialog, which) -> {
+                            SessionManager.clear(this);
+                            Intent intent = new Intent(this, LoginActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                            finish();
+                        })
+                        .setNegativeButton("Hủy", null)
+                        .show();
+            });
+        }
     }
 
     private void refreshDashboardData() {
@@ -121,7 +179,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
             int orderCount = db.orderDao().countOrders();
             int productCount = db.productDao().countProducts();
             int customerCount = db.userDao().countCustomers();
-            
+
             Double totalRevValue = db.orderDao().getTotalRevenue();
             double totalRevenue = (totalRevValue != null) ? totalRevValue : 0.0;
 
@@ -129,8 +187,34 @@ public class AdminDashboardActivity extends AppCompatActivity {
             Double todayRevValue = db.orderDao().getRevenueByDate(today);
             double todayRevenue = (todayRevValue != null) ? todayRevValue : 0.0;
 
+            java.util.Calendar cal = java.util.Calendar.getInstance();
+            cal.add(java.util.Calendar.DATE, -1);
+            String yesterday = new SimpleDateFormat("yyyy-MM-dd", Locale.US).format(cal.getTime());
+            Double yesterdayRevValue = db.orderDao().getRevenueByDate(yesterday);
+            double yesterdayRevenue = (yesterdayRevValue != null) ? yesterdayRevValue : 0.0;
+
             TextView tvTodayRevenue = findViewById(R.id.revenue_amount);
             if (tvTodayRevenue != null) tvTodayRevenue.setText(currencyFormat.format(todayRevenue));
+
+            TextView tvRevenueTrend = findViewById(R.id.tv_revenue_trend);
+            if (tvRevenueTrend != null) {
+                String trendText;
+                if (yesterdayRevenue == 0.0) {
+                    if (todayRevenue > 0.0) {
+                        trendText = "+100% so với hôm qua";
+                    } else {
+                        trendText = "0% so với hôm qua";
+                    }
+                } else {
+                    double diffPercent = ((todayRevenue - yesterdayRevenue) / yesterdayRevenue) * 100.0;
+                    if (diffPercent >= 0.0) {
+                        trendText = String.format(Locale.US, "+%.1f%% so với hôm qua", diffPercent);
+                    } else {
+                        trendText = String.format(Locale.US, "%.1f%% so với hôm qua", diffPercent);
+                    }
+                }
+                tvRevenueTrend.setText(trendText);
+            }
 
             TextView tvOrders = findViewById(R.id.tv_stat_orders_value);
             if (tvOrders != null) tvOrders.setText(String.valueOf(orderCount));
@@ -140,7 +224,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
             TextView tvCustomers = findViewById(R.id.tv_stat_customers_value);
             if (tvCustomers != null) tvCustomers.setText(String.valueOf(customerCount));
-            
+
             TextView tvStatRev = findViewById(R.id.tv_stat_revenue_value);
             if (tvStatRev != null) {
                 if (totalRevenue >= 1000000) {
@@ -152,13 +236,14 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
             loadRecentOrdersList();
             loadTopProductsList();
+            loadRevenueChart();
         } catch (Exception e) { e.printStackTrace(); }
     }
 
     private void loadRecentOrdersList() {
         LinearLayout container = findViewById(R.id.layout_recent_orders);
         if (container == null) return;
-        
+
         container.removeAllViews();
         List<OrderWithUser> recentOrders = db.orderDao().getRecentOrdersWithUser(4);
         LayoutInflater inflater = LayoutInflater.from(this);
@@ -175,7 +260,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
             if (tvOrderId != null) tvOrderId.setText(item.order.ordersId);
             if (tvCustName != null) tvCustName.setText(item.userName);
             if (tvPrice != null) tvPrice.setText(currencyFormat.format(item.order.grandTotal));
-            
+
             if (tvStatus != null) {
                 String status = item.order.orderStatus;
                 if ("DELIVERED".equals(status)) {
@@ -203,7 +288,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
     private void loadTopProductsList() {
         LinearLayout container = findViewById(R.id.layout_top_products);
         if (container == null) return;
-        
+
         container.removeAllViews();
         List<Product> products = db.productDao().getTopSellingProducts(5);
         if (products.isEmpty()) products = db.productDao().getAllProducts();
@@ -231,6 +316,197 @@ public class AdminDashboardActivity extends AppCompatActivity {
                 com.example.shoeapp.user.ImageLoader.load(imgUrl, ivImage, R.drawable.ic_shoe);
             }
             container.addView(itemView);
+        }
+    }
+
+    private void updateFilterButtonsLabel() {
+        try {
+            Date start = dateFormatDb.parse(startDateFilter);
+            Date end = dateFormatDb.parse(endDateFilter);
+            if (btnStartDate != null && start != null) {
+                btnStartDate.setText("Từ: " + dateFormatDisplay.format(start));
+            }
+            if (btnEndDate != null && end != null) {
+                btnEndDate.setText("Đến: " + dateFormatDisplay.format(end));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void showDatePicker(boolean isStartDate) {
+        try {
+            String currentFilter = isStartDate ? startDateFilter : endDateFilter;
+            Calendar cal = Calendar.getInstance();
+            if (currentFilter != null) {
+                Date date = dateFormatDb.parse(currentFilter);
+                if (date != null) cal.setTime(date);
+            }
+            int year = cal.get(Calendar.YEAR);
+            int month = cal.get(Calendar.MONTH);
+            int day = cal.get(Calendar.DAY_OF_MONTH);
+
+            android.app.DatePickerDialog datePickerDialog = new android.app.DatePickerDialog(this,
+                    (view, selectedYear, selectedMonth, selectedDay) -> {
+                        Calendar selectedCal = Calendar.getInstance();
+                        selectedCal.set(selectedYear, selectedMonth, selectedDay);
+                        String formattedDate = dateFormatDb.format(selectedCal.getTime());
+                        
+                        if (isStartDate) {
+                            startDateFilter = formattedDate;
+                        } else {
+                            endDateFilter = formattedDate;
+                        }
+                        updateFilterButtonsLabel();
+                        loadRevenueChart();
+                    }, year, month, day);
+            datePickerDialog.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadRevenueChart() {
+        if (layoutChartBars == null) return;
+
+        new Thread(() -> {
+            try {
+                List<com.example.shoeapp.data.model.DateRevenue> dbData = 
+                        db.orderDao().getRevenueBetweenDates(startDateFilter, endDateFilter);
+                
+                Map<String, Double> revenueMap = new HashMap<>();
+                for (com.example.shoeapp.data.model.DateRevenue dr : dbData) {
+                    revenueMap.put(dr.date, dr.revenue);
+                }
+
+                List<com.example.shoeapp.data.model.DateRevenue> fullChartData = new ArrayList<>();
+                Calendar startCal = Calendar.getInstance();
+                Calendar endCal = Calendar.getInstance();
+
+                startCal.setTime(dateFormatDb.parse(startDateFilter));
+                endCal.setTime(dateFormatDb.parse(endDateFilter));
+
+                int daysDiff = 0;
+                Calendar tempCal = (Calendar) startCal.clone();
+                while (!tempCal.after(endCal)) {
+                    daysDiff++;
+                    tempCal.add(Calendar.DATE, 1);
+                }
+
+                if (daysDiff > 60) {
+                    runOnUiThread(() -> {
+                        Toast.makeText(this, "Khoảng thời gian quá dài (Tối đa 60 ngày)!", Toast.LENGTH_SHORT).show();
+                    });
+                    return;
+                }
+
+                while (!startCal.after(endCal)) {
+                    String dateKey = dateFormatDb.format(startCal.getTime());
+                    double revenue = revenueMap.containsKey(dateKey) ? revenueMap.get(dateKey) : 0.0;
+                    
+                    com.example.shoeapp.data.model.DateRevenue item = new com.example.shoeapp.data.model.DateRevenue();
+                    item.date = dateKey;
+                    item.revenue = revenue;
+                    fullChartData.add(item);
+                    
+                    startCal.add(Calendar.DATE, 1);
+                }
+
+                double maxRevenue = 0.0;
+                for (com.example.shoeapp.data.model.DateRevenue item : fullChartData) {
+                    if (item.revenue > maxRevenue) {
+                        maxRevenue = item.revenue;
+                    }
+                }
+
+                final double finalMaxRev = maxRevenue;
+                
+                runOnUiThread(() -> {
+                    layoutChartBars.removeAllViews();
+                    
+                    if (fullChartData.isEmpty()) {
+                        if (tvChartNoData != null) tvChartNoData.setVisibility(View.VISIBLE);
+                        return;
+                    } else {
+                        if (tvChartNoData != null) tvChartNoData.setVisibility(View.GONE);
+                    }
+
+                    float scale = getResources().getDisplayMetrics().density;
+                    int barWidthPx = (int) (26 * scale);
+                    int maxBarHeightPx = (int) (115 * scale);
+                    int minBarHeightPx = (int) (4 * scale);
+
+                    for (com.example.shoeapp.data.model.DateRevenue item : fullChartData) {
+                        View barView = LayoutInflater.from(this).inflate(R.layout.item_admin_chart_bar, layoutChartBars, false);
+                        
+                        TextView tvAmount = barView.findViewById(R.id.tv_bar_amount);
+                        View barColumn = barView.findViewById(R.id.view_bar_column);
+                        TextView tvDate = barView.findViewById(R.id.tv_bar_date);
+
+                        if (tvAmount != null) {
+                            if (item.revenue > 0) {
+                                tvAmount.setText(formatShortCurrency(item.revenue));
+                                tvAmount.setVisibility(View.VISIBLE);
+                            } else {
+                                tvAmount.setText("0");
+                                tvAmount.setVisibility(View.INVISIBLE);
+                            }
+                        }
+
+                        int barHeight = minBarHeightPx;
+                        if (finalMaxRev > 0.0 && item.revenue > 0.0) {
+                            barHeight = (int) ((item.revenue / finalMaxRev) * maxBarHeightPx);
+                            if (barHeight < minBarHeightPx) barHeight = minBarHeightPx;
+                        }
+
+                        if (barColumn != null) {
+                            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) barColumn.getLayoutParams();
+                            params.width = barWidthPx;
+                            params.height = barHeight;
+                            barColumn.setLayoutParams(params);
+                            barColumn.setBackgroundResource(R.drawable.bg_bar_column);
+                            
+                            barColumn.setOnClickListener(v -> {
+                                try {
+                                    Date d = dateFormatDb.parse(item.date);
+                                    String dateFormatted = d != null ? dateFormatDisplay.format(d) : item.date;
+                                    String msg = "Ngày " + dateFormatted + "\nDoanh thu: " + currencyFormat.format(item.revenue);
+                                    Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            });
+                        }
+
+                        if (tvDate != null) {
+                            try {
+                                Date d = dateFormatDb.parse(item.date);
+                                if (d != null) {
+                                    tvDate.setText(new SimpleDateFormat("dd/MM", Locale.US).format(d));
+                                } else {
+                                    tvDate.setText(item.date);
+                                }
+                            } catch (Exception e) {
+                                tvDate.setText(item.date);
+                            }
+                        }
+
+                        layoutChartBars.addView(barView);
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
+
+    private String formatShortCurrency(double value) {
+        if (value >= 1000000.0) {
+            return String.format(Locale.US, "%.1fM", value / 1000000.0).replace(".0", "");
+        } else if (value >= 1000.0) {
+            return String.format(Locale.US, "%.0fk", value / 1000.0);
+        } else {
+            return String.format(Locale.US, "%.0f", value);
         }
     }
 }

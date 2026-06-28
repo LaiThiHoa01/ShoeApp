@@ -68,8 +68,10 @@ public class ProductDetailActivity extends BaseSoleStepActivity {
         originalPrice.setText(productRepository.formatPrice(product.originalPrice));
         originalPrice.setPaintFlags(originalPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
-        ((TextView) findViewById(R.id.detail_rating_text)).setText(String.format(Locale.US, "%.1f", clientProduct.getRating()));
-        ((TextView) findViewById(R.id.detail_review_count_text)).setText(String.format(Locale.US, "(%d đánh giá)", clientProduct.getReviewCount()));
+        ((TextView) findViewById(R.id.detail_rating_text))
+                .setText(String.format(Locale.US, "%.1f", clientProduct.getRating()));
+        ((TextView) findViewById(R.id.detail_review_count_text))
+                .setText(String.format(Locale.US, "(%d đánh giá)", clientProduct.getReviewCount()));
         ((TextView) findViewById(R.id.detail_description_text)).setText(product.description);
         findViewById(R.id.detail_badge_new).setVisibility(clientProduct.isNew() ? View.VISIBLE : View.GONE);
 
@@ -123,22 +125,24 @@ public class ProductDetailActivity extends BaseSoleStepActivity {
 
         List<ProductSizeOption> sizes = productRepository.getAvailableSizes(product.id, selectedColorId);
         selectedSizeId = 0;
+
         for (ProductSizeOption size : sizes) {
-            TextView sizeView = new TextView(this);
-            GridLayout.LayoutParams params = new GridLayout.LayoutParams();
-            params.width = dp(44);
-            params.height = dp(44);
-            params.setMargins(0, 0, dp(8), dp(8));
-            sizeView.setLayoutParams(params);
-            sizeView.setGravity(android.view.Gravity.CENTER);
+            TextView sizeView = (TextView) getLayoutInflater()
+                    .inflate(R.layout.item_detail_size_option, sizeContainer, false);
+
             sizeView.setText(size.name);
-            sizeView.setTextAppearance(this, R.style.TextAppearance_SoleStep_BodySmall);
-            sizeView.setTextColor(getColor(size.stock > 0 ? R.color.text_secondary : R.color.text_disabled));
-            sizeView.setBackgroundResource(R.drawable.bg_detail_size);
             sizeView.setEnabled(size.stock > 0);
-            sizeView.setOnClickListener(v -> selectSize(size));
+            sizeView.setSelected(false);
+
+            sizeView.setOnClickListener(v -> {
+                if (v.isEnabled()) {
+                    selectSize(size);
+                }
+            });
+
             sizeContainer.addView(sizeView);
             sizeViews.add(sizeView);
+
             if (selectedSizeId == 0 && size.stock > 0) {
                 selectSize(size);
             }
@@ -151,14 +155,17 @@ public class ProductDetailActivity extends BaseSoleStepActivity {
         quantity = Math.min(quantity, Math.max(1, selectedStock));
 
         List<ProductSizeOption> sizes = productRepository.getAvailableSizes(product.id, selectedColorId);
+
         for (int i = 0; i < sizes.size() && i < sizeViews.size(); i++) {
             ProductSizeOption option = sizes.get(i);
             TextView sizeView = sizeViews.get(i);
+
             boolean selected = option.id == selectedSizeId;
-            sizeView.setBackgroundResource(selected ? R.drawable.bg_detail_size_selected : R.drawable.bg_detail_size);
-            sizeView.setTextColor(getColor(selected ? R.color.brand_white : option.stock > 0 ? R.color.text_secondary : R.color.text_disabled));
-            sizeView.setTypeface(null, selected ? android.graphics.Typeface.BOLD : android.graphics.Typeface.NORMAL);
+
+            sizeView.setSelected(selected);
+            sizeView.setEnabled(option.stock > 0);
         }
+
         updateQuantityUi();
     }
 
@@ -180,7 +187,8 @@ public class ProductDetailActivity extends BaseSoleStepActivity {
     private void updateQuantityUi() {
         ((TextView) findViewById(R.id.detail_quantity_text)).setText(String.valueOf(quantity));
         ((TextView) findViewById(R.id.detail_stock_text)).setText("Còn " + selectedStock + " sản phẩm");
-        ((TextView) findViewById(R.id.add_to_cart_button)).setText("Thêm vào giỏ - " + productRepository.formatPrice(product.price * quantity));
+        ((TextView) findViewById(R.id.add_to_cart_button))
+                .setText("Thêm vào giỏ - " + productRepository.formatPrice(product.price * quantity));
     }
 
     private void addToCart() {
@@ -212,7 +220,11 @@ public class ProductDetailActivity extends BaseSoleStepActivity {
 
     private void setupThumbnails() {
         LinearLayout thumbnailContainer = findViewById(R.id.detail_thumbnail_container);
-        if (thumbnailContainer == null) return;
+
+        if (thumbnailContainer == null) {
+            return;
+        }
+
         thumbnailContainer.removeAllViews();
         thumbnailViews.clear();
         colorOptionsForThumbnails.clear();
@@ -222,39 +234,37 @@ public class ProductDetailActivity extends BaseSoleStepActivity {
 
         for (int i = 0; i < colors.size(); i++) {
             ProductColorOption color = colors.get(i);
-            
-            FrameLayout frameLayout = new FrameLayout(this);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(dp(44), dp(44));
+
+            FrameLayout frameLayout = (FrameLayout) getLayoutInflater()
+                    .inflate(R.layout.item_detail_thumbnail, thumbnailContainer, false);
+
+            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) frameLayout.getLayoutParams();
+
             if (i > 0) {
                 params.setMarginStart(dp(6));
             }
+
             frameLayout.setLayoutParams(params);
-            
-            ImageView thumbImage = new ImageView(this);
-            FrameLayout.LayoutParams imgParams = new FrameLayout.LayoutParams(dp(34), dp(28));
-            imgParams.gravity = android.view.Gravity.CENTER;
-            thumbImage.setLayoutParams(imgParams);
-            thumbImage.setScaleType(ImageView.ScaleType.FIT_CENTER);
-            
+
+            ImageView thumbImage = frameLayout.findViewById(R.id.detail_thumbnail_image);
+
             String imgUrl = productRepository.getImageUrl(product.id, color.id);
             ImageLoader.load(imgUrl, thumbImage, clientProduct.getImageResId());
-            
-            frameLayout.addView(thumbImage);
-            
+
+            frameLayout.setSelected(false);
             frameLayout.setOnClickListener(v -> selectColor(color));
-            
+
             thumbnailContainer.addView(frameLayout);
             thumbnailViews.add(frameLayout);
         }
+
         updateThumbnailSelection();
     }
 
     private void updateThumbnailSelection() {
         for (int i = 0; i < colorOptionsForThumbnails.size() && i < thumbnailViews.size(); i++) {
             boolean selected = colorOptionsForThumbnails.get(i).id == selectedColorId;
-            thumbnailViews.get(i).setBackgroundResource(
-                    selected ? R.drawable.bg_detail_thumbnail_selected : R.drawable.bg_detail_thumbnail
-            );
+            thumbnailViews.get(i).setSelected(selected);
         }
     }
 
@@ -264,11 +274,12 @@ public class ProductDetailActivity extends BaseSoleStepActivity {
 
     private void loadReviews() {
         LinearLayout reviewsContainer = findViewById(R.id.detail_reviews_container);
-        if (reviewsContainer == null) return;
+        if (reviewsContainer == null)
+            return;
         reviewsContainer.removeAllViews();
-        
+
         List<com.example.shoeapp.data.entity.ProductReview> reviews = productRepository.getReviewsByProduct(product.id);
-        
+
         if (reviews.isEmpty()) {
             TextView emptyText = new TextView(this);
             emptyText.setText("Chưa có đánh giá nào.");
@@ -280,13 +291,13 @@ public class ProductDetailActivity extends BaseSoleStepActivity {
 
         for (com.example.shoeapp.data.entity.ProductReview review : reviews) {
             View reviewView = getLayoutInflater().inflate(R.layout.item_product_review, reviewsContainer, false);
-            
+
             TextView avatar = reviewView.findViewById(R.id.review_avatar_text);
             TextView name = reviewView.findViewById(R.id.review_author_name);
             TextView stars = reviewView.findViewById(R.id.review_stars);
             TextView date = reviewView.findViewById(R.id.review_date);
             TextView content = reviewView.findViewById(R.id.review_content);
-            
+
             com.example.shoeapp.data.entity.User user = productRepository.getUserById(this, review.userId);
             if (user != null && user.fullName != null && !user.fullName.isEmpty()) {
                 name.setText(user.fullName);
@@ -295,17 +306,21 @@ public class ProductDetailActivity extends BaseSoleStepActivity {
                 name.setText("Khách");
                 avatar.setText("K");
             }
-            
+
             StringBuilder starsStr = new StringBuilder();
-            for (int i = 0; i < review.rating; i++) starsStr.append("★");
-            for (int i = review.rating; i < 5; i++) starsStr.append("☆");
+            for (int i = 0; i < review.rating; i++)
+                starsStr.append("★");
+            for (int i = review.rating; i < 5; i++)
+                starsStr.append("☆");
             stars.setText(starsStr.toString());
-            
+
             if (review.createdAt != null) {
                 try {
-                    java.text.SimpleDateFormat inputFormat = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                    java.text.SimpleDateFormat inputFormat = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss",
+                            Locale.getDefault());
                     java.util.Date d = inputFormat.parse(review.createdAt);
-                    java.text.SimpleDateFormat outputFormat = new java.text.SimpleDateFormat("dd MMM", new Locale("vi", "VN"));
+                    java.text.SimpleDateFormat outputFormat = new java.text.SimpleDateFormat("dd MMM",
+                            new Locale("vi", "VN"));
                     date.setText(outputFormat.format(d));
                 } catch (Exception e) {
                     date.setText(review.createdAt);
@@ -313,8 +328,19 @@ public class ProductDetailActivity extends BaseSoleStepActivity {
             } else {
                 date.setText("");
             }
-            
+
             content.setText(review.content);
+
+            ImageView reviewImage = reviewView.findViewById(R.id.review_image);
+            if (reviewImage != null) {
+                if (review.imageUrl != null && !review.imageUrl.trim().isEmpty()) {
+                    reviewImage.setVisibility(View.VISIBLE);
+                    ImageLoader.load(review.imageUrl, reviewImage, R.drawable.ic_shoe);
+                } else {
+                    reviewImage.setVisibility(View.GONE);
+                }
+            }
+
             reviewsContainer.addView(reviewView);
         }
     }
