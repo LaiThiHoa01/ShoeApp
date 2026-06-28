@@ -32,4 +32,9 @@ public class Promotion {
     public boolean isActive;
 
     public String slug;
+    
+    @ColumnInfo(name = "banner_url")
+    public String bannerUrl;
+    
+    public String subtitle;
 }

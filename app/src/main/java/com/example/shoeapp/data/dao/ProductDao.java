@@ -20,16 +20,19 @@ public interface ProductDao {
     void insert(Product product);
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insertBrand(Brand brand);
+    long insertBrand(Brand brand);
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insertCategory(Category category);
+    long insertCategory(Category category);
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insertColor(Color color);
+    long insertColor(Color color);
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insertSize(Size size);
+    long insertSize(Size size);
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    long insertProduct(Product product);
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insertProductVariant(ProductVariant variant);
@@ -61,8 +64,14 @@ public interface ProductDao {
     @Query("SELECT * FROM product")
     List<Product> getAllProducts();
 
-    @Query("SELECT p.* FROM product p INNER JOIN category c ON p.shoe_category = c.id WHERE p.is_available = 1 AND p.is_discontinue = 0 AND c.is_active = 1")
+    @Query("SELECT * FROM product WHERE is_available = 1 AND is_discontinue = 0")
     List<Product> getAllProductsActive();
+
+    @Query("SELECT * FROM product WHERE is_available = 1 AND is_discontinue = 0 ORDER BY id DESC LIMIT :limit")
+    List<Product> getProductsActiveLimited(int limit);
+
+    @Query("SELECT p.* FROM product p INNER JOIN category c ON p.shoe_category = c.id WHERE p.is_available = 1 AND p.is_discontinue = 0 AND c.is_active = 1 ORDER BY p.id DESC LIMIT :limit")
+    List<Product> getNewestProducts(int limit);
 
     @Query("SELECT * FROM product WHERE shoe_category = :categoryId")
     List<Product> getProductsByCategory(int categoryId);
@@ -83,6 +92,9 @@ public interface ProductDao {
      */
     @Query("SELECT p.* FROM product p INNER JOIN order_detail od ON p.id = od.product_id GROUP BY p.id ORDER BY SUM(od.quantity) DESC LIMIT :limit")
     List<Product> getTopSellingProducts(int limit);
+
+    @Query("SELECT p.* FROM product p INNER JOIN category c ON p.shoe_category = c.id INNER JOIN order_detail od ON p.id = od.product_id WHERE p.is_available = 1 AND p.is_discontinue = 0 AND c.is_active = 1 GROUP BY p.id ORDER BY SUM(od.quantity) DESC LIMIT :limit")
+    List<Product> getTopSellingProductsActive(int limit);
 
     // ── Brand ─────────────────────────────────────────
     @Update
@@ -263,4 +275,10 @@ public interface ProductDao {
 
     @Query("DELETE FROM size")
     void deleteAllSizes();
+
+    @Query("DELETE FROM promotion")
+    void deleteAllPromotions();
+
+    @Query("DELETE FROM promotion_product")
+    void deleteAllPromotionProducts();
 }

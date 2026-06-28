@@ -64,7 +64,7 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.ViewHo
         final TextView brand;
         final TextView name;
         final TextView size;
-        final TextView color;
+        final View color;
         final TextView price;
         final TextView quantity;
         final View minus;
@@ -88,8 +88,16 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.ViewHo
         void bind(CartItemView item) {
             brand.setText(item.brandName);
             name.setText(item.productName);
-            size.setText("Size " + item.sizeName);
-            color.setText(item.colorName);
+            size.setText(item.sizeName);
+            try {
+                android.graphics.drawable.GradientDrawable shape = new android.graphics.drawable.GradientDrawable();
+                shape.setShape(android.graphics.drawable.GradientDrawable.OVAL);
+                shape.setColor(android.graphics.Color.parseColor(item.colorHex));
+                shape.setStroke(2, android.graphics.Color.LTGRAY);
+                color.setBackground(shape);
+            } catch (Exception e) {
+                color.setBackgroundResource(R.drawable.bg_home_brand_chip);
+            }
             price.setText(cartRepository.formatPrice(item.subtotal()));
             quantity.setText(String.valueOf(item.quantity));
             ImageLoader.load(item.imageUrl, image, R.drawable.ic_shoe);

@@ -19,12 +19,35 @@ import com.example.shoeapp.data.entity.Category;
 import com.example.shoeapp.model.Product;
 import com.example.shoeapp.ui.BaseSoleStepActivity;
 import com.example.shoeapp.ui.BottomNavHelper;
+import androidx.viewpager2.widget.ViewPager2;
+import android.os.Handler;
+import android.os.Looper;
+
+import com.example.shoeapp.data.AppDatabase;
+import com.example.shoeapp.data.entity.Promotion;
 import com.example.shoeapp.user.adapter.ClientProductAdapter;
 import com.example.shoeapp.user.adapter.ProductGridSpacingDecoration;
+import com.example.shoeapp.user.adapter.PromotionBannerAdapter;
 
 import java.util.List;
 
 public class MainActivity extends BaseSoleStepActivity {
+    private ViewPager2 bannerViewPager;
+    private LinearLayout sliderDots;
+    private Handler sliderHandler = new Handler(Looper.getMainLooper());
+    private Runnable sliderRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (bannerViewPager != null && bannerViewPager.getAdapter() != null) {
+                int count = bannerViewPager.getAdapter().getItemCount();
+                if (count > 0) {
+                    int next = (bannerViewPager.getCurrentItem() + 1) % count;
+                    bannerViewPager.setCurrentItem(next, true);
+                }
+                sliderHandler.postDelayed(this, 3000);
+            }
+        }
+    };
     private ClientProductRepository productRepository;
 
     @Override
@@ -37,11 +60,82 @@ public class MainActivity extends BaseSoleStepActivity {
 
         setupScreen(BottomNavHelper.TAG_HOME);
         setupSearch();
+        setupPromotions();
         setupCategories();
         setupProductGrid();
         setupBrands();
         setupSeeAll();
         setupChatbotFAB();
+    }
+
+    private void setupPromotions() {
+        bannerViewPager = findViewById(R.id.home_banner_viewpager);
+        sliderDots = findViewById(R.id.home_slider_dots);
+        
+        List<Promotion> activePromotions = AppDatabase.getDatabase(this).productDao().getActivePromotions();
+        
+        if (activePromotions != null && !activePromotions.isEmpty() && bannerViewPager != null) {
+            PromotionBannerAdapter adapter = new PromotionBannerAdapter(activePromotions, promotion -> {
+                Intent intent = new Intent(this, CatalogActivity.class);
+                intent.putExtra(CatalogActivity.EXTRA_TITLE, promotion.name);
+                intent.putExtra("promotion_id", promotion.id);
+                startActivity(intent);
+            });
+            bannerViewPager.setAdapter(adapter);
+            setupDots(activePromotions.size());
+            
+            bannerViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+                @Override
+                public void onPageSelected(int position) {
+                    super.onPageSelected(position);
+                    updateDots(position);
+                    sliderHandler.removeCallbacks(sliderRunnable);
+                    sliderHandler.postDelayed(sliderRunnable, 3000);
+                }
+            });
+        }
+    }
+
+    private void setupDots(int count) {
+        if (sliderDots == null) return;
+        sliderDots.removeAllViews();
+        for (int i = 0; i < count; i++) {
+            View dot = new View(this);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(dp(6), dp(6));
+            if (i > 0) params.setMarginStart(dp(4));
+            dot.setLayoutParams(params);
+            dot.setBackgroundResource(R.drawable.bg_rounded_gray);
+            sliderDots.addView(dot);
+        }
+        if (count > 0) updateDots(0);
+    }
+
+    private void updateDots(int position) {
+        if (sliderDots == null) return;
+        for (int i = 0; i < sliderDots.getChildCount(); i++) {
+            View dot = sliderDots.getChildAt(i);
+            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) dot.getLayoutParams();
+            if (i == position) {
+                params.width = dp(16);
+                dot.setBackgroundResource(R.drawable.bg_button_primary);
+            } else {
+                params.width = dp(6);
+                dot.setBackgroundResource(R.drawable.bg_rounded_gray);
+            }
+            dot.setLayoutParams(params);
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        sliderHandler.removeCallbacks(sliderRunnable);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        sliderHandler.postDelayed(sliderRunnable, 3000);
     }
 
     private void setupSearch() {
@@ -69,9 +163,8 @@ public class MainActivity extends BaseSoleStepActivity {
         container.removeAllViews();
 
         List<Category> categories = productRepository.getCategories();
-        int maxShow = Math.min(categories.size(), 4);
 
-        for (int i = 0; i < maxShow; i++) {
+        for (int i = 0; i < categories.size(); i++) {
             Category cat = categories.get(i);
             LinearLayout item = buildCategoryItem(cat.name, i == 0);
             item.setOnClickListener(v -> openCatalogByCategory(cat.id, cat.name));
@@ -148,6 +241,14 @@ public class MainActivity extends BaseSoleStepActivity {
             chip.setText(brand.name);
             chip.setTextSize(12f);
             chip.setTextColor(ContextCompat.getColor(this, R.color.text_secondary));
+
+            chip.setOnClickListener(v -> {
+                Intent intent = new Intent(this, CatalogActivity.class);
+                intent.putExtra(CatalogActivity.EXTRA_TITLE, brand.name);
+                intent.putExtra(CatalogActivity.EXTRA_KEYWORD, brand.name);
+                startActivity(intent);
+            });
+
             container.addView(chip);
         }
     }

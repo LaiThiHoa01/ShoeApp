@@ -29,6 +29,13 @@ public class ClientProductRepository {
     private final ProductDao productDao;
     private final AppDatabase db;
 
+    // ID arrays populated during seeding — indexed from 1
+    private final int[] brandIds    = new int[10];
+    private final int[] categoryIds = new int[7];
+    private final int[] colorIds    = new int[10];
+    private final int[] sizeIds     = new int[11];
+    private final int[] productIds  = new int[25];
+
     public ClientProductRepository(Context context) {
         db = AppDatabase.getDatabase(context);
         productDao = db.productDao();
@@ -46,6 +53,8 @@ public class ClientProductRepository {
             productDao.deleteAllCategories();
             productDao.deleteAllColors();
             productDao.deleteAllSizes();
+            productDao.deleteAllPromotionProducts();
+            productDao.deleteAllPromotions();
 
             seedBrands();
             seedCategories();
@@ -53,13 +62,105 @@ public class ClientProductRepository {
             seedSizes();
             seedProducts();
             seedVariants();
-            seedMockOrders();
+            try {
+                seedMockOrders();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        
+        // Luôn kiểm tra riêng: Nếu bảng promotion rỗng thì seed
+        java.util.List<com.example.shoeapp.data.entity.Promotion> activePromotions = productDao.getActivePromotions();
+        if (activePromotions.isEmpty()) {
+            seedPromotions();
+        } else if (productDao.getProductsByPromotion(activePromotions.get(0).id).isEmpty()) {
+            // Fix partial seed state from previous crash
+            productDao.deleteAllPromotions();
+            seedPromotions();
+        }
+    }
+
+    private void seedPromotions() {
+        com.example.shoeapp.data.entity.Promotion p1 = new com.example.shoeapp.data.entity.Promotion();
+        p1.name = "SALE ĐÓN HÈ MÁT MẺ";
+        p1.slug = "sale-don-he-mat-me";
+        p1.discountType = "PERCENTAGE";
+        p1.discountValue = 20.0;
+        p1.startDate = "2026-06-01";
+        p1.endDate = "2026-07-30";
+        p1.isActive = true;
+        p1.subtitle = "Giảm giá lên đến 20% cho toàn bộ sưu tập Hè";
+        p1.bannerUrl = "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&q=80&w=800"; 
+
+        com.example.shoeapp.data.entity.Promotion p2 = new com.example.shoeapp.data.entity.Promotion();
+        p2.name = "BACK TO SCHOOL";
+        p2.slug = "back-to-school";
+        p2.discountType = "FIXED_AMOUNT";
+        p2.discountValue = 100000.0;
+        p2.startDate = "2026-08-01";
+        p2.endDate = "2026-09-15";
+        p2.isActive = true;
+        p2.subtitle = "Giảm ngay 100K cho học sinh, sinh viên";
+        p2.bannerUrl = "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?auto=format&fit=crop&q=80&w=800"; 
+
+        com.example.shoeapp.data.entity.Promotion p3 = new com.example.shoeapp.data.entity.Promotion();
+        p3.name = "FLASH SALE CUỐI TUẦN";
+        p3.slug = "flash-sale-cuoi-tuan";
+        p3.discountType = "PERCENTAGE";
+        p3.discountValue = 50.0;
+        p3.startDate = "2026-06-25";
+        p3.endDate = "2026-06-30";
+        p3.isActive = true;
+        p3.subtitle = "Ưu đãi chớp nhoáng giảm tới 50%";
+        p3.bannerUrl = "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&q=80&w=800"; 
+
+        productDao.insertPromotion(p1);
+        productDao.insertPromotion(p2);
+        productDao.insertPromotion(p3);
+
+        java.util.List<com.example.shoeapp.data.entity.Promotion> promos = productDao.getActivePromotions();
+        
+        if (promos.size() >= 3) {
+            java.util.List<com.example.shoeapp.data.entity.Product> activeProducts = productDao.getAllProductsActive();
+            if (activeProducts.size() >= 3) {
+                com.example.shoeapp.data.entity.PromotionProduct pp1 = new com.example.shoeapp.data.entity.PromotionProduct();
+                pp1.promotionId = promos.get(0).id;
+                pp1.productId = activeProducts.get(0).id;
+                productDao.insertPromotionProduct(pp1);
+
+                com.example.shoeapp.data.entity.PromotionProduct pp2 = new com.example.shoeapp.data.entity.PromotionProduct();
+                pp2.promotionId = promos.get(1).id;
+                pp2.productId = activeProducts.get(1).id;
+                productDao.insertPromotionProduct(pp2);
+
+                com.example.shoeapp.data.entity.PromotionProduct pp3 = new com.example.shoeapp.data.entity.PromotionProduct();
+                pp3.promotionId = promos.get(2).id;
+                pp3.productId = activeProducts.get(2).id;
+                productDao.insertPromotionProduct(pp3);
+            }
         }
     }
 
     public List<com.example.shoeapp.model.Product> getFeaturedProducts() {
-        List<com.example.shoeapp.model.Product> products = getAllProducts();
-        return products.size() > 4 ? products.subList(0, 4) : products;
+        // Lấy 4 sản phẩm mới nhất (không phụ thuộc vào order_detail)
+        List<com.example.shoeapp.model.Product> result = new ArrayList<>();
+        try {
+            List<Product> products = productDao.getProductsActiveLimited(4);
+            android.util.Log.d("FEATURED", "getProductsActiveLimited(4) returned: " + products.size());
+            for (Product p : products) {
+                result.add(toClientProduct(p));
+            }
+        } catch (Exception e) {
+            android.util.Log.e("FEATURED", "Error: " + e.getMessage());
+        }
+
+        // Fallback nếu DB chưa có data
+        if (result.isEmpty()) {
+            android.util.Log.w("FEATURED", "No products found — DB may be empty");
+        }
+
+        android.util.Log.d("FEATURED", "Returning " + result.size() + " products");
+        return result;
     }
 
     public List<com.example.shoeapp.model.Product> getAllProducts() {
@@ -68,6 +169,18 @@ public class ClientProductRepository {
             products.add(toClientProduct(product));
         }
         return products;
+    }
+
+    public List<com.example.shoeapp.model.Product> getProductsByPromotion(int promotionId) {
+        List<com.example.shoeapp.model.Product> result = new ArrayList<>();
+        List<com.example.shoeapp.data.entity.PromotionProduct> pps = productDao.getProductsByPromotion(promotionId);
+        for (com.example.shoeapp.data.entity.PromotionProduct pp : pps) {
+            Product p = productDao.getProductById(pp.productId);
+            if (p != null && p.isAvailable && !p.isDiscontinue) {
+                result.add(toClientProduct(p));
+            }
+        }
+        return result;
     }
 
     public Product getProductById(int id) {
@@ -167,120 +280,151 @@ public class ClientProductRepository {
     }
 
     private void seedBrands() {
-        insertBrand(1, "Nike", "NIKE");
-        insertBrand(2, "adidas", "ADS");
-        insertBrand(3, "New Balance", "NB");
-        insertBrand(4, "ASICS", "ASC");
-        insertBrand(5, "Puma", "PUMA");
-        insertBrand(6, "Converse", "CNV");
-        insertBrand(7, "Vans", "VNS");
-        insertBrand(8, "Biti's", "BTS");
-        insertBrand(9, "Ananas", "ANS");
+        brandIds[1] = (int) insertBrand("Nike", "NIKE");
+        brandIds[2] = (int) insertBrand("adidas", "ADS");
+        brandIds[3] = (int) insertBrand("New Balance", "NB");
+        brandIds[4] = (int) insertBrand("ASICS", "ASC");
+        brandIds[5] = (int) insertBrand("Puma", "PUMA");
+        brandIds[6] = (int) insertBrand("Converse", "CNV");
+        brandIds[7] = (int) insertBrand("Vans", "VNS");
+        brandIds[8] = (int) insertBrand("Biti's", "BTS");
+        brandIds[9] = (int) insertBrand("Ananas", "ANS");
     }
 
     private void seedCategories() {
-        insertCategory(1, "Giày chạy bộ", 1);
-        insertCategory(2, "Sneaker hằng ngày", 2);
-        insertCategory(3, "Giày bóng rổ", 3);
-        insertCategory(4, "Giày tập luyện", 4);
-        insertCategory(5, "Giày thời trang", 5);
+        categoryIds[1] = (int) insertCategory("Giày chạy bộ", 1);
+        categoryIds[2] = (int) insertCategory("Sneaker hằng ngày", 2);
+        categoryIds[3] = (int) insertCategory("Giày bóng rổ", 3);
+        categoryIds[4] = (int) insertCategory("Giày tập luyện", 4);
+        categoryIds[5] = (int) insertCategory("Giày thời trang", 5);
     }
 
     private void seedColors() {
-        insertColor(1, "Trắng", "#FFFFFF", "CLR-TRANG");
-        insertColor(2, "Đen", "#111111", "CLR-DEN");
-        insertColor(3, "Xám", "#8A8A8A", "CLR-XAM");
-        insertColor(4, "Xanh navy", "#1D3557", "CLR-NAVY");
-        insertColor(5, "Kem", "#EEE2C6", "CLR-KEM");
-        insertColor(6, "Đỏ", "#C1121F", "CLR-DO");
-        insertColor(7, "Xanh lá", "#2D6A4F", "CLR-XANH-LA");
-        insertColor(8, "Nâu gum", "#9C6644", "CLR-NAU-GUM");
+        colorIds[1] = (int) insertColor("Trắng", "#FFFFFF", "CLR-TRANG");
+        colorIds[2] = (int) insertColor("Đen", "#111111", "CLR-DEN");
+        colorIds[3] = (int) insertColor("Xám", "#8A8A8A", "CLR-XAM");
+        colorIds[4] = (int) insertColor("Xanh navy", "#1D3557", "CLR-NAVY");
+        colorIds[5] = (int) insertColor("Kem", "#EEE2C6", "CLR-KEM");
+        colorIds[6] = (int) insertColor("Đỏ", "#C1121F", "CLR-DO");
+        colorIds[7] = (int) insertColor("Xanh lá", "#2D6A4F", "CLR-XANH-LA");
+        colorIds[8] = (int) insertColor("Nâu gum", "#9C6644", "CLR-NAU-GUM");
     }
 
     private void seedSizes() {
         for (int size = 36; size <= 45; size++) {
-            Size entity = new Size();
-            entity.id = size - 35;
-            entity.name = String.valueOf(size);
-            entity.sortOrder = size;
-            entity.sizeId = "SIZE-" + size;
-            productDao.insertSize(entity);
+            sizeIds[size - 35] = (int) insertSize(String.valueOf(size), size, "SIZE-" + size);
         }
     }
 
     private void seedProducts() {
-        insertProduct(1, "Nike Air Force 1 '07", "Mẫu sneaker da cổ thấp kinh điển, dễ phối đồ và phù hợp đi hằng ngày.", 2929000, 3239000, 1, 2, "PRD-NIKE-AF1", image(0));
-        insertProduct(2, "Nike Pegasus 41", "Giày chạy bộ đệm ReactX, phù hợp chạy hằng ngày và đi bộ đường dài.", 3829000, 4109000, 1, 1, "PRD-NIKE-PEGASUS-41", image(1));
-        insertProduct(3, "Nike Dunk Low Retro", "Thiết kế bóng rổ cổ điển chuyển sang phong cách streetwear năng động.", 2929000, 3519000, 1, 5, "PRD-NIKE-DUNK-LOW", image(2));
-        insertProduct(4, "Nike Court Vision Low", "Dáng tennis/basketball retro, upper da tổng hợp dễ chăm sóc.", 2069000, 2459000, 1, 2, "PRD-NIKE-COURT-VISION", image(3));
-        insertProduct(5, "Nike LeBron Witness 8", "Giày bóng rổ hỗ trợ cổ chân, đệm chắc và bám sân tốt.", 3239000, 3829000, 1, 3, "PRD-NIKE-LEBRON-WITNESS", image(4));
-        insertProduct(6, "adidas Samba OG", "Mẫu sneaker biểu tượng với đế gum, phù hợp phong cách casual.", 2700000, 3000000, 2, 5, "PRD-ADIDAS-SAMBA", image(5));
-        insertProduct(7, "adidas Ultraboost 5X", "Giày chạy bộ đệm Boost nhẹ, êm và ổn định cho tập luyện.", 5200000, 5800000, 2, 1, "PRD-ADIDAS-ULTRABOOST", image(6));
-        insertProduct(8, "adidas Stan Smith", "Sneaker tối giản, form gọn, hợp đi học, đi làm và cuối tuần.", 2500000, 2900000, 2, 2, "PRD-ADIDAS-STAN-SMITH", image(7));
-        insertProduct(9, "adidas Gazelle Indoor", "Dáng retro bằng da lộn, nổi bật với đế gum và phối màu cổ điển.", 3000000, 3400000, 2, 5, "PRD-ADIDAS-GAZELLE", image(8));
-        insertProduct(10, "adidas Campus 00s", "Form chunky skate-inspired, hợp phối đồ streetwear.", 2800000, 3200000, 2, 5, "PRD-ADIDAS-CAMPUS", image(9));
-        insertProduct(11, "New Balance 327", "Sneaker lifestyle đế răng cưa, form nhẹ và phong cách retro running.", 2590000, 2990000, 3, 2, "PRD-NB-327", image(10));
-        insertProduct(12, "New Balance 530", "Dáng running Y2K, lưới thoáng và đệm ABZORB thoải mái.", 2890000, 3290000, 3, 2, "PRD-NB-530", image(11));
-        insertProduct(13, "New Balance 574 Core", "Mẫu classic dễ mang, đệm EVA nhẹ và bền cho ngày dài.", 2390000, 2790000, 3, 2, "PRD-NB-574", image(12));
-        insertProduct(14, "ASICS GEL-Kayano 31", "Giày chạy ổn định cao, hỗ trợ tốt cho runner cần kiểm soát bước chân.", 4690000, 5290000, 4, 1, "PRD-ASICS-KAYANO-31", image(13));
-        insertProduct(15, "ASICS GEL-Nimbus 26", "Đệm êm, phù hợp chạy dài và người thích cảm giác mềm dưới chân.", 4390000, 4990000, 4, 1, "PRD-ASICS-NIMBUS-26", image(14));
-        insertProduct(16, "ASICS Japan S", "Sneaker thấp cổ lấy cảm hứng từ bóng rổ cổ điển, gọn và dễ phối.", 1690000, 2090000, 4, 2, "PRD-ASICS-JAPAN-S", image(15));
-        insertProduct(17, "Puma Suede Classic XXI", "Dòng suede kinh điển, thân giày mềm và kiểu dáng thời trang.", 1990000, 2390000, 5, 5, "PRD-PUMA-SUEDE", image(16));
-        insertProduct(18, "Puma RS-X Efekt", "Sneaker chunky nổi bật, đệm tốt cho di chuyển hằng ngày.", 2990000, 3490000, 5, 2, "PRD-PUMA-RSX", image(17));
-        insertProduct(19, "Puma TRC Blaze", "Phong cách retro running với phối màu mạnh và phần đế nổi bật.", 2590000, 3190000, 5, 5, "PRD-PUMA-TRC-BLAZE", image(18));
-        insertProduct(20, "Converse Chuck 70 High", "Canvas cổ cao kinh điển, đế dày hơn và cảm giác mang chắc chắn.", 1900000, 2200000, 6, 5, "PRD-CONVERSE-CHUCK-70", image(19));
-        insertProduct(21, "Vans Old Skool", "Giày skate cổ điển với sọc side stripe đặc trưng và đế waffle.", 1800000, 2100000, 7, 5, "PRD-VANS-OLD-SKOOL", image(20));
-        insertProduct(22, "Biti's Hunter X", "Giày Việt nhẹ, đệm êm, phù hợp đi học, đi chơi và di chuyển nhiều.", 1199000, 1499000, 8, 2, "PRD-BITIS-HUNTER-X", image(21));
-        insertProduct(23, "Ananas Basas Bumper Gum", "Sneaker canvas đế gum, kiểu dáng tối giản và giá dễ tiếp cận.", 650000, 750000, 9, 5, "PRD-ANANAS-BASAS", image(22));
-        insertProduct(24, "Ananas Vintas Saigon 1980s", "Thiết kế retro Việt Nam, hợp phối đồ casual và streetwear.", 720000, 850000, 9, 5, "PRD-ANANAS-VINTAS", image(23));
+        productIds[1]  = insertProductSeed("Nike Air Force 1 '07", "Mẫu sneaker da cổ thấp kinh điển, dễ phối đồ và phù hợp đi hằng ngày.", 2929000, 3239000, brandIds[1], categoryIds[2], "PRD-NIKE-AF1", image(0));
+        productIds[2]  = insertProductSeed("Nike Pegasus 41", "Giày chạy bộ đệm ReactX, phù hợp chạy hằng ngày và đi bộ đường dài.", 3829000, 4109000, brandIds[1], categoryIds[1], "PRD-NIKE-PEGASUS-41", image(1));
+        productIds[3]  = insertProductSeed("Nike Dunk Low Retro", "Thiết kế bóng rổ cổ điển chuyển sang phong cách streetwear năng động.", 2929000, 3519000, brandIds[1], categoryIds[5], "PRD-NIKE-DUNK-LOW", image(2));
+        productIds[4]  = insertProductSeed("Nike Court Vision Low", "Dáng tennis/basketball retro, upper da tổng hợp dễ chăm sóc.", 2069000, 2459000, brandIds[1], categoryIds[2], "PRD-NIKE-COURT-VISION", image(3));
+        productIds[5]  = insertProductSeed("Nike LeBron Witness 8", "Giày bóng rổ hỗ trợ cổ chân, đệm chắc và bám sân tốt.", 3239000, 3829000, brandIds[1], categoryIds[3], "PRD-NIKE-LEBRON-WITNESS", image(4));
+        productIds[6]  = insertProductSeed("adidas Samba OG", "Mẫu sneaker biểu tượng với đế gum, phù hợp phong cách casual.", 2700000, 3000000, brandIds[2], categoryIds[5], "PRD-ADIDAS-SAMBA", image(5));
+        productIds[7]  = insertProductSeed("adidas Ultraboost 5X", "Giày chạy bộ đệm Boost nhẹ, êm và ổn định cho tập luyện.", 5200000, 5800000, brandIds[2], categoryIds[1], "PRD-ADIDAS-ULTRABOOST", image(6));
+        productIds[8]  = insertProductSeed("adidas Stan Smith", "Sneaker tối giản, form gọn, hợp đi học, đi làm và cuối tuần.", 2500000, 2900000, brandIds[2], categoryIds[2], "PRD-ADIDAS-STAN-SMITH", image(7));
+        productIds[9]  = insertProductSeed("adidas Gazelle Indoor", "Dáng retro bằng da lộn, nổi bật với đế gum và phối màu cổ điển.", 3000000, 3400000, brandIds[2], categoryIds[5], "PRD-ADIDAS-GAZELLE", image(8));
+        productIds[10] = insertProductSeed("adidas Campus 00s", "Form chunky skate-inspired, hợp phối đồ streetwear.", 2800000, 3200000, brandIds[2], categoryIds[5], "PRD-ADIDAS-CAMPUS", image(9));
+        productIds[11] = insertProductSeed("New Balance 327", "Sneaker lifestyle đế răng cưa, form nhẹ và phong cách retro running.", 2590000, 2990000, brandIds[3], categoryIds[2], "PRD-NB-327", image(10));
+        productIds[12] = insertProductSeed("New Balance 530", "Dáng running Y2K, lưới thoáng và đệm ABZORB thoải mái.", 2890000, 3290000, brandIds[3], categoryIds[2], "PRD-NB-530", image(11));
+        productIds[13] = insertProductSeed("New Balance 574 Core", "Mẫu classic dễ mang, đệm EVA nhẹ và bền cho ngày dài.", 2390000, 2790000, brandIds[3], categoryIds[2], "PRD-NB-574", image(12));
+        productIds[14] = insertProductSeed("ASICS GEL-Kayano 31", "Giày chạy ổn định cao, hỗ trợ tốt cho runner cần kiểm soát bước chân.", 4690000, 5290000, brandIds[4], categoryIds[1], "PRD-ASICS-KAYANO-31", image(13));
+        productIds[15] = insertProductSeed("ASICS GEL-Nimbus 26", "Đệm êm, phù hợp chạy dài và người thích cảm giác mềm dưới chân.", 4390000, 4990000, brandIds[4], categoryIds[1], "PRD-ASICS-NIMBUS-26", image(14));
+        productIds[16] = insertProductSeed("ASICS Japan S", "Sneaker thấp cổ lấy cảm hứng từ bóng rổ cổ điển, gọn và dễ phối.", 1690000, 2090000, brandIds[4], categoryIds[2], "PRD-ASICS-JAPAN-S", image(15));
+        productIds[17] = insertProductSeed("Puma Suede Classic XXI", "Dòng suede kinh điển, thân giày mềm và kiểu dáng thời trang.", 1990000, 2390000, brandIds[5], categoryIds[5], "PRD-PUMA-SUEDE", image(16));
+        productIds[18] = insertProductSeed("Puma RS-X Efekt", "Sneaker chunky nổi bật, đệm tốt cho di chuyển hằng ngày.", 2990000, 3490000, brandIds[5], categoryIds[2], "PRD-PUMA-RSX", image(17));
+        productIds[19] = insertProductSeed("Puma TRC Blaze", "Phong cách retro running với phối màu mạnh và phần đế nổi bật.", 2590000, 3190000, brandIds[5], categoryIds[5], "PRD-PUMA-TRC-BLAZE", image(18));
+        productIds[20] = insertProductSeed("Converse Chuck 70 High", "Canvas cổ cao kinh điển, đế dày hơn và cảm giác mang chắc chắn.", 1900000, 2200000, brandIds[6], categoryIds[5], "PRD-CONVERSE-CHUCK-70", image(19));
+        productIds[21] = insertProductSeed("Vans Old Skool", "Giày skate cổ điển với sọc side stripe đặc trưng và đế waffle.", 1800000, 2100000, brandIds[7], categoryIds[5], "PRD-VANS-OLD-SKOOL", image(20));
+        productIds[22] = insertProductSeed("Biti's Hunter X", "Giày Việt nhẹ, đệm êm, phù hợp đi học, đi chơi và di chuyển nhiều.", 1199000, 1499000, brandIds[8], categoryIds[2], "PRD-BITIS-HUNTER-X", image(21));
+        productIds[23] = insertProductSeed("Ananas Basas Bumper Gum", "Sneaker canvas đế gum, kiểu dáng tối giản và giá dễ tiếp cận.", 650000, 750000, brandIds[9], categoryIds[5], "PRD-ANANAS-BASAS", image(22));
+        productIds[24] = insertProductSeed("Ananas Vintas Saigon 1980s", "Thiết kế retro Việt Nam, hợp phối đồ casual và streetwear.", 720000, 850000, brandIds[9], categoryIds[5], "PRD-ANANAS-VINTAS", image(23));
     }
 
     private void seedVariants() {
-        for (int productId = 1; productId <= SEED_PRODUCT_COUNT; productId++) {
-            for (int colorId : colorsForProduct(productId)) {
-                for (int sizeId = 1; sizeId <= 10; sizeId++) {
-                    int stock = 2 + (productId * colorId + sizeId) % 10;
-                    insertVariant(productId, sizeId, colorId, stock);
+        int[][] colorGroups = {
+                {colorIds[1], colorIds[2], colorIds[5]},
+                {colorIds[2], colorIds[3], colorIds[4]},
+                {colorIds[1], colorIds[2], colorIds[6], colorIds[8]},
+                {colorIds[1], colorIds[2], colorIds[3]},
+                {colorIds[2], colorIds[6], colorIds[4]},
+                {colorIds[1], colorIds[2], colorIds[8]},
+                {colorIds[2], colorIds[3], colorIds[7]},
+                {colorIds[1], colorIds[2], colorIds[5]},
+                {colorIds[3], colorIds[4], colorIds[8]},
+                {colorIds[2], colorIds[5], colorIds[7]},
+                {colorIds[3], colorIds[5], colorIds[7]},
+                {colorIds[1], colorIds[3], colorIds[4]},
+                {colorIds[2], colorIds[3], colorIds[5]},
+                {colorIds[2], colorIds[4], colorIds[7]},
+                {colorIds[1], colorIds[3], colorIds[5]},
+                {colorIds[1], colorIds[2], colorIds[6]},
+                {colorIds[2], colorIds[5], colorIds[8]},
+                {colorIds[3], colorIds[4], colorIds[6]},
+                {colorIds[2], colorIds[6], colorIds[8]},
+                {colorIds[1], colorIds[2], colorIds[5], colorIds[6]},
+                {colorIds[1], colorIds[2], colorIds[8]},
+                {colorIds[2], colorIds[4], colorIds[7]},
+                {colorIds[1], colorIds[2], colorIds[8]},
+                {colorIds[3], colorIds[5], colorIds[8]}
+        };
+        for (int i = 1; i <= SEED_PRODUCT_COUNT; i++) {
+            int pid = productIds[i];
+            if (pid == 0) continue;
+            int[] cols = colorGroups[(i - 1) % colorGroups.length];
+            for (int colorId : cols) {
+                if (colorId == 0) continue;
+                for (int s = 1; s <= 10; s++) {
+                    int sid = sizeIds[s];
+                    if (sid == 0) continue;
+                    int stock = 2 + (i * colorId + s) % 10;
+                    insertVariant(pid, sid, colorId, stock);
                 }
             }
         }
     }
 
-    private void insertBrand(int id, String name, String prefix) {
+    private long insertBrand(String name, String prefix) {
         Brand brand = new Brand();
-        brand.id = id;
         brand.name = name;
         brand.prefix = prefix;
         brand.logoUrl = "";
         brand.isActive = true;
-        productDao.insertBrand(brand);
+        return productDao.insertBrand(brand);
     }
 
-    private void insertCategory(int id, String name, int sortOrder) {
+    private long insertCategory(String name, int sortOrder) {
         Category category = new Category();
-        category.id = id;
         category.name = name;
         category.iconUrl = "";
         category.isActive = true;
         category.sortOrder = sortOrder;
         category.createdAt = "2026-06-23";
-        productDao.insertCategory(category);
+        return productDao.insertCategory(category);
     }
 
-    private void insertColor(int id, String name, String hexcode, String colorId) {
+    private long insertColor(String name, String hexcode, String colorIdStr) {
         Color color = new Color();
-        color.id = id;
         color.name = name;
         color.hexcode = hexcode;
-        color.colorId = colorId;
-        productDao.insertColor(color);
+        color.colorId = colorIdStr;
+        return productDao.insertColor(color);
     }
 
-    private void insertProduct(int id, String name, String description, double price,
-                               double originalPrice, int brandId, int categoryId,
-                               String productId, String imageUrl) {
+    private long insertSize(String name, int sortOrder, String sizeIdStr) {
+        Size entity = new Size();
+        entity.name = name;
+        entity.sortOrder = sortOrder;
+        entity.sizeId = sizeIdStr;
+        return productDao.insertSize(entity);
+    }
+
+    private int insertProductSeed(String name, String description, double price,
+                                  double originalPrice, int brandId, int categoryId,
+                                  String productIdStr, String imageUrl) {
         Product product = new Product();
-        product.id = id;
         product.name = name;
         product.description = description;
         product.price = price;
@@ -290,22 +434,20 @@ public class ClientProductRepository {
         product.addedAt = "2026-06-23";
         product.isDiscontinue = false;
         product.isAvailable = true;
-        product.productId = productId;
-        productDao.insert(product);
-        insertProductImages(id, imageUrl, colorsForProduct(id));
-    }
-
-    private void insertProductImages(int productId, String imageUrl, int[] colorIds) {
-        for (int index = 0; index < colorIds.length; index++) {
-            ProductImg productImg = new ProductImg();
-            productImg.productId = productId;
-            productImg.colorId = colorIds[index];
-            productImg.imgUrl = index == 0 ? imageUrl : image(productId + colorIds[index] + index);
-            productImg.sortOrder = 1;
-            productImg.isActive = true;
-            productImg.isThumbnail = index == 0;
-            productDao.insertProductImage(productImg);
+        product.productId = productIdStr;
+        int pid = (int) productDao.insertProduct(product);
+        // Insert thumbnail image
+        if (pid > 0) {
+            ProductImg img = new ProductImg();
+            img.productId = pid;
+            img.colorId = colorIds[1]; // màu đầu tiên làm thumbnail
+            img.imgUrl = imageUrl;
+            img.sortOrder = 1;
+            img.isActive = true;
+            img.isThumbnail = true;
+            productDao.insertProductImage(img);
         }
+        return pid;
     }
 
     private void insertVariant(int productId, int sizeId, int colorId, int stock) {
@@ -326,36 +468,6 @@ public class ClientProductRepository {
     private int reviewCountFor(int id) {
         int[] counts = {284, 176, 391, 122, 97, 438, 205, 318, 144, 231, 168, 256};
         return counts[(id - 1) % counts.length];
-    }
-
-    private int[] colorsForProduct(int productId) {
-        int[][] productColors = {
-                {1, 2, 5},
-                {2, 3, 4},
-                {1, 2, 6, 8},
-                {1, 2, 3},
-                {2, 6, 4},
-                {1, 2, 8},
-                {2, 3, 7},
-                {1, 2, 5},
-                {3, 4, 8},
-                {2, 5, 7},
-                {3, 5, 7},
-                {1, 3, 4},
-                {2, 3, 5},
-                {2, 4, 7},
-                {1, 3, 5},
-                {1, 2, 6},
-                {2, 5, 8},
-                {3, 4, 6},
-                {2, 6, 8},
-                {1, 2, 5, 6},
-                {1, 2, 8},
-                {2, 4, 7},
-                {1, 2, 8},
-                {3, 5, 8}
-        };
-        return productColors[(productId - 1) % productColors.length];
     }
 
     public String formatPrice(double price) {
@@ -394,12 +506,15 @@ public class ClientProductRepository {
     }
 
     private void seedMockOrders() {
-        int customerId = 2;
+        int customerId = 1; // Default to Admin user if no customer exists to avoid FK crash
         List<User> users = db.userDao().getAllUsers();
-        for (User u : users) {
-            if ("CUSTOMER".equals(u.role)) {
-                customerId = u.id;
-                break;
+        if (!users.isEmpty()) {
+            customerId = users.get(0).id;
+            for (User u : users) {
+                if ("CUSTOMER".equals(u.role)) {
+                    customerId = u.id;
+                    break;
+                }
             }
         }
 

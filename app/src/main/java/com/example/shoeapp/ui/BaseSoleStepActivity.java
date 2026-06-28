@@ -11,10 +11,17 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.shoeapp.ui.BottomNavHelper;
 import com.example.shoeapp.R;
 
+import android.os.Bundle;
+
 public abstract class BaseSoleStepActivity extends AppCompatActivity {
 
-    protected void setupScreen(String selectedBottomNavTag) {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         EdgeToEdge.enable(this);
+        super.onCreate(savedInstanceState);
+    }
+
+    protected void setupScreen(String selectedBottomNavTag) {
         View root = findViewById(R.id.main);
         if (root != null) {
             ViewCompat.setOnApplyWindowInsetsListener(root, (view, insets) -> {

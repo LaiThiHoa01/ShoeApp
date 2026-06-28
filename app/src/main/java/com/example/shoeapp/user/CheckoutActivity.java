@@ -65,6 +65,7 @@ public class CheckoutActivity extends BaseSoleStepActivity {
     private String selectedDelivery = "Giao tiêu chuẩn";
     private String selectedPayment = "ZALOPAY";
     private double shippingFee = STANDARD_SHIPPING;
+    private AppDatabase db;
 
     private void bindViews() {
         nameInput = findViewById(R.id.checkout_name_input);
@@ -98,6 +99,7 @@ public class CheckoutActivity extends BaseSoleStepActivity {
         }
 
         orderRepository = new ClientOrderRepository(this);
+        db = AppDatabase.getDatabase(this);
         bindViews();
         setupList();
         setupOptions();
@@ -112,6 +114,10 @@ public class CheckoutActivity extends BaseSoleStepActivity {
         placeOrderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (!validateCheckout()) {
+                    return;
+                }
+
                 double subtotal = cartRepository.subtotal(items);
                 double deliveryFee = items.isEmpty() ? 0 : shippingFee;
                 double discount = cartRepository.discount(items);
@@ -179,6 +185,24 @@ public class CheckoutActivity extends BaseSoleStepActivity {
 
     }
 
+    private boolean validateCheckout() {
+        if (nameInput.getText().toString().trim().isEmpty() ||
+            phoneInput.getText().toString().trim().isEmpty() ||
+            addressInput.getText().toString().trim().isEmpty()) {
+            Toast.makeText(this, "Vui lòng nhập đầy đủ thông tin giao hàng", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        for (CartItemView item : items) {
+            com.example.shoeapp.data.entity.ProductVariant variant = db.productDao().getVariant(item.productId, item.colorId, item.sizeId);
+            if (variant == null || variant.stock < item.quantity) {
+                Toast.makeText(this, "Sản phẩm " + item.productName + " không đủ số lượng trong kho", Toast.LENGTH_LONG).show();
+                return false;
+            }
+        }
+        return true;
+    }
+
     private void saveOrderToDb(String paymentMethod, String paymentStatus) {
         double subtotal = cartRepository.subtotal(items);
         double deliveryFee = items.isEmpty() ? 0 : shippingFee;
@@ -190,11 +214,12 @@ public class CheckoutActivity extends BaseSoleStepActivity {
                 deliveryFee,
                 subtotal,
                 total,
-                addressInput.getText().toString(),
-                phoneInput.getText().toString(),
+                nameInput.getText().toString().trim(),
+                addressInput.getText().toString().trim(),
+                phoneInput.getText().toString().trim(),
                 paymentMethod,
                 paymentStatus,
-                noteInput.getText().toString()
+                noteInput.getText().toString().trim()
         );
     }
 
@@ -222,8 +247,6 @@ public class CheckoutActivity extends BaseSoleStepActivity {
     }
 
     private void setupDefaults() {
-        AppDatabase db = AppDatabase.getDatabase(this);
-
         int loggedInUserId = SessionManager.getUserId(this);
         if (loggedInUserId == -1) {
             Toast.makeText(this, "Bạn chưa đăng nhập", Toast.LENGTH_SHORT).show();

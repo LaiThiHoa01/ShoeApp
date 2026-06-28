@@ -343,6 +343,18 @@ public class AdminOrderManagementActivity extends BaseAdminActivity
             String eId = entity.ordersId != null ? entity.ordersId : "#" + entity.id;
             if (eId.equals(orderId)) {
                 entity.orderStatus = newStatus;
+                
+                if ("CANCELLED".equals(newStatus)) {
+                    java.util.List<com.example.shoeapp.data.entity.OrderDetail> details = db.orderDao().getDetailsByOrder(entity.id);
+                    for (com.example.shoeapp.data.entity.OrderDetail detail : details) {
+                        com.example.shoeapp.data.entity.ProductVariant variant = db.productDao().getVariant(detail.productId, detail.colorId, detail.sizeId);
+                        if (variant != null) {
+                            variant.stock = variant.stock + detail.quantity;
+                            db.productDao().updateProductVariant(variant);
+                        }
+                    }
+                }
+                
                 db.orderDao().update(entity);
                 break;
             }
