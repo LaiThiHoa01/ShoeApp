@@ -40,6 +40,7 @@ public class AdminUserAdapter extends ListAdapter<UserWithStats, AdminUserAdapte
                     && Objects.equals(oldItem.user.fullName, newItem.user.fullName)
                     && Objects.equals(oldItem.user.email, newItem.user.email)
                     && Objects.equals(oldItem.user.phoneNumber, newItem.user.phoneNumber)
+                    && Objects.equals(oldItem.user.role, newItem.user.role)
                     && oldItem.user.isActive == newItem.user.isActive
                     && oldItem.orderCount == newItem.orderCount
                     && Double.compare(oldItem.spentAmount, newItem.spentAmount) == 0;
@@ -71,6 +72,7 @@ public class AdminUserAdapter extends ListAdapter<UserWithStats, AdminUserAdapte
     class ViewHolder extends RecyclerView.ViewHolder {
         final TextView tvInitials;
         final TextView tvName;
+        final TextView tvRoleBadge;
         final TextView tvStatusBadge;
         final TextView tvEmail;
         final TextView tvOrdersCount;
@@ -83,6 +85,7 @@ public class AdminUserAdapter extends ListAdapter<UserWithStats, AdminUserAdapte
             super(itemView);
             tvInitials = itemView.findViewById(R.id.tv_initials);
             tvName = itemView.findViewById(R.id.tv_user_name);
+            tvRoleBadge = itemView.findViewById(R.id.tv_role_badge);
             tvStatusBadge = itemView.findViewById(R.id.tv_status_badge);
             tvEmail = itemView.findViewById(R.id.tv_user_email);
             tvOrdersCount = itemView.findViewById(R.id.tv_orders_count);
@@ -118,6 +121,19 @@ public class AdminUserAdapter extends ListAdapter<UserWithStats, AdminUserAdapte
             // Tên và email
             tvName.setText(u.fullName);
             tvEmail.setText(u.email);
+
+            // Vai trò (Role)
+            if ("ADMIN".equals(u.role)) {
+                tvRoleBadge.setText("Quản trị");
+                tvRoleBadge.setTextColor(ContextCompat.getColor(context, R.color.brand_orange));
+                tvRoleBadge.setBackgroundResource(R.drawable.bg_status_delivered);
+                tvRoleBadge.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#1AF97316")));
+            } else {
+                tvRoleBadge.setText("Khách hàng");
+                tvRoleBadge.setTextColor(ContextCompat.getColor(context, R.color.stat_orders));
+                tvRoleBadge.setBackgroundResource(R.drawable.bg_status_delivered);
+                tvRoleBadge.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#1A3B82F6")));
+            }
 
             // Trạng thái hoạt động
             if (u.isActive) {
