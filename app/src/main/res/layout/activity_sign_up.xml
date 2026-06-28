@@ -118,7 +118,8 @@
                         android:paddingStart="14dp"
                         android:paddingEnd="14dp"
                         android:singleLine="true"
-                        android:text="@string/auth_first_name_value"
+                        android:hint="Thu"
+                        android:textColorHint="@color/text_muted"
                         android:textColor="@color/text_primary"
                         android:textSize="13sp" />
                 </LinearLayout>
@@ -150,7 +151,8 @@
                         android:paddingStart="14dp"
                         android:paddingEnd="14dp"
                         android:singleLine="true"
-                        android:text="@string/auth_last_name_value"
+                        android:hint="Phung"
+                        android:textColorHint="@color/text_muted"
                         android:textColor="@color/text_primary"
                         android:textSize="13sp" />
                 </LinearLayout>
@@ -179,7 +181,8 @@
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
                 android:singleLine="true"
-                android:text="@string/auth_email_value"
+                android:hint="email@gmail.com"
+                android:textColorHint="@color/text_muted"
                 android:textColor="@color/text_primary"
                 android:textSize="13sp" />
 
@@ -225,7 +228,8 @@
                     android:paddingStart="16dp"
                     android:paddingEnd="16dp"
                     android:singleLine="true"
-                    android:text="@string/auth_phone_value"
+                    android:hint="123456789"
+                    android:textColorHint="@color/text_muted"
                     android:textColor="@color/text_primary"
                     android:textSize="13sp" />
             </LinearLayout>
@@ -259,7 +263,8 @@
                     android:paddingStart="16dp"
                     android:paddingEnd="48dp"
                     android:singleLine="true"
-                    android:text="@string/auth_password_value"
+                    android:hint="shoeapp123"
+                    android:textColorHint="@color/text_muted"
                     android:textColor="@color/text_primary"
                     android:textSize="13sp" />
 
@@ -275,10 +280,12 @@
             </FrameLayout>
 
             <LinearLayout
+                android:id="@+id/strengthBarContainer"
                 android:layout_width="match_parent"
                 android:layout_height="3dp"
                 android:layout_marginTop="8dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <View
                     android:layout_width="0dp"
@@ -309,45 +316,15 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/strengthText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:fontFamily="sans-serif"
                 android:text="@string/auth_strong_password"
                 android:textColor="@color/brand_orange"
-                android:textSize="10sp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="58dp"
-                android:layout_marginTop="18dp"
-                android:background="@drawable/bg_signup_terms"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingStart="12dp"
-                android:paddingEnd="12dp">
-
-                <TextView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:background="@drawable/bg_signup_step_done"
-                    android:fontFamily="sans-serif-medium"
-                    android:gravity="center"
-                    android:text="@string/check_mark"
-                    android:textColor="@color/brand_white"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:id="@+id/termsText"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_weight="1"
-                    android:fontFamily="sans-serif"
-                    android:lineSpacingExtra="2dp"
-                    android:textColor="@color/text_muted"
-                    android:textSize="11sp" />
-            </LinearLayout>
+                android:textSize="10sp"
+                android:visibility="gone"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/continueButton"
@@ -384,6 +361,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
                     android:fontFamily="sans-serif"
                     android:text="@string/auth_have_account"
                     android:textColor="@color/text_muted"
@@ -397,7 +375,7 @@
                     android:gravity="center"
                     android:text="@string/auth_btn_sign_in"
                     android:textColor="@color/brand_orange"
-                    android:textSize="16sp" />
+                    android:textSize="13sp" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

@@ -1,5 +1,6 @@
 package com.example.shoeapp.authentication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -96,16 +97,18 @@ public class ChangePasswordActivity extends AppCompatActivity {
             return;
         }
 
-        try {
-            AuthRepository authRepository = new AuthRepository(this);
-            authRepository.forgotPassword(email, newPassword, confirmPassword);
-
-            Toast.makeText(this, "Đặt lại mật khẩu thành công", Toast.LENGTH_SHORT).show();
-            finish();
-
-        } catch (AuthRepository.AuthException e) {
-            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+        AuthRepository authRepository = new AuthRepository(this);
+        if (!authRepository.isEmailExists(email)) {
+            emailInput.setError("Email không tồn tại");
+            return;
         }
+
+        Intent intent = new Intent(this, VerifyEmailOtpActivity.class);
+        intent.putExtra(VerifyEmailOtpActivity.EXTRA_MODE, VerifyEmailOtpActivity.MODE_RESET_PASSWORD);
+        intent.putExtra(VerifyEmailOtpActivity.EXTRA_EMAIL, email);
+        intent.putExtra(VerifyEmailOtpActivity.EXTRA_NEW_PASSWORD, newPassword);
+        intent.putExtra(VerifyEmailOtpActivity.EXTRA_CONFIRM_PASSWORD, confirmPassword);
+        startActivity(intent);
     }
 
     private void setupPasswordToggle(int inputId, int buttonId) {
