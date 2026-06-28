@@ -121,27 +121,92 @@ public class ClientCartRepository {
     }
 
     public boolean checkAndApplyPromoCode(String code) {
-        Promotion promo = productDao.getActivePromotionByName(code);
+        Promotion promo = productDao.getActivePromotionByVoucher(code);
         if (promo != null) {
-            setAppliedPromoCode(promo.name);
+            setAppliedPromoCode(promo.voucherCode);
             return true;
         }
         return false;
     }
 
+    public Promotion getSuggestedPromotion(List<CartItemView> items) {
+        if (items == null || items.isEmpty()) return null;
+        
+        List<Promotion> allPromos = productDao.getAllPromotions();
+        if (allPromos == null) return null;
+        
+        Promotion bestPromo = null;
+        double maxDiscount = 0;
+
+        for (Promotion promo : allPromos) {
+            if (promo.quantity <= 0 || promo.voucherCode == null || promo.voucherCode.isEmpty()) continue;
+            
+            String oldCode = this.appliedPromoCode;
+            this.appliedPromoCode = promo.voucherCode;
+            double calculatedDiscount = discount(items);
+            this.appliedPromoCode = oldCode;
+            
+            if (calculatedDiscount > maxDiscount) {
+                maxDiscount = calculatedDiscount;
+                bestPromo = promo;
+            }
+        }
+        
+        // Return only if the best promotion gives a discount and isn't already applied
+        if (bestPromo != null && !bestPromo.voucherCode.equals(this.appliedPromoCode)) {
+            return bestPromo;
+        }
+        return null;
+    }
+
     public double discount(List<CartItemView> items) {
-        double subtotal = subtotal(items);
         if (appliedPromoCode != null && !appliedPromoCode.isEmpty()) {
-            Promotion promo = productDao.getActivePromotionByName(appliedPromoCode);
+            Promotion promo = productDao.getActivePromotionByVoucher(appliedPromoCode);
             if (promo != null) {
-                if ("PERCENTAGE".equalsIgnoreCase(promo.discountType)) {
-                    return subtotal * (promo.discountValue / 100.0);
-                } else if ("FIXED_AMOUNT".equalsIgnoreCase(promo.discountType)) {
-                    return promo.discountValue;
+                double eligibleSubtotal = 0;
+                
+                if ("CATEGORY".equalsIgnoreCase(promo.targetType)) {
+                    for (CartItemView item : items) {
+                        com.example.shoeapp.data.entity.Product p = productDao.getProductById(item.productId);
+                        if (p != null && p.shoeCategory == promo.categoryId) {
+                            eligibleSubtotal += item.subtotal();
+                        }
+                    }
+                } else if ("PRODUCTS".equalsIgnoreCase(promo.targetType)) {
+                    List<com.example.shoeapp.data.entity.PromotionProduct> promoProducts = productDao.getProductsByPromotion(promo.id);
+                    for (CartItemView item : items) {
+                        for (com.example.shoeapp.data.entity.PromotionProduct pp : promoProducts) {
+                            if (item.productId == pp.productId) {
+                                eligibleSubtotal += item.subtotal();
+                                break;
+                            }
+                        }
+                    }
+                } else if ("BRAND".equalsIgnoreCase(promo.targetType)) {
+                    for (CartItemView item : items) {
+                        com.example.shoeapp.data.entity.Product p = productDao.getProductById(item.productId);
+                        if (p != null && p.brandId == promo.brandId) {
+                            eligibleSubtotal += item.subtotal();
+                        }
+                    }
+                } else {
+                    eligibleSubtotal = subtotal(items);
+                }
+
+                if (eligibleSubtotal > 0) {
+                    if ("PERCENTAGE".equalsIgnoreCase(promo.discountType)) {
+                        double calculated = eligibleSubtotal * (promo.discountValue / 100.0);
+                        if (promo.maxDiscountAmount != null && promo.maxDiscountAmount > 0) {
+                            return Math.min(calculated, promo.maxDiscountAmount);
+                        }
+                        return calculated;
+                    } else {
+                        return Math.min(promo.discountValue, eligibleSubtotal);
+                    }
                 }
             }
         }
-        return subtotal >= 3000000 ? 150000 : 0;
+        return 0;
     }
 
     public double total(List<CartItemView> items) {

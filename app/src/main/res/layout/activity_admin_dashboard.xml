@@ -339,6 +339,16 @@
                 </LinearLayout>
             </GridLayout>
 
+            <android.widget.Button
+                android:id="@+id/btn_manage_promotions"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/bg_button_primary"
+                android:text="Quản lý Khuyến mãi"
+                android:textColor="@color/brand_white"
+                android:textStyle="bold" />
+
             <!-- Đơn hàng gần đây -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"

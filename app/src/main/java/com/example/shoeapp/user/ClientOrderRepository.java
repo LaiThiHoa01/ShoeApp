@@ -23,7 +23,7 @@ public class ClientOrderRepository {
     }
 
     public void saveOrder(List<CartItemView> items, double deliveryFee, double subtotal, double total,
-                          String shippingAddress, String phoneNumber, String paymentMethod, String paymentStatus, String note) {
+                          String customerName, String shippingAddress, String phoneNumber, String paymentMethod, String paymentStatus, String note) {
         Order order = new Order();
         order.userId = this.userId;
 
@@ -33,7 +33,7 @@ public class ClientOrderRepository {
         order.shippingFee = deliveryFee;
         order.subTotal = subtotal;
         order.grandTotal = total;
-        order.shippingAddress = shippingAddress;
+        order.shippingAddress = "Người nhận: " + customerName + " - " + shippingAddress;
         order.phoneNumber = phoneNumber;
         order.orderStatus = "PENDING";
         order.paymentMethod = paymentMethod;
@@ -56,6 +56,13 @@ public class ClientOrderRepository {
             detail.subtotal = item.subtotal();
             detail.orderDetailId = "ORDDET-" + orderId + "-" + i;
             db.orderDao().insertDetail(detail);
+            
+            com.example.shoeapp.data.entity.ProductVariant variant = db.productDao().getVariant(item.productId, item.colorId, item.sizeId);
+            if (variant != null) {
+                variant.stock = variant.stock - item.quantity;
+                if (variant.stock < 0) variant.stock = 0;
+                db.productDao().updateProductVariant(variant);
+            }
         }
     }
 }

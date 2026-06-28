@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/brand_white"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/tv_dialog_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Chọn sản phẩm áp dụng"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/text_dark_primary"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btn_close_dialog" />
+
+    <ImageButton
+        android:id="@+id/btn_close_dialog"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:src="@android:drawable/ic_menu_close_clear_cancel"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        app:tint="@color/text_dark_secondary"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/tv_dialog_title"/>
+
+    <EditText
+        android:id="@+id/et_search_product"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="Tìm kiếm sản phẩm..."
+        android:background="@drawable/bg_input_light"
+        android:paddingHorizontal="12dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_dialog_title" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_select_products"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
+        app:layout_constraintTop_toBottomOf="@id/et_search_product"
+        app:layout_constraintBottom_toTopOf="@id/btn_confirm_selection" />
+
+    <Button
+        android:id="@+id/btn_confirm_selection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Xác nhận"
+        android:textColor="@color/brand_white"
+        android:backgroundTint="@color/brand_orange"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

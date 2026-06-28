@@ -139,6 +139,43 @@
                     android:textSize="12sp" />
             </LinearLayout>
 
+            <!-- Suggested Promo -->
+            <LinearLayout
+                android:id="@+id/layout_suggested_promo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_cart_item_card"
+                android:padding="12dp"
+                android:gravity="center_vertical"
+                android:visibility="gone">
+                
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Gợi ý:"
+                    android:textColor="@color/text_secondary"/>
+                    
+                <TextView
+                    android:id="@+id/tv_suggested_promo_code"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="8dp"
+                    tools:text="SUMMER20 - Giảm 20%"
+                    android:textColor="@color/brand_orange"
+                    android:textStyle="bold"/>
+                    
+                <Button
+                    android:id="@+id/btn_use_suggested_promo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:text="Dùng"
+                    android:textSize="12sp"
+                    style="?attr/materialButtonOutlinedStyle"/>
+            </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/cart_summary_card"
                 android:layout_width="match_parent"

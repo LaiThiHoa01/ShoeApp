@@ -1,5 +1,6 @@
 package com.example.shoeapp.user;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shoeapp.R;
+import com.example.shoeapp.data.entity.Category;
 import com.example.shoeapp.model.Product;
 import com.example.shoeapp.ui.BaseSoleStepActivity;
 import com.example.shoeapp.ui.BottomNavHelper;
@@ -31,6 +33,9 @@ public class CatalogActivity extends BaseSoleStepActivity {
     private List<Product> allProducts = new ArrayList<>();
     private String currentSort = "default";
     private boolean isPriceAsc = true;
+    private int selectedCategoryId = -1;   // -1 = không lọc danh mục
+    private String selectedCategoryName = "";
+    private List<Category> categories = new ArrayList<>();
 
     private TextView sortDefault, sortPrice, sortCategory, sortNewest;
 
@@ -98,15 +103,63 @@ public class CatalogActivity extends BaseSoleStepActivity {
             sortPrice.setText(isPriceAsc ? "Giá ↑" : "Giá ↓");
             selectSort(isPriceAsc ? "price_asc" : "price_desc");
         });
-        sortCategory.setOnClickListener(v -> selectSort("category"));
+        sortCategory.setOnClickListener(v -> showCategoryDialog());
         sortNewest.setOnClickListener(v -> selectSort("newest"));
+    }
+
+    private void showCategoryDialog() {
+        if (categories.isEmpty()) {
+            categories = productRepository.getCategories();
+        }
+
+        // Tạo danh sách tên danh mục, thêm "Tất cả" ở đầu
+        String[] names = new String[categories.size() + 1];
+        names[0] = "Tất cả danh mục";
+        for (int i = 0; i < categories.size(); i++) {
+            names[i + 1] = categories.get(i).name;
+        }
+
+        // Đánh dấu item đang chọn
+        int checkedItem = 0;
+        if (selectedCategoryId != -1) {
+            for (int i = 0; i < categories.size(); i++) {
+                if (categories.get(i).id == selectedCategoryId) {
+                    checkedItem = i + 1;
+                    break;
+                }
+            }
+        }
+
+        new AlertDialog.Builder(this)
+                .setTitle("Chọn danh mục")
+                .setSingleChoiceItems(names, checkedItem, (dialog, which) -> {
+                    dialog.dismiss();
+                    if (which == 0) {
+                        // Bỏ lọc danh mục
+                        selectedCategoryId = -1;
+                        selectedCategoryName = "";
+                        sortCategory.setText("Danh mục");
+                        selectSort("default");
+                    } else {
+                        Category cat = categories.get(which - 1);
+                        selectedCategoryId = cat.id;
+                        selectedCategoryName = cat.name;
+                        sortCategory.setText(cat.name + " ▾");
+                        selectSort("category");
+                    }
+                })
+                .setNegativeButton("Huỷ", null)
+                .show();
     }
 
     private void loadProducts() {
         Intent intent = getIntent();
         int categoryId = intent.getIntExtra(EXTRA_CATEGORY_ID, -1);
+        int promotionId = intent.getIntExtra("promotion_id", -1);
 
-        if (categoryId > 0) {
+        if (promotionId > 0) {
+            allProducts = productRepository.getProductsByPromotion(promotionId);
+        } else if (categoryId > 0) {
             allProducts = productRepository.getProductsByCategory(categoryId);
         } else {
             String keyword = intent.getStringExtra(EXTRA_KEYWORD);
@@ -125,9 +178,16 @@ public class CatalogActivity extends BaseSoleStepActivity {
         String kw = keyword == null ? "" : keyword.trim().toLowerCase();
 
         for (Product p : allProducts) {
-            if (kw.isEmpty()
+            // Lọc theo từ khóa
+            boolean matchKeyword = kw.isEmpty()
                     || p.getName().toLowerCase().contains(kw)
-                    || p.getBrand().toLowerCase().contains(kw)) {
+                    || p.getBrand().toLowerCase().contains(kw);
+
+            // Lọc theo danh mục đã chọn
+            boolean matchCategory = selectedCategoryId == -1
+                    || (p.getCategory() != null && p.getCategory().equals(selectedCategoryName));
+
+            if (matchKeyword && matchCategory) {
                 filtered.add(p);
             }
         }
@@ -139,9 +199,6 @@ public class CatalogActivity extends BaseSoleStepActivity {
                 break;
             case "price_desc":
                 Collections.sort(filtered, (a, b) -> Double.compare(b.getPrice(), a.getPrice()));
-                break;
-            case "category":
-                Collections.sort(filtered, (a, b) -> a.getCategory().compareTo(b.getCategory()));
                 break;
             case "newest":
                 Collections.sort(filtered, (a, b) -> b.getId() - a.getId());
