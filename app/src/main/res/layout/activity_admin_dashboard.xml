@@ -59,38 +59,7 @@
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/admin_label"
             app:layout_constraintTop_toBottomOf="@+id/admin_label" />
-
-        <FrameLayout
-            android:layout_width="54dp"
-            android:layout_height="54dp"
-            android:background="@drawable/bg_circle_dark"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_gravity="center"
-                android:contentDescription="@null"
-                android:src="@drawable/ic_home_bell"
-                app:tint="@color/text_dark_primary" />
-
-            <TextView
-                android:id="@+id/tv_notification_badge"
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:layout_gravity="top|end"
-                android:layout_marginTop="6dp"
-                android:layout_marginEnd="6dp"
-                android:background="@drawable/bg_badge_orange"
-                android:gravity="center"
-                android:text="5"
-                android:textColor="@color/brand_white"
-                android:textSize="10sp"
-                android:textStyle="bold" />
-        </FrameLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/admin_scroll_view"
@@ -158,7 +127,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="6dp"
-                        android:text="+18.2% so với hôm qua"
+                        android:text="--% so với hôm qua"
                         android:textColor="@color/text_dark_secondary"
                         android:textSize="15sp" />
                 </LinearLayout>

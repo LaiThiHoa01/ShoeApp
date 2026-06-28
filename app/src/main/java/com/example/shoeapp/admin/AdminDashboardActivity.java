@@ -129,8 +129,34 @@ public class AdminDashboardActivity extends AppCompatActivity {
             Double todayRevValue = db.orderDao().getRevenueByDate(today);
             double todayRevenue = (todayRevValue != null) ? todayRevValue : 0.0;
 
+            java.util.Calendar cal = java.util.Calendar.getInstance();
+            cal.add(java.util.Calendar.DATE, -1);
+            String yesterday = new SimpleDateFormat("yyyy-MM-dd", Locale.US).format(cal.getTime());
+            Double yesterdayRevValue = db.orderDao().getRevenueByDate(yesterday);
+            double yesterdayRevenue = (yesterdayRevValue != null) ? yesterdayRevValue : 0.0;
+
             TextView tvTodayRevenue = findViewById(R.id.revenue_amount);
             if (tvTodayRevenue != null) tvTodayRevenue.setText(currencyFormat.format(todayRevenue));
+
+            TextView tvRevenueTrend = findViewById(R.id.tv_revenue_trend);
+            if (tvRevenueTrend != null) {
+                String trendText;
+                if (yesterdayRevenue == 0.0) {
+                    if (todayRevenue > 0.0) {
+                        trendText = "+100% so với hôm qua";
+                    } else {
+                        trendText = "0% so với hôm qua";
+                    }
+                } else {
+                    double diffPercent = ((todayRevenue - yesterdayRevenue) / yesterdayRevenue) * 100.0;
+                    if (diffPercent >= 0.0) {
+                        trendText = String.format(Locale.US, "+%.1f%% so với hôm qua", diffPercent);
+                    } else {
+                        trendText = String.format(Locale.US, "%.1f%% so với hôm qua", diffPercent);
+                    }
+                }
+                tvRevenueTrend.setText(trendText);
+            }
 
             TextView tvOrders = findViewById(R.id.tv_stat_orders_value);
             if (tvOrders != null) tvOrders.setText(String.valueOf(orderCount));
