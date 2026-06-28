@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class AdminProductsActivity extends AppCompatActivity
+public class AdminProductsActivity extends BaseAdminActivity
         implements AdminProductAdapter.OnProductActionListener {
 
     private RecyclerView         recyclerView;

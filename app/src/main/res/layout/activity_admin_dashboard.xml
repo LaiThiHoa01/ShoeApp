@@ -111,7 +111,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/admin_today_revenue"
-                    android:textColor="@color/text_dark_secondary"
+                    android:textColor="#E6FFFFFF"
                     android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -141,14 +141,14 @@
                         android:layout_width="18dp"
                         android:layout_height="18dp"
                         android:src="@drawable/ic_home_trending"
-                        app:tint="@color/text_dark_secondary" />
+                        app:tint="#CCFFFFFF" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="6dp"
                         android:text="+18.2% so với hôm qua"
-                        android:textColor="@color/text_dark_secondary"
+                        android:textColor="#CCFFFFFF"
                         android:textSize="15sp" />
                 </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>

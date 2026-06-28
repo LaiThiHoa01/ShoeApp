@@ -72,14 +72,14 @@
         <item name="colorOnSecondary">@color/brand_white</item>
 
         <item name="colorSurface">@color/bg_dark_surface_2</item>
-        <item name="colorOnSurface">@color/brand_white</item>
+        <item name="colorOnSurface">@color/text_dark_primary</item>
 
         <item name="android:colorBackground">@color/bg_dark_primary</item>
-        <item name="colorOnBackground">@color/brand_white</item>
+        <item name="colorOnBackground">@color/text_dark_primary</item>
 
         <item name="android:statusBarColor">@color/bg_dark_primary</item>
         <item name="android:navigationBarColor">@color/bg_dark_primary</item>
-        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
 
         <item name="android:windowBackground">@color/bg_dark_primary</item>
 

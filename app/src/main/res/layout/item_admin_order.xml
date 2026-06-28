@@ -196,8 +196,9 @@
             android:text="@string/admin_mark_shipped"
             android:textSize="10sp"
             android:maxLines="1"
-            app:icon="@drawable/ic_truck"
-            app:iconSize="14dp" />
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
+            app:icon="@null" />
     </LinearLayout>
 
 </LinearLayout>

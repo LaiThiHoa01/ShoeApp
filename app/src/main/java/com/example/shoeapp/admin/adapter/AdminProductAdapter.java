@@ -126,9 +126,9 @@ public class AdminProductAdapter
             badgeNew.setVisibility(product.isNew() ? View.VISIBLE : View.GONE);
 
             // ── Giá ────────────────────────────────────────────────────────
-            price.setText(String.format(Locale.US, "$%.2f", product.getPrice()));
+            price.setText(com.example.shoeapp.Helper.Helpers.formatPrice(product.getPrice()));
             if (product.getOriginalPrice() > product.getPrice()) {
-                priceOriginal.setText(String.format(Locale.US, "$%.2f", product.getOriginalPrice()));
+                priceOriginal.setText(com.example.shoeapp.Helper.Helpers.formatPrice(product.getOriginalPrice()));
                 priceOriginal.setPaintFlags(priceOriginal.getPaintFlags() | android.graphics.Paint.STRIKE_THRU_TEXT_FLAG);
                 priceOriginal.setVisibility(View.VISIBLE);
             } else {

@@ -13,7 +13,7 @@ import com.example.shoeapp.ui.AddUserBottomSheet;
 import com.example.shoeapp.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class UserManagementActivity extends AppCompatActivity {
+public class UserManagementActivity extends BaseAdminActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
