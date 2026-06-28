@@ -22,7 +22,6 @@ import com.example.shoeapp.data.AppDatabase;
 import com.example.shoeapp.data.entity.User;
 import com.example.shoeapp.user.MainActivity;
 
-import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -99,16 +98,35 @@ public class LoginActivity extends AppCompatActivity {
         googleSignInLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
-                    Intent data = result.getData();
-                    Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+                    if (result.getData() == null) {
+                        Toast.makeText(this, "Bạn đã hủy đăng nhập Google", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    Task<GoogleSignInAccount> task =
+                            GoogleSignIn.getSignedInAccountFromIntent(result.getData());
+
                     try {
                         GoogleSignInAccount account = task.getResult(ApiException.class);
-                        firebaseAuthWithGoogle(account.getIdToken());
+                        String idToken = account.getIdToken();
+
+                        if (idToken == null) {
+                            Toast.makeText(this, "Không lấy được Google ID Token", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        firebaseAuthWithGoogle(idToken);
+
                     } catch (ApiException e) {
-                        Toast.makeText(this, "Đăng nhập Google thất bại", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(
+                                this,
+                                "Đăng nhập Google thất bại: " + e.getStatusCode(),
+                                Toast.LENGTH_SHORT
+                        ).show();
                     }
                 }
         );
+        findViewById(R.id.googleSignInButton).setOnClickListener(v -> signInWithGoogle());
     }
 
     private void handleLogin() {
@@ -121,18 +139,7 @@ public class LoginActivity extends AppCompatActivity {
 
             Toast.makeText(this, "Xin chào, " + user.fullName + "!", Toast.LENGTH_SHORT).show();
             SessionManager.saveSession(this, user.id, user.role);
-
-            Intent intent;
-            if ("ADMIN".equals(user.role)) {
-                intent = new Intent(this, AdminDashboardActivity.class);
-            } else {
-                intent = new Intent(this, MainActivity.class);
-            }
-
-            intent.putExtra("user_id", user.id);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-            finish();
+            openHomeByRole(user);
 
         } catch (AuthRepository.AuthException e) {
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();

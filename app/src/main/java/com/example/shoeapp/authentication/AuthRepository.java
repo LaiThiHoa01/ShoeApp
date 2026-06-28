@@ -166,6 +166,10 @@ public class AuthRepository {
 
         user = userDao.getUserByEmail(email);
         if (user != null) {
+            if (!user.isActive) {
+                throw new AuthException("Tài khoản đã bị khóa");
+            }
+
             user.firebaseUid = firebaseUid;
             user.fullName = isBlank(user.fullName) ? fullName : user.fullName;
             user.avatarUrl = avatarUrl;

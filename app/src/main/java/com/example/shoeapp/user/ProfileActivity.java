@@ -13,9 +13,12 @@ import com.example.shoeapp.data.entity.DeliveryAddress;
 import com.example.shoeapp.data.entity.User;
 import com.example.shoeapp.ui.BaseSoleStepActivity;
 import com.example.shoeapp.ui.BottomNavHelper;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.material.button.MaterialButton;
 import com.example.shoeapp.admin.AdminDashboardActivity;
 import com.example.shoeapp.authentication.LoginActivity;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class ProfileActivity extends BaseSoleStepActivity {
     private TextView emailText;
@@ -57,14 +60,7 @@ public class ProfileActivity extends BaseSoleStepActivity {
             startActivity(intent);
         });
 
-        logoutButton.setOnClickListener(v -> {
-            SessionManager.clear(ProfileActivity.this);
-
-            Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-            finish();
-        });
+        logoutButton.setOnClickListener(v -> handleLogout());
     }
 
     @Override
@@ -79,7 +75,6 @@ public class ProfileActivity extends BaseSoleStepActivity {
         addressText = findViewById(R.id.profile_address_text);
         phoneText = findViewById(R.id.profile_phone_text);
     }
-
     private void loadUser() {
         int currentUserId = SessionManager.getUserId(this);
 
@@ -124,11 +119,27 @@ public class ProfileActivity extends BaseSoleStepActivity {
             phoneText.setVisibility(View.GONE);
         }
     }
-
     private String getInitial(String name) {
         if (android.text.TextUtils.isEmpty(name)) {
             return "S";
         }
         return name.trim().substring(0, 1).toUpperCase();
+    }
+    private void handleLogout() {
+        SessionManager.clear(ProfileActivity.this);
+
+        com.google.firebase.auth.FirebaseAuth.getInstance().signOut();
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+
+        GoogleSignIn.getClient(ProfileActivity.this, gso).signOut();
+
+        Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
     }
 }
