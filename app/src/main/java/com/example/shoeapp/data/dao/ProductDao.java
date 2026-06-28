@@ -20,16 +20,19 @@ public interface ProductDao {
     void insert(Product product);
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insertBrand(Brand brand);
+    long insertBrand(Brand brand);
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insertCategory(Category category);
+    long insertCategory(Category category);
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insertColor(Color color);
+    long insertColor(Color color);
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insertSize(Size size);
+    long insertSize(Size size);
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    long insertProduct(Product product);
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insertProductVariant(ProductVariant variant);
@@ -61,8 +64,14 @@ public interface ProductDao {
     @Query("SELECT * FROM product")
     List<Product> getAllProducts();
 
-    @Query("SELECT p.* FROM product p INNER JOIN category c ON p.shoe_category = c.id WHERE p.is_available = 1 AND p.is_discontinue = 0 AND c.is_active = 1")
+    @Query("SELECT * FROM product WHERE is_available = 1 AND is_discontinue = 0")
     List<Product> getAllProductsActive();
+
+    @Query("SELECT * FROM product WHERE is_available = 1 AND is_discontinue = 0 ORDER BY id DESC LIMIT :limit")
+    List<Product> getProductsActiveLimited(int limit);
+
+    @Query("SELECT p.* FROM product p INNER JOIN category c ON p.shoe_category = c.id WHERE p.is_available = 1 AND p.is_discontinue = 0 AND c.is_active = 1 ORDER BY p.id DESC LIMIT :limit")
+    List<Product> getNewestProducts(int limit);
 
     @Query("SELECT * FROM product WHERE shoe_category = :categoryId")
     List<Product> getProductsByCategory(int categoryId);
@@ -83,6 +92,9 @@ public interface ProductDao {
      */
     @Query("SELECT p.* FROM product p INNER JOIN order_detail od ON p.id = od.product_id GROUP BY p.id ORDER BY SUM(od.quantity) DESC LIMIT :limit")
     List<Product> getTopSellingProducts(int limit);
+
+    @Query("SELECT p.* FROM product p INNER JOIN category c ON p.shoe_category = c.id INNER JOIN order_detail od ON p.id = od.product_id WHERE p.is_available = 1 AND p.is_discontinue = 0 AND c.is_active = 1 GROUP BY p.id ORDER BY SUM(od.quantity) DESC LIMIT :limit")
+    List<Product> getTopSellingProductsActive(int limit);
 
     // ── Brand ─────────────────────────────────────────
     @Update
@@ -178,8 +190,11 @@ public interface ProductDao {
     ProductVariant getVariant(int productId, int colorId, int sizeId);
 
     // ── Promotion ─────────────────────────────────────
-    @Insert
+    @Insert(onConflict = androidx.room.OnConflictStrategy.IGNORE)
     void insertPromotion(Promotion promotion);
+    
+    @Insert
+    long insertPromotionReturnId(Promotion promotion);
 
     @Update
     void updatePromotion(Promotion promotion);
@@ -187,11 +202,22 @@ public interface ProductDao {
     @Delete
     void deletePromotion(Promotion promotion);
 
-    @Query("SELECT * FROM promotion WHERE is_active = 1")
+    @Query("SELECT * FROM promotion WHERE id = :id")
+    Promotion getPromotionById(int id);
+
+    @Query("SELECT * FROM promotion ORDER BY id DESC")
+    List<Promotion> getAllPromotions();
+
+    // Lấy 3 promotion mới nhất, sắp xếp thứ tự theo còn nhiều voucher hơn. Dù cho promotion có ở trạng thái inactive vẫn phải hiển thị
+    @Query("SELECT * FROM (SELECT * FROM promotion ORDER BY id DESC LIMIT 3) ORDER BY quantity DESC")
+    List<Promotion> getBannerPromotions();
+
+    // Lấy danh sách đang active thật sự
+    @Query("SELECT * FROM promotion WHERE is_active = 1 AND quantity > 0 AND date(start_date) <= date('now', 'localtime') AND date(end_date) >= date('now', 'localtime')")
     List<Promotion> getActivePromotions();
 
-    @Query("SELECT * FROM promotion WHERE UPPER(name) = UPPER(:name) AND is_active = 1 LIMIT 1")
-    Promotion getActivePromotionByName(String name);
+    @Query("SELECT * FROM promotion WHERE UPPER(voucher_code) = UPPER(:code) AND is_active = 1 AND quantity > 0 AND date(start_date) <= date('now', 'localtime') AND date(end_date) >= date('now', 'localtime') LIMIT 1")
+    Promotion getActivePromotionByVoucher(String code);
 
     // ── PromotionProduct ──────────────────────────────
     @Insert
@@ -199,9 +225,15 @@ public interface ProductDao {
 
     @Delete
     void deletePromotionProduct(PromotionProduct pp);
+    
+    @Query("DELETE FROM promotion_product WHERE promotion_id = :promoId")
+    void deleteProductsByPromotion(int promoId);
 
     @Query("SELECT * FROM promotion_product WHERE promotion_id = :promotionId")
     List<PromotionProduct> getProductsByPromotion(int promotionId);
+    
+    @Query("DELETE FROM promotion_product WHERE promotion_id = :promotionId")
+    void deletePromotionProductsByPromotion(int promotionId);
 
     // ── ProductReview ─────────────────────────────────
     @Insert
@@ -263,4 +295,10 @@ public interface ProductDao {
 
     @Query("DELETE FROM size")
     void deleteAllSizes();
+
+    @Query("DELETE FROM promotion")
+    void deleteAllPromotions();
+
+    @Query("DELETE FROM promotion_product")
+    void deleteAllPromotionProducts();
 }

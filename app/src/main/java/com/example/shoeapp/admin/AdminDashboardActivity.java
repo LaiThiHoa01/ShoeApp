@@ -41,7 +41,7 @@ public class AdminDashboardActivity extends BaseAdminActivity {
 
     private AppDatabase db;
     private final DecimalFormat currencyFormat = new DecimalFormat("#,### ₫");
-    
+
     private String startDateFilter;
     private String endDateFilter;
     private com.google.android.material.button.MaterialButton btnStartDate, btnEndDate;
@@ -153,6 +153,11 @@ public class AdminDashboardActivity extends BaseAdminActivity {
                 startActivity(new Intent(this, MainActivity.class));
                 finish();
             });
+        }
+
+        View btnPromotions = findViewById(R.id.btn_manage_promotions);
+        if (btnPromotions != null) {
+            btnPromotions.setOnClickListener(v -> startActivity(new Intent(this, AdminPromotionActivity.class)));
         }
 
         View btnLogout = findViewById(R.id.btn_admin_logout);
@@ -351,7 +356,7 @@ public class AdminDashboardActivity extends BaseAdminActivity {
                         Calendar selectedCal = Calendar.getInstance();
                         selectedCal.set(selectedYear, selectedMonth, selectedDay);
                         String formattedDate = dateFormatDb.format(selectedCal.getTime());
-                        
+
                         if (isStartDate) {
                             startDateFilter = formattedDate;
                         } else {
@@ -371,9 +376,9 @@ public class AdminDashboardActivity extends BaseAdminActivity {
 
         new Thread(() -> {
             try {
-                List<com.example.shoeapp.data.model.DateRevenue> dbData = 
+                List<com.example.shoeapp.data.model.DateRevenue> dbData =
                         db.orderDao().getRevenueBetweenDates(startDateFilter, endDateFilter);
-                
+
                 Map<String, Double> revenueMap = new HashMap<>();
                 for (com.example.shoeapp.data.model.DateRevenue dr : dbData) {
                     revenueMap.put(dr.date, dr.revenue);
@@ -403,12 +408,12 @@ public class AdminDashboardActivity extends BaseAdminActivity {
                 while (!startCal.after(endCal)) {
                     String dateKey = dateFormatDb.format(startCal.getTime());
                     double revenue = revenueMap.containsKey(dateKey) ? revenueMap.get(dateKey) : 0.0;
-                    
+
                     com.example.shoeapp.data.model.DateRevenue item = new com.example.shoeapp.data.model.DateRevenue();
                     item.date = dateKey;
                     item.revenue = revenue;
                     fullChartData.add(item);
-                    
+
                     startCal.add(Calendar.DATE, 1);
                 }
 
@@ -420,10 +425,10 @@ public class AdminDashboardActivity extends BaseAdminActivity {
                 }
 
                 final double finalMaxRev = maxRevenue;
-                
+
                 runOnUiThread(() -> {
                     layoutChartBars.removeAllViews();
-                    
+
                     if (fullChartData.isEmpty()) {
                         if (tvChartNoData != null) tvChartNoData.setVisibility(View.VISIBLE);
                         return;
@@ -438,7 +443,7 @@ public class AdminDashboardActivity extends BaseAdminActivity {
 
                     for (com.example.shoeapp.data.model.DateRevenue item : fullChartData) {
                         View barView = LayoutInflater.from(this).inflate(R.layout.item_admin_chart_bar, layoutChartBars, false);
-                        
+
                         TextView tvAmount = barView.findViewById(R.id.tv_bar_amount);
                         View barColumn = barView.findViewById(R.id.view_bar_column);
                         TextView tvDate = barView.findViewById(R.id.tv_bar_date);
@@ -465,7 +470,7 @@ public class AdminDashboardActivity extends BaseAdminActivity {
                             params.height = barHeight;
                             barColumn.setLayoutParams(params);
                             barColumn.setBackgroundResource(R.drawable.bg_bar_column);
-                            
+
                             barColumn.setOnClickListener(v -> {
                                 try {
                                     Date d = dateFormatDb.parse(item.date);

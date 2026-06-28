@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/admin_add_promo_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_secondary">
+
+    <!-- Header -->
+    <LinearLayout
+        android:id="@+id/header_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center_vertical"
+        android:background="@color/brand_white"
+        android:elevation="4dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/btn_back"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_arrow_back"
+            app:tint="@color/text_dark_primary"
+            android:contentDescription="Back" />
+
+        <TextView
+            android:id="@+id/tv_header_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Thêm Khuyến mãi"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/text_dark_primary"
+            android:layout_marginStart="16dp" />
+            
+        <Button
+            android:id="@+id/btn_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="LƯU"
+            android:textColor="@color/brand_white"
+            android:backgroundTint="@color/brand_orange"/>
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/header_layout"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tên chương trình"
+                android:textStyle="bold"
+                android:textColor="@color/text_dark_primary"/>
+            <EditText
+                android:id="@+id/et_name"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="VD: SALE ĐÓN HÈ MÁT MẺ"
+                android:background="@drawable/bg_input_light"
+                android:paddingHorizontal="12dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="16dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Subtitle (Phụ đề)"
+                android:textStyle="bold"
+                android:textColor="@color/text_dark_primary"/>
+            <EditText
+                android:id="@+id/et_subtitle"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="VD: Giảm giá lên đến 20%"
+                android:background="@drawable/bg_input_light"
+                android:paddingHorizontal="12dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="16dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Mô tả chi tiết"
+                android:textStyle="bold"
+                android:textColor="@color/text_dark_primary"/>
+            <EditText
+                android:id="@+id/et_description"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:gravity="top|start"
+                android:hint="Nhập mô tả..."
+                android:background="@drawable/bg_input_light"
+                android:padding="12dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="16dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ảnh Banner URL"
+                android:textStyle="bold"
+                android:textColor="@color/text_dark_primary"/>
+            <EditText
+                android:id="@+id/et_banner_url"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="https://..."
+                android:background="@drawable/bg_input_light"
+                android:paddingHorizontal="12dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="16dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="16dp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_marginEnd="8dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Mã Voucher"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_dark_primary"/>
+                    <EditText
+                        android:id="@+id/et_voucher_code"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:hint="VD: SUMMER20"
+                        android:background="@drawable/bg_input_light"
+                        android:paddingHorizontal="12dp"
+                        android:layout_marginTop="4dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_marginStart="8dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Số lượng"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_dark_primary"/>
+                    <EditText
+                        android:id="@+id/et_quantity"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:hint="VD: 100"
+                        android:inputType="number"
+                        android:background="@drawable/bg_input_light"
+                        android:paddingHorizontal="12dp"
+                        android:layout_marginTop="4dp"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Kiểu giảm giá -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Hình thức giảm giá"
+                android:textStyle="bold"
+                android:textColor="@color/text_dark_primary"/>
+            <RadioGroup
+                android:id="@+id/rg_discount_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="8dp">
+                <RadioButton
+                    android:id="@+id/rb_percentage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Phần trăm (%)"
+                    android:checked="true"/>
+                <RadioButton
+                    android:id="@+id/rb_fixed_amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cố định (đ)"/>
+            </RadioGroup>
+
+            <EditText
+                android:id="@+id/et_discount_value"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="Mức giảm (VD: 20 hoặc 100000)"
+                android:inputType="numberDecimal"
+                android:background="@drawable/bg_input_light"
+                android:paddingHorizontal="12dp"
+                android:layout_marginBottom="8dp"/>
+                
+            <EditText
+                android:id="@+id/et_max_discount"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="Mức giảm tối đa (VD: 100000) - Bỏ trống nếu không giới hạn"
+                android:inputType="numberDecimal"
+                android:background="@drawable/bg_input_light"
+                android:paddingHorizontal="12dp"
+                android:layout_marginBottom="16dp"/>
+
+            <!-- Thời gian -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="16dp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_marginEnd="8dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Ngày bắt đầu"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_dark_primary"/>
+                    <EditText
+                        android:id="@+id/et_start_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:hint="YYYY-MM-DD"
+                        android:focusable="false"
+                        android:clickable="true"
+                        android:background="@drawable/bg_input_light"
+                        android:paddingHorizontal="12dp"
+                        android:layout_marginTop="4dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_marginStart="8dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Ngày kết thúc"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_dark_primary"/>
+                    <EditText
+                        android:id="@+id/et_end_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:hint="YYYY-MM-DD"
+                        android:focusable="false"
+                        android:clickable="true"
+                        android:background="@drawable/bg_input_light"
+                        android:paddingHorizontal="12dp"
+                        android:layout_marginTop="4dp"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switch_is_active"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Kích hoạt (Hiển thị ngay)"
+                android:layout_marginBottom="16dp"/>
+
+            <!-- Target -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Áp dụng cho"
+                android:textStyle="bold"
+                android:textColor="@color/text_dark_primary"/>
+            <RadioGroup
+                android:id="@+id/rg_target_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="8dp">
+                <RadioButton
+                    android:id="@+id/rb_target_category"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Danh mục"
+                    android:checked="true"/>
+                <RadioButton
+                    android:id="@+id/rb_target_brand"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Thương hiệu"
+                    android:layout_marginStart="8dp"/>
+                <RadioButton
+                    android:id="@+id/rb_target_products"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sản phẩm tùy chọn"
+                    android:layout_marginStart="8dp"/>
+            </RadioGroup>
+
+            <!-- Spinner Category -->
+            <LinearLayout
+                android:id="@+id/layout_category_select"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="16dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Chọn danh mục"
+                    android:textColor="@color/text_dark_primary"/>
+                <Spinner
+                    android:id="@+id/sp_category"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/bg_input_light"/>
+            </LinearLayout>
+            
+            <!-- Spinner Brand -->
+            <LinearLayout
+                android:id="@+id/layout_brand_select"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="16dp"
+                android:visibility="gone">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Chọn thương hiệu"
+                    android:textColor="@color/text_dark_primary"/>
+                <Spinner
+                    android:id="@+id/sp_brand"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/bg_input_light"/>
+            </LinearLayout>
+            
+            <!-- Product Select -->
+            <LinearLayout
+                android:id="@+id/layout_products_select"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="16dp"
+                android:visibility="gone">
+                <Button
+                    android:id="@+id/btn_select_products"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Chọn sản phẩm áp dụng"
+                    style="?attr/materialButtonOutlinedStyle"/>
+                <TextView
+                    android:id="@+id/tv_selected_products"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Đã chọn: 0 sản phẩm"
+                    android:textColor="@color/brand_orange"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

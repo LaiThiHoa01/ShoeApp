@@ -46,6 +46,28 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        try {
+            com.example.shoeapp.data.AppDatabase db = com.example.shoeapp.data.AppDatabase.getDatabase(this);
+            com.example.shoeapp.data.entity.User adminUser = db.userDao().getUserByEmail("admin@shoeapp.com");
+            if (adminUser == null) {
+                com.example.shoeapp.data.entity.User newAdmin = new com.example.shoeapp.data.entity.User();
+                newAdmin.email = "admin@shoeapp.com";
+                newAdmin.passwordHash = com.example.shoeapp.authentication.PasswordHasher.hash("admin123");
+                newAdmin.phoneNumber = "0999999999";
+                newAdmin.fullName = "System Admin";
+                newAdmin.role = "ADMIN";
+                newAdmin.avatarUrl = "";
+                newAdmin.firebaseUid = "";
+                newAdmin.isActive = true;
+                newAdmin.createdAt = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss", java.util.Locale.getDefault()).format(new java.util.Date());
+                newAdmin.userId = "ADM" + System.currentTimeMillis();
+                db.userDao().insert(newAdmin);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
@@ -59,6 +81,9 @@ public class LoginActivity extends AppCompatActivity {
         passwordInput    = findViewById(R.id.passwordInput);
         passwordField    = findViewById(R.id.passwordField);
         ImageButton passwordVisibility = findViewById(R.id.passwordVisibility);
+        
+        emailInput.setText("admin@shoeapp.com");
+        passwordInput.setText("admin123");
 
         passwordInput.setOnFocusChangeListener((view, focused) ->
                 passwordField.setBackgroundResource(

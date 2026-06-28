@@ -349,6 +349,17 @@ public class AdminOrderDetailActivity extends BaseAdminActivity {
                 order.paymentStatus = "PAID";
             }
             
+            if ("CANCELLED".equals(newStatus)) {
+                List<OrderDetail> details = db.orderDao().getDetailsByOrder(order.id);
+                for (OrderDetail detail : details) {
+                    ProductVariant variant = db.productDao().getVariant(detail.productId, detail.colorId, detail.sizeId);
+                    if (variant != null) {
+                        variant.stock = variant.stock + detail.quantity;
+                        db.productDao().updateProductVariant(variant);
+                    }
+                }
+            }
+
             db.orderDao().update(order);
             String statusStr = newStatus;
             if ("SHIPPED".equals(newStatus)) statusStr = "Đang giao hàng";
