@@ -55,6 +55,7 @@ public class AdminProductsActivity extends BaseAdminActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        androidx.activity.EdgeToEdge.enable(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_products);
         db = AppDatabase.getDatabase(this);
@@ -76,13 +77,14 @@ public class AdminProductsActivity extends BaseAdminActivity
     }
 
     private void setupEdgeToEdge() {
-        androidx.activity.EdgeToEdge.enable(this);
         View root = findViewById(R.id.admin_products_root);
-        ViewCompat.setOnApplyWindowInsetsListener(root, (v, insets) -> {
-            Insets bars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(bars.left, bars.top, bars.right, bars.bottom);
-            return insets;
-        });
+        if (root != null) {
+            ViewCompat.setOnApplyWindowInsetsListener(root, (v, insets) -> {
+                Insets bars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+                v.setPadding(bars.left, bars.top, bars.right, bars.bottom);
+                return WindowInsetsCompat.CONSUMED;
+            });
+        }
     }
 
     private void bindViews() {

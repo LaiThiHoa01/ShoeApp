@@ -17,6 +17,7 @@ import com.example.shoeapp.user.CartActivity;
 import com.example.shoeapp.user.CatalogActivity;
 import com.example.shoeapp.user.MainActivity;
 import com.example.shoeapp.user.MyOrdersActivity;
+import com.example.shoeapp.user.ProfileActivity;
 
 public final class BottomNavHelper {
     public static final String TAG_HOME = "home";
@@ -100,7 +101,14 @@ public final class BottomNavHelper {
             return;
         }
 
-        Toast.makeText(activity, "Màn hình này chưa được tạo trong phạm vi hiện tại", Toast.LENGTH_SHORT).show();
+        if (TAG_PROFILE.equals(itemTag)) {
+            if (!(activity instanceof ProfileActivity)) {
+                activity.startActivity(new Intent(activity, ProfileActivity.class));
+            }
+            return;
+        }
+
+        Toast.makeText(activity, "Man hinh nay chua duoc tao", Toast.LENGTH_SHORT).show();
     }
 
     private static <T extends View> T findTaggedChild(View root, String tag, Class<T> viewClass) {
@@ -121,3 +129,4 @@ public final class BottomNavHelper {
         return null;
     }
 }
+

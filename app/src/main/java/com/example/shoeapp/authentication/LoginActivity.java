@@ -10,6 +10,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -21,10 +22,27 @@ import com.example.shoeapp.data.AppDatabase;
 import com.example.shoeapp.data.entity.User;
 import com.example.shoeapp.user.MainActivity;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
+
 public class LoginActivity extends AppCompatActivity {
 
     private EditText emailInput, passwordInput;
     private View passwordField;
+    private GoogleSignInClient googleSignInClient;
+    private FirebaseAuth firebaseAuth;
+    private ActivityResultLauncher<Intent> googleSignInLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +61,6 @@ public class LoginActivity extends AppCompatActivity {
         passwordField    = findViewById(R.id.passwordField);
         ImageButton passwordVisibility = findViewById(R.id.passwordVisibility);
 
-        // Toggle hiện/ẩn mật khẩu
         passwordInput.setOnFocusChangeListener((view, focused) ->
                 passwordField.setBackgroundResource(
                         focused ? R.drawable.bg_input_focused : R.drawable.bg_input_light));
@@ -61,63 +78,114 @@ public class LoginActivity extends AppCompatActivity {
             passwordInput.setSelection(passwordInput.length());
         });
 
-        // Nút Sign In
         findViewById(R.id.signInButton).setOnClickListener(v -> handleLogin());
 
-        // Đến trang Sign Up
         findViewById(R.id.signUp).setOnClickListener(v ->
                 startActivity(new Intent(this, SignUpActivity.class)));
 
         // Quên mật khẩu
         findViewById(R.id.forgotPassword).setOnClickListener(v ->
                 startActivity(new Intent(this, ChangePasswordActivity.class)));
+
+        firebaseAuth = FirebaseAuth.getInstance();
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+//                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+
+        googleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        googleSignInLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    Intent data = result.getData();
+                    Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+                    try {
+                        GoogleSignInAccount account = task.getResult(ApiException.class);
+                        firebaseAuthWithGoogle(account.getIdToken());
+                    } catch (ApiException e) {
+                        Toast.makeText(this, "Đăng nhập Google thất bại", Toast.LENGTH_SHORT).show();
+                    }
+                }
+        );
     }
 
     private void handleLogin() {
-        String email    = emailInput.getText().toString().trim();
+        String email = emailInput.getText().toString().trim();
         String password = passwordInput.getText().toString().trim();
 
-        // Validate input
-        if (TextUtils.isEmpty(email)) {
-            emailInput.setError("Vui lòng nhập email");
-            emailInput.requestFocus();
-            return;
+        try {
+            AuthRepository authRepository = new AuthRepository(this);
+            User user = authRepository.login(email, password);
+
+            Toast.makeText(this, "Xin chào, " + user.fullName + "!", Toast.LENGTH_SHORT).show();
+            SessionManager.saveSession(this, user.id, user.role);
+
+            Intent intent;
+            if ("ADMIN".equals(user.role)) {
+                intent = new Intent(this, AdminDashboardActivity.class);
+            } else {
+                intent = new Intent(this, MainActivity.class);
+            }
+
+            intent.putExtra("user_id", user.id);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+
+        } catch (AuthRepository.AuthException e) {
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
-        if (TextUtils.isEmpty(password)) {
-            passwordInput.setError("Vui lòng nhập mật khẩu");
-            passwordInput.requestFocus();
-            return;
-        }
+    }
+    private void signInWithGoogle() {
+        Intent signInIntent = googleSignInClient.getSignInIntent();
+        googleSignInLauncher.launch(signInIntent);
+    }
 
-        // Truy vấn user từ Room DB theo email
-        AppDatabase db   = AppDatabase.getDatabase(this);
-        User user        = db.userDao().getUserByEmail(email);
+    private void firebaseAuthWithGoogle(String idToken) {
+        AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
 
-        if (user == null) {
-            Toast.makeText(this, "Email không tồn tại", Toast.LENGTH_SHORT).show();
-            return;
-        }
+        firebaseAuth.signInWithCredential(credential)
+                .addOnSuccessListener(authResult -> {
+                    FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+                    if (firebaseUser == null) {
+                        Toast.makeText(this, "Không lấy được tài khoản Google", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
 
-        // So sánh mật khẩu plain text (test data)
-        if (!user.passwordHash.equals(password)) {
-            Toast.makeText(this, "Mật khẩu không đúng", Toast.LENGTH_SHORT).show();
-            return;
-        }
+                    String uid = firebaseUser.getUid();
+                    String email = firebaseUser.getEmail();
+                    String name = firebaseUser.getDisplayName();
+                    String avatar = firebaseUser.getPhotoUrl() != null
+                            ? firebaseUser.getPhotoUrl().toString()
+                            : "";
 
-        if (!user.isActive) {
-            Toast.makeText(this, "Tài khoản đã bị khóa", Toast.LENGTH_SHORT).show();
-            return;
-        }
+                    try {
+                        AuthRepository authRepository = new AuthRepository(this);
+                        User user = authRepository.loginWithGoogle(uid, email, name, avatar);
 
-        // Điều hướng theo role
-        Toast.makeText(this, "Xin chào, " + user.fullName + "!", Toast.LENGTH_SHORT).show();
+                        SessionManager.saveSession(this, user.id, user.role);
+                        openHomeByRole(user);
 
+                    } catch (AuthRepository.AuthException e) {
+                        Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(e ->
+                        Toast.makeText(this, "Firebase Auth lỗi: " + e.getMessage(), Toast.LENGTH_SHORT).show()
+                );
+    }
+
+    private void openHomeByRole(User user) {
         Intent intent;
+
         if ("ADMIN".equals(user.role)) {
             intent = new Intent(this, AdminDashboardActivity.class);
         } else {
             intent = new Intent(this, MainActivity.class);
         }
+
         intent.putExtra("user_id", user.id);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);

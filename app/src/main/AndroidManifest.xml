@@ -58,7 +58,12 @@
         <activity
             android:name=".user.OrderDetailActivity"
             android:exported="false" />
-
+        <activity
+            android:name=".user.ProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".user.AddressBookActivity"
+            android:exported="false" />
         <activity
             android:name=".user.MainActivity"
             android:exported="false" />

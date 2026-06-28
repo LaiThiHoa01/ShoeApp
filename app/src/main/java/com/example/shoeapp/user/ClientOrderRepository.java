@@ -2,6 +2,7 @@ package com.example.shoeapp.user;
 
 import android.content.Context;
 
+import com.example.shoeapp.authentication.SessionManager;
 import com.example.shoeapp.data.AppDatabase;
 import com.example.shoeapp.data.entity.Order;
 import com.example.shoeapp.data.entity.OrderDetail;
@@ -14,15 +15,17 @@ import java.util.Locale;
 
 public class ClientOrderRepository {
     private final AppDatabase db;
+    private final int userId;
 
     public ClientOrderRepository(Context context) {
         db = AppDatabase.getDatabase(context);
+        userId = SessionManager.getUserId(context);
     }
 
     public void saveOrder(List<CartItemView> items, double deliveryFee, double subtotal, double total,
                           String shippingAddress, String phoneNumber, String paymentMethod, String paymentStatus, String note) {
         Order order = new Order();
-        order.userId = ClientCartRepository.DEMO_USER_ID;
+        order.userId = this.userId;
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         order.createdAt = sdf.format(new Date());

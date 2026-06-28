@@ -65,4 +65,13 @@
         android:text="Review content goes here."
         android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
         android:textColor="@color/text_secondary" />
+
+    <ImageView
+        android:id="@+id/review_image"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="@dimen/space_6"
+        android:scaleType="centerCrop"
+        android:background="@drawable/bg_product_thumb"
+        android:visibility="gone" />
 </LinearLayout>

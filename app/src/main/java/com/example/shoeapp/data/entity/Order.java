@@ -46,7 +46,7 @@ public class Order {
     public String orderStatus; // ENUM('NEW','PENDING','PROCESSING','SHIPPED','DELIVERED','COMPLETED','CANCELLED')
 
     @ColumnInfo(name = "payment_method")
-    public String paymentMethod; // ENUM('COD','MOMO')
+    public String paymentMethod; // ENUM('COD','ZALOPAY')
 
     @ColumnInfo(name = "payment_status")
     public String paymentStatus; // ENUM('UNPAID','PAID','FAILED','REFUNDED')

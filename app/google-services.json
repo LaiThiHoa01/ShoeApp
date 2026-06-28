@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "315071263601",
+    "project_id": "shoeapp-c2b27",
+    "storage_bucket": "shoeapp-c2b27.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:315071263601:android:d108dcfe6dd9cb71bebcd0",
+        "android_client_info": {
+          "package_name": "com.example.shoeapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvKz6Vj_sF2zECQJVfBs0020oZV8SNGJ8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -28,8 +28,30 @@ public class CartActivity extends BaseSoleStepActivity {
 
         setupScreen(BottomNavHelper.TAG_CART);
         setupCartList();
-        findViewById(R.id.checkout_button).setOnClickListener(v ->
-                startActivity(new Intent(this, CheckoutActivity.class)));
+
+        android.widget.EditText promoInput = findViewById(R.id.cart_promo_input);
+        View applyButton = findViewById(R.id.cart_promo_apply_button);
+        if (applyButton != null && promoInput != null) {
+            applyButton.setOnClickListener(v -> {
+                String code = promoInput.getText().toString().trim();
+                if (code.isEmpty()) {
+                    android.widget.Toast.makeText(this, "Vui lòng nhập mã khuyến mãi", android.widget.Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (cartRepository.checkAndApplyPromoCode(code)) {
+                    refreshCart();
+                    android.widget.Toast.makeText(this, "Áp dụng mã khuyến mãi thành công!", android.widget.Toast.LENGTH_SHORT).show();
+                } else {
+                    android.widget.Toast.makeText(this, "Mã khuyến mãi không hợp lệ!", android.widget.Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
+        findViewById(R.id.checkout_button).setOnClickListener(v -> {
+            Intent intent = new Intent(this, CheckoutActivity.class);
+            intent.putExtra("applied_promo_code", cartRepository.getAppliedPromoCode());
+            startActivity(intent);
+        });
     }
 
     @Override

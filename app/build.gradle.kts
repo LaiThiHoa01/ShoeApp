@@ -3,15 +3,12 @@ import java.io.FileInputStream
 
 plugins {
     alias(libs.plugins.android.application)
+    id("com.google.gms.google-services")
 }
 
 android {
     namespace = "com.example.shoeapp"
     compileSdk = 36
-
-    buildFeatures {
-        buildConfig = true
-    }
 
     buildFeatures {
         buildConfig = true
@@ -59,12 +56,16 @@ android {
 }
 
 dependencies {
-    implementation(fileTree(mapOf(
-        "dir" to "/Users/laiqua/Downloads/ZaloPayLib",
-        "include" to listOf("*.aar", "*.jar"),
-        "exclude" to listOf("")
-    )))
+    implementation(files("libs/zpdk-release-v3.1.aar"))
     implementation(libs.activity.ktx)
+
+    // --- FIREBASE ---
+    implementation(platform("com.google.firebase:firebase-bom:33.1.2"))
+    implementation("com.google.firebase:firebase-analytics")
+    // -----------------------------
+    implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.android.gms:play-services-auth:21.1.1")
+
     val room_version = "2.6.1"
     implementation("androidx.room:room-runtime:$room_version")
     annotationProcessor("androidx.room:room-compiler:$room_version")

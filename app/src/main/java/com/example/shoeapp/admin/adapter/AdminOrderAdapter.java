@@ -39,7 +39,7 @@ public class AdminOrderAdapter
 
                 @Override
                 public boolean areContentsTheSame(@NonNull Order oldItem, @NonNull Order newItem) {
-                    return oldItem.getStatus() == newItem.getStatus()
+                    return oldItem.getStatus().equals(newItem.getStatus())
                             && oldItem.getCustomerName().equals(newItem.getCustomerName())
                             && Double.compare(oldItem.getTotal(), newItem.getTotal()) == 0
                             && oldItem.getItemCount() == newItem.getItemCount()

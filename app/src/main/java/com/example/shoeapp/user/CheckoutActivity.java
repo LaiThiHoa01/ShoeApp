@@ -14,7 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shoeapp.Api.CreateOrder;
 import com.example.shoeapp.R;
+import com.example.shoeapp.authentication.SessionManager;
 import com.example.shoeapp.data.AppDatabase;
+import com.example.shoeapp.data.entity.DeliveryAddress;
 import com.example.shoeapp.data.entity.User;
 import com.example.shoeapp.data.model.CartItemView;
 import com.example.shoeapp.ui.BaseSoleStepActivity;
@@ -90,6 +92,11 @@ public class CheckoutActivity extends BaseSoleStepActivity {
         setupScreen(BottomNavHelper.TAG_CART);
 
         cartRepository = new ClientCartRepository(this);
+        String appliedPromoCode = getIntent().getStringExtra("applied_promo_code");
+        if (appliedPromoCode != null) {
+            cartRepository.setAppliedPromoCode(appliedPromoCode);
+        }
+
         orderRepository = new ClientOrderRepository(this);
         bindViews();
         setupList();
@@ -195,6 +202,7 @@ public class CheckoutActivity extends BaseSoleStepActivity {
     protected void onResume() {
         super.onResume();
         refreshCheckout();
+        setupDefaults();
     }
 
     private void setupList() {
@@ -215,16 +223,42 @@ public class CheckoutActivity extends BaseSoleStepActivity {
 
     private void setupDefaults() {
         AppDatabase db = AppDatabase.getDatabase(this);
-        User user = db.userDao().getUserById(ClientCartRepository.DEMO_USER_ID);
-        if (user != null) {
+
+        int loggedInUserId = SessionManager.getUserId(this);
+        if (loggedInUserId == -1) {
+            Toast.makeText(this, "Bạn chưa đăng nhập", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+
+        User user = db.userDao().getUserById(loggedInUserId);
+        if (user == null) {
+            Toast.makeText(this, "Không tìm thấy thông tin tài khoản", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+
+        try {
+            DeliveryAddress defaultAddress = db.addressDao().getDefaultAddress(user.userId);
+
             nameInput.setText(user.fullName);
             phoneInput.setText(user.phoneNumber);
-            addressInput.setText(user.address);
-        } else {
-            nameInput.setText("Khách hàng");
-            phoneInput.setText("0900000000");
-            addressInput.setText("TP. Hồ Chí Minh");
+
+            if (defaultAddress != null) {
+                phoneInput.setText(defaultAddress.phoneNumber);
+                addressInput.setText(defaultAddress.address);
+            } else {
+                addressInput.setText("");
+            }
+
+        } catch (Exception e) {
+            Log.e("CheckoutActivity", "Lỗi lấy địa chỉ mặc định: " + e.getMessage());
+
+            nameInput.setText(user.fullName);
+            phoneInput.setText(user.phoneNumber);
+            addressInput.setText("");
         }
+
         selectDelivery(selectedDelivery, shippingFee);
         selectPayment(selectedPayment);
     }
@@ -272,8 +306,17 @@ public class CheckoutActivity extends BaseSoleStepActivity {
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data != null) {
+            ZaloPaySDK.getInstance().onResult(data);
+        }
+    }
+
+    @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+        setIntent(intent);
         ZaloPaySDK.getInstance().onResult(intent);
     }
 }

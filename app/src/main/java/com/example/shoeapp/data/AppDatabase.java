@@ -6,6 +6,7 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
+import com.example.shoeapp.data.dao.AddressDao;
 import com.example.shoeapp.data.dao.CategoryDao;
 import com.example.shoeapp.data.dao.CartDao;
 import com.example.shoeapp.data.dao.ChatMessageDao;
@@ -18,6 +19,7 @@ import com.example.shoeapp.data.entity.CartItem;
 import com.example.shoeapp.data.entity.Category;
 import com.example.shoeapp.data.entity.ChatMessage;
 import com.example.shoeapp.data.entity.Color;
+import com.example.shoeapp.data.entity.DeliveryAddress;
 import com.example.shoeapp.data.entity.Order;
 import com.example.shoeapp.data.entity.OrderDetail;
 import com.example.shoeapp.data.entity.Product;
@@ -49,8 +51,9 @@ import java.util.List;
         PromotionProduct.class,
         Size.class,
         TokenType.class,
-        User.class
-}, version = 6, exportSchema = false)
+        User.class,
+        DeliveryAddress.class
+}, version = 8, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract UserDao userDao();
@@ -59,7 +62,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract CategoryDao categoryDao();
     public abstract OrderDao orderDao();
     public abstract ChatMessageDao chatMessageDao();
-
+    public abstract AddressDao addressDao();
     private static volatile AppDatabase INSTANCE;
 
     public static AppDatabase getDatabase(final Context context) {
@@ -85,7 +88,7 @@ public abstract class AppDatabase extends RoomDatabase {
             admin.email = "admin@gmail.com";
             admin.passwordHash = "admin123";
             admin.phoneNumber = "0123456789";
-            admin.address = "123 Đường Admin, TP.HCM";
+//            admin.address = "123 Đường Admin, TP.HCM";
             admin.role = "ADMIN";
             admin.fullName = "Lại Thị Hoa";
             admin.isActive = true;
@@ -97,7 +100,7 @@ public abstract class AppDatabase extends RoomDatabase {
             customer.email = "customer@gmail.com";
             customer.passwordHash = "customer123";
             customer.phoneNumber = "0987654321";
-            customer.address = "456 Đường User, Hà Nội";
+//            customer.address = "456 Đường User, Hà Nội";
             customer.role = "CUSTOMER";
             customer.fullName = "Nguyễn Văn A";
             customer.isActive = true;
