@@ -31,7 +31,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class AdminAddProductActivity extends AppCompatActivity {
+public class AdminAddProductActivity extends BaseAdminActivity {
 
     private EditText etName, etPrice, etOriginalPrice, etDescription, etProductImageUrl;
     private Spinner  spinnerBrand, spinnerCategory;

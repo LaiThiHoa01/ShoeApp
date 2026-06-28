@@ -25,7 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdminOrderManagementActivity extends AppCompatActivity
+public class AdminOrderManagementActivity extends BaseAdminActivity
         implements AdminOrderAdapter.OnOrderActionListener {
 
     private RecyclerView         recyclerView;
@@ -313,8 +313,8 @@ public class AdminOrderManagementActivity extends AppCompatActivity
 
     @Override
     public void onMarkShippedClick(Order order, int position) {
-        order.setStatus(Order.Status.SHIPPED);
         updateOrderStatusInDb(order.getOrderId(), "SHIPPED");
+        loadFromDb();
         updateStats();
         applyFilters();
         Toast.makeText(this, "Cập nhật: " + order.getOrderId() + " → Đã gửi", Toast.LENGTH_SHORT).show();
@@ -322,8 +322,8 @@ public class AdminOrderManagementActivity extends AppCompatActivity
 
     @Override
     public void onMarkDeliveredClick(Order order, int position) {
-        order.setStatus(Order.Status.DELIVERED);
         updateOrderStatusInDb(order.getOrderId(), "DELIVERED");
+        loadFromDb();
         updateStats();
         applyFilters();
         Toast.makeText(this, "Cập nhật: " + order.getOrderId() + " → Đã giao", Toast.LENGTH_SHORT).show();
@@ -331,8 +331,8 @@ public class AdminOrderManagementActivity extends AppCompatActivity
 
     @Override
     public void onCancelOrderClick(Order order, int position) {
-        order.setStatus(Order.Status.CANCELLED);
         updateOrderStatusInDb(order.getOrderId(), "CANCELLED");
+        loadFromDb();
         updateStats();
         applyFilters();
         Toast.makeText(this, "Đã hủy đơn hàng: " + order.getOrderId(), Toast.LENGTH_SHORT).show();
