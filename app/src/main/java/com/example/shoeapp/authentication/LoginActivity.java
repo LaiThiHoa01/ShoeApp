@@ -132,7 +132,8 @@ public class LoginActivity extends AppCompatActivity {
     private void handleLogin() {
         String email = emailInput.getText().toString().trim();
         String password = passwordInput.getText().toString().trim();
-
+        if (email.isEmpty()) { emailInput.setError("Vui lòng nhập email"); return; }
+        if (password.isEmpty()) { passwordInput.setError("Vui lòng nhập mật khẩu"); return; }
         try {
             AuthRepository authRepository = new AuthRepository(this);
             User user = authRepository.login(email, password);
