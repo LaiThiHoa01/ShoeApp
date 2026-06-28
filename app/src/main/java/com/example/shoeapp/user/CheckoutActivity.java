@@ -92,6 +92,11 @@ public class CheckoutActivity extends BaseSoleStepActivity {
         setupScreen(BottomNavHelper.TAG_CART);
 
         cartRepository = new ClientCartRepository(this);
+        String appliedPromoCode = getIntent().getStringExtra("applied_promo_code");
+        if (appliedPromoCode != null) {
+            cartRepository.setAppliedPromoCode(appliedPromoCode);
+        }
+
         orderRepository = new ClientOrderRepository(this);
         bindViews();
         setupList();
