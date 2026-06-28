@@ -25,9 +25,14 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import android.widget.Toast;
 
 /**
  * Dashboard Admin - Đã sửa lỗi StatusBar và Navigation Menu.
@@ -36,6 +41,14 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
     private AppDatabase db;
     private final DecimalFormat currencyFormat = new DecimalFormat("#,### ₫");
+    
+    private String startDateFilter;
+    private String endDateFilter;
+    private com.google.android.material.button.MaterialButton btnStartDate, btnEndDate;
+    private LinearLayout layoutChartBars;
+    private TextView tvChartNoData;
+    private final SimpleDateFormat dateFormatDb = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+    private final SimpleDateFormat dateFormatDisplay = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +70,30 @@ public class AdminDashboardActivity extends AppCompatActivity {
             });
         }
 
+        // Khởi tạo khoảng lọc thời gian mặc định là 7 ngày gần nhất (từ 6 ngày trước đến hôm nay)
+        java.util.Calendar cal = java.util.Calendar.getInstance();
+        endDateFilter = dateFormatDb.format(cal.getTime());
+        cal.add(java.util.Calendar.DATE, -6);
+        startDateFilter = dateFormatDb.format(cal.getTime());
+
+        // Ánh xạ các View biểu đồ
+        btnStartDate = findViewById(R.id.btn_start_date);
+        btnEndDate = findViewById(R.id.btn_end_date);
+        layoutChartBars = findViewById(R.id.layout_chart_bars);
+        tvChartNoData = findViewById(R.id.tv_chart_no_data);
+
+        updateFilterButtonsLabel();
+
+        if (btnStartDate != null) {
+            btnStartDate.setOnClickListener(v -> showDatePicker(true));
+        }
+        if (btnEndDate != null) {
+            btnEndDate.setOnClickListener(v -> showDatePicker(false));
+        }
+
         setupNavigation();
         setupClickListeners();
+
     }
 
     @Override
@@ -199,6 +234,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
             loadRecentOrdersList();
             loadTopProductsList();
+            loadRevenueChart();
         } catch (Exception e) { e.printStackTrace(); }
     }
 
@@ -278,6 +314,197 @@ public class AdminDashboardActivity extends AppCompatActivity {
                 com.example.shoeapp.user.ImageLoader.load(imgUrl, ivImage, R.drawable.ic_shoe);
             }
             container.addView(itemView);
+        }
+    }
+
+    private void updateFilterButtonsLabel() {
+        try {
+            Date start = dateFormatDb.parse(startDateFilter);
+            Date end = dateFormatDb.parse(endDateFilter);
+            if (btnStartDate != null && start != null) {
+                btnStartDate.setText("Từ: " + dateFormatDisplay.format(start));
+            }
+            if (btnEndDate != null && end != null) {
+                btnEndDate.setText("Đến: " + dateFormatDisplay.format(end));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void showDatePicker(boolean isStartDate) {
+        try {
+            String currentFilter = isStartDate ? startDateFilter : endDateFilter;
+            Calendar cal = Calendar.getInstance();
+            if (currentFilter != null) {
+                Date date = dateFormatDb.parse(currentFilter);
+                if (date != null) cal.setTime(date);
+            }
+            int year = cal.get(Calendar.YEAR);
+            int month = cal.get(Calendar.MONTH);
+            int day = cal.get(Calendar.DAY_OF_MONTH);
+
+            android.app.DatePickerDialog datePickerDialog = new android.app.DatePickerDialog(this,
+                    (view, selectedYear, selectedMonth, selectedDay) -> {
+                        Calendar selectedCal = Calendar.getInstance();
+                        selectedCal.set(selectedYear, selectedMonth, selectedDay);
+                        String formattedDate = dateFormatDb.format(selectedCal.getTime());
+                        
+                        if (isStartDate) {
+                            startDateFilter = formattedDate;
+                        } else {
+                            endDateFilter = formattedDate;
+                        }
+                        updateFilterButtonsLabel();
+                        loadRevenueChart();
+                    }, year, month, day);
+            datePickerDialog.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadRevenueChart() {
+        if (layoutChartBars == null) return;
+
+        new Thread(() -> {
+            try {
+                List<com.example.shoeapp.data.model.DateRevenue> dbData = 
+                        db.orderDao().getRevenueBetweenDates(startDateFilter, endDateFilter);
+                
+                Map<String, Double> revenueMap = new HashMap<>();
+                for (com.example.shoeapp.data.model.DateRevenue dr : dbData) {
+                    revenueMap.put(dr.date, dr.revenue);
+                }
+
+                List<com.example.shoeapp.data.model.DateRevenue> fullChartData = new ArrayList<>();
+                Calendar startCal = Calendar.getInstance();
+                Calendar endCal = Calendar.getInstance();
+
+                startCal.setTime(dateFormatDb.parse(startDateFilter));
+                endCal.setTime(dateFormatDb.parse(endDateFilter));
+
+                int daysDiff = 0;
+                Calendar tempCal = (Calendar) startCal.clone();
+                while (!tempCal.after(endCal)) {
+                    daysDiff++;
+                    tempCal.add(Calendar.DATE, 1);
+                }
+
+                if (daysDiff > 60) {
+                    runOnUiThread(() -> {
+                        Toast.makeText(this, "Khoảng thời gian quá dài (Tối đa 60 ngày)!", Toast.LENGTH_SHORT).show();
+                    });
+                    return;
+                }
+
+                while (!startCal.after(endCal)) {
+                    String dateKey = dateFormatDb.format(startCal.getTime());
+                    double revenue = revenueMap.containsKey(dateKey) ? revenueMap.get(dateKey) : 0.0;
+                    
+                    com.example.shoeapp.data.model.DateRevenue item = new com.example.shoeapp.data.model.DateRevenue();
+                    item.date = dateKey;
+                    item.revenue = revenue;
+                    fullChartData.add(item);
+                    
+                    startCal.add(Calendar.DATE, 1);
+                }
+
+                double maxRevenue = 0.0;
+                for (com.example.shoeapp.data.model.DateRevenue item : fullChartData) {
+                    if (item.revenue > maxRevenue) {
+                        maxRevenue = item.revenue;
+                    }
+                }
+
+                final double finalMaxRev = maxRevenue;
+                
+                runOnUiThread(() -> {
+                    layoutChartBars.removeAllViews();
+                    
+                    if (fullChartData.isEmpty()) {
+                        if (tvChartNoData != null) tvChartNoData.setVisibility(View.VISIBLE);
+                        return;
+                    } else {
+                        if (tvChartNoData != null) tvChartNoData.setVisibility(View.GONE);
+                    }
+
+                    float scale = getResources().getDisplayMetrics().density;
+                    int barWidthPx = (int) (26 * scale);
+                    int maxBarHeightPx = (int) (115 * scale);
+                    int minBarHeightPx = (int) (4 * scale);
+
+                    for (com.example.shoeapp.data.model.DateRevenue item : fullChartData) {
+                        View barView = LayoutInflater.from(this).inflate(R.layout.item_admin_chart_bar, layoutChartBars, false);
+                        
+                        TextView tvAmount = barView.findViewById(R.id.tv_bar_amount);
+                        View barColumn = barView.findViewById(R.id.view_bar_column);
+                        TextView tvDate = barView.findViewById(R.id.tv_bar_date);
+
+                        if (tvAmount != null) {
+                            if (item.revenue > 0) {
+                                tvAmount.setText(formatShortCurrency(item.revenue));
+                                tvAmount.setVisibility(View.VISIBLE);
+                            } else {
+                                tvAmount.setText("0");
+                                tvAmount.setVisibility(View.INVISIBLE);
+                            }
+                        }
+
+                        int barHeight = minBarHeightPx;
+                        if (finalMaxRev > 0.0 && item.revenue > 0.0) {
+                            barHeight = (int) ((item.revenue / finalMaxRev) * maxBarHeightPx);
+                            if (barHeight < minBarHeightPx) barHeight = minBarHeightPx;
+                        }
+
+                        if (barColumn != null) {
+                            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) barColumn.getLayoutParams();
+                            params.width = barWidthPx;
+                            params.height = barHeight;
+                            barColumn.setLayoutParams(params);
+                            barColumn.setBackgroundResource(R.drawable.bg_bar_column);
+                            
+                            barColumn.setOnClickListener(v -> {
+                                try {
+                                    Date d = dateFormatDb.parse(item.date);
+                                    String dateFormatted = d != null ? dateFormatDisplay.format(d) : item.date;
+                                    String msg = "Ngày " + dateFormatted + "\nDoanh thu: " + currencyFormat.format(item.revenue);
+                                    Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            });
+                        }
+
+                        if (tvDate != null) {
+                            try {
+                                Date d = dateFormatDb.parse(item.date);
+                                if (d != null) {
+                                    tvDate.setText(new SimpleDateFormat("dd/MM", Locale.US).format(d));
+                                } else {
+                                    tvDate.setText(item.date);
+                                }
+                            } catch (Exception e) {
+                                tvDate.setText(item.date);
+                            }
+                        }
+
+                        layoutChartBars.addView(barView);
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
+
+    private String formatShortCurrency(double value) {
+        if (value >= 1000000.0) {
+            return String.format(Locale.US, "%.1fM", value / 1000000.0).replace(".0", "");
+        } else if (value >= 1000.0) {
+            return String.format(Locale.US, "%.0fk", value / 1000.0);
+        } else {
+            return String.format(Locale.US, "%.0f", value);
         }
     }
 }
