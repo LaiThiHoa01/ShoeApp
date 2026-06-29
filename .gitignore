@@ -1,16 +1,44 @@
+# Built artifacts
+bin/
+gen/
+out/
+build/
+app/build/
+.gradle/
+.navigation/
+/proguard/
+
+# IntelliJ IDEA/Android Studio
+.idea/
 *.iml
-.gradle
-/local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-.DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
+*.ipr
+*.iws
+
+# Keystone / signing files (Bảo mật thông tin chứng thực)
+*.jks
+*.keystore
+*.pk8
+*.pem
+*.apk
+*.aar
+
+# Local configuration files (Đường dẫn SDK cục bộ)
 local.properties
+signing.properties
+crashlytics.properties
+crashlytics-build.properties
+fabric.properties
 google-services.json
+
+# Log Files
+*.log
+
+# OS-generated files (Hệ điều hành Windows, macOS, Linux)
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini

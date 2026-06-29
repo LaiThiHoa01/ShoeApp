@@ -35,7 +35,7 @@ public class AdminCategoriesActivity extends BaseAdminActivity
     private BottomNavigationView bottomNav;
 
     private AdminCategoryAdapter adapter;
-    private List<Category>       categories;
+    private List<Category>       categories = new ArrayList<>();
     private AppDatabase          db;
 
     private static final int[] BG_COLORS = {
@@ -71,6 +71,9 @@ public class AdminCategoriesActivity extends BaseAdminActivity
     @Override
     protected void onResume() {
         super.onResume();
+        if (bottomNav != null) {
+            bottomNav.setSelectedItemId(R.id.nav_categories);
+        }
         loadFromDb();
     }
 
@@ -94,43 +97,50 @@ public class AdminCategoriesActivity extends BaseAdminActivity
     }
 
     private void loadFromDb() {
-        List<com.example.shoeapp.data.entity.Category> dbList =
-                db.categoryDao().getAllCategories();
+        new Thread(() -> {
+            List<com.example.shoeapp.data.entity.Category> dbList =
+                    db.categoryDao().getAllCategories();
+            List<Category> tempCategories = new ArrayList<>();
+            int maxProductsVal = 0;
 
-        if (categories == null) {
-            categories = new ArrayList<>();
-        } else {
-            categories.clear();
-        }
-        int maxProducts = 0;
+            if (dbList != null) {
+                List<Integer> counts = new ArrayList<>();
+                for (com.example.shoeapp.data.entity.Category entity : dbList) {
+                    int count = db.productDao().getProductsByCategory(entity.id).size();
+                    counts.add(count);
+                    if (count > maxProductsVal) maxProductsVal = count;
+                }
+                if (maxProductsVal == 0) maxProductsVal = 1;
 
-        List<Integer> counts = new ArrayList<>();
-        for (com.example.shoeapp.data.entity.Category entity : dbList) {
-            int count = db.productDao().getProductsByCategory(entity.id).size();
-            counts.add(count);
-            if (count > maxProducts) maxProducts = count;
-        }
-        if (maxProducts == 0) maxProducts = 1;
+                for (int i = 0; i < dbList.size(); i++) {
+                    com.example.shoeapp.data.entity.Category entity = dbList.get(i);
+                    int colorIdx = i % BG_COLORS.length;
+                    tempCategories.add(new Category(
+                            entity.id,
+                            entity.name,
+                            R.drawable.ic_shoe,
+                            BG_COLORS[colorIdx],
+                            ACCENT_COLORS[colorIdx],
+                            counts.get(i),
+                            maxProductsVal,
+                            entity.isActive
+                    ));
+                }
+            }
 
-        for (int i = 0; i < dbList.size(); i++) {
-            com.example.shoeapp.data.entity.Category entity = dbList.get(i);
-            int colorIdx = i % BG_COLORS.length;
-            categories.add(new Category(
-                    entity.id,
-                    entity.name,
-                    R.drawable.ic_shoe,
-                    BG_COLORS[colorIdx],
-                    ACCENT_COLORS[colorIdx],
-                    counts.get(i),
-                    maxProducts,
-                    entity.isActive
-            ));
-        }
+            runOnUiThread(() -> {
+                if (categories == null) {
+                    categories = new ArrayList<>();
+                }
+                categories.clear();
+                categories.addAll(tempCategories);
 
-        if (adapter != null) {
-            adapter.submitList(new ArrayList<>(categories));
-        }
-        updateSubtitle();
+                if (adapter != null) {
+                    adapter.submitList(new ArrayList<>(categories));
+                }
+                updateSubtitle();
+            });
+        }).start();
     }
 
     private void setupRecyclerView() {
@@ -146,20 +156,33 @@ public class AdminCategoriesActivity extends BaseAdminActivity
         bottomNav.setSelectedItemId(R.id.nav_categories);
         bottomNav.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
+            Intent intent = null;
             if (id == R.id.nav_dashboard) {
-                startActivity(new Intent(this, AdminDashboardActivity.class));
-                overridePendingTransition(0, 0); finish(); return true;
+                intent = new Intent(this, AdminDashboardActivity.class);
             } else if (id == R.id.nav_users) {
-                startActivity(new Intent(this, UserManagementActivity.class));
-                overridePendingTransition(0, 0); finish(); return true;
+                intent = new Intent(this, UserManagementActivity.class);
             } else if (id == R.id.nav_products) {
-                startActivity(new Intent(this, AdminProductsActivity.class));
-                overridePendingTransition(0, 0); finish(); return true;
+                intent = new Intent(this, AdminProductsActivity.class);
             } else if (id == R.id.nav_orders) {
-                startActivity(new Intent(this, AdminOrderManagementActivity.class));
-                overridePendingTransition(0, 0); finish(); return true;
+                intent = new Intent(this, AdminOrderManagementActivity.class);
+            }
+
+            if (intent != null) {
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(intent);
+                overridePendingTransition(0, 0);
+                return true;
             }
             return id == R.id.nav_categories;
+        });
+
+        getOnBackPressedDispatcher().addCallback(this, new androidx.activity.OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                Intent intent = new Intent(AdminCategoriesActivity.this, AdminDashboardActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(intent);
+            }
         });
     }
 
@@ -167,7 +190,7 @@ public class AdminCategoriesActivity extends BaseAdminActivity
         int totalProducts = 0;
         for (Category c : categories) totalProducts += c.getProductCount();
         subtitle.setText(String.format(Locale.getDefault(),
-                "%d categories · %d products total",
+                "%d danh mục · %d sản phẩm",
                 categories.size(), totalProducts));
     }
 

@@ -77,14 +77,23 @@ public class UserManagementActivity extends BaseAdminActivity implements AdminUs
                 }
 
                 if (intent != null) {
+                    intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                     startActivity(intent);
                     overridePendingTransition(0, 0);
-                    finish();
                     return true;
                 }
                 return false;
             });
         }
+
+        getOnBackPressedDispatcher().addCallback(this, new androidx.activity.OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                Intent intent = new Intent(UserManagementActivity.this, AdminDashboardActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(intent);
+            }
+        });
 
         // Ánh xạ các View thống kê, tìm kiếm, nút lọc và TabLayout lọc vai trò
         tvTotal = findViewById(R.id.tv_total_users);
@@ -160,6 +169,10 @@ public class UserManagementActivity extends BaseAdminActivity implements AdminUs
     @Override
     protected void onResume() {
         super.onResume();
+        BottomNavigationView bottomNav = findViewById(R.id.admin_bottom_nav);
+        if (bottomNav != null) {
+            bottomNav.setSelectedItemId(R.id.nav_users);
+        }
         refreshUsers();
     }
 

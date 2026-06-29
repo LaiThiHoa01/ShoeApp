@@ -40,8 +40,8 @@ public class AdminProductsActivity extends BaseAdminActivity
     private BottomNavigationView bottomNav;
 
     private AdminProductAdapter  adapter;
-    private List<Product>        allProducts;
-    private List<Product>        filteredProducts;
+    private List<Product>        allProducts = new ArrayList<>();
+    private List<Product>        filteredProducts = new ArrayList<>();
     private AppDatabase          db;
 
     private List<com.example.shoeapp.data.entity.Product> dbProducts = new ArrayList<>();
@@ -59,8 +59,6 @@ public class AdminProductsActivity extends BaseAdminActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_products);
         db = AppDatabase.getDatabase(this);
-        // Đảm bảo dữ liệu mẫu được nạp đầy đủ nếu chưa có
-        new com.example.shoeapp.user.ClientProductRepository(this).ensureSeedData();
         setupEdgeToEdge();
         bindViews();
         loadFromDb();
@@ -74,6 +72,9 @@ public class AdminProductsActivity extends BaseAdminActivity
     @Override
     protected void onResume() {
         super.onResume();
+        if (bottomNav != null) {
+            bottomNav.setSelectedItemId(R.id.nav_products);
+        }
         loadFromDb();
         setupFilterChips();
     }
@@ -102,66 +103,86 @@ public class AdminProductsActivity extends BaseAdminActivity
     }
 
     private void loadFromDb() {
-        dbProducts  = db.productDao().getAllProducts();
-        if (allProducts == null) {
-            allProducts = new ArrayList<>();
-        } else {
-            allProducts.clear();
-        }
+        new Thread(() -> {
+            List<com.example.shoeapp.data.entity.Product> tempDbProducts = db.productDao().getAllProducts();
+            List<Product> tempProducts = new ArrayList<>();
 
-        for (com.example.shoeapp.data.entity.Product entity : dbProducts) {
-            Brand brand = db.productDao().getBrandById(entity.brandId);
-            String brandName = brand != null ? brand.name : "Unknown Brand";
+            if (tempDbProducts != null) {
+                // Tối ưu hóa: Lấy danh sách thương hiệu và danh mục trước vòng lặp để tránh query database lặp lại
+                List<Brand> allBrands = db.productDao().getAllBrands();
+                java.util.Map<Integer, String> brandMap = new java.util.HashMap<>();
+                if (allBrands != null) {
+                    for (Brand b : allBrands) {
+                        brandMap.put(b.id, b.name);
+                    }
+                }
 
-            String categoryName = "Unknown";
-            List<Category> cats = db.categoryDao().getAllCategories();
-            for (Category c : cats) {
-                if (c.id == entity.shoeCategory) {
-                    categoryName = c.name;
-                    break;
+                List<Category> allCategories = db.categoryDao().getAllCategories();
+                java.util.Map<Integer, String> categoryMap = new java.util.HashMap<>();
+                if (allCategories != null) {
+                    for (Category c : allCategories) {
+                        categoryMap.put(c.id, c.name);
+                    }
+                }
+
+                for (com.example.shoeapp.data.entity.Product entity : tempDbProducts) {
+                    String brandName = brandMap.containsKey(entity.brandId) ? brandMap.get(entity.brandId) : "Thương hiệu không xác định";
+                    String categoryName = categoryMap.containsKey(entity.shoeCategory) ? categoryMap.get(entity.shoeCategory) : "Không xác định";
+
+                    List<com.example.shoeapp.data.entity.ProductVariant> variants =
+                            db.productDao().getVariantsByProduct(entity.id);
+                    int totalStock = 0;
+                    if (variants != null) {
+                        for (com.example.shoeapp.data.entity.ProductVariant v : variants) {
+                            totalStock += v.stock;
+                        }
+                    }
+
+                    float rating     = db.productDao().getAverageRating(entity.id);
+                    List<?> reviews  = db.productDao().getReviewsByProduct(entity.id);
+                    int reviewCount  = reviews != null ? reviews.size() : 0;
+
+                    com.example.shoeapp.data.entity.ProductImg thumbnail =
+                            db.productDao().getThumbnail(entity.id);
+                    String imageUrl = thumbnail != null ? thumbnail.imgUrl : null;
+
+                    tempProducts.add(new Product(
+                            entity.id,
+                            entity.name,
+                            brandName + " · " + categoryName,
+                            categoryName,
+                            entity.price,
+                            entity.originalPrice > 0 ? entity.originalPrice : entity.price,
+                            totalStock,
+                            entity.isAvailable,
+                            Collections.emptyList(),
+                            rating,
+                            reviewCount,
+                            R.drawable.ic_shoe,
+                            imageUrl,
+                            entity.isAvailable,
+                            entity.isDiscontinue
+                    ));
                 }
             }
 
-            List<com.example.shoeapp.data.entity.ProductVariant> variants =
-                    db.productDao().getVariantsByProduct(entity.id);
-            int totalStock = 0;
-            for (com.example.shoeapp.data.entity.ProductVariant v : variants) {
-                totalStock += v.stock;
-            }
+            runOnUiThread(() -> {
+                dbProducts = tempDbProducts;
+                if (allProducts == null) {
+                    allProducts = new ArrayList<>();
+                }
+                allProducts.clear();
+                allProducts.addAll(tempProducts);
 
-            float rating     = db.productDao().getAverageRating(entity.id);
-            int reviewCount  = db.productDao().getReviewsByProduct(entity.id).size();
-
-            com.example.shoeapp.data.entity.ProductImg thumbnail =
-                    db.productDao().getThumbnail(entity.id);
-            String imageUrl = thumbnail != null ? thumbnail.imgUrl : null;
-
-            allProducts.add(new Product(
-                    entity.id,
-                    entity.name,
-                    brandName + " · " + categoryName,
-                    categoryName,
-                    entity.price,
-                    entity.originalPrice > 0 ? entity.originalPrice : entity.price,
-                    totalStock,
-                    entity.isAvailable,
-                    Collections.emptyList(),
-                    rating,
-                    reviewCount,
-                    R.drawable.ic_shoe,
-                    imageUrl,
-                    entity.isAvailable,
-                    entity.isDiscontinue
-            ));
-        }
-
-        if (filteredProducts == null) {
-            filteredProducts = new ArrayList<>(allProducts);
-        } else {
-            filteredProducts.clear();
-            filteredProducts.addAll(allProducts);
-        }
-        if (adapter != null) applyFilters();
+                if (filteredProducts == null) {
+                    filteredProducts = new ArrayList<>(allProducts);
+                } else {
+                    filteredProducts.clear();
+                    filteredProducts.addAll(allProducts);
+                }
+                if (adapter != null) applyFilters();
+            });
+        }).start();
     }
 
     private void setupRecyclerView() {
@@ -246,20 +267,33 @@ public class AdminProductsActivity extends BaseAdminActivity
         bottomNav.setSelectedItemId(R.id.nav_products);
         bottomNav.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
+            Intent intent = null;
             if (id == R.id.nav_dashboard) {
-                startActivity(new Intent(this, AdminDashboardActivity.class));
-                overridePendingTransition(0, 0); finish(); return true;
+                intent = new Intent(this, AdminDashboardActivity.class);
             } else if (id == R.id.nav_users) {
-                startActivity(new Intent(this, UserManagementActivity.class));
-                overridePendingTransition(0, 0); finish(); return true;
+                intent = new Intent(this, UserManagementActivity.class);
             } else if (id == R.id.nav_categories) {
-                startActivity(new Intent(this, AdminCategoriesActivity.class));
-                overridePendingTransition(0, 0); finish(); return true;
+                intent = new Intent(this, AdminCategoriesActivity.class);
             } else if (id == R.id.nav_orders) {
-                startActivity(new Intent(this, AdminOrderManagementActivity.class));
-                overridePendingTransition(0, 0); finish(); return true;
+                intent = new Intent(this, AdminOrderManagementActivity.class);
+            }
+
+            if (intent != null) {
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(intent);
+                overridePendingTransition(0, 0);
+                return true;
             }
             return id == R.id.nav_products;
+        });
+
+        getOnBackPressedDispatcher().addCallback(this, new androidx.activity.OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                Intent intent = new Intent(AdminProductsActivity.this, AdminDashboardActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(intent);
+            }
         });
     }
 

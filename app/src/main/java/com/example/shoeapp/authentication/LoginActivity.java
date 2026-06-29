@@ -51,11 +51,13 @@ public class LoginActivity extends AppCompatActivity {
         
         try {
             AppDatabase db = com.example.shoeapp.data.AppDatabase.getDatabase(this);
+            
+            // Seed Admin User
             User adminUser = db.userDao().getUserByEmail("admin@shoeapp.com");
             if (adminUser == null) {
                 User newAdmin = new com.example.shoeapp.data.entity.User();
                 newAdmin.email = "admin@shoeapp.com";
-                newAdmin.passwordHash = PasswordHasher.hash("admin123");
+                newAdmin.passwordHash = PasswordHasher.hash("123456");
                 newAdmin.phoneNumber = "0999999999";
                 newAdmin.fullName = "System Admin";
                 newAdmin.role = "ADMIN";
@@ -65,6 +67,29 @@ public class LoginActivity extends AppCompatActivity {
                 newAdmin.createdAt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", java.util.Locale.getDefault()).format(new java.util.Date());
                 newAdmin.userId = "ADM" + System.currentTimeMillis();
                 db.userDao().insert(newAdmin);
+            } else {
+                adminUser.passwordHash = PasswordHasher.hash("123456");
+                db.userDao().update(adminUser);
+            }
+
+            // Seed Regular User
+            User regularUser = db.userDao().getUserByEmail("user@shoeapp.com");
+            if (regularUser == null) {
+                User newUser = new com.example.shoeapp.data.entity.User();
+                newUser.email = "user@shoeapp.com";
+                newUser.passwordHash = PasswordHasher.hash("123456");
+                newUser.phoneNumber = "0987654321";
+                newUser.fullName = "Regular User";
+                newUser.role = "CUSTOMER";
+                newUser.avatarUrl = "";
+                newUser.firebaseUid = "";
+                newUser.isActive = true;
+                newUser.createdAt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", java.util.Locale.getDefault()).format(new java.util.Date());
+                newUser.userId = "USR" + System.currentTimeMillis();
+                db.userDao().insert(newUser);
+            } else {
+                regularUser.passwordHash = PasswordHasher.hash("123456");
+                db.userDao().update(regularUser);
             }
         } catch (Exception e) {
             e.printStackTrace();

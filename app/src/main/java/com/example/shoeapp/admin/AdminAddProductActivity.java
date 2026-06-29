@@ -1,5 +1,8 @@
 package com.example.shoeapp.admin;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -48,6 +51,22 @@ public class AdminAddProductActivity extends BaseAdminActivity {
     private int productId = -1;
     private Product editingProduct;
 
+    private Uri selectedImageUri = null;
+
+    private final ActivityResultLauncher<Intent> pickImageLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
+                    Uri uri = result.getData().getData();
+                    if (uri != null) {
+                        selectedImageUri = uri;
+                        etProductImageUrl.setText(uri.toString());
+                        com.example.shoeapp.user.ImageLoader.load(uri.toString(), ivProductPreview, R.drawable.ic_shoe);
+                    }
+                }
+            }
+    );
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,10 +93,20 @@ public class AdminAddProductActivity extends BaseAdminActivity {
         }
 
         findViewById(R.id.btn_back).setOnClickListener(v -> finish());
-        findViewById(R.id.btn_select_image).setOnClickListener(v -> 
-                Toast.makeText(this, "Tính năng chọn ảnh từ thư viện sẽ được phát triển sau. Vui lòng nhập link ảnh URL bên dưới.", Toast.LENGTH_LONG).show()
-        );
+        findViewById(R.id.btn_select_image).setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            pickImageLauncher.launch(intent);
+        });
         btnSave.setOnClickListener(v -> saveProduct());
+
+        etProductImageUrl.addTextChangedListener(new android.text.TextWatcher() {
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override
+            public void afterTextChanged(android.text.Editable s) {
+                com.example.shoeapp.user.ImageLoader.load(s.toString().trim(), ivProductPreview, R.drawable.ic_shoe);
+            }
+        });
     }
 
     private void bindViews() {
@@ -155,6 +184,7 @@ public class AdminAddProductActivity extends BaseAdminActivity {
             ProductImg thumbnail = db.productDao().getThumbnail(editingProduct.id);
             if (thumbnail != null) {
                 etProductImageUrl.setText(thumbnail.imgUrl);
+                com.example.shoeapp.user.ImageLoader.load(thumbnail.imgUrl, ivProductPreview, R.drawable.ic_shoe);
             }
         }
     }
