@@ -1,7 +1,6 @@
 package com.example.shoeapp.admin.adapter;
 
 import android.content.Context;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -97,15 +96,7 @@ public class AdminOrderDetailAdapter extends RecyclerView.Adapter<AdminOrderDeta
             tvSubtotal.setText(com.example.shoeapp.Helper.Helpers.formatPrice(item.subtotal));
 
             // Load product image dynamically
-            if (item.imageUrl != null && !item.imageUrl.isEmpty()) {
-                try {
-                    imgProduct.setImageURI(Uri.parse(item.imageUrl));
-                } catch (Exception e) {
-                    imgProduct.setImageResource(R.drawable.ic_shoe);
-                }
-            } else {
-                imgProduct.setImageResource(R.drawable.ic_shoe);
-            }
+            com.example.shoeapp.user.ImageLoader.load(item.imageUrl, imgProduct, R.drawable.ic_shoe);
         }
     }
 }

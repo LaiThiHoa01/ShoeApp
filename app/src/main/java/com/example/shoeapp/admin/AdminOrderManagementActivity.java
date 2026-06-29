@@ -37,8 +37,8 @@ public class AdminOrderManagementActivity extends BaseAdminActivity
     private BottomNavigationView bottomNav;
 
     private AdminOrderAdapter    adapter;
-    private List<Order>          allOrders;
-    private List<Order>          filteredOrders;
+    private List<Order>          allOrders = new ArrayList<>();
+    private List<Order>          filteredOrders = new ArrayList<>();
     private AppDatabase          db;
 
     private List<com.example.shoeapp.data.entity.Order> dbOrders = new ArrayList<>();
@@ -67,6 +67,9 @@ public class AdminOrderManagementActivity extends BaseAdminActivity
     @Override
     protected void onResume() {
         super.onResume();
+        if (bottomNav != null) {
+            bottomNav.setSelectedItemId(R.id.nav_orders);
+        }
         loadFromDb();
         updateStats();
     }
@@ -101,41 +104,57 @@ public class AdminOrderManagementActivity extends BaseAdminActivity
     }
 
     private void loadFromDb() {
-        dbOrders  = db.orderDao().getAllOrders();
-        if (allOrders == null) {
-            allOrders = new ArrayList<>();
-        } else {
-            allOrders.clear();
-        }
+        new Thread(() -> {
+            List<com.example.shoeapp.data.entity.Order> tempDbOrders = db.orderDao().getAllOrders();
+            List<Order> tempOrders = new ArrayList<>();
 
-        for (com.example.shoeapp.data.entity.Order entity : dbOrders) {
-            com.example.shoeapp.data.entity.User user =
-                    db.userDao().getUserById(entity.userId);
-            String customerName = (user != null && user.fullName != null)
-                    ? user.fullName : "User #" + entity.userId;
+            if (tempDbOrders != null) {
+                // Tối ưu hóa: Lấy danh sách người dùng trước vòng lặp để tránh query database lặp lại
+                List<com.example.shoeapp.data.entity.User> allUsers = db.userDao().getAllUsers();
+                java.util.Map<Integer, String> userMap = new java.util.HashMap<>();
+                if (allUsers != null) {
+                    for (com.example.shoeapp.data.entity.User u : allUsers) {
+                        userMap.put(u.id, u.fullName);
+                    }
+                }
 
-            int itemCount    = db.orderDao().getDetailsByOrder(entity.id).size();
-            Order.Status status = convertStatus(entity.orderStatus);
-            String date      = entity.createdAt != null
-                    ? entity.createdAt.substring(0, Math.min(10, entity.createdAt.length())) : "—";
+                for (com.example.shoeapp.data.entity.Order entity : tempDbOrders) {
+                    String customerName = userMap.containsKey(entity.userId) ? userMap.get(entity.userId) : "User #" + entity.userId;
 
-            allOrders.add(new Order(
-                    entity.ordersId != null ? entity.ordersId : "#" + entity.id,
-                    customerName,
-                    entity.grandTotal != null ? entity.grandTotal : 0.0,
-                    itemCount,
-                    status,
-                    date
-            ));
-        }
+                    int itemCount    = db.orderDao().getDetailsByOrder(entity.id).size();
+                    Order.Status status = convertStatus(entity.orderStatus);
+                    String date      = entity.createdAt != null
+                            ? entity.createdAt.substring(0, Math.min(10, entity.createdAt.length())) : "—";
 
-        if (filteredOrders == null) {
-            filteredOrders = new ArrayList<>(allOrders);
-        } else {
-            filteredOrders.clear();
-            filteredOrders.addAll(allOrders);
-        }
-        if (adapter != null) applyFilters();
+                    tempOrders.add(new Order(
+                            entity.ordersId != null ? entity.ordersId : "#" + entity.id,
+                            customerName,
+                            entity.grandTotal != null ? entity.grandTotal : 0.0,
+                            itemCount,
+                            status,
+                            date
+                    ));
+                }
+            }
+
+            runOnUiThread(() -> {
+                dbOrders = tempDbOrders;
+                if (allOrders == null) {
+                    allOrders = new ArrayList<>();
+                }
+                allOrders.clear();
+                allOrders.addAll(tempOrders);
+
+                if (filteredOrders == null) {
+                    filteredOrders = new ArrayList<>(allOrders);
+                } else {
+                    filteredOrders.clear();
+                    filteredOrders.addAll(allOrders);
+                }
+                updateStats();
+                if (adapter != null) applyFilters();
+            });
+        }).start();
     }
 
     private Order.Status convertStatus(String s) {
@@ -199,20 +218,33 @@ public class AdminOrderManagementActivity extends BaseAdminActivity
         bottomNav.setSelectedItemId(R.id.nav_orders);
         bottomNav.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
+            Intent intent = null;
             if (id == R.id.nav_dashboard) {
-                startActivity(new Intent(this, AdminDashboardActivity.class));
-                overridePendingTransition(0, 0); finish(); return true;
+                intent = new Intent(this, AdminDashboardActivity.class);
             } else if (id == R.id.nav_users) {
-                startActivity(new Intent(this, UserManagementActivity.class));
-                overridePendingTransition(0, 0); finish(); return true;
+                intent = new Intent(this, UserManagementActivity.class);
             } else if (id == R.id.nav_categories) {
-                startActivity(new Intent(this, AdminCategoriesActivity.class));
-                overridePendingTransition(0, 0); finish(); return true;
+                intent = new Intent(this, AdminCategoriesActivity.class);
             } else if (id == R.id.nav_products) {
-                startActivity(new Intent(this, AdminProductsActivity.class));
-                overridePendingTransition(0, 0); finish(); return true;
+                intent = new Intent(this, AdminProductsActivity.class);
+            }
+
+            if (intent != null) {
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(intent);
+                overridePendingTransition(0, 0);
+                return true;
             }
             return id == R.id.nav_orders;
+        });
+
+        getOnBackPressedDispatcher().addCallback(this, new androidx.activity.OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                Intent intent = new Intent(AdminOrderManagementActivity.this, AdminDashboardActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(intent);
+            }
         });
     }
 

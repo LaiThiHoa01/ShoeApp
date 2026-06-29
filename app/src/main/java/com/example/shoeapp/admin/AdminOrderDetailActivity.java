@@ -184,7 +184,7 @@ public class AdminOrderDetailActivity extends BaseAdminActivity {
 
         for (OrderDetail detail : details) {
             Product product = db.productDao().getProductById(detail.productId);
-            String productName = (product != null) ? product.name : "Unknown Shoe";
+            String productName = (product != null) ? product.name : "Giày không xác định";
             
             String brandName = "SoleStep";
             if (product != null) {
