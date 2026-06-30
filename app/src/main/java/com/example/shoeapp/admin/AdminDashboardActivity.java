@@ -34,9 +34,6 @@ import java.util.Locale;
 import java.util.Map;
 import android.widget.Toast;
 
-/**
- * Dashboard Admin - Đã sửa lỗi StatusBar và Navigation Menu.
- */
 public class AdminDashboardActivity extends BaseAdminActivity {
 
     private AppDatabase db;
@@ -50,6 +47,18 @@ public class AdminDashboardActivity extends BaseAdminActivity {
     private final SimpleDateFormat dateFormatDb = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
     private final SimpleDateFormat dateFormatDisplay = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
 
+    private synchronized Date parseDbDate(String dateStr) throws java.text.ParseException {
+        return dateFormatDb.parse(dateStr);
+    }
+
+    private synchronized String formatDbDate(Date date) {
+        return dateFormatDb.format(date);
+    }
+
+    private synchronized String formatDisplayDate(Date date) {
+        return dateFormatDisplay.format(date);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // 1. Kích hoạt EdgeToEdge TRƯỚC super.onCreate
@@ -58,27 +67,23 @@ public class AdminDashboardActivity extends BaseAdminActivity {
         setContentView(R.layout.activity_admin_dashboard);
 
         db = AppDatabase.getDatabase(this);
-        // Đảm bảo dữ liệu mẫu (24 sản phẩm và 5 đơn hàng) được nạp đầy đủ nếu chưa có
+
         new com.example.shoeapp.user.ClientProductRepository(this).ensureSeedData();
 
-        // 2. Xử lý vùng an toàn (Insets) để không bị đè bởi StatusBar và NavBar hệ thống
         View root = findViewById(R.id.admin_dashboard_root);
         if (root != null) {
             ViewCompat.setOnApplyWindowInsetsListener(root, (v, insets) -> {
                 Insets bars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-                // Pad toàn bộ Root Layout để đẩy Header xuống và Menu lên
                 v.setPadding(bars.left, bars.top, bars.right, bars.bottom);
                 return WindowInsetsCompat.CONSUMED;
             });
         }
 
-        // Khởi tạo khoảng lọc thời gian mặc định là 7 ngày gần nhất (từ 6 ngày trước đến hôm nay)
         java.util.Calendar cal = java.util.Calendar.getInstance();
-        endDateFilter = dateFormatDb.format(cal.getTime());
+        endDateFilter = formatDbDate(cal.getTime());
         cal.add(java.util.Calendar.DATE, -6);
-        startDateFilter = dateFormatDb.format(cal.getTime());
+        startDateFilter = formatDbDate(cal.getTime());
 
-        // Ánh xạ các View biểu đồ
         btnStartDate = findViewById(R.id.btn_start_date);
         btnEndDate = findViewById(R.id.btn_end_date);
         layoutChartBars = findViewById(R.id.layout_chart_bars);
@@ -109,7 +114,6 @@ public class AdminDashboardActivity extends BaseAdminActivity {
     }
 
     private void setupNavigation() {
-        // Tìm trực tiếp BottomNavigationView từ ID gốc trong view_admin_bottom_nav.xml
         BottomNavigationView bottomNav = findViewById(R.id.admin_bottom_nav);
 
         if (bottomNav != null) {
@@ -210,7 +214,7 @@ public class AdminDashboardActivity extends BaseAdminActivity {
                 Double yesterdayRevValue = db.orderDao().getRevenueByDate(yesterday);
                 double yesterdayRevenue = (yesterdayRevValue != null) ? yesterdayRevValue : 0.0;
 
-                List<OrderWithUser> recentOrders = db.orderDao().getRecentOrdersWithUser(4);
+                List<OrderWithUser> recentOrders = db.orderDao().getRecentOrdersWithUser(5);
                 if (recentOrders == null) {
                     recentOrders = new ArrayList<>();
                 }
@@ -305,6 +309,11 @@ public class AdminDashboardActivity extends BaseAdminActivity {
                                     tvStatus.setBackgroundResource(R.drawable.bg_admin_status_processing);
                                 }
                             }
+                            itemView.setOnClickListener(v -> {
+                                Intent intent = new Intent(AdminDashboardActivity.this, AdminOrderDetailActivity.class);
+                                intent.putExtra(AdminOrderDetailActivity.EXTRA_ORDER_ID, item.order.id);
+                                startActivity(intent);
+                            });
                             containerOrders.addView(itemView);
                         }
                     }
@@ -345,13 +354,13 @@ public class AdminDashboardActivity extends BaseAdminActivity {
 
     private void updateFilterButtonsLabel() {
         try {
-            Date start = dateFormatDb.parse(startDateFilter);
-            Date end = dateFormatDb.parse(endDateFilter);
+            Date start = parseDbDate(startDateFilter);
+            Date end = parseDbDate(endDateFilter);
             if (btnStartDate != null && start != null) {
-                btnStartDate.setText("Từ: " + dateFormatDisplay.format(start));
+                btnStartDate.setText("Từ: " + formatDisplayDate(start));
             }
             if (btnEndDate != null && end != null) {
-                btnEndDate.setText("Đến: " + dateFormatDisplay.format(end));
+                btnEndDate.setText("Đến: " + formatDisplayDate(end));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -363,7 +372,7 @@ public class AdminDashboardActivity extends BaseAdminActivity {
             String currentFilter = isStartDate ? startDateFilter : endDateFilter;
             Calendar cal = Calendar.getInstance();
             if (currentFilter != null) {
-                Date date = dateFormatDb.parse(currentFilter);
+                Date date = parseDbDate(currentFilter);
                 if (date != null) cal.setTime(date);
             }
             int year = cal.get(Calendar.YEAR);
@@ -374,7 +383,7 @@ public class AdminDashboardActivity extends BaseAdminActivity {
                     (view, selectedYear, selectedMonth, selectedDay) -> {
                         Calendar selectedCal = Calendar.getInstance();
                         selectedCal.set(selectedYear, selectedMonth, selectedDay);
-                        String formattedDate = dateFormatDb.format(selectedCal.getTime());
+                        String formattedDate = formatDbDate(selectedCal.getTime());
 
                         if (isStartDate) {
                             startDateFilter = formattedDate;
@@ -395,37 +404,35 @@ public class AdminDashboardActivity extends BaseAdminActivity {
 
         new Thread(() -> {
             try {
+                Date startTemp = parseDbDate(startDateFilter);
+                Date endTemp = parseDbDate(endDateFilter);
+                if (startTemp != null && endTemp != null && startTemp.after(endTemp)) {
+                    String temp = startDateFilter;
+                    startDateFilter = endDateFilter;
+                    endDateFilter = temp;
+                    runOnUiThread(this::updateFilterButtonsLabel);
+                }
+
                 List<com.example.shoeapp.data.model.DateRevenue> dbData =
                         db.orderDao().getRevenueBetweenDates(startDateFilter, endDateFilter);
 
+                double totalFilteredRevenue = 0.0;
                 Map<String, Double> revenueMap = new HashMap<>();
                 for (com.example.shoeapp.data.model.DateRevenue dr : dbData) {
                     revenueMap.put(dr.date, dr.revenue);
+                    totalFilteredRevenue += dr.revenue;
                 }
+                final double finalTotalFilteredRevenue = totalFilteredRevenue;
 
                 List<com.example.shoeapp.data.model.DateRevenue> fullChartData = new ArrayList<>();
                 Calendar startCal = Calendar.getInstance();
                 Calendar endCal = Calendar.getInstance();
 
-                startCal.setTime(dateFormatDb.parse(startDateFilter));
-                endCal.setTime(dateFormatDb.parse(endDateFilter));
-
-                int daysDiff = 0;
-                Calendar tempCal = (Calendar) startCal.clone();
-                while (!tempCal.after(endCal)) {
-                    daysDiff++;
-                    tempCal.add(Calendar.DATE, 1);
-                }
-
-                if (daysDiff > 60) {
-                    runOnUiThread(() -> {
-                        Toast.makeText(this, "Khoảng thời gian quá dài (Tối đa 60 ngày)!", Toast.LENGTH_SHORT).show();
-                    });
-                    return;
-                }
+                startCal.setTime(parseDbDate(startDateFilter));
+                endCal.setTime(parseDbDate(endDateFilter));
 
                 while (!startCal.after(endCal)) {
-                    String dateKey = dateFormatDb.format(startCal.getTime());
+                    String dateKey = formatDbDate(startCal.getTime());
                     double revenue = revenueMap.containsKey(dateKey) ? revenueMap.get(dateKey) : 0.0;
 
                     com.example.shoeapp.data.model.DateRevenue item = new com.example.shoeapp.data.model.DateRevenue();
@@ -446,6 +453,11 @@ public class AdminDashboardActivity extends BaseAdminActivity {
                 final double finalMaxRev = maxRevenue;
 
                 runOnUiThread(() -> {
+                    TextView tvTotalFilteredRevenue = findViewById(R.id.tv_total_filtered_revenue);
+                    if (tvTotalFilteredRevenue != null) {
+                        tvTotalFilteredRevenue.setText(currencyFormat.format(finalTotalFilteredRevenue));
+                    }
+
                     layoutChartBars.removeAllViews();
 
                     if (fullChartData.isEmpty()) {
@@ -492,8 +504,8 @@ public class AdminDashboardActivity extends BaseAdminActivity {
 
                             barColumn.setOnClickListener(v -> {
                                 try {
-                                    Date d = dateFormatDb.parse(item.date);
-                                    String dateFormatted = d != null ? dateFormatDisplay.format(d) : item.date;
+                                    Date d = parseDbDate(item.date);
+                                    String dateFormatted = d != null ? formatDisplayDate(d) : item.date;
                                     String msg = "Ngày " + dateFormatted + "\nDoanh thu: " + currencyFormat.format(item.revenue);
                                     Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
                                 } catch (Exception e) {
@@ -504,7 +516,7 @@ public class AdminDashboardActivity extends BaseAdminActivity {
 
                         if (tvDate != null) {
                             try {
-                                Date d = dateFormatDb.parse(item.date);
+                                Date d = parseDbDate(item.date);
                                 if (d != null) {
                                     tvDate.setText(new SimpleDateFormat("dd/MM", Locale.US).format(d));
                                 } else {
