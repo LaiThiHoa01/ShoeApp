@@ -99,6 +99,13 @@ public abstract class AppDatabase extends RoomDatabase {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             AppDatabase.class, "shoeapp.db")
                             .addMigrations(MIGRATION_11_12, MIGRATION_12_13, MIGRATION_13_14)
+                            .addCallback(new RoomDatabase.Callback() {
+                                @Override
+                                public void onCreate(@androidx.annotation.NonNull SupportSQLiteDatabase db) {
+                                    super.onCreate(db);
+                                    DatabaseSeeder.seedAll(db);
+                                }
+                            })
                             .fallbackToDestructiveMigration()
                             .allowMainThreadQueries()
                             .build();

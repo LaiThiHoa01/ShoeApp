@@ -11,31 +11,7 @@
         android:layout_height="132dp"
         android:background="@drawable/bg_home_product_image_light">
 
-        <TextView
-            android:id="@+id/client_product_badge_new"
-            android:layout_width="42dp"
-            android:layout_height="20dp"
-            android:layout_margin="@dimen/space_6"
-            android:background="@drawable/bg_home_sale_badge"
-            android:gravity="center"
-            android:text="@string/badge_new"
-            android:textAppearance="@style/TextAppearance.SoleStep.Caption"
-            android:textColor="@color/brand_white"
-            android:textSize="8sp"
-            android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/client_product_badge_discount"
-            android:layout_width="44dp"
-            android:layout_height="20dp"
-            android:layout_gravity="top|end"
-            android:layout_margin="@dimen/space_6"
-            android:background="@drawable/bg_catalog_discount_badge"
-            android:gravity="center"
-            android:textAppearance="@style/TextAppearance.SoleStep.Caption"
-            android:textColor="@color/brand_white"
-            android:textSize="8sp"
-            android:textStyle="bold" />
 
         <ImageView
             android:id="@+id/client_product_image"

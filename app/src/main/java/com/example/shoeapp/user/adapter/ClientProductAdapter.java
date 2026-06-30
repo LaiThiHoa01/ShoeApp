@@ -62,8 +62,7 @@ public class ClientProductAdapter extends RecyclerView.Adapter<ClientProductAdap
 
     class ViewHolder extends RecyclerView.ViewHolder {
         final FrameLayout imagePanel;
-        final TextView badgeNew;
-        final TextView badgeDiscount;
+
         final ImageView image;
         final TextView brand;
         final TextView name;
@@ -74,8 +73,7 @@ public class ClientProductAdapter extends RecyclerView.Adapter<ClientProductAdap
         ViewHolder(@NonNull View itemView) {
             super(itemView);
             imagePanel = itemView.findViewById(R.id.client_product_image_panel);
-            badgeNew = itemView.findViewById(R.id.client_product_badge_new);
-            badgeDiscount = itemView.findViewById(R.id.client_product_badge_discount);
+
             image = itemView.findViewById(R.id.client_product_image);
             brand = itemView.findViewById(R.id.client_product_brand);
             name = itemView.findViewById(R.id.client_product_name);
@@ -87,15 +85,7 @@ public class ClientProductAdapter extends RecyclerView.Adapter<ClientProductAdap
         void bind(Product product, int position) {
             imagePanel.setBackgroundResource(backgroundFor(position));
             ImageLoader.load(product.getImageUrl(), image, product.getImageResId());
-            badgeNew.setVisibility(product.isNew() ? View.VISIBLE : View.GONE);
 
-            int discount = discountPercent(product);
-            if (discount > 0) {
-                badgeDiscount.setVisibility(View.VISIBLE);
-                badgeDiscount.setText(String.format(Locale.US, "-%d%%", discount));
-            } else {
-                badgeDiscount.setVisibility(View.GONE);
-            }
 
             brand.setText(displayBrand(product.getBrand()));
             name.setText(product.getName());

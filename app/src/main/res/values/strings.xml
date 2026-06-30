@@ -4,7 +4,7 @@
     <!-- ─── App ─── -->
     <string name="app_name">ShoeApp</string>
     <string name="app_admin_portal">Admin Portal</string>
-    <string name="auth_brand">ShoeApp</string>
+    <string name="auth_brand">SoleStep</string>
     <string name="auth_show_password">Hiển thị mật khẩu</string>
     <string name="auth_hide_password">Ẩn mật khẩu</string>
     <string name="auth_country_code_value">+84</string>

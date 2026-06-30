@@ -76,8 +76,11 @@ public interface ProductDao {
     @Query("SELECT * FROM product WHERE shoe_category = :categoryId")
     List<Product> getProductsByCategory(int categoryId);
 
-    @Query("SELECT p.* FROM product p INNER JOIN category c ON p.shoe_category = c.id WHERE p.shoe_category = :categoryId AND p.is_available = 1 AND p.is_discontinue = 0 AND c.is_active = 1")
+    @Query("SELECT * FROM product WHERE shoe_category = :categoryId AND is_available = 1 AND is_discontinue = 0 ORDER BY id DESC")
     List<Product> getProductsByCategoryActive(int categoryId);
+
+    @Query("SELECT * FROM product WHERE brand_id = :brandId AND is_available = 1 AND is_discontinue = 0 ORDER BY id DESC")
+    List<Product> getProductsByBrandActive(int brandId);
 
     @Query("SELECT * FROM product WHERE id = :id LIMIT 1")
     Product getProductById(int id);
@@ -228,6 +231,15 @@ public interface ProductDao {
     
     @Query("DELETE FROM promotion_product WHERE promotion_id = :promoId")
     void deleteProductsByPromotion(int promoId);
+    
+    @androidx.room.Transaction
+    default void updatePromotionWithProducts(Promotion promotion, java.util.List<PromotionProduct> products) {
+        updatePromotion(promotion);
+        deleteProductsByPromotion(promotion.id);
+        for (PromotionProduct pp : products) {
+            insertPromotionProduct(pp);
+        }
+    }
 
     @Query("SELECT * FROM promotion_product WHERE promotion_id = :promotionId")
     List<PromotionProduct> getProductsByPromotion(int promotionId);
@@ -249,7 +261,10 @@ public interface ProductDao {
     List<ProductReview> getReviewsByProduct(int productId);
 
     @Query("SELECT AVG(rating) FROM product_review WHERE product_id = :productId")
-    float getAverageRating(int productId);
+    Float getAverageRating(int productId);
+
+    @Query("SELECT COUNT(*) FROM product_review WHERE product_id = :productId")
+    int getReviewCount(int productId);
 
     @Query("SELECT COUNT(*) FROM brand")
     int countBrands();

@@ -51,19 +51,6 @@
                     android:src="@drawable/ic_arrow_back"
                     android:tint="@color/text_secondary" />
 
-                <ImageButton
-                    android:id="@+id/share_button"
-                    android:layout_width="@dimen/btn_icon_size"
-                    android:layout_height="@dimen/btn_icon_size"
-                    android:layout_gravity="top|end"
-                    android:layout_marginTop="@dimen/space_8"
-                    android:layout_marginEnd="@dimen/space_screen_horizontal"
-                    android:background="@drawable/bg_home_notification"
-                    android:contentDescription="@string/action_share"
-                    android:elevation="@dimen/elev_card"
-                    android:padding="@dimen/space_8"
-                    android:src="@drawable/ic_share_nodes" />
-
                 <TextView
                     android:id="@+id/detail_badge_new"
                     android:layout_width="52dp"
@@ -158,7 +145,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/detail_rating_text"
+                        android:id="@+id/detail_rating_stars"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="★★★★★"
@@ -167,10 +154,11 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/detail_rating_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/space_6"
-                        android:text="4.8"
+                        tools:text="4.8"
                         android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
                         android:textColor="@color/text_primary" />
 
@@ -184,12 +172,6 @@
                         android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
                         android:textColor="@color/text_muted" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/detail_read_all_reviews"
-                        android:textAppearance="@style/TextAppearance.SoleStep.Caption"
-                        android:textColor="@color/brand_orange" />
                 </LinearLayout>
 
                 <TextView
