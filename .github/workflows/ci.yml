@@ -75,6 +75,6 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: mizu-test-reports
+          name: hachimie-test-reports
           path: build/reports/tests/
           retention-days: 5  
