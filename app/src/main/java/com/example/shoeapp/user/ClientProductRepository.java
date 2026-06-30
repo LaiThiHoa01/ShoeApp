@@ -73,10 +73,6 @@ public class ClientProductRepository {
         java.util.List<com.example.shoeapp.data.entity.Promotion> activePromotions = productDao.getActivePromotions();
         if (activePromotions.isEmpty()) {
             seedPromotions();
-        } else if (productDao.getProductsByPromotion(activePromotions.get(0).id).isEmpty()) {
-            // Fix partial seed state from previous crash
-            productDao.deleteAllPromotions();
-            seedPromotions();
         }
     }
 
@@ -186,13 +182,33 @@ public class ClientProductRepository {
 
     public List<com.example.shoeapp.model.Product> getProductsByPromotion(int promotionId) {
         List<com.example.shoeapp.model.Product> result = new ArrayList<>();
-        List<com.example.shoeapp.data.entity.PromotionProduct> pps = productDao.getProductsByPromotion(promotionId);
-        for (com.example.shoeapp.data.entity.PromotionProduct pp : pps) {
-            Product p = productDao.getProductById(pp.productId);
-            if (p != null && p.isAvailable && !p.isDiscontinue) {
+        com.example.shoeapp.data.entity.Promotion promo = productDao.getPromotionById(promotionId);
+        
+        if (promo == null) {
+            return result;
+        }
+
+        if ("CATEGORY".equals(promo.targetType) && promo.categoryId != null) {
+            List<Product> products = productDao.getProductsByCategoryActive(promo.categoryId);
+            for (Product p : products) {
                 result.add(toClientProduct(p));
             }
+        } else if ("BRAND".equals(promo.targetType) && promo.brandId != null) {
+            List<Product> products = productDao.getProductsByBrandActive(promo.brandId);
+            for (Product p : products) {
+                result.add(toClientProduct(p));
+            }
+        } else {
+            // "PRODUCTS" targetType
+            List<com.example.shoeapp.data.entity.PromotionProduct> pps = productDao.getProductsByPromotion(promotionId);
+            for (com.example.shoeapp.data.entity.PromotionProduct pp : pps) {
+                Product p = productDao.getProductById(pp.productId);
+                if (p != null && p.isAvailable && !p.isDiscontinue) {
+                    result.add(toClientProduct(p));
+                }
+            }
         }
+        
         return result;
     }
 
@@ -474,13 +490,12 @@ public class ClientProductRepository {
     }
 
     private float ratingFor(int id) {
-        float[] ratings = {4.8f, 4.7f, 4.6f, 4.5f, 4.7f, 4.9f, 4.8f, 4.6f, 4.7f, 4.5f, 4.6f, 4.8f};
-        return ratings[(id - 1) % ratings.length];
+        Float avg = productDao.getAverageRating(id);
+        return avg != null && avg > 0 ? avg : 0f;
     }
 
     private int reviewCountFor(int id) {
-        int[] counts = {284, 176, 391, 122, 97, 438, 205, 318, 144, 231, 168, 256};
-        return counts[(id - 1) % counts.length];
+        return productDao.getReviewCount(id);
     }
 
     public String formatPrice(double price) {

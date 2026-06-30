@@ -72,6 +72,12 @@ public class ProductDetailActivity extends BaseSoleStepActivity {
                 .setText(String.format(Locale.US, "%.1f", clientProduct.getRating()));
         ((TextView) findViewById(R.id.detail_review_count_text))
                 .setText(String.format(Locale.US, "(%d đánh giá)", clientProduct.getReviewCount()));
+
+        int ratingInt = Math.round(clientProduct.getRating());
+        StringBuilder starsStr = new StringBuilder();
+        for (int i = 0; i < ratingInt; i++) starsStr.append("★");
+        for (int i = ratingInt; i < 5; i++) starsStr.append("☆");
+        ((TextView) findViewById(R.id.detail_rating_stars)).setText(starsStr.toString());
         ((TextView) findViewById(R.id.detail_description_text)).setText(product.description);
         findViewById(R.id.detail_badge_new).setVisibility(clientProduct.isNew() ? View.VISIBLE : View.GONE);
 

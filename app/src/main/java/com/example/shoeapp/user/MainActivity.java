@@ -195,7 +195,7 @@ public class MainActivity extends BaseSoleStepActivity {
 
         for (int i = 0; i < categories.size(); i++) {
             Category cat = categories.get(i);
-            LinearLayout item = buildCategoryItem(cat.name, i == 0);
+            LinearLayout item = buildCategoryItem(cat.name, i == 0, cat.iconUrl);
             item.setOnClickListener(v -> openCatalogByCategory(cat.id, cat.name));
             if (i > 0) {
                 LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) item.getLayoutParams();
@@ -206,7 +206,7 @@ public class MainActivity extends BaseSoleStepActivity {
         }
     }
 
-    private LinearLayout buildCategoryItem(String name, boolean active) {
+    private LinearLayout buildCategoryItem(String name, boolean active, String iconUrl) {
         LinearLayout item = new LinearLayout(this);
         item.setLayoutParams(new LinearLayout.LayoutParams(dp(78), dp(78)));
         item.setOrientation(LinearLayout.VERTICAL);
@@ -218,9 +218,14 @@ public class MainActivity extends BaseSoleStepActivity {
         ImageView icon = new ImageView(this);
         LinearLayout.LayoutParams iconParams = new LinearLayout.LayoutParams(dp(28), dp(28));
         icon.setLayoutParams(iconParams);
-        icon.setImageResource(R.drawable.ic_shoe);
-        icon.setColorFilter(ContextCompat.getColor(this,
-                active ? R.color.brand_white : R.color.status_info_medium));
+        
+        if (iconUrl != null && !iconUrl.isEmpty()) {
+            com.bumptech.glide.Glide.with(this).load(iconUrl).into(icon);
+        } else {
+            icon.setImageResource(R.drawable.ic_shoe);
+            icon.setColorFilter(ContextCompat.getColor(this,
+                    active ? R.color.brand_white : R.color.status_info_medium));
+        }
 
         TextView label = new TextView(this);
         LinearLayout.LayoutParams labelParams = new LinearLayout.LayoutParams(

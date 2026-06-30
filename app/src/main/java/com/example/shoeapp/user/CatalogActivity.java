@@ -203,6 +203,15 @@ public class CatalogActivity extends BaseSoleStepActivity {
             case "newest":
                 Collections.sort(filtered, (a, b) -> b.getId() - a.getId());
                 break;
+            default:
+                Collections.sort(filtered, (a, b) -> {
+                    int compareReviews = Integer.compare(b.getReviewCount(), a.getReviewCount());
+                    if (compareReviews == 0) {
+                        return Float.compare(b.getRating(), a.getRating());
+                    }
+                    return compareReviews;
+                });
+                break;
         }
 
         adapter.updateProducts(filtered);

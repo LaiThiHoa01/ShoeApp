@@ -368,19 +368,36 @@ public class AdminAddPromotionActivity extends AppCompatActivity {
             long promoId;
             if (editingPromotionId != -1) {
                 p.id = editingPromotionId;
-                productDao.updatePromotion(p);
-                productDao.deleteProductsByPromotion(editingPromotionId);
+                
+                // Fetch the existing promotion to retain original fields like slug
+                Promotion existing = productDao.getPromotionById(editingPromotionId);
+                if (existing != null) {
+                    p.slug = existing.slug;
+                }
+                
+                if ("PRODUCTS".equals(p.targetType)) {
+                    List<PromotionProduct> ppList = new java.util.ArrayList<>();
+                    for (int productId : selectedProductIds) {
+                        PromotionProduct pp = new PromotionProduct();
+                        pp.promotionId = editingPromotionId;
+                        pp.productId = productId;
+                        ppList.add(pp);
+                    }
+                    productDao.updatePromotionWithProducts(p, ppList);
+                } else {
+                    productDao.updatePromotion(p);
+                    productDao.deleteProductsByPromotion(editingPromotionId);
+                }
                 promoId = editingPromotionId;
             } else {
                 promoId = productDao.insertPromotionReturnId(p);
-            }
-            
-            if ("PRODUCTS".equals(p.targetType)) {
-                for (int productId : selectedProductIds) {
-                    PromotionProduct pp = new PromotionProduct();
-                    pp.promotionId = (int) promoId;
-                    pp.productId = productId;
-                    productDao.insertPromotionProduct(pp);
+                if ("PRODUCTS".equals(p.targetType)) {
+                    for (int productId : selectedProductIds) {
+                        PromotionProduct pp = new PromotionProduct();
+                        pp.promotionId = (int) promoId;
+                        pp.productId = productId;
+                        productDao.insertPromotionProduct(pp);
+                    }
                 }
             }
             
