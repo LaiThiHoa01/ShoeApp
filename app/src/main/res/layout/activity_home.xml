@@ -27,77 +27,103 @@
             android:paddingEnd="@dimen/space_screen_horizontal"
             android:paddingBottom="@dimen/space_16">
 
-            <LinearLayout
-                android:id="@+id/home_header_search"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="54dp"
-                    android:layout_height="54dp"
-                    android:layout_marginEnd="@dimen/space_10"
-                    app:cardCornerRadius="16dp"
-                    app:cardElevation="0dp">
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:contentDescription="@null"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/shoe_logo_app" />
-                </androidx.cardview.widget.CardView>
+                android:layout_height="wrap_content">
 
                 <LinearLayout
-                    android:id="@+id/home_search_box"
-                    android:layout_width="0dp"
-                    android:layout_height="54dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/bg_home_search"
+                    android:id="@+id/home_header_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingStart="@dimen/space_8"
-                    android:paddingEnd="@dimen/space_4">
+                    android:orientation="horizontal">
 
-                    <ImageView
-                        android:layout_width="@dimen/icon_lg"
-                        android:layout_height="@dimen/icon_lg"
-                        android:contentDescription="@string/action_search"
-                        android:src="@drawable/ic_material_search"
-                        android:tint="@color/text_muted" />
-
-                    <EditText
-                        android:id="@+id/home_search_input"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="@dimen/space_6"
-                        android:layout_weight="1"
-                        android:background="@android:color/transparent"
-                        android:hint="@string/home_search_hint"
-                        android:imeOptions="actionSearch"
-                        android:inputType="text"
-                        android:maxLines="1"
-                        android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
-                        android:textColor="@color/text_primary"
-                        android:textColorHint="@color/text_muted" />
-
-                    <FrameLayout
-                        android:id="@+id/home_search_button"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:background="@drawable/bg_circle_orange">
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="54dp"
+                        android:layout_height="54dp"
+                        android:layout_marginEnd="@dimen/space_10"
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="0dp">
 
                         <ImageView
-                            android:layout_width="@dimen/icon_md"
-                            android:layout_height="@dimen/icon_md"
-                            android:layout_gravity="center"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:contentDescription="@null"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/shoe_logo_app" />
+                    </androidx.cardview.widget.CardView>
+
+                    <LinearLayout
+                        android:id="@+id/home_search_box"
+                        android:layout_width="0dp"
+                        android:layout_height="54dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_home_search"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingStart="@dimen/space_8"
+                        android:paddingEnd="@dimen/space_4">
+
+                        <ImageView
+                            android:layout_width="@dimen/icon_lg"
+                            android:layout_height="@dimen/icon_lg"
                             android:contentDescription="@string/action_search"
                             android:src="@drawable/ic_material_search"
-                            android:tint="@color/brand_white" />
-                    </FrameLayout>
+                            android:tint="@color/text_muted" />
+
+                        <EditText
+                            android:id="@+id/home_search_input"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="@dimen/space_6"
+                            android:layout_weight="1"
+                            android:background="@android:color/transparent"
+                            android:hint="@string/home_search_hint"
+                            android:imeOptions="actionSearch"
+                            android:inputType="text"
+                            android:maxLines="1"
+                            android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
+                            android:textColor="@color/text_primary"
+                            android:textColorHint="@color/text_muted" />
+
+                        <FrameLayout
+                            android:id="@+id/home_search_button"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:background="@drawable/bg_circle_orange">
+
+                            <ImageView
+                                android:layout_width="@dimen/icon_md"
+                                android:layout_height="@dimen/icon_md"
+                                android:layout_gravity="center"
+                                android:contentDescription="@string/action_search"
+                                android:src="@drawable/ic_material_search"
+                                android:tint="@color/brand_white" />
+                        </FrameLayout>
+                    </LinearLayout>
                 </LinearLayout>
-            </LinearLayout>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_search_suggestions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/home_header_search"
+                    android:layout_marginStart="64dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_marginTop="4dp"
+                    android:visibility="gone"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="8dp"
+                    app:cardBackgroundColor="@color/bg_secondary">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_search_suggestions"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:maxHeight="220dp"
+                        android:overScrollMode="never" />
+                </androidx.cardview.widget.CardView>
+            </RelativeLayout>
 
             <LinearLayout
                 android:id="@+id/home_categories_header"

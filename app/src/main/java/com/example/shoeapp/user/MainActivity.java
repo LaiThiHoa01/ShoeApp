@@ -30,6 +30,7 @@ import com.example.shoeapp.user.adapter.ProductGridSpacingDecoration;
 import com.example.shoeapp.user.adapter.PromotionBannerAdapter;
 
 import java.util.List;
+import com.example.shoeapp.user.adapter.SearchSuggestionAdapter;
 
 public class MainActivity extends BaseSoleStepActivity {
     private ViewPager2 bannerViewPager;
@@ -169,8 +170,60 @@ public class MainActivity extends BaseSoleStepActivity {
 
     private void setupSearch() {
         android.widget.EditText searchInput = findViewById(R.id.home_search_input);
+        androidx.cardview.widget.CardView cardSuggestions = findViewById(R.id.card_search_suggestions);
+        RecyclerView rvSuggestions = findViewById(R.id.rv_search_suggestions);
+
+        if (rvSuggestions != null && cardSuggestions != null) {
+            // thiết lập hiển thị danh sách cho phần gợi ý tìm kiếm
+            rvSuggestions.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(this));
+            SearchSuggestionAdapter suggestionAdapter = new SearchSuggestionAdapter(product -> {
+                // điền nhanh từ khóa gợi ý và chuyển tiếp đến màn hình danh mục
+                searchInput.setText(product.getName());
+                searchInput.setSelection(product.getName().length());
+                cardSuggestions.setVisibility(View.GONE);
+
+                Intent intent = new Intent(MainActivity.this, CatalogActivity.class);
+                intent.putExtra(CatalogActivity.EXTRA_TITLE, "Tìm kiếm sản phẩm");
+                intent.putExtra(CatalogActivity.EXTRA_KEYWORD, product.getName());
+                startActivity(intent);
+            });
+            rvSuggestions.setAdapter(suggestionAdapter);
+
+            searchInput.addTextChangedListener(new android.text.TextWatcher() {
+                @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+                @Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
+                @Override
+                public void afterTextChanged(android.text.Editable s) {
+                    String query = s.toString().trim();
+                    if (query.isEmpty()) {
+                        cardSuggestions.setVisibility(View.GONE);
+                    } else {
+                        // chạy luồng phụ tìm kiếm gợi ý từ DB
+                        new Thread(() -> {
+                            List<Product> suggestions = productRepository.searchProducts(query);
+                            if (suggestions.size() > 5) {
+                                suggestions = suggestions.subList(0, 5); // giới hạn tối đa 5 gợi ý
+                            }
+                            final List<Product> finalSuggestions = suggestions;
+                            runOnUiThread(() -> {
+                                if (finalSuggestions.isEmpty()) {
+                                    cardSuggestions.setVisibility(View.GONE);
+                                } else {
+                                    suggestionAdapter.updateList(finalSuggestions);
+                                    cardSuggestions.setVisibility(View.VISIBLE);
+                                }
+                            });
+                        }).start();
+                    }
+                }
+            });
+        }
+
         findViewById(R.id.home_search_button).setOnClickListener(v -> {
             String keyword = searchInput.getText().toString();
+            if (cardSuggestions != null) {
+                cardSuggestions.setVisibility(View.GONE);
+            }
             Intent intent = new Intent(this, CatalogActivity.class);
             intent.putExtra(CatalogActivity.EXTRA_TITLE, "Tìm kiếm sản phẩm");
             intent.putExtra(CatalogActivity.EXTRA_KEYWORD, keyword);

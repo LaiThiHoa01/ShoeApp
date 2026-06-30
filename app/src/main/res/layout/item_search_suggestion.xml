@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="12dp"
+    android:background="?attr/selectableItemBackground">
+
+    <ImageView
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:src="@drawable/ic_material_search"
+        android:tint="@color/text_muted"
+        android:contentDescription="@null" />
+
+    <TextView
+        android:id="@+id/tv_suggestion_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_weight="1"
+        android:text="Nike Air Force 1"
+        android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
+        android:textColor="@color/text_primary" />
+</LinearLayout>

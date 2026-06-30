@@ -179,6 +179,65 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <!-- Empty State View -->
+    <LinearLayout
+        android:id="@+id/layout_empty_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/catalog_filter_scroll"
+        app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:src="@drawable/ic_material_search"
+            android:tint="@color/text_muted"
+            android:alpha="0.5"
+            android:contentDescription="@null" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_10"
+            android:text="Không tìm thấy sản phẩm nào"
+            android:textAppearance="@style/TextAppearance.SoleStep.Subheading"
+            android:textColor="@color/text_secondary" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_6"
+            android:text="Vui lòng thử lại với từ khóa khác"
+            android:textAppearance="@style/TextAppearance.SoleStep.BodySmall"
+            android:textColor="@color/text_muted" />
+    </LinearLayout>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_search_suggestions"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:visibility="gone"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="8dp"
+        app:cardBackgroundColor="@color/bg_secondary"
+        app:layout_constraintTop_toBottomOf="@id/catalog_search_row"
+        app:layout_constraintStart_toStartOf="@id/catalog_search_row"
+        app:layout_constraintEnd_toEndOf="@id/catalog_search_row">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_search_suggestions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxHeight="220dp"
+            android:overScrollMode="never" />
+    </androidx.cardview.widget.CardView>
+
     <!-- Bottom Navigation -->
     <include
         android:id="@+id/bottom_navigation"

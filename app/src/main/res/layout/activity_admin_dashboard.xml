@@ -211,6 +211,46 @@
                         app:cornerRadius="10dp" />
                 </LinearLayout>
 
+                <!-- Tổng doanh thu của khoảng ngày lọc -->
+                <LinearLayout
+                    android:id="@+id/layout_total_filtered_revenue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/bg_admin_chip"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="8dp">
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:src="@drawable/ic_home_trending"
+                        app:tint="@color/brand_orange"
+                        android:contentDescription="@null" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="Tổng doanh thu lọc:"
+                        android:textColor="@color/text_dark_secondary"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/tv_total_filtered_revenue"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="6dp"
+                        android:text="0 ₫"
+                        android:textColor="@color/brand_orange"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:gravity="end" />
+                </LinearLayout>
+
                 <!-- Khung vẽ biểu đồ cột -->
                 <HorizontalScrollView
                     android:layout_width="match_parent"
