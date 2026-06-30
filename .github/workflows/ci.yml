@@ -26,6 +26,39 @@ jobs:
           distribution: 'temurin'
           cache: gradle
 
+      # Tạo file google-services.json giả lập để qua được bước kiểm tra của Google Services Plugin
+      - name: Create dummy google-services.json
+        run: |
+          echo '{
+            "project_info": {
+              "project_number": "123456789",
+              "project_id": "mock-project-id",
+              "storage_bucket": "mock-bucket"
+            },
+            "client": [
+              {
+                "client_info": {
+                  "mobilesdk_app_id": "1:123456789:android:123456789",
+                  "android_client_info": {
+                    "package_name": "com.example.shoeapp"
+                  }
+                },
+                "oauth_client": [],
+                "api_key": [
+                  {
+                    "current_key": "mock-api-key"
+                  }
+                ],
+                "services": {
+                  "appinvite_service": {
+                    "other_platform_oauth_client": []
+                  }
+                }
+              }
+            ],
+            "configuration_version": "1"
+          }' > app/google-services.json
+
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
