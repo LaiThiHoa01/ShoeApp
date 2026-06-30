@@ -7,6 +7,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.view.View;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,6 +19,7 @@ import com.example.shoeapp.ui.BaseSoleStepActivity;
 import com.example.shoeapp.ui.BottomNavHelper;
 import com.example.shoeapp.user.adapter.ClientProductAdapter;
 import com.example.shoeapp.user.adapter.ProductGridSpacingDecoration;
+import com.example.shoeapp.user.adapter.SearchSuggestionAdapter;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -73,6 +75,8 @@ public class CatalogActivity extends BaseSoleStepActivity {
 
     private void setupSearch() {
         EditText searchInput = findViewById(R.id.catalog_search_input);
+        androidx.cardview.widget.CardView cardSuggestions = findViewById(R.id.card_search_suggestions);
+        RecyclerView rvSuggestions = findViewById(R.id.rv_search_suggestions);
 
         // nếu được mở từ trang chủ kèm từ khóa thì điền sẵn vào ô tìm kiếm
         String keyword = getIntent().getStringExtra(EXTRA_KEYWORD);
@@ -81,14 +85,72 @@ public class CatalogActivity extends BaseSoleStepActivity {
             searchInput.setSelection(keyword.length());
         }
 
-        searchInput.addTextChangedListener(new TextWatcher() {
-            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
-            @Override
-            public void afterTextChanged(Editable s) {
-                applyFilters(s.toString());
-            }
-        });
+        if (rvSuggestions != null && cardSuggestions != null) {
+            // thiết lập hiển thị danh sách cho phần gợi ý tìm kiếm
+            rvSuggestions.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(this));
+            SearchSuggestionAdapter suggestionAdapter = new SearchSuggestionAdapter(product -> {
+                // điền nhanh từ khóa gợi ý vào ô nhập và tiến hành lọc trực tiếp
+                searchInput.setText(product.getName());
+                searchInput.setSelection(product.getName().length());
+                cardSuggestions.setVisibility(android.view.View.GONE);
+                applyFilters(product.getName());
+            });
+            rvSuggestions.setAdapter(suggestionAdapter);
+
+            searchInput.addTextChangedListener(new TextWatcher() {
+                @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+                @Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
+                @Override
+                public void afterTextChanged(Editable s) {
+                    String query = s.toString().trim();
+                    // lọc lưới sản phẩm bên dưới theo thời gian thực
+                    applyFilters(s.toString());
+
+                    if (query.isEmpty()) {
+                        cardSuggestions.setVisibility(android.view.View.GONE);
+                    } else {
+                        // chạy luồng phụ tìm kiếm sản phẩm phù hợp làm gợi ý
+                        new Thread(() -> {
+                            List<Product> suggestions = productRepository.searchProducts(query);
+                            if (suggestions.size() > 5) {
+                                suggestions = suggestions.subList(0, 5); // giới hạn tối đa 5 gợi ý
+                            }
+                            final List<Product> finalSuggestions = suggestions;
+                            runOnUiThread(() -> {
+                                if (finalSuggestions.isEmpty() || searchInput.getText().toString().trim().isEmpty()) {
+                                    cardSuggestions.setVisibility(android.view.View.GONE);
+                                } else {
+                                    suggestionAdapter.updateList(finalSuggestions);
+                                    cardSuggestions.setVisibility(android.view.View.VISIBLE);
+                                }
+                            });
+                        }).start();
+                    }
+                }
+            });
+
+            // ẩn phần gợi ý và đóng bàn phím khi người dùng ấn nút tìm kiếm
+            searchInput.setOnEditorActionListener((v, actionId, event) -> {
+                if (actionId == android.view.inputmethod.EditorInfo.IME_ACTION_SEARCH) {
+                    cardSuggestions.setVisibility(android.view.View.GONE);
+                    android.view.inputmethod.InputMethodManager imm = (android.view.inputmethod.InputMethodManager) getSystemService(android.content.Context.INPUT_METHOD_SERVICE);
+                    if (imm != null) {
+                        imm.hideSoftInputFromWindow(searchInput.getWindowToken(), 0);
+                    }
+                    return true;
+                }
+                return false;
+            });
+        } else {
+            searchInput.addTextChangedListener(new TextWatcher() {
+                @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+                @Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
+                @Override
+                public void afterTextChanged(Editable s) {
+                    applyFilters(s.toString());
+                }
+            });
+        }
     }
 
     private void setupSortChips() {
@@ -216,6 +278,19 @@ public class CatalogActivity extends BaseSoleStepActivity {
 
         adapter.updateProducts(filtered);
         ((TextView) findViewById(R.id.catalog_count_text)).setText(filtered.size() + " sản phẩm");
+
+        // hiển thị thông báo "không tìm thấy sản phẩm" khi kết quả lọc trống
+        View emptyState = findViewById(R.id.layout_empty_state);
+        View productGrid = findViewById(R.id.catalog_product_grid);
+        if (emptyState != null && productGrid != null) {
+            if (filtered.isEmpty()) {
+                emptyState.setVisibility(android.view.View.VISIBLE);
+                productGrid.setVisibility(android.view.View.GONE);
+            } else {
+                emptyState.setVisibility(android.view.View.GONE);
+                productGrid.setVisibility(android.view.View.VISIBLE);
+            }
+        }
     }
 
     private void selectSort(String sort) {
