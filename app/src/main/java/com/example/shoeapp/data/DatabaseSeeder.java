@@ -71,7 +71,7 @@ public class DatabaseSeeder {
         db.execSQL("INSERT OR IGNORE INTO category (id, name, icon_url, is_active, sort_order, created_at) VALUES (3, 'Bóng rổ', 'https://res.cloudinary.com/dnmowplwi/image/upload/v1768981544/Gi_C3_A0y-b_C3_B3ng-r_E1_BB_95-Dagger-2-Mid-Unisex_vy7bd4.jpg', 1, 3, '2026-01-01 00:00:00')");
         db.execSQL("INSERT OR IGNORE INTO category (id, name, icon_url, is_active, sort_order, created_at) VALUES (4, 'Luyện tập', 'https://res.cloudinary.com/dnmowplwi/image/upload/v1768962474/IG3083-3_eb7bre.jpg', 1, 4, '2026-01-01 00:00:00')");
         db.execSQL("INSERT OR IGNORE INTO category (id, name, icon_url, is_active, sort_order, created_at) VALUES (5, 'Tennis', 'https://res.cloudinary.com/dnmowplwi/image/upload/v1768970121/IF0458-3_lu81kq.jpg', 1, 5, '2026-01-01 00:00:00')");
-        db.execSQL("INSERT OR IGNORE INTO category (id, name, icon_url, is_active, sort_order, created_at) VALUES (6, 'Thời trang', 'https://res.cloudinary.com/dnmowplwi/image/upload/v1768888612/WMNS_AIR_JORDAN_1_LOW1_bhehuo.avif', 1, 6, '2026-01-01 00:00:00')");
+        db.execSQL("INSERT OR IGNORE INTO category (id, name, icon_url, is_active, sort_order, created_at) VALUES (6, 'Thời trang', 'https://res.cloudinary.com/dnmowplwi/image/upload/v1768911723/AIR_JORDAN_1_LOW_nocz0l.jpg', 1, 6, '2026-01-01 00:00:00')");
     }
 
     private static void seedProducts(SupportSQLiteDatabase db) {

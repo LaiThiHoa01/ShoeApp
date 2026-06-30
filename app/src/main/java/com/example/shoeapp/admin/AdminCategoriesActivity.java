@@ -104,6 +104,18 @@ public class AdminCategoriesActivity extends BaseAdminActivity
             int maxProductsVal = 0;
 
             if (dbList != null) {
+                boolean hasUpdate = false;
+                for (com.example.shoeapp.data.entity.Category entity : dbList) {
+                    if (entity.iconUrl != null && entity.iconUrl.trim().endsWith(".avif")) {
+                        entity.iconUrl = "https://res.cloudinary.com/dnmowplwi/image/upload/v1768911723/AIR_JORDAN_1_LOW_nocz0l.jpg";
+                        db.categoryDao().update(entity);
+                        hasUpdate = true;
+                    }
+                }
+                if (hasUpdate) {
+                    dbList = db.categoryDao().getAllCategories();
+                }
+
                 List<Integer> counts = new ArrayList<>();
                 for (com.example.shoeapp.data.entity.Category entity : dbList) {
                     int count = db.productDao().getProductsByCategory(entity.id).size();
@@ -115,7 +127,7 @@ public class AdminCategoriesActivity extends BaseAdminActivity
                 for (int i = 0; i < dbList.size(); i++) {
                     com.example.shoeapp.data.entity.Category entity = dbList.get(i);
                     int colorIdx = i % BG_COLORS.length;
-                    tempCategories.add(new Category(
+                    Category model = new Category(
                             entity.id,
                             entity.name,
                             R.drawable.ic_shoe,
@@ -124,7 +136,9 @@ public class AdminCategoriesActivity extends BaseAdminActivity
                             counts.get(i),
                             maxProductsVal,
                             entity.isActive
-                    ));
+                    );
+                    model.setIconUrl(entity.iconUrl);
+                    tempCategories.add(model);
                 }
             }
 

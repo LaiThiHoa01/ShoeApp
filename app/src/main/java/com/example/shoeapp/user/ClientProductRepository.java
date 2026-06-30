@@ -74,6 +74,22 @@ public class ClientProductRepository {
         if (activePromotions.isEmpty()) {
             seedPromotions();
         }
+
+        new Thread(() -> {
+            try {
+                java.util.List<com.example.shoeapp.data.entity.Category> cats = productDao.getAllCategories();
+                if (cats != null) {
+                    for (com.example.shoeapp.data.entity.Category c : cats) {
+                        if (c.iconUrl != null && c.iconUrl.trim().endsWith(".avif")) {
+                            c.iconUrl = "https://res.cloudinary.com/dnmowplwi/image/upload/v1768911723/AIR_JORDAN_1_LOW_nocz0l.jpg";
+                            db.categoryDao().update(c);
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 
     private void seedPromotions() {

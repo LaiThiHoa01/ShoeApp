@@ -28,6 +28,9 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import android.widget.ImageView;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -127,11 +130,26 @@ public class AdminAddProductActivity extends BaseAdminActivity {
         brands     = db.productDao().getAllBrands();
         categories = db.categoryDao().getAllCategories();
 
+        if (brands == null) {
+            brands = new ArrayList<>();
+        }
+        if (categories == null) {
+            categories = new ArrayList<>();
+        }
+
         List<String> brandNames = new ArrayList<>();
-        for (Brand b : brands) brandNames.add(b.name);
+        for (Brand b : brands) {
+            if (b != null && b.name != null) {
+                brandNames.add(b.name);
+            }
+        }
 
         List<String> categoryNames = new ArrayList<>();
-        for (Category c : categories) categoryNames.add(c.name);
+        for (Category c : categories) {
+            if (c != null && c.name != null) {
+                categoryNames.add(c.name);
+            }
+        }
 
         ArrayAdapter<String> brandAdapter = new ArrayAdapter<>(
                 this, R.layout.item_spinner_selected, brandNames);
@@ -142,7 +160,6 @@ public class AdminAddProductActivity extends BaseAdminActivity {
                 this, R.layout.item_spinner_selected, categoryNames);
         categoryAdapter.setDropDownViewResource(R.layout.item_spinner_dropdown);
         spinnerCategory.setAdapter(categoryAdapter);
-
         if (brands.isEmpty()) {
             Toast.makeText(this,
                     "Chưa có thương hiệu nào. Vui lòng thêm brand trước.",
@@ -219,7 +236,7 @@ public class AdminAddProductActivity extends BaseAdminActivity {
             if (isEditMode && p.id == editingProduct.id) {
                 continue; // bỏ qua kiểm tra chính nó
             }
-            if (p.name.equalsIgnoreCase(name)) {
+            if (name.equalsIgnoreCase(p.name)) {
                 etName.setError("Tên sản phẩm đã tồn tại");
                 etName.requestFocus();
                 return;
@@ -244,6 +261,14 @@ public class AdminAddProductActivity extends BaseAdminActivity {
             return;
         }
 
+        String finalImageUrl = imageUrl;
+        if (selectedImageUri != null && imageUrl.startsWith("content://")) {
+            String localPath = saveImageToInternalStorage(selectedImageUri);
+            if (localPath != null) {
+                finalImageUrl = localPath;
+            }
+        }
+
         int selectedBrandId    = brands.get(spinnerBrand.getSelectedItemPosition()).id;
         int selectedCategoryId = categories.get(spinnerCategory.getSelectedItemPosition()).id;
 
@@ -260,15 +285,15 @@ public class AdminAddProductActivity extends BaseAdminActivity {
 
             // Cập nhật ProductImg
             ProductImg thumbnail = db.productDao().getThumbnail(editingProduct.id);
-            if (!imageUrl.isEmpty()) {
+            if (!finalImageUrl.isEmpty()) {
                 if (thumbnail != null) {
-                    thumbnail.imgUrl = imageUrl;
+                    thumbnail.imgUrl = finalImageUrl;
                     db.productDao().updateProductImg(thumbnail);
                 } else {
                     ProductImg img = new ProductImg();
                     img.productId = editingProduct.id;
                     img.colorId = null;
-                    img.imgUrl = imageUrl;
+                    img.imgUrl = finalImageUrl;
                     img.sortOrder = 1;
                     img.isActive = true;
                     img.isThumbnail = true;
@@ -294,22 +319,14 @@ public class AdminAddProductActivity extends BaseAdminActivity {
                     "yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
             product.productId       = "PRD" + System.currentTimeMillis();
 
-            db.productDao().insert(product);
+            long insertedId = db.productDao().insertProduct(product);
+            int insertedProductId = (int) insertedId;
 
-            int insertedProductId = -1;
-            List<Product> listAfterInsert = db.productDao().getAllProducts();
-            for (Product p : listAfterInsert) {
-                if (product.productId.equals(p.productId)) {
-                    insertedProductId = p.id;
-                    break;
-                }
-            }
-
-            if (insertedProductId != -1 && !imageUrl.isEmpty()) {
+            if (insertedProductId != -1 && !finalImageUrl.isEmpty()) {
                 ProductImg img = new ProductImg();
                 img.productId = insertedProductId;
                 img.colorId = null;
-                img.imgUrl = imageUrl;
+                img.imgUrl = finalImageUrl;
                 img.sortOrder = 1;
                 img.isActive = true;
                 img.isThumbnail = true;
@@ -318,6 +335,29 @@ public class AdminAddProductActivity extends BaseAdminActivity {
 
             Toast.makeText(this, "Đã thêm sản phẩm \"" + name + "\"", Toast.LENGTH_SHORT).show();
             finish();
+        }
+    }
+
+    private String saveImageToInternalStorage(Uri uri) {
+        try {
+            InputStream is = getContentResolver().openInputStream(uri);
+            if (is == null) return null;
+
+            String filename = "prod_" + System.currentTimeMillis() + ".jpg";
+            File file = new File(getFilesDir(), filename);
+
+            try (InputStream in = is; FileOutputStream fos = new FileOutputStream(file)) {
+                byte[] buffer = new byte[4096];
+                int read;
+                while ((read = in.read(buffer)) != -1) {
+                    fos.write(buffer, 0, read);
+                }
+            }
+
+            return file.getAbsolutePath();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
     }
 }

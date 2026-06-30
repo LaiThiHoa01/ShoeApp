@@ -92,11 +92,15 @@ public class ChatActivity extends BaseSoleStepActivity implements ChatAdapter.Ch
     }
 
     private void loadChatHistory() {
-        List<ChatMessage> history = db.chatMessageDao().getAllMessages();
-        chatAdapter.setMessages(history);
-        if (chatAdapter.getItemCount() > 0) {
-            recyclerView.scrollToPosition(chatAdapter.getItemCount() - 1);
-        }
+        new Thread(() -> {
+            List<ChatMessage> history = db.chatMessageDao().getAllMessages();
+            runOnUiThread(() -> {
+                chatAdapter.setMessages(history);
+                if (chatAdapter.getItemCount() > 0) {
+                    recyclerView.scrollToPosition(chatAdapter.getItemCount() - 1);
+                }
+            });
+        }).start();
     }
 
     private boolean isNetworkConnected() {
@@ -135,7 +139,7 @@ public class ChatActivity extends BaseSoleStepActivity implements ChatAdapter.Ch
         userMsg.timestamp = System.currentTimeMillis();
         userMsg.sessionId = "sole_step_assistant_session";
 
-        db.chatMessageDao().insert(userMsg);
+        new Thread(() -> db.chatMessageDao().insert(userMsg)).start();
         chatAdapter.addMessage(userMsg);
         recyclerView.smoothScrollToPosition(chatAdapter.getItemCount() - 1);
 
@@ -153,7 +157,7 @@ public class ChatActivity extends BaseSoleStepActivity implements ChatAdapter.Ch
                 botMsg.timestamp = System.currentTimeMillis();
                 botMsg.sessionId = "sole_step_assistant_session";
 
-                db.chatMessageDao().insert(botMsg);
+                new Thread(() -> db.chatMessageDao().insert(botMsg)).start();
                 chatAdapter.addMessage(botMsg);
                 recyclerView.smoothScrollToPosition(chatAdapter.getItemCount() - 1);
             }, 800);
@@ -182,7 +186,7 @@ public class ChatActivity extends BaseSoleStepActivity implements ChatAdapter.Ch
                     botMsg.isError = true;
                 }
 
-                db.chatMessageDao().insert(botMsg);
+                new Thread(() -> db.chatMessageDao().insert(botMsg)).start();
                 chatAdapter.addMessage(botMsg);
                 recyclerView.smoothScrollToPosition(chatAdapter.getItemCount() - 1);
             }, 600);
@@ -195,7 +199,10 @@ public class ChatActivity extends BaseSoleStepActivity implements ChatAdapter.Ch
 
         String productContext = ContextBuilder.buildProductContext(this, query);
 
-        List<ChatMessage> allMessages = db.chatMessageDao().getAllMessages();
+        List<ChatMessage> allMessages = new java.util.ArrayList<>();
+        try {
+            allMessages = db.chatMessageDao().getAllMessages();
+        } catch (Exception ignored) {}
         List<ChatMessage> recentMessages;
         if (allMessages.size() > 10) {
             recentMessages = allMessages.subList(allMessages.size() - 10, allMessages.size());
@@ -255,7 +262,8 @@ public class ChatActivity extends BaseSoleStepActivity implements ChatAdapter.Ch
 
                     botMsg.productId = detectProductIdInReply(reply);
 
-                    db.chatMessageDao().insert(botMsg);
+                    final ChatMessage finalBotMsg = botMsg;
+                    new Thread(() -> db.chatMessageDao().insert(finalBotMsg)).start();
                     chatAdapter.addMessage(botMsg);
                     recyclerView.smoothScrollToPosition(chatAdapter.getItemCount() - 1);
                 }
@@ -273,7 +281,7 @@ public class ChatActivity extends BaseSoleStepActivity implements ChatAdapter.Ch
                     botMsg.timestamp = System.currentTimeMillis();
                     botMsg.sessionId = "sole_step_assistant_session";
 
-                    db.chatMessageDao().insert(botMsg);
+                    new Thread(() -> db.chatMessageDao().insert(botMsg)).start();
                     chatAdapter.addMessage(botMsg);
                     recyclerView.smoothScrollToPosition(chatAdapter.getItemCount() - 1);
                 }
@@ -290,21 +298,24 @@ public class ChatActivity extends BaseSoleStepActivity implements ChatAdapter.Ch
             botMsg.timestamp = System.currentTimeMillis();
             botMsg.sessionId = "sole_step_assistant_session";
 
-            db.chatMessageDao().insert(botMsg);
+            new Thread(() -> db.chatMessageDao().insert(botMsg)).start();
             chatAdapter.addMessage(botMsg);
             recyclerView.smoothScrollToPosition(chatAdapter.getItemCount() - 1);
         }
     }
 
     private Integer detectProductIdInReply(String reply) {
-        List<Product> products = db.productDao().getAllProductsActive();
-        String replyLower = reply.toLowerCase(Locale.getDefault());
-        for (Product product : products) {
-            String nameLower = product.name.toLowerCase(Locale.getDefault());
-            if (replyLower.contains(nameLower)) {
-                return product.id;
+        try {
+            List<Product> products = db.productDao().getAllProductsActive();
+            String replyLower = reply.toLowerCase(Locale.getDefault());
+            for (Product product : products) {
+                if (product.name == null) continue;
+                String nameLower = product.name.toLowerCase(Locale.getDefault());
+                if (replyLower.contains(nameLower)) {
+                    return product.id;
+                }
             }
-        }
+        } catch (Exception ignored) {}
         return null;
     }
 
@@ -356,31 +367,33 @@ public class ChatActivity extends BaseSoleStepActivity implements ChatAdapter.Ch
 
     @Override
     public void onRetryClick(ChatMessage message) {
-        db.chatMessageDao().delete(message);
-        chatAdapter.removeLastMessage();
-
-        List<ChatMessage> history = db.chatMessageDao().getAllMessages();
-        String lastUserQuery = "";
-        for (int i = history.size() - 1; i >= 0; i--) {
-            if (history.get(i).isUser) {
-                lastUserQuery = history.get(i).content;
-                break;
+        new Thread(() -> {
+            db.chatMessageDao().delete(message);
+            List<ChatMessage> history = db.chatMessageDao().getAllMessages();
+            String lastUserQuery = "";
+            for (int i = history.size() - 1; i >= 0; i--) {
+                if (history.get(i).isUser) {
+                    lastUserQuery = history.get(i).content;
+                    break;
+                }
             }
-        }
-
-        if (!lastUserQuery.isEmpty()) {
-            sendChatMessage(lastUserQuery);
-        } else {
-            Toast.makeText(this, "Không tìm thấy tin nhắn cũ để gửi lại!", Toast.LENGTH_SHORT).show();
-        }
+            final String queryToSend = lastUserQuery;
+            runOnUiThread(() -> {
+                chatAdapter.removeLastMessage();
+                if (!queryToSend.isEmpty()) {
+                    sendChatMessage(queryToSend);
+                } else {
+                    Toast.makeText(this, "Không tìm thấy tin nhắn cũ để gửi lại!", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }).start();
     }
 
     @Override
     public void onFeedbackClick(ChatMessage message, int rating) {
         message.feedbackRating = rating;
-        db.chatMessageDao().update(message);
+        new Thread(() -> db.chatMessageDao().update(message)).start();
         chatAdapter.notifyDataSetChanged();
-
         if (rating != 0) {
             Toast.makeText(this, "Cảm ơn bạn đã phản hồi đóng góp!", Toast.LENGTH_SHORT).show();
         }

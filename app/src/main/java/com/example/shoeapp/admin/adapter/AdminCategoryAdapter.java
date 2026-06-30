@@ -110,7 +110,15 @@ public class AdminCategoryAdapter
             iconBg.setBackgroundTintList(ColorStateList.valueOf(bgColor));
 
             // ── Icon ───────────────────────────────────────────────────────
-            icon.setImageResource(category.getIconResId());
+            if (category.getIconUrl() != null && !category.getIconUrl().isEmpty()) {
+                com.bumptech.glide.Glide.with(context)
+                        .load(category.getIconUrl())
+                        .placeholder(R.drawable.ic_shoe)
+                        .error(R.drawable.ic_shoe)
+                        .into(icon);
+            } else {
+                icon.setImageResource(category.getIconResId());
+            }
 
             // ── Tên danh mục ───────────────────────────────────────────────
             name.setText(category.getName());

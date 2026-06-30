@@ -263,7 +263,7 @@ public class CatalogActivity extends BaseSoleStepActivity {
                 Collections.sort(filtered, (a, b) -> Double.compare(b.getPrice(), a.getPrice()));
                 break;
             case "newest":
-                Collections.sort(filtered, (a, b) -> b.getId() - a.getId());
+                Collections.sort(filtered, (a, b) -> Integer.compare(b.getId(), a.getId()));
                 break;
             default:
                 Collections.sort(filtered, (a, b) -> {
@@ -277,7 +277,10 @@ public class CatalogActivity extends BaseSoleStepActivity {
         }
 
         adapter.updateProducts(filtered);
-        ((TextView) findViewById(R.id.catalog_count_text)).setText(filtered.size() + " sản phẩm");
+        View countText = findViewById(R.id.catalog_count_text);
+        if (countText instanceof TextView) {
+            ((TextView) countText).setText(filtered.size() + " sản phẩm");
+        }
 
         // hiển thị thông báo "không tìm thấy sản phẩm" khi kết quả lọc trống
         View emptyState = findViewById(R.id.layout_empty_state);

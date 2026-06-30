@@ -86,44 +86,69 @@ public class CartActivity extends BaseSoleStepActivity {
     }
 
     private void refreshCart() {
-        List<CartItemView> items = cartRepository.getItems();
-        adapter.submitList(items);
+        new Thread(() -> {
+            List<CartItemView> items = cartRepository.getItems();
+            com.example.shoeapp.data.entity.Promotion suggestedPromo = cartRepository.getSuggestedPromotion(items);
+            int quantity = cartRepository.getQuantity();
+            double subtotal = cartRepository.subtotal(items);
+            double shipping = cartRepository.shipping(items);
+            double discount = cartRepository.discount(items);
+            double total = cartRepository.total(items);
 
-        findViewById(R.id.cart_empty_text).setVisibility(items.isEmpty() ? View.VISIBLE : View.GONE);
-        findViewById(R.id.cart_items_list).setVisibility(items.isEmpty() ? View.GONE : View.VISIBLE);
-        
-        // Show suggested promotion
-        com.example.shoeapp.data.entity.Promotion suggestedPromo = cartRepository.getSuggestedPromotion(items);
-        View layoutSuggestedPromo = findViewById(R.id.layout_suggested_promo);
-        if (suggestedPromo != null) {
-            layoutSuggestedPromo.setVisibility(View.VISIBLE);
-            TextView tvSuggestedPromoCode = findViewById(R.id.tv_suggested_promo_code);
-            String discountStr = "PERCENTAGE".equalsIgnoreCase(suggestedPromo.discountType) 
-                    ? String.format("Giảm %s%%", Math.round(suggestedPromo.discountValue))
-                    : "Giảm " + cartRepository.formatPrice(suggestedPromo.discountValue);
-            tvSuggestedPromoCode.setText(suggestedPromo.voucherCode + " - " + discountStr);
-            
-            findViewById(R.id.btn_use_suggested_promo).setOnClickListener(v -> {
-                if (cartRepository.checkAndApplyPromoCode(suggestedPromo.voucherCode)) {
-                    refreshCart();
-                    android.widget.Toast.makeText(this, "Áp dụng mã khuyến mãi thành công!", android.widget.Toast.LENGTH_SHORT).show();
-                    android.widget.EditText promoInput = findViewById(R.id.cart_promo_input);
-                    if (promoInput != null) {
-                        promoInput.setText(suggestedPromo.voucherCode);
+            if (isFinishing() || isDestroyed()) return;
+            runOnUiThread(() -> {
+                adapter.submitList(items);
+
+                View emptyText = findViewById(R.id.cart_empty_text);
+                View cartList = findViewById(R.id.cart_items_list);
+                if (emptyText != null) emptyText.setVisibility(items.isEmpty() ? View.VISIBLE : View.GONE);
+                if (cartList != null) cartList.setVisibility(items.isEmpty() ? View.GONE : View.VISIBLE);
+
+                View layoutSuggestedPromo = findViewById(R.id.layout_suggested_promo);
+                if (layoutSuggestedPromo != null) {
+                    if (suggestedPromo != null) {
+                        layoutSuggestedPromo.setVisibility(View.VISIBLE);
+                        TextView tvSuggestedPromoCode = findViewById(R.id.tv_suggested_promo_code);
+                        String discountStr = "PERCENTAGE".equalsIgnoreCase(suggestedPromo.discountType)
+                                ? String.format("Giảm %s%%", Math.round(suggestedPromo.discountValue))
+                                : "Giảm " + cartRepository.formatPrice(suggestedPromo.discountValue);
+                        if (tvSuggestedPromoCode != null)
+                            tvSuggestedPromoCode.setText(suggestedPromo.voucherCode + " - " + discountStr);
+
+                        View btnUse = findViewById(R.id.btn_use_suggested_promo);
+                        if (btnUse != null) {
+                            btnUse.setOnClickListener(v -> {
+                                if (cartRepository.checkAndApplyPromoCode(suggestedPromo.voucherCode)) {
+                                    refreshCart();
+                                    android.widget.Toast.makeText(this, "Áp dụng mã khuyến mãi thành công!", android.widget.Toast.LENGTH_SHORT).show();
+                                    android.widget.EditText promoInput = findViewById(R.id.cart_promo_input);
+                                    if (promoInput != null) promoInput.setText(suggestedPromo.voucherCode);
+                                }
+                            });
+                        }
+                    } else {
+                        layoutSuggestedPromo.setVisibility(View.GONE);
                     }
                 }
-            });
-        } else {
-            layoutSuggestedPromo.setVisibility(View.GONE);
-        }
 
-        int quantity = cartRepository.getQuantity();
-        ((TextView) findViewById(R.id.cart_count_badge)).setText(String.valueOf(quantity));
-        ((TextView) findViewById(R.id.cart_subtotal_value)).setText(cartRepository.formatPrice(cartRepository.subtotal(items)));
-        ((TextView) findViewById(R.id.cart_shipping_value)).setText(cartRepository.formatPrice(cartRepository.shipping(items)));
-        ((TextView) findViewById(R.id.cart_discount_value)).setText("-" + cartRepository.formatPrice(cartRepository.discount(items)));
-        ((TextView) findViewById(R.id.cart_total_value)).setText(cartRepository.formatPrice(cartRepository.total(items)));
-        ((TextView) findViewById(R.id.checkout_button)).setText("Tiến hành thanh toán - " + cartRepository.formatPrice(cartRepository.total(items)));
-        findViewById(R.id.checkout_button).setEnabled(!items.isEmpty());
+                View badgeView = findViewById(R.id.cart_count_badge);
+                if (badgeView instanceof TextView) ((TextView) badgeView).setText(String.valueOf(quantity));
+                View subtotalView = findViewById(R.id.cart_subtotal_value);
+                if (subtotalView instanceof TextView) ((TextView) subtotalView).setText(cartRepository.formatPrice(subtotal));
+                View shippingView = findViewById(R.id.cart_shipping_value);
+                if (shippingView instanceof TextView) ((TextView) shippingView).setText(cartRepository.formatPrice(shipping));
+                View discountView = findViewById(R.id.cart_discount_value);
+                if (discountView instanceof TextView) ((TextView) discountView).setText("-" + cartRepository.formatPrice(discount));
+                View totalView = findViewById(R.id.cart_total_value);
+                if (totalView instanceof TextView) ((TextView) totalView).setText(cartRepository.formatPrice(total));
+
+                View checkoutBtn = findViewById(R.id.checkout_button);
+                if (checkoutBtn != null) {
+                    if (checkoutBtn instanceof TextView)
+                        ((TextView) checkoutBtn).setText("Tiến hành thanh toán - " + cartRepository.formatPrice(total));
+                    checkoutBtn.setEnabled(!items.isEmpty());
+                }
+            });
+        }).start();
     }
 }

@@ -407,10 +407,16 @@ public class AdminDashboardActivity extends BaseAdminActivity {
                 Date startTemp = parseDbDate(startDateFilter);
                 Date endTemp = parseDbDate(endDateFilter);
                 if (startTemp != null && endTemp != null && startTemp.after(endTemp)) {
-                    String temp = startDateFilter;
+                    String swapTmp = startDateFilter;
                     startDateFilter = endDateFilter;
-                    endDateFilter = temp;
-                    runOnUiThread(this::updateFilterButtonsLabel);
+                    endDateFilter = swapTmp;
+                    final String finalStart = startDateFilter;
+                    final String finalEnd = endDateFilter;
+                    runOnUiThread(() -> {
+                        startDateFilter = finalStart;
+                        endDateFilter = finalEnd;
+                        updateFilterButtonsLabel();
+                    });
                 }
 
                 List<com.example.shoeapp.data.model.DateRevenue> dbData =

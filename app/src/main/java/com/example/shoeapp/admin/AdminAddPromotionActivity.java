@@ -279,7 +279,7 @@ public class AdminAddPromotionActivity extends AppCompatActivity {
                 } else {
                     List<Product> filtered = new ArrayList<>();
                     for (Product p : allProducts) {
-                        if (p.name.toLowerCase().contains(query)) {
+                        if (p.name != null && p.name.toLowerCase().contains(query)) {
                             filtered.add(p);
                         }
                     }
@@ -322,15 +322,32 @@ public class AdminAddPromotionActivity extends AppCompatActivity {
             return;
         }
 
+        int parsedQuantity;
+        double parsedDiscountValue;
+        try {
+            parsedQuantity = Integer.parseInt(quantityStr);
+        } catch (NumberFormatException e) {
+            etQuantity.setError("Số lượng không hợp lệ");
+            etQuantity.requestFocus();
+            return;
+        }
+        try {
+            parsedDiscountValue = Double.parseDouble(discountValStr);
+        } catch (NumberFormatException e) {
+            etDiscountValue.setError("Giá trị giảm không hợp lệ");
+            etDiscountValue.requestFocus();
+            return;
+        }
+
         Promotion p = new Promotion();
         p.name = name;
-        p.slug = name.toLowerCase().replace(" ", "-");
+        p.slug = name.toLowerCase(java.util.Locale.US).replace(" ", "-");
         p.subtitle = subtitle;
         p.description = description;
         p.bannerUrl = bannerUrl;
         p.voucherCode = voucherCode;
-        p.quantity = Integer.parseInt(quantityStr);
-        p.discountValue = Double.parseDouble(discountValStr);
+        p.quantity = parsedQuantity;
+        p.discountValue = parsedDiscountValue;
         p.startDate = startDate;
         p.endDate = endDate;
         p.isActive = switchIsActive.isChecked();
@@ -339,7 +356,13 @@ public class AdminAddPromotionActivity extends AppCompatActivity {
             p.discountType = "PERCENTAGE";
             String maxDiscountStr = etMaxDiscount.getText().toString().trim();
             if (!maxDiscountStr.isEmpty()) {
-                p.maxDiscountAmount = Double.parseDouble(maxDiscountStr);
+                try {
+                    p.maxDiscountAmount = Double.parseDouble(maxDiscountStr);
+                } catch (NumberFormatException e) {
+                    etMaxDiscount.setError("Giá trị không hợp lệ");
+                    etMaxDiscount.requestFocus();
+                    return;
+                }
             } else {
                 p.maxDiscountAmount = null;
             }
