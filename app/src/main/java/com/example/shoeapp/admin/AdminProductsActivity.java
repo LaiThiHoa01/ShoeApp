@@ -108,7 +108,6 @@ public class AdminProductsActivity extends BaseAdminActivity
             List<Product> tempProducts = new ArrayList<>();
 
             if (tempDbProducts != null) {
-                // Tối ưu hóa: Lấy danh sách thương hiệu và danh mục trước vòng lặp để tránh query database lặp lại
                 List<Brand> allBrands = db.productDao().getAllBrands();
                 java.util.Map<Integer, String> brandMap = new java.util.HashMap<>();
                 if (allBrands != null) {
@@ -125,6 +124,22 @@ public class AdminProductsActivity extends BaseAdminActivity
                     }
                 }
 
+                List<com.example.shoeapp.data.entity.Size> allSizes = db.productDao().getAllSizes();
+                java.util.Map<Integer, com.example.shoeapp.data.entity.Size> sizeMap = new java.util.HashMap<>();
+                if (allSizes != null) {
+                    for (com.example.shoeapp.data.entity.Size s : allSizes) {
+                        sizeMap.put(s.id, s);
+                    }
+                }
+
+                List<com.example.shoeapp.data.entity.Color> allColors = db.productDao().getAllColors();
+                java.util.Map<Integer, com.example.shoeapp.data.entity.Color> colorMap = new java.util.HashMap<>();
+                if (allColors != null) {
+                    for (com.example.shoeapp.data.entity.Color c : allColors) {
+                        colorMap.put(c.id, c);
+                    }
+                }
+
                 for (com.example.shoeapp.data.entity.Product entity : tempDbProducts) {
                     String brandName = brandMap.containsKey(entity.brandId) ? brandMap.get(entity.brandId) : "Thương hiệu không xác định";
                     String categoryName = categoryMap.containsKey(entity.shoeCategory) ? categoryMap.get(entity.shoeCategory) : "Không xác định";
@@ -132,21 +147,41 @@ public class AdminProductsActivity extends BaseAdminActivity
                     List<com.example.shoeapp.data.entity.ProductVariant> variants =
                             db.productDao().getVariantsByProduct(entity.id);
                     int totalStock = 0;
+                    List<Integer> sizeList = new ArrayList<>();
+                    List<String> colorHexList = new ArrayList<>();
                     if (variants != null) {
                         for (com.example.shoeapp.data.entity.ProductVariant v : variants) {
                             totalStock += v.stock;
+                            
+                            com.example.shoeapp.data.entity.Size size = sizeMap.get(v.sizeId);
+                            if (size != null) {
+                                try {
+                                    int szVal = Integer.parseInt(size.name.trim());
+                                    if (!sizeList.contains(szVal)) {
+                                        sizeList.add(szVal);
+                                    }
+                                } catch (NumberFormatException ignored) {}
+                            }
+
+                            com.example.shoeapp.data.entity.Color color = colorMap.get(v.colorId);
+                            if (color != null && color.hexcode != null) {
+                                String hex = color.hexcode.trim();
+                                if (!colorHexList.contains(hex)) {
+                                    colorHexList.add(hex);
+                                }
+                            }
                         }
                     }
+                    Collections.sort(sizeList);
 
-                    float rating     = db.productDao().getAverageRating(entity.id);
+                    Float avgRating  = db.productDao().getAverageRating(entity.id);
+                    float rating     = avgRating != null ? avgRating : 0.0f;
                     List<?> reviews  = db.productDao().getReviewsByProduct(entity.id);
                     int reviewCount  = reviews != null ? reviews.size() : 0;
 
-                    com.example.shoeapp.data.entity.ProductImg thumbnail =
-                            db.productDao().getThumbnail(entity.id);
-                    String imageUrl = thumbnail != null ? thumbnail.imgUrl : null;
+                    String imageUrl = db.productDao().getThumbnailUrl(entity.id);
 
-                    tempProducts.add(new Product(
+                    Product model = new Product(
                             entity.id,
                             entity.name,
                             brandName + " · " + categoryName,
@@ -155,14 +190,16 @@ public class AdminProductsActivity extends BaseAdminActivity
                             entity.originalPrice > 0 ? entity.originalPrice : entity.price,
                             totalStock,
                             entity.isAvailable,
-                            Collections.emptyList(),
+                            sizeList,
                             rating,
                             reviewCount,
                             R.drawable.ic_shoe,
                             imageUrl,
                             entity.isAvailable,
                             entity.isDiscontinue
-                    ));
+                    );
+                    model.setColors(colorHexList);
+                    tempProducts.add(model);
                 }
             }
 
@@ -223,6 +260,7 @@ public class AdminProductsActivity extends BaseAdminActivity
         int marginStartPx = (int) (6 * density);
         int paddingHorizontalPx = (int) (14 * density);
 
+        if (dbCategories == null) return;
         for (Category c : dbCategories) {
             TextView chip = new TextView(this);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
@@ -314,8 +352,8 @@ public class AdminProductsActivity extends BaseAdminActivity
             boolean matchCategory = currentCategory.equals("All")
                     || p.getCategory().equals(currentCategory);
             boolean matchSearch = currentSearch.isEmpty()
-                    || p.getName().toLowerCase().contains(currentSearch)
-                    || p.getBrand().toLowerCase().contains(currentSearch);
+                    || (p.getName() != null && p.getName().toLowerCase().contains(currentSearch))
+                    || (p.getBrand() != null && p.getBrand().toLowerCase().contains(currentSearch));
             boolean matchStock = true;
             if (currentStockFilter.equals("InStock")) {
                 matchStock = p.getStock() > 0;
@@ -365,29 +403,37 @@ public class AdminProductsActivity extends BaseAdminActivity
     }
 
     private void deleteProduct(Product product) {
-        for (com.example.shoeapp.data.entity.Product entity : dbProducts) {
-            if (entity.id == product.getId()) {
-                entity.isAvailable = false;
-                entity.isDiscontinue = true;
-                db.productDao().update(entity);
-                break;
+        new Thread(() -> {
+            for (com.example.shoeapp.data.entity.Product entity : dbProducts) {
+                if (entity.id == product.getId()) {
+                    entity.isAvailable = false;
+                    entity.isDiscontinue = true;
+                    db.productDao().update(entity);
+                    break;
+                }
             }
-        }
-        loadFromDb();
-        Toast.makeText(this, "Đã ẩn \"" + product.getName() + "\"", Toast.LENGTH_SHORT).show();
+            runOnUiThread(() -> {
+                loadFromDb();
+                Toast.makeText(this, "Đã ẩn \"" + product.getName() + "\"", Toast.LENGTH_SHORT).show();
+            });
+        }).start();
     }
 
     private void restoreProduct(Product product) {
-        for (com.example.shoeapp.data.entity.Product entity : dbProducts) {
-            if (entity.id == product.getId()) {
-                entity.isAvailable = true;
-                entity.isDiscontinue = false;
-                db.productDao().update(entity);
-                break;
+        new Thread(() -> {
+            for (com.example.shoeapp.data.entity.Product entity : dbProducts) {
+                if (entity.id == product.getId()) {
+                    entity.isAvailable = true;
+                    entity.isDiscontinue = false;
+                    db.productDao().update(entity);
+                    break;
+                }
             }
-        }
-        loadFromDb();
-        Toast.makeText(this, "Đã khôi phục \"" + product.getName() + "\"", Toast.LENGTH_SHORT).show();
+            runOnUiThread(() -> {
+                loadFromDb();
+                Toast.makeText(this, "Đã khôi phục \"" + product.getName() + "\"", Toast.LENGTH_SHORT).show();
+            });
+        }).start();
     }
 
     private void setupStockFilterChips() {

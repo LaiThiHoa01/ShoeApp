@@ -109,7 +109,6 @@ public class AdminOrderManagementActivity extends BaseAdminActivity
             List<Order> tempOrders = new ArrayList<>();
 
             if (tempDbOrders != null) {
-                // Tối ưu hóa: Lấy danh sách người dùng trước vòng lặp để tránh query database lặp lại
                 List<com.example.shoeapp.data.entity.User> allUsers = db.userDao().getAllUsers();
                 java.util.Map<Integer, String> userMap = new java.util.HashMap<>();
                 if (allUsers != null) {
@@ -118,10 +117,19 @@ public class AdminOrderManagementActivity extends BaseAdminActivity
                     }
                 }
 
+                List<com.example.shoeapp.data.entity.OrderDetail> allDetails = db.orderDao().getAllOrderDetails();
+                java.util.Map<Integer, Integer> detailsCountMap = new java.util.HashMap<>();
+                if (allDetails != null) {
+                    for (com.example.shoeapp.data.entity.OrderDetail d : allDetails) {
+                        int current = detailsCountMap.containsKey(d.orderId) ? detailsCountMap.get(d.orderId) : 0;
+                        detailsCountMap.put(d.orderId, current + 1);
+                    }
+                }
+
                 for (com.example.shoeapp.data.entity.Order entity : tempDbOrders) {
                     String customerName = userMap.containsKey(entity.userId) ? userMap.get(entity.userId) : "User #" + entity.userId;
 
-                    int itemCount    = db.orderDao().getDetailsByOrder(entity.id).size();
+                    int itemCount = detailsCountMap.containsKey(entity.id) ? detailsCountMap.get(entity.id) : 0;
                     Order.Status status = convertStatus(entity.orderStatus);
                     String date      = entity.createdAt != null
                             ? entity.createdAt.substring(0, Math.min(10, entity.createdAt.length())) : "—";
@@ -345,29 +353,41 @@ public class AdminOrderManagementActivity extends BaseAdminActivity
 
     @Override
     public void onMarkShippedClick(Order order, int position) {
-        updateOrderStatusInDb(order.getOrderId(), "SHIPPED");
-        loadFromDb();
-        updateStats();
-        applyFilters();
-        Toast.makeText(this, "Cập nhật: " + order.getOrderId() + " → Đã gửi", Toast.LENGTH_SHORT).show();
+        new Thread(() -> {
+            updateOrderStatusInDb(order.getOrderId(), "SHIPPED");
+            runOnUiThread(() -> {
+                loadFromDb();
+                updateStats();
+                applyFilters();
+                Toast.makeText(this, "Cập nhật: " + order.getOrderId() + " → Đã gửi", Toast.LENGTH_SHORT).show();
+            });
+        }).start();
     }
 
     @Override
     public void onMarkDeliveredClick(Order order, int position) {
-        updateOrderStatusInDb(order.getOrderId(), "DELIVERED");
-        loadFromDb();
-        updateStats();
-        applyFilters();
-        Toast.makeText(this, "Cập nhật: " + order.getOrderId() + " → Đã giao", Toast.LENGTH_SHORT).show();
+        new Thread(() -> {
+            updateOrderStatusInDb(order.getOrderId(), "DELIVERED");
+            runOnUiThread(() -> {
+                loadFromDb();
+                updateStats();
+                applyFilters();
+                Toast.makeText(this, "Cập nhật: " + order.getOrderId() + " → Đã giao", Toast.LENGTH_SHORT).show();
+            });
+        }).start();
     }
 
     @Override
     public void onCancelOrderClick(Order order, int position) {
-        updateOrderStatusInDb(order.getOrderId(), "CANCELLED");
-        loadFromDb();
-        updateStats();
-        applyFilters();
-        Toast.makeText(this, "Đã hủy đơn hàng: " + order.getOrderId(), Toast.LENGTH_SHORT).show();
+        new Thread(() -> {
+            updateOrderStatusInDb(order.getOrderId(), "CANCELLED");
+            runOnUiThread(() -> {
+                loadFromDb();
+                updateStats();
+                applyFilters();
+                Toast.makeText(this, "Đã hủy đơn hàng: " + order.getOrderId(), Toast.LENGTH_SHORT).show();
+            });
+        }).start();
     }
 
     private void updateOrderStatusInDb(String orderId, String newStatus) {
@@ -375,18 +395,20 @@ public class AdminOrderManagementActivity extends BaseAdminActivity
             String eId = entity.ordersId != null ? entity.ordersId : "#" + entity.id;
             if (eId.equals(orderId)) {
                 entity.orderStatus = newStatus;
-                
+
                 if ("CANCELLED".equals(newStatus)) {
                     java.util.List<com.example.shoeapp.data.entity.OrderDetail> details = db.orderDao().getDetailsByOrder(entity.id);
-                    for (com.example.shoeapp.data.entity.OrderDetail detail : details) {
-                        com.example.shoeapp.data.entity.ProductVariant variant = db.productDao().getVariant(detail.productId, detail.colorId, detail.sizeId);
-                        if (variant != null) {
-                            variant.stock = variant.stock + detail.quantity;
-                            db.productDao().updateProductVariant(variant);
+                    if (details != null) {
+                        for (com.example.shoeapp.data.entity.OrderDetail detail : details) {
+                            com.example.shoeapp.data.entity.ProductVariant variant = db.productDao().getVariant(detail.productId, detail.colorId, detail.sizeId);
+                            if (variant != null) {
+                                variant.stock = variant.stock + detail.quantity;
+                                db.productDao().updateProductVariant(variant);
+                            }
                         }
                     }
                 }
-                
+
                 db.orderDao().update(entity);
                 break;
             }

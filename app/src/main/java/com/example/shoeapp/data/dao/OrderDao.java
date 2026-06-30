@@ -59,6 +59,9 @@ public interface OrderDao {
     @Insert void insertDetail(OrderDetail detail);
     @Update void updateDetail(OrderDetail detail);
     @Delete void deleteDetail(OrderDetail detail);
+    @Query("SELECT * FROM order_detail")
+    List<OrderDetail> getAllOrderDetails();
+
     @Query("SELECT * FROM order_detail WHERE order_id = :orderId")
     List<OrderDetail> getDetailsByOrder(int orderId);
 

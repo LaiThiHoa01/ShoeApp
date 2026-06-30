@@ -29,15 +29,17 @@ public class AdminProductVariantViewModel {
     public void loadVariants(AppDatabase db, int productId) {
         items.clear();
         List<ProductVariant> variants = db.productDao().getVariantsByProduct(productId);
-        for (ProductVariant v : variants) {
-            Color color = db.productDao().getColorById(v.colorId);
-            Size size = db.productDao().getSizeById(v.sizeId);
+        if (variants != null) {
+            for (ProductVariant v : variants) {
+                Color color = db.productDao().getColorById(v.colorId);
+                Size size = db.productDao().getSizeById(v.sizeId);
 
-            String colorName = color != null ? color.name : "N/A";
-            String colorHex = color != null ? color.hexcode : "#7F7F7F";
-            String sizeName = size != null ? size.name : "N/A";
+                String colorName = color != null ? color.name : "N/A";
+                String colorHex = color != null ? color.hexcode : "#7F7F7F";
+                String sizeName = size != null ? size.name : "N/A";
 
-            items.add(new VariantDisplayItem(v, colorName, colorHex, sizeName));
+                items.add(new VariantDisplayItem(v, colorName, colorHex, sizeName));
+            }
         }
         if (listener != null) {
             listener.onStateChanged(new ArrayList<>(items));

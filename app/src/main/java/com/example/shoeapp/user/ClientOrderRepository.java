@@ -42,27 +42,28 @@ public class ClientOrderRepository {
         order.shippingStatus = "PENDING";
         order.ordersId = "ORD-" + System.currentTimeMillis();
 
-        long orderId = db.orderDao().insert(order);
+        db.runInTransaction(() -> {
+            long orderId = db.orderDao().insert(order);
 
-        for (int i = 0; i < items.size(); i++) {
-            CartItemView item = items.get(i);
-            OrderDetail detail = new OrderDetail();
-            detail.orderId = (int) orderId;
-            detail.productId = item.productId;
-            detail.colorId = item.colorId;
-            detail.sizeId = item.sizeId;
-            detail.quantity = item.quantity;
-            detail.unitPrice = item.unitPrice;
-            detail.subtotal = item.subtotal();
-            detail.orderDetailId = "ORDDET-" + orderId + "-" + i;
-            db.orderDao().insertDetail(detail);
-            
-            com.example.shoeapp.data.entity.ProductVariant variant = db.productDao().getVariant(item.productId, item.colorId, item.sizeId);
-            if (variant != null) {
-                variant.stock = variant.stock - item.quantity;
-                if (variant.stock < 0) variant.stock = 0;
-                db.productDao().updateProductVariant(variant);
+            for (int i = 0; i < items.size(); i++) {
+                CartItemView item = items.get(i);
+                OrderDetail detail = new OrderDetail();
+                detail.orderId = (int) orderId;
+                detail.productId = item.productId;
+                detail.colorId = item.colorId;
+                detail.sizeId = item.sizeId;
+                detail.quantity = item.quantity;
+                detail.unitPrice = item.unitPrice;
+                detail.subtotal = item.subtotal();
+                detail.orderDetailId = "ORDDET-" + orderId + "-" + i;
+                db.orderDao().insertDetail(detail);
+
+                com.example.shoeapp.data.entity.ProductVariant variant = db.productDao().getVariant(item.productId, item.colorId, item.sizeId);
+                if (variant != null) {
+                    variant.stock = Math.max(0, variant.stock - item.quantity);
+                    db.productDao().updateProductVariant(variant);
+                }
             }
-        }
+        });
     }
 }

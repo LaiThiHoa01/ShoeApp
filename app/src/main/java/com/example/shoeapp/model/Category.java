@@ -37,6 +37,11 @@ public class Category {
         this.isActive        = isActive;
     }
 
+    private String iconUrl;
+
+    public String getIconUrl() { return iconUrl; }
+    public void setIconUrl(String iconUrl) { this.iconUrl = iconUrl; }
+
     public int    getId()             { return id; }
     public String getName()           { return name; }
     public int    getIconResId()      { return iconResId; }

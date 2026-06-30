@@ -52,7 +52,11 @@ public class ProductDetailActivity extends BaseSoleStepActivity {
     }
 
     private void bindProduct() {
-        int productId = getIntent().getIntExtra("product_id", 1);
+        int productId = getIntent().getIntExtra("product_id", -1);
+        if (productId == -1) {
+            finish();
+            return;
+        }
         product = productRepository.getProductById(productId);
         if (product == null) {
             finish();
@@ -158,7 +162,11 @@ public class ProductDetailActivity extends BaseSoleStepActivity {
     private void selectSize(ProductSizeOption size) {
         selectedSizeId = size.id;
         selectedStock = size.stock;
-        quantity = Math.min(quantity, Math.max(1, selectedStock));
+        if (selectedStock <= 0) {
+            quantity = 1;
+        } else {
+            quantity = Math.min(quantity, selectedStock);
+        }
 
         List<ProductSizeOption> sizes = productRepository.getAvailableSizes(product.id, selectedColorId);
 

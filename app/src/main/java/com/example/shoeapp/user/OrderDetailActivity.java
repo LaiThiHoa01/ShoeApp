@@ -65,31 +65,36 @@ public class OrderDetailActivity extends BaseSoleStepActivity {
         executor.execute(() -> {
             AppDatabase db = AppDatabase.getDatabase(this);
             Order order = db.orderDao().getOrderById(orderId);
-            
+
             if (order != null) {
                 User user = db.userDao().getUserById(order.userId);
                 List<OrderItemView> items = db.orderDao().getOrderItems(orderId);
-                
+
                 boolean alreadyReviewed = false;
                 if (!items.isEmpty()) {
                     List<com.example.shoeapp.data.entity.ProductReview> reviews = db.productDao().getReviewsByProduct(items.get(0).productId);
                     for (com.example.shoeapp.data.entity.ProductReview r : reviews) {
-                        if (r.userId == order.userId && r.orderId != null && r.orderId == order.id) {
+                        if (r.userId == order.userId && r.orderId != null && r.orderId.equals(order.id)) {
                             alreadyReviewed = true;
                             break;
                         }
                     }
                 }
                 boolean finalAlreadyReviewed = alreadyReviewed;
-                
-                runOnUiThread(() -> populateData(order, user, items, finalAlreadyReviewed));
+
+                if (!isFinishing() && !isDestroyed()) {
+                    runOnUiThread(() -> populateData(order, user, items, finalAlreadyReviewed));
+                }
             } else {
-                runOnUiThread(() -> {
-                    Toast.makeText(this, "Đơn hàng không tồn tại", Toast.LENGTH_SHORT).show();
-                    finish();
-                });
+                if (!isFinishing() && !isDestroyed()) {
+                    runOnUiThread(() -> {
+                        Toast.makeText(this, "Đơn hàng không tồn tại", Toast.LENGTH_SHORT).show();
+                        finish();
+                    });
+                }
             }
         });
+        executor.shutdown();
     }
     
     private void populateData(Order order, User user, List<OrderItemView> items, boolean alreadyReviewed) {

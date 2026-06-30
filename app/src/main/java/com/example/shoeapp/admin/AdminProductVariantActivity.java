@@ -151,7 +151,7 @@ public class AdminProductVariantActivity extends BaseAdminActivity
         List<Color> colors = db.productDao().getAllColors();
         List<Size> sizes = db.productDao().getAllSizes();
 
-        if (colors.isEmpty() || sizes.isEmpty()) {
+        if (colors == null || colors.isEmpty() || sizes == null || sizes.isEmpty()) {
             Toast.makeText(this, "Không có dữ liệu màu sắc hoặc kích thước để chọn", Toast.LENGTH_SHORT).show();
             return;
         }

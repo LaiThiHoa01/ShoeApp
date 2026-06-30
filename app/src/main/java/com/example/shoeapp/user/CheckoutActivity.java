@@ -142,8 +142,8 @@ public class CheckoutActivity extends BaseSoleStepActivity {
                         return;
                     }
                     Log.d("ZaloPayPayment", "Response: " + data.toString());
-                    String code = data.getString("returncode");
-                    if (code.equals("1")) {
+                    String code = data.optString("returncode", "-1");
+                    if (code.equals("1") || code.equals("01")) {
                         String token = data.getString("zptranstoken");
                         ZaloPaySDK.getInstance().payOrder(CheckoutActivity.this, token, "demozpdk://app",
                                 new PayOrderListener() {
@@ -224,11 +224,13 @@ public class CheckoutActivity extends BaseSoleStepActivity {
         
         String appliedPromoCode = cartRepository.getAppliedPromoCode();
         if (appliedPromoCode != null && !appliedPromoCode.isEmpty()) {
-            com.example.shoeapp.data.entity.Promotion promo = db.productDao().getActivePromotionByVoucher(appliedPromoCode);
-            if (promo != null && promo.quantity > 0) {
-                promo.quantity -= 1;
-                db.productDao().updatePromotion(promo);
-            }
+            new Thread(() -> {
+                com.example.shoeapp.data.entity.Promotion promo = db.productDao().getActivePromotionByVoucher(appliedPromoCode);
+                if (promo != null && promo.quantity > 0) {
+                    promo.quantity -= 1;
+                    db.productDao().updatePromotion(promo);
+                }
+            }).start();
         }
     }
 

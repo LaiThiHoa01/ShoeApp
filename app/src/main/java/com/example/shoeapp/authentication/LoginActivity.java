@@ -69,6 +69,7 @@ public class LoginActivity extends AppCompatActivity {
                 db.userDao().insert(newAdmin);
             } else {
                 adminUser.passwordHash = PasswordHasher.hash("123456");
+                adminUser.role = "ADMIN";
                 db.userDao().update(adminUser);
             }
 

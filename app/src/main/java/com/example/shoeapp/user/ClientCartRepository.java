@@ -152,7 +152,6 @@ public class ClientCartRepository {
             }
         }
         
-        // Return only if the best promotion gives a discount and isn't already applied
         if (bestPromo != null && !bestPromo.voucherCode.equals(this.appliedPromoCode)) {
             return bestPromo;
         }
@@ -168,7 +167,7 @@ public class ClientCartRepository {
                 if ("CATEGORY".equalsIgnoreCase(promo.targetType)) {
                     for (CartItemView item : items) {
                         com.example.shoeapp.data.entity.Product p = productDao.getProductById(item.productId);
-                        if (p != null && p.shoeCategory == promo.categoryId) {
+                        if (p != null && promo.categoryId != null && p.shoeCategory == promo.categoryId) {
                             eligibleSubtotal += item.subtotal();
                         }
                     }
@@ -185,7 +184,7 @@ public class ClientCartRepository {
                 } else if ("BRAND".equalsIgnoreCase(promo.targetType)) {
                     for (CartItemView item : items) {
                         com.example.shoeapp.data.entity.Product p = productDao.getProductById(item.productId);
-                        if (p != null && p.brandId == promo.brandId) {
+                        if (p != null && promo.brandId != null && p.brandId == promo.brandId) {
                             eligibleSubtotal += item.subtotal();
                         }
                     }
@@ -218,21 +217,6 @@ public class ClientCartRepository {
         return formatter.format(Math.round(price)) + " đ";
     }
 
-    private void ensureDemoUser() {
-        User user = new User();
-        user.id = userId;
-        user.email = "khachhang@solestep.vn";
-        user.passwordHash = "";
-        user.phoneNumber = "0900000000";
-//        user.address = "TP. Hồ Chí Minh";
-        user.role = "USER";
-        user.fullName = "Khách hàng";
-        user.avatarUrl = "";
-        user.isActive = true;
-        user.createdAt = "2026-06-23";
-        user.firebaseUid = "";
-        user.userId = "USR-DEMO-CLIENT";
-        cartDao.insertUser(user);
-    }
+
 
 }

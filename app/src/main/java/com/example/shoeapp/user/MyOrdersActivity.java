@@ -26,6 +26,7 @@ public class MyOrdersActivity extends BaseSoleStepActivity {
     private TextView tabAll, tabPending, tabShipping, tabDelivered;
     private AppDatabase db;
     private final List<OrderView> allOrders = new ArrayList<>();
+    private volatile boolean isLoading = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,8 +82,16 @@ public class MyOrdersActivity extends BaseSoleStepActivity {
             return;
         }
 
+        if (isLoading) return;
+        isLoading = true;
+
         new Thread(() -> {
             List<OrderView> list = db.orderDao().getOrdersByUserWithCount(loggedInUserId);
+
+            if (isFinishing() || isDestroyed()) {
+                isLoading = false;
+                return;
+            }
 
             runOnUiThread(() -> {
                 allOrders.clear();
@@ -102,6 +111,7 @@ public class MyOrdersActivity extends BaseSoleStepActivity {
                 } else if (tabDelivered.isSelected()) {
                     filterOrders("DELIVERED");
                 }
+                isLoading = false;
             });
         }).start();
     }

@@ -182,6 +182,7 @@ public class AdminOrderDetailActivity extends BaseAdminActivity {
         List<OrderDetail> details = db.orderDao().getDetailsByOrder(order.id);
         List<OrderDetailDisplay> displayItems = new ArrayList<>();
 
+        if (details == null) details = new java.util.ArrayList<>();
         for (OrderDetail detail : details) {
             Product product = db.productDao().getProductById(detail.productId);
             String productName = (product != null) ? product.name : "Giày không xác định";
@@ -351,7 +352,7 @@ public class AdminOrderDetailActivity extends BaseAdminActivity {
             
             if ("CANCELLED".equals(newStatus)) {
                 List<OrderDetail> details = db.orderDao().getDetailsByOrder(order.id);
-                for (OrderDetail detail : details) {
+                if (details != null) for (OrderDetail detail : details) {
                     ProductVariant variant = db.productDao().getVariant(detail.productId, detail.colorId, detail.sizeId);
                     if (variant != null) {
                         variant.stock = variant.stock + detail.quantity;

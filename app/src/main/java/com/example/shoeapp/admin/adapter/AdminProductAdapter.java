@@ -1,5 +1,6 @@
 package com.example.shoeapp.admin.adapter;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -94,6 +95,9 @@ public class AdminProductAdapter
         final ImageButton btnDelete;
         final ImageButton btnVariants;
 
+        final View        color1;
+        final View        color2;
+
         ViewHolder(@NonNull View itemView) {
             super(itemView);
             image         = itemView.findViewById(R.id.admin_prod_image);
@@ -112,6 +116,8 @@ public class AdminProductAdapter
             btnEdit       = itemView.findViewById(R.id.admin_prod_btn_edit);
             btnDelete     = itemView.findViewById(R.id.admin_prod_btn_delete);
             btnVariants   = itemView.findViewById(R.id.admin_prod_btn_variants);
+            color1        = itemView.findViewById(R.id.admin_prod_color_1);
+            color2        = itemView.findViewById(R.id.admin_prod_color_2);
         }
 
         void bind(Product product, int position) {
@@ -178,11 +184,49 @@ public class AdminProductAdapter
                 sizeMore.setVisibility(View.GONE);
             }
 
+            // ── Colors ─────────────────────────────────────────────────────
+            List<String> colors = product.getColors();
+            if (colors != null && !colors.isEmpty()) {
+                try {
+                    String hex = colors.get(0);
+                    android.graphics.drawable.GradientDrawable gd = new android.graphics.drawable.GradientDrawable();
+                    gd.setShape(android.graphics.drawable.GradientDrawable.OVAL);
+                    gd.setColor(android.graphics.Color.parseColor(hex));
+                    color1.setBackground(gd);
+                    color1.setVisibility(View.VISIBLE);
+                } catch (Exception e) {
+                    color1.setVisibility(View.GONE);
+                }
+
+                if (colors.size() > 1) {
+                    try {
+                        String hex = colors.get(1);
+                        android.graphics.drawable.GradientDrawable gd = new android.graphics.drawable.GradientDrawable();
+                        gd.setShape(android.graphics.drawable.GradientDrawable.OVAL);
+                        gd.setColor(android.graphics.Color.parseColor(hex));
+                        color2.setBackground(gd);
+                        color2.setVisibility(View.VISIBLE);
+                    } catch (Exception e) {
+                        color2.setVisibility(View.GONE);
+                    }
+                } else {
+                    color2.setVisibility(View.GONE);
+                }
+            } else {
+                color1.setVisibility(View.GONE);
+                color2.setVisibility(View.GONE);
+            }
+
             // ── Rating ─────────────────────────────────────────────────────
             rating.setText(String.format(Locale.US, "%.1f (%d)",
                     product.getRating(), product.getReviewCount()));
 
             // ── Click listeners ────────────────────────────────────────────
+            itemView.setOnClickListener(v -> {
+                Intent intent = new Intent(context, com.example.shoeapp.user.ProductDetailActivity.class);
+                intent.putExtra("product_id", product.getId());
+                context.startActivity(intent);
+            });
             btnEdit.setOnClickListener(v -> {
                 if (listener != null) listener.onEditClick(product, position);
             });

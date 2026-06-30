@@ -60,6 +60,11 @@ public class Product {
         this.isDiscontinued = isDiscontinued;
     }
 
+    private List<String> colors;
+
+    public List<String> getColors() { return colors; }
+    public void setColors(List<String> colors) { this.colors = colors; }
+
     public int            getId()            { return id; }
     public String         getName()          { return name; }
     public String         getBrand()         { return brand; }
