@@ -74,7 +74,7 @@ public class SignUpActivity extends AppCompatActivity {
             return;
         }
 
-        if (!isPasswordStrong(password)) {
+        if (!PasswordValidator.isStrong(password)) {
             Toast.makeText(
                     this,
                     "Mật khẩu phải có ít nhất 8 ký tự, gồm chữ hoa, chữ số và ký tự đặc biệt!",
@@ -142,7 +142,7 @@ public class SignUpActivity extends AppCompatActivity {
                 strengthBarContainer.setVisibility(View.VISIBLE);
                 strengthText.setVisibility(View.VISIBLE);
 
-                int strength = getPasswordStrength(password);
+                int strength = PasswordValidator.getStrength(password);
                 updateStrengthBars(strength);
 
                 String[] levels = {"Rất yếu", "Yếu", "Trung bình", "Khá", "Mạnh"};
@@ -169,21 +169,5 @@ public class SignUpActivity extends AppCompatActivity {
             int colorRes = i < score ? colors[score] : colors[0];
             bar.setBackgroundColor(ContextCompat.getColor(SignUpActivity.this, colorRes));
         }
-    }
-
-    private int getPasswordStrength(String password) {
-        if (password == null || password.isEmpty()) return 0;
-
-        int score = 0;
-        if (password.length() >= 8) score++;
-        if (password.matches(".*[A-Z].*")) score++;
-        if (password.matches(".*\\d.*")) score++;
-        if (password.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?].*")) score++;
-
-        return score;
-    }
-
-    private boolean isPasswordStrong(String password) {
-        return getPasswordStrength(password) >= 4;
     }
 }

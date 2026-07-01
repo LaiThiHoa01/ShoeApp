@@ -2,23 +2,18 @@ package com.example.shoeapp.authentication;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
+import com.example.shoeapp.data.AppDatabase;
 
-import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.example.shoeapp.R;
 import com.example.shoeapp.admin.AdminDashboardActivity;
-import com.example.shoeapp.data.AppDatabase;
 import com.example.shoeapp.data.entity.User;
 import com.example.shoeapp.user.MainActivity;
 
@@ -35,8 +30,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
-import java.text.SimpleDateFormat;
-
 public class LoginActivity extends AppCompatActivity {
 
     private EditText emailInput, passwordInput;
@@ -48,68 +41,13 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
-        try {
-            AppDatabase db = com.example.shoeapp.data.AppDatabase.getDatabase(this);
-            
-            // Seed Admin User
-            User adminUser = db.userDao().getUserByEmail("admin@shoeapp.com");
-            if (adminUser == null) {
-                User newAdmin = new com.example.shoeapp.data.entity.User();
-                newAdmin.email = "admin@shoeapp.com";
-                newAdmin.passwordHash = PasswordHasher.hash("123456");
-                newAdmin.phoneNumber = "0999999999";
-                newAdmin.fullName = "System Admin";
-                newAdmin.role = "ADMIN";
-                newAdmin.avatarUrl = "";
-                newAdmin.firebaseUid = "";
-                newAdmin.isActive = true;
-                newAdmin.createdAt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", java.util.Locale.getDefault()).format(new java.util.Date());
-                newAdmin.userId = "ADM" + System.currentTimeMillis();
-                db.userDao().insert(newAdmin);
-            } else {
-                adminUser.passwordHash = PasswordHasher.hash("123456");
-                adminUser.role = "ADMIN";
-                db.userDao().update(adminUser);
-            }
-
-            // Seed Regular User
-            User regularUser = db.userDao().getUserByEmail("user@shoeapp.com");
-            if (regularUser == null) {
-                User newUser = new com.example.shoeapp.data.entity.User();
-                newUser.email = "user@shoeapp.com";
-                newUser.passwordHash = PasswordHasher.hash("123456");
-                newUser.phoneNumber = "0987654321";
-                newUser.fullName = "Regular User";
-                newUser.role = "CUSTOMER";
-                newUser.avatarUrl = "";
-                newUser.firebaseUid = "";
-                newUser.isActive = true;
-                newUser.createdAt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", java.util.Locale.getDefault()).format(new java.util.Date());
-                newUser.userId = "USR" + System.currentTimeMillis();
-                db.userDao().insert(newUser);
-            } else {
-                regularUser.passwordHash = PasswordHasher.hash("123456");
-                db.userDao().update(regularUser);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+        AppDatabase.getDatabase(this).userDao().getAllUsers();
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (view, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            view.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
-
-        emailInput       = findViewById(R.id.emailInput);
-        passwordInput    = findViewById(R.id.passwordInput);
-        passwordField    = findViewById(R.id.passwordField);
+        emailInput = findViewById(R.id.emailInput);
+        passwordInput = findViewById(R.id.passwordInput);
+        passwordField = findViewById(R.id.passwordField);
         ImageButton passwordVisibility = findViewById(R.id.passwordVisibility);
-
 
 
         passwordInput.setOnFocusChangeListener((view, focused) ->
@@ -134,7 +72,6 @@ public class LoginActivity extends AppCompatActivity {
         findViewById(R.id.signUp).setOnClickListener(v ->
                 startActivity(new Intent(this, SignUpActivity.class)));
 
-        // Quên mật khẩu
         findViewById(R.id.forgotPassword).setOnClickListener(v ->
                 startActivity(new Intent(this, ChangePasswordActivity.class)));
 

@@ -53,7 +53,7 @@ import com.example.shoeapp.data.entity.User;
         TokenType.class,
         User.class,
         DeliveryAddress.class
-}, version = 15, exportSchema = false)
+}, version = 16, exportSchema = false)
 
 public abstract class AppDatabase extends RoomDatabase {
 

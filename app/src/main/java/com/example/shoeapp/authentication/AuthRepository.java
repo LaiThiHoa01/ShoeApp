@@ -30,6 +30,10 @@ public class AuthRepository {
             throw new AuthException("Tài khoản đã bị khóa");
         }
 
+        if (isBlank(user.passwordHash)) {
+            throw new AuthException("Tài khoản này đăng nhập bằng Google");
+        }
+
         if (!PasswordHasher.verify(password, user.passwordHash)) {
             throw new AuthException("Mật khẩu không đúng");
         }
@@ -37,13 +41,7 @@ public class AuthRepository {
         return user;
     }
 
-    public User register(
-            String firstName,
-            String lastName,
-            String email,
-            String phone,
-            String password
-    ) throws AuthException {
+    public User register(String firstName, String lastName, String email, String phone, String password) throws AuthException {
         email = normalizeEmail(email);
 
         validateEmail(email);
@@ -89,16 +87,8 @@ public class AuthRepository {
     }
 
     private static void validatePassword(String password) throws AuthException {
-        if (isBlank(password) || password.length() < 8) {
-            throw new AuthException("Mật khẩu phải có ít nhất 8 ký tự");
-        }
-
-        boolean hasUppercase = !password.equals(password.toLowerCase(Locale.ROOT));
-        boolean hasNumber = password.matches(".*\\d.*");
-        boolean hasSpecial = password.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?].*");
-
-        if (!hasUppercase || !hasNumber || !hasSpecial) {
-            throw new AuthException("Mật khẩu phải gồm chữ hoa, chữ số và ký tự đặc biệt");
+        if (!PasswordValidator.isStrong(password)) {
+            throw new AuthException("Mật khẩu phải có ít nhất 8 ký tự, gồm chữ hoa, chữ số và ký tự đặc biệt");
         }
     }
 
