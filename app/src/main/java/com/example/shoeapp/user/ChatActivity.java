@@ -62,31 +62,22 @@ public class ChatActivity extends BaseSoleStepActivity implements ChatAdapter.Ch
         setContentView(R.layout.activity_chat);
 
         db = AppDatabase.getDatabase(this);
-
-        // Cài đặt xử lý tràn viền và đẩy giao diện theo bàn phím (IME)
         View rootLayout = findViewById(R.id.main);
         if (rootLayout != null) {
             ViewCompat.setOnApplyWindowInsetsListener(rootLayout, (v, insets) -> {
-                // Lấy kích thước của thanh trạng thái (statusBars) và bàn phím (ime)
                 Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
                 Insets imeBars = insets.getInsets(WindowInsetsCompat.Type.ime());
-
-                // Nếu bàn phím mở, bottom padding sẽ bằng chiều cao bàn phím, ngược lại bằng chiều cao thanh điều hướng
                 int bottomPadding = imeBars.bottom > 0 ? imeBars.bottom : systemBars.bottom;
                 v.setPadding(systemBars.left, systemBars.top, systemBars.right, bottomPadding);
                 return insets;
             });
         }
-
-        // Tự động cuộn xuống dưới cùng của RecyclerView khi bàn phím mở
         if (rootLayout != null) {
             rootLayout.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
                 android.graphics.Rect r = new android.graphics.Rect();
                 rootLayout.getWindowVisibleDisplayFrame(r);
                 int screenHeight = rootLayout.getRootView().getHeight();
                 int keypadHeight = screenHeight - r.bottom;
-
-                // Nếu bàn phím mở (chiều cao lớn hơn 15% màn hình)
                 if (keypadHeight > screenHeight * 0.15) {
                     if (chatAdapter.getItemCount() > 0) {
                         recyclerView.postDelayed(() -> recyclerView.scrollToPosition(chatAdapter.getItemCount() - 1), 50);
@@ -122,8 +113,6 @@ public class ChatActivity extends BaseSoleStepActivity implements ChatAdapter.Ch
         findViewById(R.id.chip_running_shoes).setOnClickListener(v -> sendChatMessage("Giày chạy bộ tốt"));
         findViewById(R.id.chip_size_guide).setOnClickListener(v -> sendChatMessage("Tư vấn chọn size"));
         findViewById(R.id.chip_discounts).setOnClickListener(v -> sendChatMessage("Sản phẩm giảm giá"));
-
-        // Lắng nghe thay đổi kích thước giao diện để tự cuộn tin nhắn xuống đáy khi bàn phím hiện lên
         recyclerView.addOnLayoutChangeListener((v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> {
             if (bottom < oldBottom) {
                 recyclerView.postDelayed(() -> {
