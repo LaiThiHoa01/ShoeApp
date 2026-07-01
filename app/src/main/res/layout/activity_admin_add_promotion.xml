@@ -25,7 +25,7 @@
             android:layout_height="40dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_arrow_back"
-            app:tint="@color/text_dark_primary"
+            app:tint="@color/text_primary"
             android:contentDescription="Back" />
 
         <TextView
@@ -36,7 +36,7 @@
             android:text="Thêm Khuyến mãi"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:textColor="@color/text_dark_primary"
+            android:textColor="@color/text_primary"
             android:layout_marginStart="16dp" />
             
         <Button
@@ -65,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:text="Tên chương trình"
                 android:textStyle="bold"
-                android:textColor="@color/text_dark_primary"/>
+                android:textColor="@color/text_primary"/>
             <EditText
                 android:id="@+id/et_name"
                 android:layout_width="match_parent"
@@ -81,7 +81,7 @@
                 android:layout_height="wrap_content"
                 android:text="Subtitle (Phụ đề)"
                 android:textStyle="bold"
-                android:textColor="@color/text_dark_primary"/>
+                android:textColor="@color/text_primary"/>
             <EditText
                 android:id="@+id/et_subtitle"
                 android:layout_width="match_parent"
@@ -97,7 +97,7 @@
                 android:layout_height="wrap_content"
                 android:text="Mô tả chi tiết"
                 android:textStyle="bold"
-                android:textColor="@color/text_dark_primary"/>
+                android:textColor="@color/text_primary"/>
             <EditText
                 android:id="@+id/et_description"
                 android:layout_width="match_parent"
@@ -114,7 +114,7 @@
                 android:layout_height="wrap_content"
                 android:text="Ảnh Banner URL"
                 android:textStyle="bold"
-                android:textColor="@color/text_dark_primary"/>
+                android:textColor="@color/text_primary"/>
             <EditText
                 android:id="@+id/et_banner_url"
                 android:layout_width="match_parent"
@@ -142,7 +142,7 @@
                         android:layout_height="wrap_content"
                         android:text="Mã Voucher"
                         android:textStyle="bold"
-                        android:textColor="@color/text_dark_primary"/>
+                        android:textColor="@color/text_primary"/>
                     <EditText
                         android:id="@+id/et_voucher_code"
                         android:layout_width="match_parent"
@@ -164,7 +164,7 @@
                         android:layout_height="wrap_content"
                         android:text="Số lượng"
                         android:textStyle="bold"
-                        android:textColor="@color/text_dark_primary"/>
+                        android:textColor="@color/text_primary"/>
                     <EditText
                         android:id="@+id/et_quantity"
                         android:layout_width="match_parent"
@@ -183,7 +183,7 @@
                 android:layout_height="wrap_content"
                 android:text="Hình thức giảm giá"
                 android:textStyle="bold"
-                android:textColor="@color/text_dark_primary"/>
+                android:textColor="@color/text_primary"/>
             <RadioGroup
                 android:id="@+id/rg_discount_type"
                 android:layout_width="match_parent"
@@ -242,7 +242,7 @@
                         android:layout_height="wrap_content"
                         android:text="Ngày bắt đầu"
                         android:textStyle="bold"
-                        android:textColor="@color/text_dark_primary"/>
+                        android:textColor="@color/text_primary"/>
                     <EditText
                         android:id="@+id/et_start_date"
                         android:layout_width="match_parent"
@@ -266,7 +266,7 @@
                         android:layout_height="wrap_content"
                         android:text="Ngày kết thúc"
                         android:textStyle="bold"
-                        android:textColor="@color/text_dark_primary"/>
+                        android:textColor="@color/text_primary"/>
                     <EditText
                         android:id="@+id/et_end_date"
                         android:layout_width="match_parent"
@@ -293,7 +293,7 @@
                 android:layout_height="wrap_content"
                 android:text="Áp dụng cho"
                 android:textStyle="bold"
-                android:textColor="@color/text_dark_primary"/>
+                android:textColor="@color/text_primary"/>
             <RadioGroup
                 android:id="@+id/rg_target_type"
                 android:layout_width="match_parent"
@@ -332,7 +332,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Chọn danh mục"
-                    android:textColor="@color/text_dark_primary"/>
+                    android:textColor="@color/text_primary"/>
                 <Spinner
                     android:id="@+id/sp_category"
                     android:layout_width="match_parent"
@@ -353,7 +353,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Chọn thương hiệu"
-                    android:textColor="@color/text_dark_primary"/>
+                    android:textColor="@color/text_primary"/>
                 <Spinner
                     android:id="@+id/sp_brand"
                     android:layout_width="match_parent"

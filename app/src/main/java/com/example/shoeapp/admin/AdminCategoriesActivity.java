@@ -42,7 +42,7 @@ public class AdminCategoriesActivity extends BaseAdminActivity
             R.color.orange_tint_15,
             R.color.stat_orders_bg,
             R.color.status_warning_bg,
-            R.color.bg_dark_surface_4,
+            R.color.bg_input,
             R.color.stat_customers_bg,
             R.color.stat_products_bg
     };

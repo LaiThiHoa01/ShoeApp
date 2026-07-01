@@ -5,7 +5,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_card_dark"
+    android:background="@drawable/bg_card_light"
     android:gravity="center_vertical"
     android:orientation="horizontal"
     android:padding="@dimen/space_8"
@@ -36,7 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="NovaSole"
-            android:textColor="@color/text_dark_muted"
+            android:textColor="@color/text_muted"
             android:textSize="11sp" />
 
         <!-- Tên sản phẩm -->
@@ -45,7 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Air Phantom Pro"
-            android:textColor="@color/text_dark_primary"
+            android:textColor="@color/text_primary"
             android:textSize="14sp"
             android:textStyle="bold" />
 
@@ -66,7 +66,7 @@
                 android:paddingEnd="@dimen/space_4"
                 android:paddingBottom="1dp"
                 android:text="Size: 42"
-                android:textColor="@color/text_dark_tertiary"
+                android:textColor="@color/text_tertiary"
                 android:textSize="11sp"
                 android:textStyle="bold" />
 
@@ -81,7 +81,7 @@
                 android:paddingEnd="@dimen/space_4"
                 android:paddingBottom="1dp"
                 android:text="Black"
-                android:textColor="@color/text_dark_tertiary"
+                android:textColor="@color/text_tertiary"
                 android:textSize="11sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -92,7 +92,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
-            android:textColor="@color/text_dark_muted"
+            android:textColor="@color/text_muted"
             android:textSize="12sp"
             android:text="$189.99 x 1" />
     </LinearLayout>

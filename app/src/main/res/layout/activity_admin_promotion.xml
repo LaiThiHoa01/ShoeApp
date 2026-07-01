@@ -25,7 +25,7 @@
             android:layout_height="40dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_arrow_back"
-            app:tint="@color/text_dark_primary"
+            app:tint="@color/text_primary"
             android:contentDescription="Back" />
 
         <TextView
@@ -35,7 +35,7 @@
             android:text="Quản lý Khuyến mãi"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:textColor="@color/text_dark_primary"
+            android:textColor="@color/text_primary"
             android:layout_marginStart="16dp" />
             
     </LinearLayout>
@@ -66,7 +66,7 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:src="@drawable/ic_material_search"
-            app:tint="@color/text_dark_secondary"
+            app:tint="@color/text_secondary"
             android:alpha="0.5" />
 
         <TextView
@@ -75,7 +75,7 @@
             android:text="Chưa có chương trình khuyến mãi nào."
             android:layout_marginTop="16dp"
             android:textSize="16sp"
-            android:textColor="@color/text_dark_secondary" />
+            android:textColor="@color/text_secondary" />
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

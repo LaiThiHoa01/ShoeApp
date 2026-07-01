@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <plurals name="admin_items_count">
-        <item quantity="one">%d item</item>
-        <item quantity="other">%d items</item>
+        <item quantity="one">%d mặt hàng</item>
+        <item quantity="other">%d mặt hàng</item>
     </plurals>
     <plurals name="admin_products_count">
-        <item quantity="one">%d product</item>
-        <item quantity="other">%d products</item>
+        <item quantity="one">%d sản phẩm</item>
+        <item quantity="other">%d sản phẩm</item>
     </plurals>
 
 </resources>

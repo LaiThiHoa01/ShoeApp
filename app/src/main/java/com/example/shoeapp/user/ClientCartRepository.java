@@ -36,8 +36,9 @@ public class ClientCartRepository {
         }
         Cart newCart = new Cart();
         newCart.userId = userId;
-        newCart.createdAt = "2026-06-23";
-        newCart.updatedAt = "2026-06-23";
+        String currentDate = new java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault()).format(new java.util.Date());
+        newCart.createdAt = currentDate;
+        newCart.updatedAt = currentDate;
         cartDao.insertCart(newCart);
         return cartDao.getCartByUser(userId);
     }
@@ -47,7 +48,7 @@ public class ClientCartRepository {
         CartItem existing = cartDao.getItem(cart.id, productId, colorId, sizeId);
         if (existing != null) {
             existing.quantity += quantity;
-            existing.updatedAt = "2026-06-23";
+            existing.updatedAt = new java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault()).format(new java.util.Date());
             cartDao.updateItem(existing);
             return;
         }
@@ -59,8 +60,9 @@ public class ClientCartRepository {
         item.sizeId = sizeId;
         item.quantity = quantity;
         item.unitPrice = unitPrice;
-        item.createdAt = "2026-06-23";
-        item.updatedAt = "2026-06-23";
+        String currentDate = new java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault()).format(new java.util.Date());
+        item.createdAt = currentDate;
+        item.updatedAt = currentDate;
         cartDao.insertItem(item);
     }
 
@@ -87,8 +89,9 @@ public class ClientCartRepository {
         item.sizeId = view.sizeId;
         item.quantity = nextQuantity;
         item.unitPrice = view.unitPrice;
-        item.createdAt = "2026-06-23";
-        item.updatedAt = "2026-06-23";
+        String currentDate = new java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault()).format(new java.util.Date());
+        item.createdAt = currentDate;
+        item.updatedAt = currentDate;
         cartDao.updateItem(item);
     }
 

@@ -190,8 +190,8 @@ public class AdminOrderAdapter
                     statusText.setTextColor(
                             ContextCompat.getColor(context, R.color.status_warning));
                     setDotColor(dot1, R.color.status_warning);
-                    setDotColor(dot2, R.color.border_dark_medium);
-                    setDotColor(dot3, R.color.border_dark_medium);
+                    setDotColor(dot2, R.color.border_medium);
+                    setDotColor(dot3, R.color.border_medium);
                     break;
 
                 case SHIPPED:
@@ -201,7 +201,7 @@ public class AdminOrderAdapter
                             ContextCompat.getColor(context, R.color.status_info));
                     setDotColor(dot1, R.color.status_info);
                     setDotColor(dot2, R.color.status_info);
-                    setDotColor(dot3, R.color.border_dark_medium);
+                    setDotColor(dot3, R.color.border_medium);
                     break;
 
                 case DELIVERED:
@@ -220,8 +220,8 @@ public class AdminOrderAdapter
                     statusText.setTextColor(
                             ContextCompat.getColor(context, R.color.status_error));
                     setDotColor(dot1, R.color.status_error);
-                    setDotColor(dot2, R.color.border_dark_medium);
-                    setDotColor(dot3, R.color.border_dark_medium);
+                    setDotColor(dot2, R.color.border_medium);
+                    setDotColor(dot3, R.color.border_medium);
                     break;
             }
         }
