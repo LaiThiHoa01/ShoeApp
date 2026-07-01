@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shoeapp.R;
 import com.example.shoeapp.data.model.CartItemView;
-import com.example.shoeapp.user.ClientCartRepository;
+import com.example.shoeapp.data.repo.CartRepository;
 import com.example.shoeapp.user.ImageLoader;
 
 import java.util.ArrayList;
@@ -26,11 +26,11 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.ViewHo
     }
 
     private final Context context;
-    private final ClientCartRepository cartRepository;
+    private final CartRepository cartRepository;
     private final OnCartItemActionListener listener;
     private final List<CartItemView> items = new ArrayList<>();
 
-    public CartItemAdapter(Context context, ClientCartRepository cartRepository, OnCartItemActionListener listener) {
+    public CartItemAdapter(Context context, CartRepository cartRepository, OnCartItemActionListener listener) {
         this.context = context;
         this.cartRepository = cartRepository;
         this.listener = listener;

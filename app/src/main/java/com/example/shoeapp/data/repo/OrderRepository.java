@@ -1,4 +1,4 @@
-package com.example.shoeapp.user;
+package com.example.shoeapp.data.repo;
 
 import android.content.Context;
 
@@ -13,11 +13,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class ClientOrderRepository {
+public class OrderRepository {
     private final AppDatabase db;
     private final int userId;
 
-    public ClientOrderRepository(Context context) {
+    public OrderRepository(Context context) {
         db = AppDatabase.getDatabase(context);
         userId = SessionManager.getUserId(context);
     }

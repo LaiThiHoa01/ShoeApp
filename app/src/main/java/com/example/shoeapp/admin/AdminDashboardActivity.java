@@ -8,7 +8,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -21,6 +20,7 @@ import com.example.shoeapp.data.entity.Product;
 import com.example.shoeapp.data.model.OrderWithUser;
 import com.example.shoeapp.user.MainActivity;
 import com.example.shoeapp.R;
+import com.example.shoeapp.data.repo.ProductRepository;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.text.DecimalFormat;
@@ -68,7 +68,7 @@ public class AdminDashboardActivity extends BaseAdminActivity {
 
         db = AppDatabase.getDatabase(this);
 
-        new com.example.shoeapp.user.ClientProductRepository(this).ensureSeedData();
+        new ProductRepository(this).ensureSeedData();
 
         View root = findViewById(R.id.admin_dashboard_root);
         if (root != null) {

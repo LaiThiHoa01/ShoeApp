@@ -19,6 +19,8 @@ import com.example.shoeapp.data.AppDatabase;
 import com.example.shoeapp.data.entity.DeliveryAddress;
 import com.example.shoeapp.data.entity.User;
 import com.example.shoeapp.data.model.CartItemView;
+import com.example.shoeapp.data.repo.CartRepository;
+import com.example.shoeapp.data.repo.OrderRepository;
 import com.example.shoeapp.ui.BaseSoleStepActivity;
 import com.example.shoeapp.ui.BottomNavHelper;
 import com.example.shoeapp.user.adapter.CheckoutItemAdapter;
@@ -39,8 +41,8 @@ public class CheckoutActivity extends BaseSoleStepActivity {
     private static final double EXPRESS_SHIPPING = 60000;
     private static final double NEXT_DAY_SHIPPING = 90000;
 
-    private ClientCartRepository cartRepository;
-    private ClientOrderRepository orderRepository;
+    private CartRepository cartRepository;
+    private OrderRepository orderRepository;
     private CheckoutItemAdapter adapter;
     private final List<CartItemView> items = new ArrayList<>();
 
@@ -92,13 +94,13 @@ public class CheckoutActivity extends BaseSoleStepActivity {
         setContentView(R.layout.activity_checkout);
         setupScreen(BottomNavHelper.TAG_CART);
 
-        cartRepository = new ClientCartRepository(this);
+        cartRepository = new CartRepository(this);
         String appliedPromoCode = getIntent().getStringExtra("applied_promo_code");
         if (appliedPromoCode != null) {
             cartRepository.setAppliedPromoCode(appliedPromoCode);
         }
 
-        orderRepository = new ClientOrderRepository(this);
+        orderRepository = new OrderRepository(this);
         db = AppDatabase.getDatabase(this);
         bindViews();
         setupList();

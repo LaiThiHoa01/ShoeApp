@@ -1,20 +1,12 @@
-package com.example.shoeapp.user;
+package com.example.shoeapp.data.repo;
 
 import android.content.Context;
 
 import com.example.shoeapp.R;
 import com.example.shoeapp.data.AppDatabase;
 import com.example.shoeapp.data.dao.ProductDao;
-import com.example.shoeapp.data.entity.Brand;
-import com.example.shoeapp.data.entity.Category;
-import com.example.shoeapp.data.entity.Color;
 import com.example.shoeapp.data.entity.Product;
-import com.example.shoeapp.data.entity.ProductImg;
 import com.example.shoeapp.data.entity.ProductVariant;
-import com.example.shoeapp.data.entity.Size;
-import com.example.shoeapp.data.entity.Order;
-import com.example.shoeapp.data.entity.OrderDetail;
-import com.example.shoeapp.data.entity.User;
 import com.example.shoeapp.data.model.ProductColorOption;
 import com.example.shoeapp.data.model.ProductSizeOption;
 
@@ -24,13 +16,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-public class ClientProductRepository {
+public class ProductRepository {
 
 
     private final ProductDao productDao;
     private final AppDatabase db;
 
-    public ClientProductRepository(Context context) {
+    public ProductRepository(Context context) {
         db = AppDatabase.getDatabase(context);
         productDao = db.productDao();
     }
@@ -40,27 +32,52 @@ public class ClientProductRepository {
         // Nên hàm này được để trống để tránh trùng lặp dữ liệu.
     }
 
+    /**
+     * L\u1ea5y s\u1ea3n ph\u1ea9m n\u1ed5i b\u1eadt theo c\u01a1 ch\u1ebf k\u1ebft h\u1ee3p:
+     * - \u01acu ti\u00ean: 2 s\u1ea3n ph\u1ea9m b\u00e1n ch\u1ea1y nh\u1ea5t + 2 s\u1ea3n ph\u1ea9m rating cao nh\u1ea5t (tr\u00e1nh tr\u00f9ng l\u1eabp)
+     * - Fallback: n\u1ebfu ch\u01b0a c\u00f3 \u0111\u1ee7 d\u1eef li\u1ec7u, b\u1ed5 sung b\u1eb1ng s\u1ea3n ph\u1ea9m m\u1edbi nh\u1ea5t
+     */
     public List<com.example.shoeapp.model.Product> getFeaturedProducts() {
-        // Lấy 4 sản phẩm mới nhất (không phụ thuộc vào order_detail)
         List<com.example.shoeapp.model.Product> result = new ArrayList<>();
+        java.util.Set<Integer> addedIds = new java.util.HashSet<>();
+
         try {
-            List<Product> products = productDao.getProductsActiveLimited(4);
-            android.util.Log.d("FEATURED", "getProductsActiveLimited(4) returned: " + products.size());
-            for (Product p : products) {
-                result.add(toClientProduct(p));
+            // B\u01b0\u1edbc 1: L\u1ea5y 2 s\u1ea3n ph\u1ea9m b\u00e1n ch\u1ea1y nh\u1ea5t
+            List<Product> topSelling = productDao.getTopSellingProductsActive(2);
+            for (Product p : topSelling) {
+                if (addedIds.add(p.id)) {
+                    result.add(toClientProduct(p));
+                }
+            }
+
+            // B\u01b0\u1edbc 2: L\u1ea5y 4 s\u1ea3n ph\u1ea9m rating cao nh\u1ea5t, ch\u1ecdn nh\u1eefng c\u00e1i ch\u01b0a c\u00f3 trong list
+            List<Product> topRated = productDao.getTopRatedProductsActive(4);
+            for (Product p : topRated) {
+                if (result.size() >= 4) break;
+                if (addedIds.add(p.id)) {
+                    result.add(toClientProduct(p));
+                }
+            }
+
+            // B\u01b0\u1edbc 3: Fallback n\u1ebfu ch\u01b0a \u0111\u1ee7 4 s\u1ea3n ph\u1ea9m (ch\u01b0a c\u00f3 \u0111\u01a1n h\u00e0ng ho\u1eb7c review) \u2192 d\u00f9ng s\u1ea3n ph\u1ea9m m\u1edbi nh\u1ea5t
+            if (result.size() < 4) {
+                List<Product> newest = productDao.getProductsActiveLimited(8);
+                for (Product p : newest) {
+                    if (result.size() >= 4) break;
+                    if (addedIds.add(p.id)) {
+                        result.add(toClientProduct(p));
+                    }
+                }
             }
         } catch (Exception e) {
-            android.util.Log.e("FEATURED", "Error: " + e.getMessage());
+            android.util.Log.e("FEATURED", "Error loading featured products: " + e.getMessage());
         }
 
-        // Fallback nếu DB chưa có data
-        if (result.isEmpty()) {
-            android.util.Log.w("FEATURED", "No products found — DB may be empty");
-        }
-
-        android.util.Log.d("FEATURED", "Returning " + result.size() + " products");
+        android.util.Log.d("FEATURED", "Returning " + result.size() + " featured products");
         return result;
     }
+
+
 
     public List<com.example.shoeapp.model.Product> getAllProducts() {
         List<com.example.shoeapp.model.Product> products = new ArrayList<>();
