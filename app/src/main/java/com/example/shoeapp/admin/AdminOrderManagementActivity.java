@@ -140,7 +140,9 @@ public class AdminOrderManagementActivity extends BaseAdminActivity
                             entity.grandTotal != null ? entity.grandTotal : 0.0,
                             itemCount,
                             status,
-                            date
+                            date,
+                            entity.paymentMethod,
+                            entity.paymentStatus
                     ));
                 }
             }
@@ -294,7 +296,6 @@ public class AdminOrderManagementActivity extends BaseAdminActivity
             calOrder.setTime(orderDate);
 
             java.util.Calendar calToday = java.util.Calendar.getInstance();
-            // Reset time for precise day comparison
             calToday.set(java.util.Calendar.HOUR_OF_DAY, 0);
             calToday.set(java.util.Calendar.MINUTE, 0);
             calToday.set(java.util.Calendar.SECOND, 0);
@@ -395,6 +396,10 @@ public class AdminOrderManagementActivity extends BaseAdminActivity
             String eId = entity.ordersId != null ? entity.ordersId : "#" + entity.id;
             if (eId.equals(orderId)) {
                 entity.orderStatus = newStatus;
+
+                if ("DELIVERED".equals(newStatus)) {
+                    entity.paymentStatus = "PAID";
+                }
 
                 if ("CANCELLED".equals(newStatus)) {
                     java.util.List<com.example.shoeapp.data.entity.OrderDetail> details = db.orderDao().getDetailsByOrder(entity.id);

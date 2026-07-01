@@ -181,7 +181,6 @@ public class AdminAddProductActivity extends BaseAdminActivity {
             etDescription.setText(editingProduct.description);
             cbIsAvailable.setChecked(editingProduct.isAvailable);
 
-            // Chọn đúng Brand trên Spinner
             for (int i = 0; i < brands.size(); i++) {
                 if (brands.get(i).id == editingProduct.brandId) {
                     spinnerBrand.setSelection(i);
@@ -189,7 +188,6 @@ public class AdminAddProductActivity extends BaseAdminActivity {
                 }
             }
 
-            // Chọn đúng Category trên Spinner
             for (int i = 0; i < categories.size(); i++) {
                 if (categories.get(i).id == editingProduct.shoeCategory) {
                     spinnerCategory.setSelection(i);
@@ -197,7 +195,6 @@ public class AdminAddProductActivity extends BaseAdminActivity {
                 }
             }
 
-            // Load ảnh cũ
             ProductImg thumbnail = db.productDao().getThumbnail(editingProduct.id);
             if (thumbnail != null) {
                 etProductImageUrl.setText(thumbnail.imgUrl);
@@ -230,11 +227,10 @@ public class AdminAddProductActivity extends BaseAdminActivity {
             return;
         }
 
-        // Validate trùng tên
         List<Product> existing = db.productDao().getAllProducts();
         for (Product p : existing) {
             if (isEditMode && p.id == editingProduct.id) {
-                continue; // bỏ qua kiểm tra chính nó
+                continue;
             }
             if (name.equalsIgnoreCase(p.name)) {
                 etName.setError("Tên sản phẩm đã tồn tại");
@@ -283,7 +279,6 @@ public class AdminAddProductActivity extends BaseAdminActivity {
 
             db.productDao().update(editingProduct);
 
-            // Cập nhật ProductImg
             ProductImg thumbnail = db.productDao().getThumbnail(editingProduct.id);
             if (!finalImageUrl.isEmpty()) {
                 if (thumbnail != null) {

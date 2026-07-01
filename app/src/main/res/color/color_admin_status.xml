@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- SHIPPED: Blue (state_activated) -->
+    <item android:state_activated="true" android:color="@color/status_info" />
+    
+    <!-- DELIVERED/COMPLETED: Green (state_enabled="false") -->
+    <item android:state_enabled="false" android:color="@color/status_success" />
+    
+    <!-- CANCELLED: Red (state_selected) -->
+    <item android:state_selected="true" android:color="@color/status_error" />
+    
+    <!-- PENDING/PROCESSING: Orange/Yellow (default) -->
+    <item android:color="@color/status_warning" />
+</selector>

@@ -68,7 +68,6 @@ public class AdminOrderAdapter
         holder.bind(order, position);
     }
 
-    // ── ViewHolder ──────────────────────────────────────────────────────────
     class ViewHolder extends RecyclerView.ViewHolder {
 
         final LinearLayout  statusBadge;
@@ -101,7 +100,6 @@ public class AdminOrderAdapter
         }
 
         void bind(Order order, int position) {
-            // ── Thông tin đơn hàng ─────────────────────────────────────────
             orderId.setText(order.getOrderId());
             customerName.setText(order.getCustomerName());
             date.setText(order.getDate());
@@ -111,73 +109,96 @@ public class AdminOrderAdapter
             itemCount.setText(context.getResources()
                     .getQuantityString(R.plurals.admin_items_count, count, count));
 
-            // ── Status badge + progress dots ───────────────────────────────
             applyStatusStyle(order.getStatus());
 
-            // ── Nút View Details ───────────────────────────────────────────
             btnView.setOnClickListener(v -> {
                 if (listener != null) listener.onViewDetailsClick(order, position);
             });
 
-            // ── Nút action (Mark as Shipped / Mark as Delivered / disabled) ──
             btnCancel.setVisibility(View.GONE);
-            switch (order.getStatus()) {
-                case PROCESSING:
-                    btnAction.setVisibility(View.VISIBLE);
-                    btnAction.setText(context.getString(R.string.admin_mark_shipped));
-                    btnAction.setIcon(null);
-                    btnAction.setEnabled(true);
-                    btnAction.setBackgroundTintList(
-                            ContextCompat.getColorStateList(context, R.color.brand_orange));
-                    btnAction.setTextColor(
-                            ContextCompat.getColor(context, R.color.brand_white));
-                    btnAction.setOnClickListener(v -> {
-                        if (listener != null) listener.onMarkShippedClick(order, position);
-                    });
+            boolean isZaloPayUnpaid = "ZALOPAY".equalsIgnoreCase(order.getPaymentMethod()) && !"PAID".equalsIgnoreCase(order.getPaymentStatus());
+            boolean isActiveStatus = order.getStatus() == Order.Status.PROCESSING || order.getStatus() == Order.Status.SHIPPED;
+            
+            if (isZaloPayUnpaid && isActiveStatus) {
+                btnAction.setVisibility(View.VISIBLE);
+                if ("FAILED".equalsIgnoreCase(order.getPaymentStatus())) {
+                    btnAction.setText("Thanh toán thất bại");
+                } else {
+                    btnAction.setText("Chờ thanh toán ZaloPay");
+                }
+                btnAction.setIcon(null);
+                btnAction.setEnabled(false);
+                btnAction.setBackgroundTintList(
+                        ContextCompat.getColorStateList(context, R.color.status_warning_bg));
+                btnAction.setTextColor(
+                        ContextCompat.getColor(context, R.color.status_warning));
+                btnAction.setOnClickListener(null);
 
+                if (order.getStatus() == Order.Status.PROCESSING) {
                     btnCancel.setVisibility(View.VISIBLE);
                     btnCancel.setOnClickListener(v -> {
                         if (listener != null) listener.onCancelOrderClick(order, position);
                     });
-                    break;
+                }
+            } else {
+                switch (order.getStatus()) {
+                    case PROCESSING:
+                        btnAction.setVisibility(View.VISIBLE);
+                        btnAction.setText(context.getString(R.string.admin_mark_shipped));
+                        btnAction.setIcon(null);
+                        btnAction.setEnabled(true);
+                        btnAction.setBackgroundTintList(
+                                ContextCompat.getColorStateList(context, R.color.brand_orange));
+                        btnAction.setTextColor(
+                                ContextCompat.getColor(context, R.color.brand_white));
+                        btnAction.setOnClickListener(v -> {
+                            if (listener != null) listener.onMarkShippedClick(order, position);
+                        });
 
-                case SHIPPED:
-                    btnAction.setVisibility(View.VISIBLE);
-                    btnAction.setText(context.getString(R.string.admin_mark_delivered));
-                    btnAction.setIcon(null);
-                    btnAction.setEnabled(true);
-                    btnAction.setBackgroundTintList(
-                            ContextCompat.getColorStateList(context, R.color.status_info));
-                    btnAction.setTextColor(
-                            ContextCompat.getColor(context, R.color.brand_white));
-                    btnAction.setOnClickListener(v -> {
-                        if (listener != null) listener.onMarkDeliveredClick(order, position);
-                    });
-                    break;
+                        btnCancel.setVisibility(View.VISIBLE);
+                        btnCancel.setOnClickListener(v -> {
+                            if (listener != null) listener.onCancelOrderClick(order, position);
+                        });
+                        break;
 
-                case DELIVERED:
-                    btnAction.setVisibility(View.VISIBLE);
-                    btnAction.setText(context.getString(R.string.admin_order_completed));
-                    btnAction.setIcon(null);
-                    btnAction.setEnabled(false);
-                    btnAction.setBackgroundTintList(
-                            ContextCompat.getColorStateList(context, R.color.status_success_bg));
-                    btnAction.setTextColor(
-                            ContextCompat.getColor(context, R.color.status_success));
-                    btnAction.setOnClickListener(null);
-                    break;
+                    case SHIPPED:
+                        btnAction.setVisibility(View.VISIBLE);
+                        btnAction.setText(context.getString(R.string.admin_mark_delivered));
+                        btnAction.setIcon(null);
+                        btnAction.setEnabled(true);
+                        btnAction.setBackgroundTintList(
+                                ContextCompat.getColorStateList(context, R.color.status_info));
+                        btnAction.setTextColor(
+                                ContextCompat.getColor(context, R.color.brand_white));
+                        btnAction.setOnClickListener(v -> {
+                            if (listener != null) listener.onMarkDeliveredClick(order, position);
+                        });
+                        break;
 
-                case CANCELLED:
-                    btnAction.setVisibility(View.VISIBLE);
-                    btnAction.setText(context.getString(R.string.status_cancelled));
-                    btnAction.setIcon(null);
-                    btnAction.setEnabled(false);
-                    btnAction.setBackgroundTintList(
-                            ContextCompat.getColorStateList(context, R.color.status_error_bg));
-                    btnAction.setTextColor(
-                            ContextCompat.getColor(context, R.color.status_error));
-                    btnAction.setOnClickListener(null);
-                    break;
+                    case DELIVERED:
+                        btnAction.setVisibility(View.VISIBLE);
+                        btnAction.setText(context.getString(R.string.admin_order_completed));
+                        btnAction.setIcon(null);
+                        btnAction.setEnabled(false);
+                        btnAction.setBackgroundTintList(
+                                ContextCompat.getColorStateList(context, R.color.status_success_bg));
+                        btnAction.setTextColor(
+                                ContextCompat.getColor(context, R.color.status_success));
+                        btnAction.setOnClickListener(null);
+                        break;
+
+                    case CANCELLED:
+                        btnAction.setVisibility(View.VISIBLE);
+                        btnAction.setText(context.getString(R.string.status_cancelled));
+                        btnAction.setIcon(null);
+                        btnAction.setEnabled(false);
+                        btnAction.setBackgroundTintList(
+                                ContextCompat.getColorStateList(context, R.color.status_error_bg));
+                        btnAction.setTextColor(
+                                ContextCompat.getColor(context, R.color.status_error));
+                        btnAction.setOnClickListener(null);
+                        break;
+                }
             }
         }
 
