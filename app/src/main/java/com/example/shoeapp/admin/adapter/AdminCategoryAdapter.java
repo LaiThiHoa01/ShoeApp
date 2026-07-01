@@ -80,9 +80,9 @@ public class AdminCategoryAdapter
         final FrameLayout   iconBg;
         final ImageView     icon;
         final TextView      name;
-        final View          statusDot;
+
         final TextView      productCount;
-        final View          progressFill;
+
         final TextView      viewAll;
         final ImageButton   btnEdit;
         final androidx.appcompat.widget.SwitchCompat catSwitch;
@@ -92,9 +92,9 @@ public class AdminCategoryAdapter
             iconBg       = itemView.findViewById(R.id.admin_cat_icon_bg);
             icon         = itemView.findViewById(R.id.admin_cat_icon);
             name         = itemView.findViewById(R.id.admin_cat_name);
-            statusDot    = itemView.findViewById(R.id.admin_cat_status_dot);
+
             productCount = itemView.findViewById(R.id.admin_cat_product_count);
-            progressFill = itemView.findViewById(R.id.admin_cat_progress_fill);
+
             viewAll      = itemView.findViewById(R.id.admin_cat_view_all);
             btnEdit      = itemView.findViewById(R.id.admin_cat_btn_edit);
             catSwitch    = itemView.findViewById(R.id.admin_cat_switch);
@@ -126,10 +126,8 @@ public class AdminCategoryAdapter
             // ── Active State Style ────────────────────────────────────────
             if (category.isActive()) {
                 itemView.setAlpha(1.0f);
-                statusDot.setBackgroundTintList(accentTint);
             } else {
                 itemView.setAlpha(0.5f);
-                statusDot.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.text_dark_tertiary)));
             }
 
             // ── Số sản phẩm ────────────────────────────────────────────────
@@ -137,20 +135,7 @@ public class AdminCategoryAdapter
             productCount.setText(context.getResources()
                     .getQuantityString(R.plurals.admin_products_count, count, count));
 
-            // ── Progress bar fill width ────────────────────────────────────
-            // Sau khi view đã layout xong mới có width thực
-            progressFill.post(() -> {
-                View container = (View) progressFill.getParent();
-                int totalWidth = container.getWidth();
-                if (totalWidth > 0) {
-                    int fillWidth = (int) (totalWidth * category.getProgressFraction());
-                    ViewGroup.LayoutParams params = progressFill.getLayoutParams();
-                    params.width = fillWidth;
-                    progressFill.setLayoutParams(params);
-                }
-            });
-            // Màu fill = accent color
-            progressFill.setBackgroundTintList(accentTint);
+
 
             // ── Click: View all ────────────────────────────────────────────
             viewAll.setOnClickListener(v -> {

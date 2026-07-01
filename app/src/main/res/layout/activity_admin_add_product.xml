@@ -5,7 +5,7 @@
     android:id="@+id/admin_add_product_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_dark_primary">
+    android:background="@color/bg_primary">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="0dp"
@@ -33,20 +33,20 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:background="@drawable/bg_circle_dark"
-                    android:backgroundTint="@color/bg_dark_surface_2"
+                    android:backgroundTint="@color/bg_tertiary"
                     android:padding="10dp"
                     android:src="@drawable/ic_arrow_back"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/text_dark_primary" />
+                    app:tint="@color/text_primary" />
 
                 <TextView
                     android:id="@+id/tv_add_product_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Thêm sản phẩm"
-                    android:textColor="@color/text_dark_primary"
+                    android:textColor="@color/text_primary"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -60,7 +60,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:background="@drawable/bg_card_dark"
+                android:background="@drawable/bg_card_light"
                 android:orientation="vertical"
                 android:padding="20dp">
 
@@ -69,7 +69,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Hình ảnh sản phẩm"
-                    android:textColor="@color/text_dark_tertiary"
+                    android:textColor="@color/text_tertiary"
                     android:textSize="13sp" />
 
                 <LinearLayout
@@ -96,9 +96,9 @@
                         android:layout_marginStart="16dp"
                         android:text="Chọn ảnh từ thư viện"
                         android:textAllCaps="false"
-                        android:textColor="@color/text_dark_primary"
+                        android:textColor="@color/text_primary"
                         android:textSize="13sp"
-                        app:backgroundTint="@color/bg_dark_surface_2"
+                        app:backgroundTint="@color/bg_tertiary"
                         app:cornerRadius="8dp" />
                 </LinearLayout>
 
@@ -107,7 +107,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Hình ảnh sản phẩm (URL)"
-                    android:textColor="@color/text_dark_tertiary"
+                    android:textColor="@color/text_tertiary"
                     android:textSize="13sp" />
 
                 <EditText
@@ -120,8 +120,8 @@
                     android:hint="Nhập link hình ảnh (https://...)"
                     android:inputType="textUri"
                     android:paddingHorizontal="14dp"
-                    android:textColor="@color/text_dark_primary"
-                    android:textColorHint="@color/text_dark_muted"
+                    android:textColor="@color/text_primary"
+                    android:textColorHint="@color/text_muted"
                     android:textSize="15sp" />
 
                 <!-- Tên sản phẩm -->
@@ -129,7 +129,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Tên sản phẩm *"
-                    android:textColor="@color/text_dark_tertiary"
+                    android:textColor="@color/text_tertiary"
                     android:textSize="13sp" />
 
                 <EditText
@@ -141,8 +141,8 @@
                     android:hint="Nhập tên sản phẩm"
                     android:inputType="textCapWords"
                     android:paddingHorizontal="14dp"
-                    android:textColor="@color/text_dark_primary"
-                    android:textColorHint="@color/text_dark_muted"
+                    android:textColor="@color/text_primary"
+                    android:textColorHint="@color/text_muted"
                     android:textSize="15sp" />
 
                 <!-- Giá và Giá gốc -->
@@ -163,7 +163,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Giá bán (₫) *"
-                            android:textColor="@color/text_dark_tertiary"
+                            android:textColor="@color/text_tertiary"
                             android:textSize="13sp" />
 
                         <EditText
@@ -175,8 +175,8 @@
                             android:hint="0"
                             android:inputType="numberDecimal"
                             android:paddingHorizontal="14dp"
-                            android:textColor="@color/text_dark_primary"
-                            android:textColorHint="@color/text_dark_muted"
+                            android:textColor="@color/text_primary"
+                            android:textColorHint="@color/text_muted"
                             android:textSize="15sp" />
                     </LinearLayout>
 
@@ -191,7 +191,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Giá gốc (₫)"
-                            android:textColor="@color/text_dark_tertiary"
+                            android:textColor="@color/text_tertiary"
                             android:textSize="13sp" />
 
                         <EditText
@@ -203,8 +203,8 @@
                             android:hint="0"
                             android:inputType="numberDecimal"
                             android:paddingHorizontal="14dp"
-                            android:textColor="@color/text_dark_primary"
-                            android:textColorHint="@color/text_dark_muted"
+                            android:textColor="@color/text_primary"
+                            android:textColorHint="@color/text_muted"
                             android:textSize="15sp" />
                     </LinearLayout>
                 </LinearLayout>
@@ -215,7 +215,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:text="Thương hiệu *"
-                    android:textColor="@color/text_dark_tertiary"
+                    android:textColor="@color/text_tertiary"
                     android:textSize="13sp" />
 
                 <Spinner
@@ -225,7 +225,7 @@
                     android:layout_marginTop="6dp"
                     android:background="@drawable/bg_input_dark"
                     android:paddingHorizontal="14dp"
-                    android:popupBackground="@color/bg_dark_surface_2" />
+                    android:popupBackground="@color/bg_tertiary" />
 
                 <!-- Category -->
                 <TextView
@@ -233,7 +233,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:text="Danh mục *"
-                    android:textColor="@color/text_dark_tertiary"
+                    android:textColor="@color/text_tertiary"
                     android:textSize="13sp" />
 
                 <Spinner
@@ -243,7 +243,7 @@
                     android:layout_marginTop="6dp"
                     android:background="@drawable/bg_input_dark"
                     android:paddingHorizontal="14dp"
-                    android:popupBackground="@color/bg_dark_surface_2" />
+                    android:popupBackground="@color/bg_tertiary" />
 
                 <!-- Mô tả -->
                 <TextView
@@ -251,7 +251,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:text="Mô tả"
-                    android:textColor="@color/text_dark_tertiary"
+                    android:textColor="@color/text_tertiary"
                     android:textSize="13sp" />
 
                 <EditText
@@ -264,8 +264,8 @@
                     android:hint="Nhập mô tả sản phẩm..."
                     android:inputType="textMultiLine"
                     android:padding="14dp"
-                    android:textColor="@color/text_dark_primary"
-                    android:textColorHint="@color/text_dark_muted"
+                    android:textColor="@color/text_primary"
+                    android:textColorHint="@color/text_muted"
                     android:textSize="15sp" />
 
                 <!-- Checkbox isAvailable -->
@@ -276,7 +276,7 @@
                     android:layout_marginTop="16dp"
                     android:checked="true"
                     android:text="Đang bán (hiển thị cho khách)"
-                    android:textColor="@color/text_dark_primary"
+                    android:textColor="@color/text_primary"
                     android:textSize="14sp" />
             </LinearLayout>
 

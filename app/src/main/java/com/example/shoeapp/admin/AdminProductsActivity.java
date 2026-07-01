@@ -189,7 +189,7 @@ public class AdminProductsActivity extends BaseAdminActivity
                             entity.price,
                             entity.originalPrice > 0 ? entity.originalPrice : entity.price,
                             totalStock,
-                            entity.isAvailable,
+                            com.example.shoeapp.Helper.Helpers.isProductNew(entity.addedAt),
                             sizeList,
                             rating,
                             reviewCount,
@@ -277,7 +277,7 @@ public class AdminProductsActivity extends BaseAdminActivity
                 chip.setTextColor(getColor(R.color.brand_white));
             } else {
                 chip.setBackgroundResource(R.drawable.bg_admin_chip);
-                chip.setTextColor(getColor(R.color.text_dark_tertiary));
+                chip.setTextColor(getColor(R.color.text_tertiary));
             }
             
             chip.setText(c.name);
@@ -297,7 +297,7 @@ public class AdminProductsActivity extends BaseAdminActivity
             filterAll.setTextColor(getColor(R.color.brand_white));
         } else {
             filterAll.setBackgroundResource(R.drawable.bg_admin_chip);
-            filterAll.setTextColor(getColor(R.color.text_dark_tertiary));
+            filterAll.setTextColor(getColor(R.color.text_tertiary));
         }
     }
 
@@ -339,7 +339,7 @@ public class AdminProductsActivity extends BaseAdminActivity
         currentCategory = category;
         for (TextView chip : dynamicChips) {
             chip.setBackgroundResource(R.drawable.bg_admin_chip);
-            chip.setTextColor(getColor(R.color.text_dark_tertiary));
+            chip.setTextColor(getColor(R.color.text_tertiary));
         }
         selectedChip.setBackgroundResource(R.drawable.bg_admin_chip_selected);
         selectedChip.setTextColor(getColor(R.color.brand_white));
@@ -448,17 +448,17 @@ public class AdminProductsActivity extends BaseAdminActivity
         filterStockAll.setBackgroundResource("All".equals(filter)
                 ? R.drawable.bg_admin_chip_selected : R.drawable.bg_admin_chip);
         filterStockAll.setTextColor("All".equals(filter)
-                ? getColor(R.color.brand_white) : getColor(R.color.text_dark_tertiary));
+                ? getColor(R.color.brand_white) : getColor(R.color.text_tertiary));
 
         filterStockIn.setBackgroundResource("InStock".equals(filter)
                 ? R.drawable.bg_admin_chip_selected : R.drawable.bg_admin_chip);
         filterStockIn.setTextColor("InStock".equals(filter)
-                ? getColor(R.color.brand_white) : getColor(R.color.text_dark_tertiary));
+                ? getColor(R.color.brand_white) : getColor(R.color.text_tertiary));
 
         filterStockOut.setBackgroundResource("OutOfStock".equals(filter)
                 ? R.drawable.bg_admin_chip_selected : R.drawable.bg_admin_chip);
         filterStockOut.setTextColor("OutOfStock".equals(filter)
-                ? getColor(R.color.brand_white) : getColor(R.color.text_dark_tertiary));
+                ? getColor(R.color.brand_white) : getColor(R.color.text_tertiary));
 
         applyFilters();
     }

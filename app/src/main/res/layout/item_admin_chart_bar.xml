@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
         android:text="500k"
-        android:textColor="@color/text_dark_secondary"
+        android:textColor="@color/text_secondary"
         android:textSize="10sp"
         android:textStyle="bold"
         android:singleLine="true" />
@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
         android:text="28/06"
-        android:textColor="@color/text_dark_tertiary"
+        android:textColor="@color/text_tertiary"
         android:textSize="10sp" />
 
 </LinearLayout>

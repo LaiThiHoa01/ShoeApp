@@ -36,7 +36,7 @@
             tools:text="SALE ĐÓN HÈ MÁT MẺ"
             android:layout_marginTop="8dp"
             android:textSize="16sp"
-            android:textColor="@color/text_dark_primary"
+            android:textColor="@color/text_primary"
             android:textStyle="bold"
             app:layout_constraintTop_toBottomOf="@id/tv_promo_status"
             app:layout_constraintStart_toStartOf="parent"
@@ -61,7 +61,7 @@
             tools:text="Giảm: 20%"
             android:layout_marginTop="2dp"
             android:textSize="12sp"
-            android:textColor="@color/text_dark_secondary"
+            android:textColor="@color/text_secondary"
             app:layout_constraintTop_toBottomOf="@id/tv_promo_voucher"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/iv_promo_image"/>
@@ -73,7 +73,7 @@
             tools:text="Từ 01/06/2026 - 30/07/2026"
             android:layout_marginTop="4dp"
             android:textSize="11sp"
-            android:textColor="@color/text_dark_secondary"
+            android:textColor="@color/text_secondary"
             app:layout_constraintTop_toBottomOf="@id/tv_promo_discount"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/iv_promo_image"/>

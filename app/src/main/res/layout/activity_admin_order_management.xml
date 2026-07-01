@@ -21,7 +21,7 @@
     android:id="@+id/admin_orders_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_dark_primary"
+    android:background="@color/bg_primary"
     tools:context=".admin.AdminOrderManagementActivity">
 
     <!-- ══════════════════════════════════════
@@ -54,7 +54,7 @@
                 android:letterSpacing="0.1"
                 android:text="@string/app_admin_portal"
                 android:textAllCaps="true"
-                android:textColor="@color/text_dark_muted"
+                android:textColor="@color/text_muted"
                 android:textSize="10sp" />
 
             <TextView
@@ -62,7 +62,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/admin_orders_title"
-                android:textColor="@color/text_dark_primary"
+                android:textColor="@color/text_primary"
                 android:textSize="22sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -123,7 +123,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/status_processing"
-                android:textColor="@color/text_dark_muted"
+                android:textColor="@color/text_muted"
                 android:textSize="10sp" />
         </LinearLayout>
 
@@ -152,7 +152,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/status_shipped"
-                android:textColor="@color/text_dark_muted"
+                android:textColor="@color/text_muted"
                 android:textSize="10sp" />
         </LinearLayout>
 
@@ -181,7 +181,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/status_delivered"
-                android:textColor="@color/text_dark_muted"
+                android:textColor="@color/text_muted"
                 android:textSize="10sp" />
         </LinearLayout>
     </LinearLayout>
@@ -196,7 +196,7 @@
         android:layout_marginStart="@dimen/space_screen_horizontal"
         android:layout_marginTop="@dimen/space_8"
         android:layout_marginEnd="@dimen/space_screen_horizontal"
-        android:background="@drawable/bg_card_dark"
+        android:background="@drawable/bg_card_light"
         android:orientation="vertical"
         android:padding="@dimen/space_8"
         app:layout_constraintEnd_toEndOf="parent"
@@ -226,7 +226,7 @@
                     android:layout_height="18dp"
                     android:contentDescription="@null"
                     android:src="@drawable/ic_material_search"
-                    android:tint="@color/text_dark_muted" />
+                    android:tint="@color/text_muted" />
 
                 <EditText
                     android:id="@+id/admin_orders_search_input"
@@ -239,8 +239,8 @@
                     android:imeOptions="actionSearch"
                     android:inputType="text"
                     android:maxLines="1"
-                    android:textColor="@color/text_dark_primary"
-                    android:textColorHint="@color/text_dark_muted"
+                    android:textColor="@color/text_primary"
+                    android:textColorHint="@color/text_muted"
                     android:textSize="14sp" />
             </LinearLayout>
 
@@ -252,7 +252,7 @@
                 android:background="@drawable/bg_admin_icon_btn"
                 android:contentDescription="@string/action_refresh"
                 android:src="@drawable/ic_refresh"
-                android:tint="@color/text_dark_tertiary" />
+                android:tint="@color/text_tertiary" />
         </LinearLayout>
 
         <!-- Filter Chips Row -->
@@ -296,7 +296,7 @@
                     android:paddingStart="@dimen/space_chip_horizontal"
                     android:paddingEnd="@dimen/space_chip_horizontal"
                     android:text="@string/status_processing"
-                    android:textColor="@color/text_dark_tertiary"
+                    android:textColor="@color/text_tertiary"
                     android:textSize="12sp"
                     android:textStyle="bold" />
 
@@ -311,7 +311,7 @@
                     android:paddingStart="@dimen/space_chip_horizontal"
                     android:paddingEnd="@dimen/space_chip_horizontal"
                     android:text="@string/status_shipped"
-                    android:textColor="@color/text_dark_tertiary"
+                    android:textColor="@color/text_tertiary"
                     android:textSize="12sp"
                     android:textStyle="bold" />
 
@@ -326,7 +326,7 @@
                     android:paddingStart="@dimen/space_chip_horizontal"
                     android:paddingEnd="@dimen/space_chip_horizontal"
                     android:text="@string/status_delivered"
-                    android:textColor="@color/text_dark_tertiary"
+                    android:textColor="@color/text_tertiary"
                     android:textSize="12sp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -373,7 +373,7 @@
                     android:paddingStart="@dimen/space_chip_horizontal"
                     android:paddingEnd="@dimen/space_chip_horizontal"
                     android:text="Hôm nay"
-                    android:textColor="@color/text_dark_tertiary"
+                    android:textColor="@color/text_tertiary"
                     android:textSize="12sp"
                     android:textStyle="bold" />
 
@@ -388,7 +388,7 @@
                     android:paddingStart="@dimen/space_chip_horizontal"
                     android:paddingEnd="@dimen/space_chip_horizontal"
                     android:text="Tuần này"
-                    android:textColor="@color/text_dark_tertiary"
+                    android:textColor="@color/text_tertiary"
                     android:textSize="12sp"
                     android:textStyle="bold" />
 
@@ -403,7 +403,7 @@
                     android:paddingStart="@dimen/space_chip_horizontal"
                     android:paddingEnd="@dimen/space_chip_horizontal"
                     android:text="Tháng này"
-                    android:textColor="@color/text_dark_tertiary"
+                    android:textColor="@color/text_tertiary"
                     android:textSize="12sp"
                     android:textStyle="bold" />
             </LinearLayout>

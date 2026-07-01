@@ -215,7 +215,7 @@ public class AdminOrderManagementActivity extends BaseAdminActivity
         TextView[] chips = { filterTimeAll, filterTimeToday, filterTimeWeek, filterTimeMonth };
         for (TextView chip : chips) {
             chip.setBackgroundResource(R.drawable.bg_admin_chip);
-            chip.setTextColor(getColor(R.color.text_dark_tertiary));
+            chip.setTextColor(getColor(R.color.text_tertiary));
         }
         selectedChip.setBackgroundResource(R.drawable.bg_admin_chip_selected);
         selectedChip.setTextColor(getColor(R.color.brand_white));
@@ -261,7 +261,7 @@ public class AdminOrderManagementActivity extends BaseAdminActivity
         TextView[] chips = { filterAll, filterProcessing, filterShipped, filterDelivered };
         for (TextView chip : chips) {
             chip.setBackgroundResource(R.drawable.bg_admin_chip);
-            chip.setTextColor(getColor(R.color.text_dark_tertiary));
+            chip.setTextColor(getColor(R.color.text_tertiary));
         }
         selectedChip.setBackgroundResource(R.drawable.bg_admin_chip_selected);
         selectedChip.setTextColor(getColor(R.color.brand_white));

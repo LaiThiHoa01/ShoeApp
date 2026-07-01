@@ -1,25 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ┌──────────────────────────────────────────┐
-  │  Item category — Admin Categories list   │
-  │  Layout: item_admin_category.xml         │
-  │  Dùng trong: AdminCategoriesActivity     │
-  └──────────────────────────────────────────┘
 
-  Cấu trúc card:
-  ┌─[Icon]──[Name + dot]──────────[Edit btn]─┐
-  │         [X products]          [Del  btn] │
-  │  ████████████░░░░░░ progress bar         │
-  │  [Men's] [Women's] [Kids']  [View all >] │
-  └──────────────────────────────────────────┘
--->
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_card_dark"
+    android:background="@drawable/bg_card_light"
     android:clickable="true"
     android:focusable="true"
     android:foreground="?attr/selectableItemBackground"
@@ -56,7 +43,7 @@
         android:contentDescription="@string/action_edit"
         android:padding="@dimen/space_4"
         android:src="@drawable/ic_detail"
-        android:tint="@color/text_dark_secondary"
+        android:tint="@color/text_secondary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -66,6 +53,8 @@
         android:layout_width="wrap_content"
         android:layout_height="32dp"
         android:layout_marginTop="@dimen/space_2"
+        app:thumbTint="@color/switch_thumb_tint_orange"
+        app:trackTint="@color/switch_track_tint_orange"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/admin_cat_btn_edit" />
 
@@ -88,19 +77,11 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textColor="@color/text_dark_primary"
+            android:textColor="@color/text_primary"
             android:textSize="16sp"
             android:textStyle="bold"
-            tools:text="Sneakers" />
+            tools:text="Giày thể thao" />
 
-        <!-- Dot màu trạng thái (set tint động) -->
-        <View
-            android:id="@+id/admin_cat_status_dot"
-            android:layout_width="8dp"
-            android:layout_height="8dp"
-            android:layout_marginStart="@dimen/space_3"
-            android:background="@drawable/bg_admin_category_icon"
-            android:backgroundTint="@color/brand_orange" />
     </LinearLayout>
 
     <!-- ── Số sản phẩm ── -->
@@ -111,41 +92,19 @@
         android:layout_marginStart="@dimen/space_8"
         android:layout_marginTop="2dp"
         android:layout_marginEnd="@dimen/space_6"
-        android:textColor="@color/text_dark_muted"
+        android:textColor="@color/text_muted"
         android:textSize="13sp"
         app:layout_constraintEnd_toStartOf="@id/admin_cat_btn_edit"
         app:layout_constraintStart_toEndOf="@id/admin_cat_icon_bg"
         app:layout_constraintTop_toBottomOf="@id/admin_cat_name_row"
-        tools:text="48 products" />
+        tools:text="48 sản phẩm" />
 
-    <!-- ── Progress bar (track + fill) ── -->
-    <FrameLayout
-        android:id="@+id/admin_cat_progress_container"
-        android:layout_width="0dp"
-        android:layout_height="5dp"
-        android:layout_marginTop="@dimen/space_8"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/admin_cat_icon_bg">
-
-        <!-- Track xám -->
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/bg_admin_progress_track" />
-
-        <!-- Fill màu — width set động bằng ConstraintLayout percent hoặc code -->
-        <View
-            android:id="@+id/admin_cat_progress_fill"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:background="@drawable/bg_admin_progress_fill"
-            android:backgroundTint="@color/brand_orange" />
-        <!--
-          Trong Adapter: dùng ViewGroup.LayoutParams để set width theo %
-          fill.getLayoutParams().width = (int)(containerWidth * percent);
-        -->
-    </FrameLayout>
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/admin_cat_barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="admin_cat_product_count,admin_cat_switch" />
 
     <!-- ── Row: sub-genre chips + View all ── -->
     <LinearLayout
@@ -158,51 +117,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/admin_cat_progress_container">
+        app:layout_constraintTop_toBottomOf="@id/admin_cat_barrier">
 
-        <!-- Chip: Men's -->
-        <TextView
-            android:id="@+id/admin_cat_chip_mens"
-            android:layout_width="wrap_content"
-            android:layout_height="28dp"
-            android:background="@drawable/bg_admin_sub_chip"
-            android:gravity="center"
-            android:paddingStart="@dimen/space_4"
-            android:paddingEnd="@dimen/space_4"
-            android:text="@string/admin_cat_chip_mens"
-            android:textColor="@color/text_dark_tertiary"
-            android:textSize="11sp"
-            android:textStyle="bold" />
 
-        <!-- Chip: Women's -->
-        <TextView
-            android:id="@+id/admin_cat_chip_womens"
-            android:layout_width="wrap_content"
-            android:layout_height="28dp"
-            android:layout_marginStart="@dimen/space_2"
-            android:background="@drawable/bg_admin_sub_chip"
-            android:gravity="center"
-            android:paddingStart="@dimen/space_4"
-            android:paddingEnd="@dimen/space_4"
-            android:text="@string/admin_cat_chip_womens"
-            android:textColor="@color/text_dark_tertiary"
-            android:textSize="11sp"
-            android:textStyle="bold" />
-
-        <!-- Chip: Kids' -->
-        <TextView
-            android:id="@+id/admin_cat_chip_kids"
-            android:layout_width="wrap_content"
-            android:layout_height="28dp"
-            android:layout_marginStart="@dimen/space_2"
-            android:background="@drawable/bg_admin_sub_chip"
-            android:gravity="center"
-            android:paddingStart="@dimen/space_4"
-            android:paddingEnd="@dimen/space_4"
-            android:text="@string/admin_cat_chip_kids"
-            android:textColor="@color/text_dark_tertiary"
-            android:textSize="11sp"
-            android:textStyle="bold" />
 
         <!-- Spacer đẩy "View all" ra phải -->
         <View
