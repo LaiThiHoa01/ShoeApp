@@ -18,6 +18,7 @@ import com.example.shoeapp.authentication.SessionManager;
 import com.example.shoeapp.data.AppDatabase;
 import com.example.shoeapp.data.entity.DeliveryAddress;
 import com.example.shoeapp.data.entity.User;
+import com.example.shoeapp.data.repo.AddressRepository;
 import com.example.shoeapp.user.adapter.AddressAdapter;
 import com.google.android.material.button.MaterialButton;
 
@@ -25,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AddressBookActivity extends AppCompatActivity {
-
+    private AddressRepository addressRepository;
     private RecyclerView recyclerView;
     private AddressAdapter adapter;
     private AppDatabase db;
@@ -43,6 +44,7 @@ public class AddressBookActivity extends AppCompatActivity {
             getSupportActionBar().setTitle("Địa chỉ");
         }
         db = AppDatabase.getDatabase(this);
+        addressRepository = new AddressRepository(this);
 
         int loggedInUserId = SessionManager.getUserId(this);
 
@@ -88,14 +90,12 @@ public class AddressBookActivity extends AppCompatActivity {
     }
 
     private void loadAddresses() {
-        List<DeliveryAddress> list = db.addressDao().getUserAddresses(currentUserId);
+        List<DeliveryAddress> list = addressRepository.getAddresses(currentUserId);
         adapter.setAddresses(list);
     }
 
     private void setDefaultAddress(DeliveryAddress address) {
-        db.addressDao().clearAllDefaults(currentUserId);
-        address.isDefault = true;
-        db.addressDao().updateAddress(address);
+        addressRepository.setDefault(currentUserId, address);
         loadAddresses();
         Toast.makeText(this, "Đã đổi địa chỉ mặc định", Toast.LENGTH_SHORT).show();
     }
@@ -105,7 +105,7 @@ public class AddressBookActivity extends AppCompatActivity {
                 .setTitle("Xóa địa chỉ?")
                 .setMessage("Bạn có chắc muốn xóa địa chỉ này không?")
                 .setPositiveButton("Xóa", (dialog, which) -> {
-                    db.addressDao().deleteAddress(address);
+                    addressRepository.delete(address);
                     loadAddresses();
                     Toast.makeText(this, "Đã xóa địa chỉ", Toast.LENGTH_SHORT).show();
                 })
@@ -142,7 +142,12 @@ public class AddressBookActivity extends AppCompatActivity {
             }
 
             new Thread(() -> {
-                db.addressDao().insertAddress(newAddress);
+                addressRepository.addAddress(
+                        currentUserId,
+                        inputPhone.getText().toString().trim(),
+                        inputAddress.getText().toString().trim(),
+                        adapter.getItemCount() == 0
+                );
                 runOnUiThread(() -> {
                     Toast.makeText(this, "Đã thêm địa chỉ", Toast.LENGTH_SHORT).show();
                     loadAddresses();

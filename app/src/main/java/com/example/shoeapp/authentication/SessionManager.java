@@ -16,11 +16,6 @@ public class SessionManager {
                 .apply();
     }
 
-    public static void saveUserId(Context context, int userId) {
-        SharedPreferences prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
-        prefs.edit().putInt(KEY_USER_ID, userId).apply();
-    }
-
     public static int getUserId(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         return prefs.getInt(KEY_USER_ID, -1);

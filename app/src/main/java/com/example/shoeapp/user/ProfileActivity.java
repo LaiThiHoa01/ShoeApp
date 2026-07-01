@@ -11,6 +11,7 @@ import com.example.shoeapp.authentication.SessionManager;
 import com.example.shoeapp.data.AppDatabase;
 import com.example.shoeapp.data.entity.DeliveryAddress;
 import com.example.shoeapp.data.entity.User;
+import com.example.shoeapp.data.repo.UserRepository;
 import com.example.shoeapp.ui.BaseSoleStepActivity;
 import com.example.shoeapp.ui.BottomNavHelper;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -28,6 +29,7 @@ public class ProfileActivity extends BaseSoleStepActivity {
     private TextView nameText;
     private TextView addressText;
     private TextView phoneText;
+    private UserRepository userRepository;
 
 
     @Override
@@ -35,6 +37,7 @@ public class ProfileActivity extends BaseSoleStepActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         setupScreen(BottomNavHelper.TAG_PROFILE);
+        userRepository = new UserRepository(this);
 
         db = AppDatabase.getDatabase(this);
         bindViews();
@@ -76,18 +79,10 @@ public class ProfileActivity extends BaseSoleStepActivity {
         phoneText = findViewById(R.id.profile_phone_text);
     }
     private void loadUser() {
-        int currentUserId = SessionManager.getUserId(this);
-
-        if (currentUserId == -1) {
-            Toast.makeText(this, "Bạn chưa đăng nhập", Toast.LENGTH_SHORT).show();
-            finish();
-            return;
-        }
-
-        currentUser = db.userDao().getUserById(currentUserId);
+        currentUser = userRepository.getCurrentUser();
 
         if (currentUser == null) {
-            Toast.makeText(this, "Không tìm thấy tài khoản", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Bạn chưa đăng nhập", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }

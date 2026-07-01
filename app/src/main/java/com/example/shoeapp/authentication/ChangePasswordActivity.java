@@ -92,7 +92,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
             confirmPasswordInput.setError("Mật khẩu không khớp");
             return;
         }
-        if (!isPasswordStrong(newPassword)) {
+        if (!PasswordValidator.isStrong(newPassword)) {
             Toast.makeText(this, "Mật khẩu mới chưa đủ mạnh!", Toast.LENGTH_LONG).show();
             return;
         }
@@ -131,14 +131,4 @@ public class ChangePasswordActivity extends AppCompatActivity {
         });
     }
 
-    private boolean isPasswordStrong(String password) {
-        if (password == null || password.length() < 8) {
-            return false;
-        }
-        boolean hasUppercase = !password.equals(password.toLowerCase());
-        boolean hasNumber = password.matches(".*\\d.*");
-        boolean hasSpecial = password.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?].*");
-
-        return hasUppercase && hasNumber && hasSpecial;
-    }
 }

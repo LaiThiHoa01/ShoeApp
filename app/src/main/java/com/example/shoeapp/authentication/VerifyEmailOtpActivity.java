@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.shoeapp.R;
 import com.example.shoeapp.data.entity.User;
 import com.example.shoeapp.user.MainActivity;
-import java.util.Random;
 
 public class VerifyEmailOtpActivity extends AppCompatActivity {
     public static final String EXTRA_MODE = "mode";
@@ -37,13 +36,14 @@ public class VerifyEmailOtpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_verify_email_otp);
 
         readExtras();
-        if (email == null || email.trim().isEmpty()) {
+        if (isBlank(email)) {
             Toast.makeText(this, "Chưa nhập email", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
+
         if (MODE_SIGN_UP.equals(mode)) {
-            if (firstName == null || lastName == null || phone == null || password == null) {
+            if (isBlank(firstName) || isBlank(lastName) || isBlank(phone) || isBlank(password)) {
                 Toast.makeText(this, "Thiếu thông tin đăng ký", Toast.LENGTH_SHORT).show();
                 finish();
                 return;
@@ -51,7 +51,7 @@ public class VerifyEmailOtpActivity extends AppCompatActivity {
         }
 
         if (MODE_RESET_PASSWORD.equals(mode)) {
-            if (newPassword == null || confirmPassword == null) {
+            if (isBlank(newPassword) || isBlank(confirmPassword)) {
                 Toast.makeText(this, "Thiếu thông tin đặt lại mật khẩu", Toast.LENGTH_SHORT).show();
                 finish();
                 return;
@@ -93,31 +93,32 @@ public class VerifyEmailOtpActivity extends AppCompatActivity {
     }
 
     private void sendOtp() {
-        currentOtp = generateOtp();
-        otpExpiredAt = System.currentTimeMillis() + 5 * 60 * 1000;
+        currentOtp = OtpService.generateOtp();
+        otpExpiredAt = OtpService.expiryTime();
 
         Toast.makeText(this, "Đang gửi OTP...", Toast.LENGTH_SHORT).show();
 
-        new Thread(() -> {
-            try {
-                EmailOtp.sendOtp(email, currentOtp);
-
+        OtpService.sendOtpAsync(email, currentOtp, new OtpService.Callback() {
+            @Override
+            public void onSuccess() {
                 runOnUiThread(() ->
-                        Toast.makeText(this, "Đã gửi OTP về email", Toast.LENGTH_SHORT).show()
-                );
-
-            } catch (Exception e) {
-                runOnUiThread(() ->
-                        Toast.makeText(this, "Gửi OTP thất bại: " + e.getMessage(), Toast.LENGTH_LONG).show()
+                        Toast.makeText(VerifyEmailOtpActivity.this, "Đã gửi OTP về email", Toast.LENGTH_SHORT).show()
                 );
             }
-        }).start();
+
+            @Override
+            public void onError(Exception e) {
+                runOnUiThread(() ->
+                        Toast.makeText(VerifyEmailOtpActivity.this, "Gửi OTP thất bại: " + e.getMessage(), Toast.LENGTH_LONG).show()
+                );
+            }
+        });
     }
 
     private void verifyOtpAndContinue() {
         String inputOtp = otpInput.getText().toString().trim();
 
-        if (System.currentTimeMillis() > otpExpiredAt) {
+        if (OtpService.isExpired(otpExpiredAt)) {
             Toast.makeText(this, "OTP đã hết hạn", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -168,9 +169,7 @@ public class VerifyEmailOtpActivity extends AppCompatActivity {
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
-
-    private String generateOtp() {
-        int otp = 100000 + new Random().nextInt(900000);
-        return String.valueOf(otp);
+    private boolean isBlank(String value) {
+        return value == null || value.trim().isEmpty();
     }
 }
