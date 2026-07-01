@@ -42,7 +42,6 @@ public class HMacUtil {
             dataByte = data.getBytes("UTF-8");
         } catch (UnsupportedEncodingException e) {
         }
-
         return macGenerator.doFinal(dataByte);
     }
 

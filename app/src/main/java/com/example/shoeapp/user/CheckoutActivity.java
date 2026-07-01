@@ -17,6 +17,8 @@ import com.example.shoeapp.R;
 import com.example.shoeapp.authentication.SessionManager;
 import com.example.shoeapp.data.AppDatabase;
 import com.example.shoeapp.data.entity.DeliveryAddress;
+import com.example.shoeapp.data.entity.ProductVariant;
+import com.example.shoeapp.data.entity.Promotion;
 import com.example.shoeapp.data.entity.User;
 import com.example.shoeapp.data.model.CartItemView;
 import com.example.shoeapp.data.repo.CartRepository;
@@ -196,7 +198,7 @@ public class CheckoutActivity extends BaseSoleStepActivity {
         }
 
         for (CartItemView item : items) {
-            com.example.shoeapp.data.entity.ProductVariant variant = db.productDao().getVariant(item.productId, item.colorId, item.sizeId);
+            ProductVariant variant = db.productDao().getVariant(item.productId, item.colorId, item.sizeId);
             if (variant == null || variant.stock < item.quantity) {
                 Toast.makeText(this, "Sản phẩm " + item.productName + " không đủ số lượng trong kho", Toast.LENGTH_LONG).show();
                 return false;
@@ -227,7 +229,7 @@ public class CheckoutActivity extends BaseSoleStepActivity {
         String appliedPromoCode = cartRepository.getAppliedPromoCode();
         if (appliedPromoCode != null && !appliedPromoCode.isEmpty()) {
             new Thread(() -> {
-                com.example.shoeapp.data.entity.Promotion promo = db.productDao().getActivePromotionByVoucher(appliedPromoCode);
+                Promotion promo = db.productDao().getActivePromotionByVoucher(appliedPromoCode);
                 if (promo != null && promo.quantity > 0) {
                     promo.quantity -= 1;
                     db.productDao().updatePromotion(promo);

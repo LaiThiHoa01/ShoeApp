@@ -3,7 +3,9 @@ package com.example.shoeapp.user;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,20 +32,20 @@ public class CartActivity extends BaseSoleStepActivity {
         setupScreen(BottomNavHelper.TAG_CART);
         setupCartList();
 
-        android.widget.EditText promoInput = findViewById(R.id.cart_promo_input);
+        EditText promoInput = findViewById(R.id.cart_promo_input);
         View applyButton = findViewById(R.id.cart_promo_apply_button);
         if (applyButton != null && promoInput != null) {
             applyButton.setOnClickListener(v -> {
                 String code = promoInput.getText().toString().trim();
                 if (code.isEmpty()) {
-                    android.widget.Toast.makeText(this, "Vui lòng nhập mã khuyến mãi", android.widget.Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Vui lòng nhập mã khuyến mãi", android.widget.Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (cartRepository.checkAndApplyPromoCode(code)) {
                     refreshCart();
-                    android.widget.Toast.makeText(this, "Áp dụng mã khuyến mãi thành công!", android.widget.Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Áp dụng mã khuyến mãi thành công!", android.widget.Toast.LENGTH_SHORT).show();
                 } else {
-                    android.widget.Toast.makeText(this, "Mã khuyến mãi không hợp lệ!", android.widget.Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Mã khuyến mãi không hợp lệ!", android.widget.Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -121,8 +123,8 @@ public class CartActivity extends BaseSoleStepActivity {
                             btnUse.setOnClickListener(v -> {
                                 if (cartRepository.checkAndApplyPromoCode(suggestedPromo.voucherCode)) {
                                     refreshCart();
-                                    android.widget.Toast.makeText(this, "Áp dụng mã khuyến mãi thành công!", android.widget.Toast.LENGTH_SHORT).show();
-                                    android.widget.EditText promoInput = findViewById(R.id.cart_promo_input);
+                                    Toast.makeText(this, "Áp dụng mã khuyến mãi thành công!", android.widget.Toast.LENGTH_SHORT).show();
+                                    EditText promoInput = findViewById(R.id.cart_promo_input);
                                     if (promoInput != null) promoInput.setText(suggestedPromo.voucherCode);
                                 }
                             });

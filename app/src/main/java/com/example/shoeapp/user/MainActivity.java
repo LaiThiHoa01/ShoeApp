@@ -4,10 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -170,8 +172,8 @@ public class MainActivity extends BaseSoleStepActivity {
     }
 
     private void setupSearch() {
-        android.widget.EditText searchInput = findViewById(R.id.home_search_input);
-        androidx.cardview.widget.CardView cardSuggestions = findViewById(R.id.card_search_suggestions);
+        EditText searchInput = findViewById(R.id.home_search_input);
+        CardView cardSuggestions = findViewById(R.id.card_search_suggestions);
         RecyclerView rvSuggestions = findViewById(R.id.rv_search_suggestions);
 
         if (rvSuggestions != null && cardSuggestions != null) {

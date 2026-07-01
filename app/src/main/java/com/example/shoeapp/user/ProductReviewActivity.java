@@ -3,16 +3,28 @@ package com.example.shoeapp.user;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.core.content.ContextCompat;
 
 import com.example.shoeapp.R;
+import com.example.shoeapp.data.AppDatabase;
+import com.example.shoeapp.data.entity.Order;
+import com.example.shoeapp.data.entity.ProductReview;
+import com.example.shoeapp.data.model.OrderItemView;
 import com.example.shoeapp.ui.BaseSoleStepActivity;
 import com.example.shoeapp.ui.BottomNavHelper;
+
+import java.text.SimpleDateFormat;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class ProductReviewActivity extends BaseSoleStepActivity {
     private ImageButton[] stars;
@@ -34,23 +46,16 @@ public class ProductReviewActivity extends BaseSoleStepActivity {
         userId = getIntent().getIntExtra("user_id", -1);
         orderId = getIntent().getIntExtra("order_id", -1);
 
-        java.util.concurrent.ExecutorService infoExecutor =
+        ExecutorService infoExecutor =
                 java.util.concurrent.Executors.newSingleThreadExecutor();
 
         infoExecutor.execute(() -> {
-            com.example.shoeapp.data.AppDatabase db =
-                    com.example.shoeapp.data.AppDatabase.getDatabase(this);
-
-            com.example.shoeapp.data.entity.Order order =
-                    db.orderDao().getOrderById(orderId);
-
-            java.util.List<com.example.shoeapp.data.model.OrderItemView> items =
-                    db.orderDao().getOrderItems(orderId);
-
-            com.example.shoeapp.data.model.OrderItemView targetItem = null;
-
+            AppDatabase db = AppDatabase.getDatabase(this);
+            Order order = db.orderDao().getOrderById(orderId);
+            List<OrderItemView> items = db.orderDao().getOrderItems(orderId);
+            OrderItemView targetItem = null;
             if (items != null) {
-                for (com.example.shoeapp.data.model.OrderItemView item : items) {
+                for (OrderItemView item : items) {
                     if (item.productId == productId) {
                         targetItem = item;
                         break;
@@ -58,14 +63,14 @@ public class ProductReviewActivity extends BaseSoleStepActivity {
                 }
             }
 
-            final com.example.shoeapp.data.model.OrderItemView finalItem = targetItem;
+            final OrderItemView finalItem = targetItem;
 
             runOnUiThread(() -> {
                 if (finalItem != null) {
                     TextView brandText = findViewById(R.id.review_product_brand_text);
                     TextView nameText = findViewById(R.id.review_product_name_text);
                     TextView metaText = findViewById(R.id.review_product_meta_text);
-                    android.widget.ImageView productImage = findViewById(R.id.review_product_image);
+                    ImageView productImage = findViewById(R.id.review_product_image);
 
                     if (brandText != null) {
                         brandText.setText(finalItem.brandName);
@@ -94,7 +99,7 @@ public class ProductReviewActivity extends BaseSoleStepActivity {
         findViewById(R.id.review_photo_thumbnail).setVisibility(android.view.View.GONE);
 
         pickImageLauncher = registerForActivityResult(
-                new androidx.activity.result.contract.ActivityResultContracts.OpenDocument(),
+                new ActivityResultContracts.OpenDocument(),
                 uri -> {
                     if (uri != null) {
                         try {
@@ -103,12 +108,8 @@ public class ProductReviewActivity extends BaseSoleStepActivity {
                             e.printStackTrace();
                         }
                         selectedImageUri = uri.toString();
-
-                        android.view.View thumbnailContainer =
-                                findViewById(R.id.review_photo_thumbnail);
-
-                        android.widget.ImageView reviewPhotoImage =
-                                findViewById(R.id.review_photo_image);
+                        View thumbnailContainer = findViewById(R.id.review_photo_thumbnail);
+                        ImageView reviewPhotoImage = findViewById(R.id.review_photo_image);
 
                         if (thumbnailContainer != null && reviewPhotoImage != null) {
                             thumbnailContainer.setVisibility(android.view.View.VISIBLE);
@@ -230,15 +231,11 @@ public class ProductReviewActivity extends BaseSoleStepActivity {
         finalContent.append(content);
         String savedContent = finalContent.toString().trim();
 
-        java.util.concurrent.ExecutorService executor =
-                java.util.concurrent.Executors.newSingleThreadExecutor();
+        ExecutorService executor = Executors.newSingleThreadExecutor();
 
         executor.execute(() -> {
-            com.example.shoeapp.data.AppDatabase db =
-                    com.example.shoeapp.data.AppDatabase.getDatabase(this);
-
-            com.example.shoeapp.data.entity.ProductReview review =
-                    new com.example.shoeapp.data.entity.ProductReview();
+            AppDatabase db = AppDatabase.getDatabase(this);
+            ProductReview review = new com.example.shoeapp.data.entity.ProductReview();
 
             review.productId = productId;
             review.userId = userId;
@@ -251,7 +248,7 @@ public class ProductReviewActivity extends BaseSoleStepActivity {
             review.rating = rating;
             review.content = savedContent;
 
-            java.text.SimpleDateFormat sdf =
+            SimpleDateFormat sdf =
                     new java.text.SimpleDateFormat(
                             "yyyy-MM-dd HH:mm:ss",
                             java.util.Locale.getDefault()

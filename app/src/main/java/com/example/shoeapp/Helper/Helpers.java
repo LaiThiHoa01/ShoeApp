@@ -38,6 +38,12 @@ public class Helpers {
         return formatter.format(Math.round(price)) + " đ";
     }
 
+
+
+
+
+
+
 //    kiểm tra sanr phẩm mới
     public static boolean isProductNew(String addedAtStr) {
         if (addedAtStr == null || addedAtStr.isEmpty()) return false;

@@ -1,5 +1,7 @@
 package com.example.shoeapp.user;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -111,8 +113,8 @@ public class OrderDetailActivity extends BaseSoleStepActivity {
         ((TextView) findViewById(R.id.order_reference_text)).setText(order.ordersId);
 
         findViewById(R.id.copy_order_reference_button).setOnClickListener(v -> {
-            android.content.ClipboardManager clipboard = (android.content.ClipboardManager) getSystemService(android.content.Context.CLIPBOARD_SERVICE);
-            android.content.ClipData clip = android.content.ClipData.newPlainText("Order Reference", order.ordersId);
+            ClipboardManager clipboard = (android.content.ClipboardManager) getSystemService(android.content.Context.CLIPBOARD_SERVICE);
+            ClipData clip = android.content.ClipData.newPlainText("Order Reference", order.ordersId);
             if (clipboard != null) {
                 clipboard.setPrimaryClip(clip);
                 Toast.makeText(this, "Đã sao chép mã đơn hàng", Toast.LENGTH_SHORT).show();
