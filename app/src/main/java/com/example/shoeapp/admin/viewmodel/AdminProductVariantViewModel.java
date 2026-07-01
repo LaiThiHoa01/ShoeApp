@@ -49,7 +49,9 @@ public class AdminProductVariantViewModel {
     /** Cập nhật số lượng tồn kho trong bộ nhớ tạm */
     public void updateStock(int position, int newStock) {
         if (position >= 0 && position < items.size()) {
-            items.get(position).variant.stock = Math.max(0, newStock);
+            VariantDisplayItem copied = items.get(position).copy();
+            copied.variant.stock = Math.max(0, newStock);
+            items.set(position, copied);
             if (listener != null) {
                 listener.onStateChanged(new ArrayList<>(items));
             }
@@ -59,8 +61,9 @@ public class AdminProductVariantViewModel {
     /** Tăng/Giảm số lượng tồn kho */
     public void adjustStock(int position, int delta) {
         if (position >= 0 && position < items.size()) {
-            ProductVariant v = items.get(position).variant;
-            v.stock = Math.max(0, v.stock + delta);
+            VariantDisplayItem copied = items.get(position).copy();
+            copied.variant.stock = Math.max(0, copied.variant.stock + delta);
+            items.set(position, copied);
             if (listener != null) {
                 listener.onStateChanged(new ArrayList<>(items));
             }

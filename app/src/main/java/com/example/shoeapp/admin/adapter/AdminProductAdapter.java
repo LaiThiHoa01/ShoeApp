@@ -121,17 +121,10 @@ public class AdminProductAdapter
         }
 
         void bind(Product product, int position) {
-            // ── Ảnh sản phẩm ───────────────────────────────────────────────
             com.example.shoeapp.user.ImageLoader.load(product.getImageUrl(), image, product.getImageResId());
-
-            // ── Thông tin cơ bản ───────────────────────────────────────────
             brand.setText(product.getBrand());
             name.setText(product.getName());
-
-            // ── Badge NEW ──────────────────────────────────────────────────
             badgeNew.setVisibility(product.isNew() ? View.VISIBLE : View.GONE);
-
-            // ── Giá ────────────────────────────────────────────────────────
             price.setText(com.example.shoeapp.Helper.Helpers.formatPrice(product.getPrice()));
             if (product.getOriginalPrice() > product.getPrice()) {
                 priceOriginal.setText(com.example.shoeapp.Helper.Helpers.formatPrice(product.getOriginalPrice()));
@@ -140,8 +133,6 @@ public class AdminProductAdapter
             } else {
                 priceOriginal.setVisibility(View.GONE);
             }
-
-            // ── Stock badge (xanh nếu đủ, đỏ nếu thấp < 15, hoặc màu ẩn) ──
             if (product.isDiscontinued() || !product.isAvailable()) {
                 itemView.setAlpha(0.5f);
                 stock.setText("ĐÃ ẨN");
@@ -161,8 +152,6 @@ public class AdminProductAdapter
                 }
                 btnDelete.setColorFilter(ContextCompat.getColor(context, R.color.status_error_light));
             }
-
-            // ── Size chips (hiển thị tối đa 4, phần dư dùng +N) ───────────
             List<Integer> sizes = product.getSizes();
             TextView[] sizeViews = { size1, size2, size3, size4 };
             int displayCount = Math.min(sizes.size(), 4);
@@ -175,7 +164,6 @@ public class AdminProductAdapter
                     sizeViews[i].setVisibility(View.GONE);
                 }
             }
-
             int extra = sizes.size() - 4;
             if (extra > 0) {
                 sizeMore.setText(String.format(Locale.US, "+%d", extra));
@@ -183,8 +171,6 @@ public class AdminProductAdapter
             } else {
                 sizeMore.setVisibility(View.GONE);
             }
-
-            // ── Colors ─────────────────────────────────────────────────────
             List<String> colors = product.getColors();
             if (colors != null && !colors.isEmpty()) {
                 try {
@@ -216,12 +202,8 @@ public class AdminProductAdapter
                 color1.setVisibility(View.GONE);
                 color2.setVisibility(View.GONE);
             }
-
-            // ── Rating ─────────────────────────────────────────────────────
             rating.setText(String.format(Locale.US, "%.1f (%d)",
                     product.getRating(), product.getReviewCount()));
-
-            // ── Click listeners ────────────────────────────────────────────
             itemView.setOnClickListener(v -> {
                 Intent intent = new Intent(context, com.example.shoeapp.user.ProductDetailActivity.class);
                 intent.putExtra("product_id", product.getId());
