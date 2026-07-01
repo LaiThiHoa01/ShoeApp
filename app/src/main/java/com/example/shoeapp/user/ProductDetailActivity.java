@@ -5,7 +5,6 @@ import android.graphics.Paint;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.GridLayout;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -18,6 +17,8 @@ import com.example.shoeapp.data.entity.Product;
 import com.example.shoeapp.data.entity.ProductVariant;
 import com.example.shoeapp.data.model.ProductColorOption;
 import com.example.shoeapp.data.model.ProductSizeOption;
+import com.example.shoeapp.data.repo.CartRepository;
+import com.example.shoeapp.data.repo.ProductRepository;
 import com.example.shoeapp.ui.BaseSoleStepActivity;
 import com.example.shoeapp.ui.BottomNavHelper;
 
@@ -26,8 +27,8 @@ import java.util.List;
 import java.util.Locale;
 
 public class ProductDetailActivity extends BaseSoleStepActivity {
-    private ClientProductRepository productRepository;
-    private ClientCartRepository cartRepository;
+    private ProductRepository productRepository;
+    private CartRepository cartRepository;
     private Product product;
     private com.example.shoeapp.model.Product clientProduct;
     private final List<TextView> sizeViews = new ArrayList<>();
@@ -43,8 +44,8 @@ public class ProductDetailActivity extends BaseSoleStepActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_detail);
-        productRepository = new ClientProductRepository(this);
-        cartRepository = new ClientCartRepository(this);
+        productRepository = new ProductRepository(this);
+        cartRepository = new CartRepository(this);
         productRepository.ensureSeedData();
 
         setupScreen(BottomNavHelper.TAG_SEARCH);

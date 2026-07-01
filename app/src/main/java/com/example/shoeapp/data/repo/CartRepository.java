@@ -1,4 +1,4 @@
-package com.example.shoeapp.user;
+package com.example.shoeapp.data.repo;
 
 import android.content.Context;
 
@@ -8,21 +8,20 @@ import com.example.shoeapp.data.dao.ProductDao;
 import com.example.shoeapp.data.entity.Cart;
 import com.example.shoeapp.data.entity.CartItem;
 import com.example.shoeapp.data.entity.Promotion;
-import com.example.shoeapp.data.entity.User;
 import com.example.shoeapp.data.model.CartItemView;
 
 import java.text.NumberFormat;
 import java.util.List;
 import java.util.Locale;
 
-public class ClientCartRepository {
+public class CartRepository {
     private static final double SHIPPING_FEE = 30000;
     private final CartDao cartDao;
     private final ProductDao productDao;
     private final int userId;
     private String appliedPromoCode = "";
 
-    public ClientCartRepository(Context context) {
+    public CartRepository(Context context) {
         AppDatabase db = AppDatabase.getDatabase(context);
         cartDao = db.cartDao();
         productDao = db.productDao();

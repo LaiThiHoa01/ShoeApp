@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shoeapp.R;
 import com.example.shoeapp.data.model.CartItemView;
+import com.example.shoeapp.data.repo.CartRepository;
 import com.example.shoeapp.ui.BaseSoleStepActivity;
 import com.example.shoeapp.ui.BottomNavHelper;
 import com.example.shoeapp.user.adapter.CartItemAdapter;
@@ -17,14 +18,14 @@ import com.example.shoeapp.user.adapter.CartItemAdapter;
 import java.util.List;
 
 public class CartActivity extends BaseSoleStepActivity {
-    private ClientCartRepository cartRepository;
+    private CartRepository cartRepository;
     private CartItemAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
-        cartRepository = new ClientCartRepository(this);
+        cartRepository = new CartRepository(this);
 
         setupScreen(BottomNavHelper.TAG_CART);
         setupCartList();
