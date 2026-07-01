@@ -33,10 +33,14 @@ public class AdminCategoriesActivity extends BaseAdminActivity
     private RecyclerView         recyclerView;
     private TextView             subtitle;
     private BottomNavigationView bottomNav;
+    private EditText             searchInput;
 
     private AdminCategoryAdapter adapter;
     private List<Category>       categories = new ArrayList<>();
+    private List<Category>       filteredCategories = new ArrayList<>();
     private AppDatabase          db;
+
+    private String               currentSearch = "";
 
     private static final int[] BG_COLORS = {
             R.color.orange_tint_15,
@@ -65,6 +69,7 @@ public class AdminCategoriesActivity extends BaseAdminActivity
         bindViews();
         loadFromDb();
         setupRecyclerView();
+        setupSearch();
         setupBottomNav();
     }
 
@@ -92,8 +97,23 @@ public class AdminCategoriesActivity extends BaseAdminActivity
         recyclerView = findViewById(R.id.admin_categories_recycler);
         subtitle     = findViewById(R.id.admin_categories_subtitle);
         bottomNav    = findViewById(R.id.admin_bottom_nav);
+        searchInput  = findViewById(R.id.admin_categories_search_input);
         findViewById(R.id.admin_categories_btn_add)
                 .setOnClickListener(v -> showAddCategoryDialog());
+    }
+
+    private void setupSearch() {
+        if (searchInput != null) {
+            searchInput.addTextChangedListener(new android.text.TextWatcher() {
+                @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+                @Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
+                @Override
+                public void afterTextChanged(android.text.Editable s) {
+                    currentSearch = s.toString().trim().toLowerCase();
+                    applyFilters();
+                }
+            });
+        }
     }
 
     private void loadFromDb() {
@@ -149,19 +169,34 @@ public class AdminCategoriesActivity extends BaseAdminActivity
                 categories.clear();
                 categories.addAll(tempCategories);
 
-                if (adapter != null) {
-                    adapter.submitList(new ArrayList<>(categories));
-                }
-                updateSubtitle();
+                applyFilters();
             });
         }).start();
+    }
+
+    private void applyFilters() {
+        if (filteredCategories == null) {
+            filteredCategories = new ArrayList<>();
+        }
+        filteredCategories.clear();
+        for (Category c : categories) {
+            boolean matchSearch = currentSearch.isEmpty()
+                    || (c.getName() != null && c.getName().toLowerCase().contains(currentSearch));
+            if (matchSearch) {
+                filteredCategories.add(c);
+            }
+        }
+        if (adapter != null) {
+            adapter.submitList(new ArrayList<>(filteredCategories));
+        }
+        updateSubtitle();
     }
 
     private void setupRecyclerView() {
         adapter = new AdminCategoryAdapter(this, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
-        adapter.submitList(new ArrayList<>(categories));
+        adapter.submitList(new ArrayList<>(filteredCategories));
         int gapPx = (int) (12 * getResources().getDisplayMetrics().density);
         recyclerView.addItemDecoration(new AdminProductsActivity.SpaceItemDecoration(gapPx));
     }
@@ -209,40 +244,43 @@ public class AdminCategoriesActivity extends BaseAdminActivity
     }
 
     private void showAddCategoryDialog() {
-        EditText input = new EditText(this);
-        input.setInputType(InputType.TYPE_CLASS_TEXT);
-        input.setHint("Tên danh mục");
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_category_input, null);
+        EditText input = dialogView.findViewById(R.id.dialog_category_et_name);
 
         new com.google.android.material.dialog.MaterialAlertDialogBuilder(this)
                 .setTitle("Thêm danh mục")
-                .setView(input)
+                .setView(dialogView)
                 .setPositiveButton("Thêm", (dialog, which) -> {
                     String name = input.getText().toString().trim();
                     if (name.isEmpty()) {
                         Toast.makeText(this, "Tên không được trống", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    List<com.example.shoeapp.data.entity.Category> existing =
-                            db.categoryDao().getAllCategories();
-                    for (com.example.shoeapp.data.entity.Category e : existing) {
-                        if (e.name.equalsIgnoreCase(name)) {
-                            Toast.makeText(this,
-                                    "Danh mục \"" + name + "\" đã tồn tại",
-                                    Toast.LENGTH_SHORT).show();
-                            return;
+                    new Thread(() -> {
+                        List<com.example.shoeapp.data.entity.Category> existing =
+                                db.categoryDao().getAllCategories();
+                        for (com.example.shoeapp.data.entity.Category e : existing) {
+                            if (e.name.equalsIgnoreCase(name)) {
+                                runOnUiThread(() -> Toast.makeText(this,
+                                        "Danh mục \"" + name + "\" đã tồn tại",
+                                        Toast.LENGTH_SHORT).show());
+                                return;
+                            }
                         }
-                    }
-                    com.example.shoeapp.data.entity.Category entity =
-                            new com.example.shoeapp.data.entity.Category();
-                    entity.name      = name;
-                    entity.isActive  = true;
-                    entity.sortOrder = categories.size() + 1;
-                    entity.createdAt = new java.text.SimpleDateFormat(
-                            "yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-                            .format(new java.util.Date());
-                    db.categoryDao().insert(entity);
-                    loadFromDb();
-                    Toast.makeText(this, "Đã thêm \"" + name + "\"", Toast.LENGTH_SHORT).show();
+                        com.example.shoeapp.data.entity.Category entity =
+                                new com.example.shoeapp.data.entity.Category();
+                        entity.name      = name;
+                        entity.isActive  = true;
+                        entity.sortOrder = categories.size() + 1;
+                        entity.createdAt = new java.text.SimpleDateFormat(
+                                "yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+                                .format(new java.util.Date());
+                        db.categoryDao().insert(entity);
+                        runOnUiThread(() -> {
+                            loadFromDb();
+                            Toast.makeText(this, "Đã thêm \"" + name + "\"", Toast.LENGTH_SHORT).show();
+                        });
+                    }).start();
                 })
                 .setNegativeButton("Hủy", null)
                 .show();
@@ -250,27 +288,31 @@ public class AdminCategoriesActivity extends BaseAdminActivity
 
     @Override
     public void onEditClick(Category category, int position) {
-        EditText input = new EditText(this);
-        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_category_input, null);
+        EditText input = dialogView.findViewById(R.id.dialog_category_et_name);
         input.setText(category.getName());
 
         new com.google.android.material.dialog.MaterialAlertDialogBuilder(this)
                 .setTitle("Sửa danh mục")
-                .setView(input)
+                .setView(dialogView)
                 .setPositiveButton("Lưu", (dialog, which) -> {
                     String newName = input.getText().toString().trim();
                     if (newName.isEmpty()) return;
-                    List<com.example.shoeapp.data.entity.Category> all =
-                            db.categoryDao().getAllCategories();
-                    for (com.example.shoeapp.data.entity.Category e : all) {
-                        if (e.id == category.getId()) {
-                            e.name = newName;
-                            db.categoryDao().update(e);
-                            break;
+                    new Thread(() -> {
+                        List<com.example.shoeapp.data.entity.Category> all =
+                                db.categoryDao().getAllCategories();
+                        for (com.example.shoeapp.data.entity.Category e : all) {
+                            if (e.id == category.getId()) {
+                                e.name = newName;
+                                db.categoryDao().update(e);
+                                break;
+                            }
                         }
-                    }
-                    loadFromDb();
-                    Toast.makeText(this, "Đã cập nhật", Toast.LENGTH_SHORT).show();
+                        runOnUiThread(() -> {
+                            loadFromDb();
+                            Toast.makeText(this, "Đã cập nhật", Toast.LENGTH_SHORT).show();
+                        });
+                    }).start();
                 })
                 .setNegativeButton("Hủy", null)
                 .show();
@@ -278,26 +320,31 @@ public class AdminCategoriesActivity extends BaseAdminActivity
 
     @Override
     public void onToggleActiveClick(Category category, boolean isActive, int position) {
-        List<com.example.shoeapp.data.entity.Category> all =
-                db.categoryDao().getAllCategories();
-        for (com.example.shoeapp.data.entity.Category e : all) {
-            if (e.id == category.getId()) {
-                e.isActive = isActive;
-                db.categoryDao().update(e);
-                break;
+        new Thread(() -> {
+            List<com.example.shoeapp.data.entity.Category> all =
+                    db.categoryDao().getAllCategories();
+            for (com.example.shoeapp.data.entity.Category e : all) {
+                if (e.id == category.getId()) {
+                    e.isActive = isActive;
+                    db.categoryDao().update(e);
+                    break;
+                }
             }
-        }
-        category.setActive(isActive);
-        loadFromDb();
-        String statusStr = isActive ? "bật hoạt động" : "vô hiệu hóa";
-        Toast.makeText(this, "Đã " + statusStr + " danh mục \"" + category.getName() + "\"",
-                Toast.LENGTH_SHORT).show();
+            runOnUiThread(() -> {
+                category.setActive(isActive);
+                loadFromDb();
+                String statusStr = isActive ? "bật hoạt động" : "vô hiệu hóa";
+                Toast.makeText(this, "Đã " + statusStr + " danh mục \"" + category.getName() + "\"",
+                        Toast.LENGTH_SHORT).show();
+            });
+        }).start();
     }
 
     @Override
     public void onViewAllClick(Category category, int position) {
         Intent intent = new Intent(this, CatalogActivity.class);
-        intent.putExtra("filter_category", category.getName());
+        intent.putExtra(CatalogActivity.EXTRA_CATEGORY_ID, category.getId());
+        intent.putExtra(CatalogActivity.EXTRA_TITLE, category.getName());
         startActivity(intent);
     }
 }

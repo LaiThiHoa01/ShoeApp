@@ -116,16 +116,7 @@
                     android:textSize="14sp" />
             </LinearLayout>
 
-            <!-- Refresh Button (Thêm mới) -->
-            <ImageButton
-                android:id="@+id/admin_products_btn_refresh"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_marginStart="@dimen/space_2"
-                android:background="@drawable/bg_admin_icon_btn"
-                android:contentDescription="@string/action_refresh"
-                android:src="@drawable/ic_refresh"
-                android:tint="@color/text_tertiary" />
+
 
             <!-- Add Product Button (Gọn hơn) -->
             <com.google.android.material.button.MaterialButton

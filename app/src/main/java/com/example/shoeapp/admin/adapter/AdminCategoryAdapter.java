@@ -101,15 +101,11 @@ public class AdminCategoryAdapter
         }
 
         void bind(Category category, int position) {
-            // ── Accent color (dot + progress + icon bg) ────────────────────
+
             int accentColor = ContextCompat.getColor(context, category.getAccentColorRes());
             ColorStateList accentTint = ColorStateList.valueOf(accentColor);
-
-            // ── Icon bg tint (mờ hơn accent — 15%) ────────────────────────
             int bgColor = ContextCompat.getColor(context, category.getIconBgColorRes());
             iconBg.setBackgroundTintList(ColorStateList.valueOf(bgColor));
-
-            // ── Icon ───────────────────────────────────────────────────────
             if (category.getIconUrl() != null && !category.getIconUrl().isEmpty()) {
                 com.bumptech.glide.Glide.with(context)
                         .load(category.getIconUrl())
@@ -119,35 +115,21 @@ public class AdminCategoryAdapter
             } else {
                 icon.setImageResource(category.getIconResId());
             }
-
-            // ── Tên danh mục ───────────────────────────────────────────────
             name.setText(category.getName());
-
-            // ── Active State Style ────────────────────────────────────────
             if (category.isActive()) {
                 itemView.setAlpha(1.0f);
             } else {
                 itemView.setAlpha(0.5f);
             }
-
-            // ── Số sản phẩm ────────────────────────────────────────────────
             int count = category.getProductCount();
             productCount.setText(context.getResources()
                     .getQuantityString(R.plurals.admin_products_count, count, count));
-
-
-
-            // ── Click: View all ────────────────────────────────────────────
             viewAll.setOnClickListener(v -> {
                 if (listener != null) listener.onViewAllClick(category, position);
             });
-
-            // ── Click: Edit ────────────────────────────────────────────────
             btnEdit.setOnClickListener(v -> {
                 if (listener != null) listener.onEditClick(category, position);
             });
-
-            // ── Toggle Switch Listener ──────────────────────────────────────
             catSwitch.setOnCheckedChangeListener(null);
             catSwitch.setChecked(category.isActive());
             catSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -155,8 +137,6 @@ public class AdminCategoryAdapter
                     listener.onToggleActiveClick(category, isChecked, position);
                 }
             });
-
-            // ── Click toàn card ────────────────────────────────────────────
             itemView.setOnClickListener(v -> {
                 if (listener != null) listener.onViewAllClick(category, position);
             });
