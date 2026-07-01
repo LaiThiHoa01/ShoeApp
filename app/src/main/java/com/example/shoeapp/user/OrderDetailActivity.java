@@ -36,14 +36,12 @@ public class OrderDetailActivity extends BaseSoleStepActivity {
         setContentView(R.layout.activity_order_detail);
         setupScreen(BottomNavHelper.TAG_ORDERS);
 
-        // Set up listener later in populateData
         // Setup RecyclerView
         RecyclerView recyclerView = findViewById(R.id.order_items_recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new OrderDetailItemAdapter(this);
         recyclerView.setAdapter(adapter);
 
-        // Fetch Data
         int orderId = getIntent().getIntExtra("order_id", -1);
         if (orderId == -1) {
             Toast.makeText(this, "Không tìm thấy đơn hàng", Toast.LENGTH_SHORT).show();
@@ -70,20 +68,30 @@ public class OrderDetailActivity extends BaseSoleStepActivity {
                 User user = db.userDao().getUserById(order.userId);
                 List<OrderItemView> items = db.orderDao().getOrderItems(orderId);
 
-                boolean alreadyReviewed = false;
-                if (!items.isEmpty()) {
-                    List<com.example.shoeapp.data.entity.ProductReview> reviews = db.productDao().getReviewsByProduct(items.get(0).productId);
+                java.util.List<OrderItemView> unreviewedItems = new java.util.ArrayList<>();
+                java.util.Set<Integer> checkedProducts = new java.util.HashSet<>();
+
+                for (OrderItemView item : items) {
+                    if (checkedProducts.contains(item.productId)) {
+                        continue;
+                    }
+                    checkedProducts.add(item.productId);
+                    
+                    boolean isReviewed = false;
+                    List<com.example.shoeapp.data.entity.ProductReview> reviews = db.productDao().getReviewsByProduct(item.productId);
                     for (com.example.shoeapp.data.entity.ProductReview r : reviews) {
                         if (r.userId == order.userId && r.orderId != null && r.orderId.equals(order.id)) {
-                            alreadyReviewed = true;
+                            isReviewed = true;
                             break;
                         }
                     }
+                    if (!isReviewed) {
+                        unreviewedItems.add(item);
+                    }
                 }
-                boolean finalAlreadyReviewed = alreadyReviewed;
 
                 if (!isFinishing() && !isDestroyed()) {
-                    runOnUiThread(() -> populateData(order, user, items, finalAlreadyReviewed));
+                    runOnUiThread(() -> populateData(order, user, items, unreviewedItems));
                 }
             } else {
                 if (!isFinishing() && !isDestroyed()) {
@@ -97,8 +105,8 @@ public class OrderDetailActivity extends BaseSoleStepActivity {
         executor.shutdown();
     }
     
-    private void populateData(Order order, User user, List<OrderItemView> items, boolean alreadyReviewed) {
-        // Order Reference and Date
+    private void populateData(Order order, User user, List<OrderItemView> items, List<OrderItemView> unreviewedItems) {
+        // Order and Date
         ((TextView) findViewById(R.id.order_detail_id_text)).setText(order.ordersId);
         ((TextView) findViewById(R.id.order_reference_text)).setText(order.ordersId);
 
@@ -121,7 +129,7 @@ public class OrderDetailActivity extends BaseSoleStepActivity {
             dateText.setText(order.createdAt);
         }
 
-        // Status Badge
+        // Status
         TextView statusBadge = findViewById(R.id.order_detail_status_badge);
         if ("PENDING".equalsIgnoreCase(order.orderStatus)) {
             statusBadge.setText(R.string.orders_tab_pending);
@@ -170,14 +178,32 @@ public class OrderDetailActivity extends BaseSoleStepActivity {
         View rateBtn = findViewById(R.id.rate_products_button);
         boolean isDelivered = "DELIVERED".equalsIgnoreCase(order.orderStatus) || "COMPLETED".equalsIgnoreCase(order.orderStatus);
         
-        if (isDelivered && !alreadyReviewed && items != null && !items.isEmpty()) {
+        if (isDelivered && unreviewedItems != null && !unreviewedItems.isEmpty()) {
             rateBtn.setVisibility(View.VISIBLE);
             rateBtn.setOnClickListener(v -> {
-                Intent intent = new Intent(this, ProductReviewActivity.class);
-                intent.putExtra("product_id", items.get(0).productId);
-                intent.putExtra("user_id", order.userId);
-                intent.putExtra("order_id", order.id);
-                startActivity(intent);
+                if (unreviewedItems.size() == 1) {
+                    Intent intent = new Intent(this, ProductReviewActivity.class);
+                    intent.putExtra("product_id", unreviewedItems.get(0).productId);
+                    intent.putExtra("user_id", order.userId);
+                    intent.putExtra("order_id", order.id);
+                    startActivity(intent);
+                } else {
+                    String[] names = new String[unreviewedItems.size()];
+                    for (int i = 0; i < unreviewedItems.size(); i++) {
+                        names[i] = unreviewedItems.get(i).productName;
+                    }
+                    new android.app.AlertDialog.Builder(this)
+                            .setTitle("Chọn sản phẩm để đánh giá")
+                            .setItems(names, (dialog, which) -> {
+                                Intent intent = new Intent(this, ProductReviewActivity.class);
+                                intent.putExtra("product_id", unreviewedItems.get(which).productId);
+                                intent.putExtra("user_id", order.userId);
+                                intent.putExtra("order_id", order.id);
+                                startActivity(intent);
+                            })
+                            .setNegativeButton("Huỷ", null)
+                            .show();
+                }
             });
         } else {
             rateBtn.setVisibility(View.GONE);
