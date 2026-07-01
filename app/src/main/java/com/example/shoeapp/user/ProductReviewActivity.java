@@ -21,7 +21,7 @@ public class ProductReviewActivity extends BaseSoleStepActivity {
     private int productId = -1;
     private int userId = -1;
     private int orderId = -1;
-    private androidx.activity.result.ActivityResultLauncher<String> pickImageLauncher;
+    private androidx.activity.result.ActivityResultLauncher<String[]> pickImageLauncher;
     private String selectedImageUri = null;
 
     @Override
@@ -94,9 +94,14 @@ public class ProductReviewActivity extends BaseSoleStepActivity {
         findViewById(R.id.review_photo_thumbnail).setVisibility(android.view.View.GONE);
 
         pickImageLauncher = registerForActivityResult(
-                new androidx.activity.result.contract.ActivityResultContracts.GetContent(),
+                new androidx.activity.result.contract.ActivityResultContracts.OpenDocument(),
                 uri -> {
                     if (uri != null) {
+                        try {
+                            getContentResolver().takePersistableUriPermission(uri, android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        } catch (SecurityException e) {
+                            e.printStackTrace();
+                        }
                         selectedImageUri = uri.toString();
 
                         android.view.View thumbnailContainer =
@@ -109,13 +114,14 @@ public class ProductReviewActivity extends BaseSoleStepActivity {
                             thumbnailContainer.setVisibility(android.view.View.VISIBLE);
                             reviewPhotoImage.setImageURI(uri);
                             reviewPhotoImage.clearColorFilter();
+                            reviewPhotoImage.setImageTintList(null);
                         }
                     }
                 }
         );
 
         findViewById(R.id.add_review_photo_button).setOnClickListener(v -> {
-            pickImageLauncher.launch("image/*");
+            pickImageLauncher.launch(new String[]{"image/*"});
         });
 
         stars = new ImageButton[]{

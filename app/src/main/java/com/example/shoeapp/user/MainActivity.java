@@ -166,6 +166,7 @@ public class MainActivity extends BaseSoleStepActivity {
     protected void onResume() {
         super.onResume();
         sliderHandler.postDelayed(sliderRunnable, 3000);
+        refreshProductGrid();
     }
 
     private void setupSearch() {
@@ -301,11 +302,27 @@ public class MainActivity extends BaseSoleStepActivity {
     private void setupProductGrid() {
         RecyclerView productGrid = findViewById(R.id.home_product_grid);
         productGrid.setLayoutManager(new GridLayoutManager(this, 2));
-        List<Product> featured = productRepository.getFeaturedProducts();
-        productGrid.setAdapter(new ClientProductAdapter(this, featured, this::openProductDetail));
         productGrid.addItemDecoration(new ProductGridSpacingDecoration(
                 getResources().getDimensionPixelSize(R.dimen.space_6),
                 getResources().getDimensionPixelSize(R.dimen.space_8)));
+                
+        refreshProductGrid();
+    }
+
+    private void refreshProductGrid() {
+        RecyclerView productGrid = findViewById(R.id.home_product_grid);
+        if (productGrid == null) return;
+        
+        new Thread(() -> {
+            List<Product> featured = productRepository.getFeaturedProducts();
+            runOnUiThread(() -> {
+                if (productGrid.getAdapter() != null) {
+                    ((ClientProductAdapter) productGrid.getAdapter()).updateProducts(featured);
+                } else {
+                    productGrid.setAdapter(new ClientProductAdapter(this, featured, this::openProductDetail));
+                }
+            });
+        }).start();
     }
 
     private void setupBrands() {
