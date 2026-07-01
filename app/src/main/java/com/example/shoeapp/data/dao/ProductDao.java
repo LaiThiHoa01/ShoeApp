@@ -15,7 +15,6 @@ import java.util.List;
 @Dao
 public interface ProductDao {
 
-    // ── Insert with Ignore (for seed data / base operations) ─────────────
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insert(Product product);
 
@@ -54,7 +53,7 @@ public interface ProductDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insertProductImage(ProductImg productImg);
 
-    // ── Product ──────────────────────────────────────
+    //Product
     @Update
     void update(Product product);
 
@@ -88,7 +87,7 @@ public interface ProductDao {
     @Query("SELECT COUNT(*) FROM product")
     int countProducts();
 
-    // ── Queries for Admin Dashboard ───────────────────
+    //  Queries for Admin Dashboard
 
     /**
      * Lấy danh sách sản phẩm bán chạy nhất dựa trên số lượng trong đơn hàng
@@ -99,7 +98,7 @@ public interface ProductDao {
     @Query("SELECT p.* FROM product p INNER JOIN category c ON p.shoe_category = c.id INNER JOIN order_detail od ON p.id = od.product_id WHERE p.is_available = 1 AND p.is_discontinue = 0 AND c.is_active = 1 GROUP BY p.id ORDER BY SUM(od.quantity) DESC LIMIT :limit")
     List<Product> getTopSellingProductsActive(int limit);
 
-    // ── Brand ─────────────────────────────────────────
+    // Brand
     @Update
     void updateBrand(Brand brand);
 
@@ -118,7 +117,7 @@ public interface ProductDao {
     @Query("SELECT * FROM brand WHERE is_active = 1 ORDER BY id ASC")
     List<Brand> getAllBrandsActive();
 
-    // ── Color ─────────────────────────────────────────
+    //Color
     @Update
     void updateColor(Color color);
 
@@ -131,7 +130,7 @@ public interface ProductDao {
     @Query("SELECT * FROM color WHERE id = :id LIMIT 1")
     Color getColorById(int id);
 
-    // ── Size ──────────────────────────────────────────
+    //Size
     @Update
     void updateSize(Size size);
 
@@ -144,7 +143,7 @@ public interface ProductDao {
     @Query("SELECT * FROM size WHERE id = :id LIMIT 1")
     Size getSizeById(int id);
 
-    // ── ProductImg ────────────────────────────────────
+    //ProductImg
     @Update
     void updateProductImg(ProductImg img);
 
@@ -163,14 +162,14 @@ public interface ProductDao {
     @Query("SELECT img_url FROM product_img WHERE product_id = :productId AND color_id = :colorId AND is_active = 1 ORDER BY is_thumbnail DESC, sort_order ASC LIMIT 1")
     String getImageUrl(int productId, int colorId);
 
-    // ── Category ──────────────────────────────────────
+    // Category
     @Query("SELECT name FROM category WHERE id = :categoryId LIMIT 1")
     String getCategoryName(int categoryId);
 
     @Query("SELECT * FROM category WHERE is_active = 1 ORDER BY sort_order ASC")
     List<Category> getAllCategories();
 
-    // ── ProductVariant ────────────────────────────────
+    // ProductVariant
     @Update
     void updateProductVariant(ProductVariant variant);
 
@@ -192,7 +191,7 @@ public interface ProductDao {
     @Query("SELECT * FROM product_variant WHERE product_id = :productId AND color_id = :colorId AND size_id = :sizeId AND is_discontinue_variant = 0 LIMIT 1")
     ProductVariant getVariant(int productId, int colorId, int sizeId);
 
-    // ── Promotion ─────────────────────────────────────
+    //Promotion
     @Insert(onConflict = androidx.room.OnConflictStrategy.IGNORE)
     void insertPromotion(Promotion promotion);
     
@@ -222,7 +221,7 @@ public interface ProductDao {
     @Query("SELECT * FROM promotion WHERE UPPER(voucher_code) = UPPER(:code) AND is_active = 1 AND quantity > 0 AND date(start_date) <= date('now', 'localtime') AND date(end_date) >= date('now', 'localtime') LIMIT 1")
     Promotion getActivePromotionByVoucher(String code);
 
-    // ── PromotionProduct ──────────────────────────────
+    // PromotionProduct
     @Insert
     void insertPromotionProduct(PromotionProduct pp);
 
@@ -247,7 +246,7 @@ public interface ProductDao {
     @Query("DELETE FROM promotion_product WHERE promotion_id = :promotionId")
     void deletePromotionProductsByPromotion(int promotionId);
 
-    // ── ProductReview ─────────────────────────────────
+    // ProductReview
     @Insert
     void insertReview(ProductReview review);
 

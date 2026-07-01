@@ -73,42 +73,38 @@ public final class BottomNavHelper {
     }
 
     private static void navigate(Activity activity, String itemTag) {
+        Intent intent = null;
+
         if (TAG_HOME.equals(itemTag)) {
             if (!(activity instanceof MainActivity)) {
-                activity.startActivity(new Intent(activity, MainActivity.class));
+                intent = new Intent(activity, MainActivity.class);
             }
-            return;
-        }
-
-        if (TAG_SEARCH.equals(itemTag)) {
+        } else if (TAG_SEARCH.equals(itemTag)) {
             if (!(activity instanceof CatalogActivity)) {
-                activity.startActivity(new Intent(activity, CatalogActivity.class));
+                intent = new Intent(activity, CatalogActivity.class);
             }
-            return;
-        }
-
-        if (TAG_CART.equals(itemTag)) {
+        } else if (TAG_CART.equals(itemTag)) {
             if (!(activity instanceof CartActivity)) {
-                activity.startActivity(new Intent(activity, CartActivity.class));
+                intent = new Intent(activity, CartActivity.class);
             }
-            return;
-        }
-
-        if (TAG_ORDERS.equals(itemTag)) {
+        } else if (TAG_ORDERS.equals(itemTag)) {
             if (!(activity instanceof MyOrdersActivity)) {
-                activity.startActivity(new Intent(activity, MyOrdersActivity.class));
+                intent = new Intent(activity, MyOrdersActivity.class);
             }
-            return;
-        }
-
-        if (TAG_PROFILE.equals(itemTag)) {
+        } else if (TAG_PROFILE.equals(itemTag)) {
             if (!(activity instanceof ProfileActivity)) {
-                activity.startActivity(new Intent(activity, ProfileActivity.class));
+                intent = new Intent(activity, ProfileActivity.class);
             }
+        } else {
+            Toast.makeText(activity, "Man hinh nay chua duoc tao", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        Toast.makeText(activity, "Man hinh nay chua duoc tao", Toast.LENGTH_SHORT).show();
+        if (intent != null) {
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            activity.startActivity(intent);
+            activity.overridePendingTransition(0, 0);
+        }
     }
 
     private static <T extends View> T findTaggedChild(View root, String tag, Class<T> viewClass) {

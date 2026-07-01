@@ -16,7 +16,7 @@ import java.util.List;
 @Dao
 public interface OrderDao {
 
-    // ── Các phương thức hiện có (Giữ nguyên) ──────────
+
     @Insert long insert(Order order);
     @Update void update(Order order);
     @Delete void delete(Order order);
@@ -32,7 +32,7 @@ public interface OrderDao {
     List<Order> getOrdersByStatus(String status);
     @Query("SELECT * FROM orders WHERE id = :id LIMIT 1") Order getOrderById(int id);
 
-    // ── Các phương thức bổ sung cho Dashboard (Thêm mới) ──
+    // Các phương thức bổ sung cho Dashboard
     
     @Query("SELECT SUM(grand_total) FROM orders WHERE order_status != 'CANCELLED'")
     Double getTotalRevenue();
@@ -55,7 +55,7 @@ public interface OrderDao {
     @Query("SELECT o.*, u.full_name as user_name FROM orders o INNER JOIN users u ON o.user_id = u.id ORDER BY o.created_at DESC LIMIT :limit")
     List<OrderWithUser> getRecentOrdersWithUser(int limit);
 
-    // ── OrderDetail (Giữ nguyên) ──────────────────────
+    //OrderDetail
     @Insert void insertDetail(OrderDetail detail);
     @Update void updateDetail(OrderDetail detail);
     @Delete void deleteDetail(OrderDetail detail);
