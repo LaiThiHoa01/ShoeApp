@@ -23,7 +23,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import com.example.shoeapp.data.entity.User;
+import com.example.shoeapp.data.entity.ProductVariant;
+import com.example.shoeapp.data.entity.OrderDetail;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class AdminOrderManagementActivity extends BaseAdminActivity
         implements AdminOrderAdapter.OnOrderActionListener {
@@ -109,18 +120,18 @@ public class AdminOrderManagementActivity extends BaseAdminActivity
             List<Order> tempOrders = new ArrayList<>();
 
             if (tempDbOrders != null) {
-                List<com.example.shoeapp.data.entity.User> allUsers = db.userDao().getAllUsers();
-                java.util.Map<Integer, String> userMap = new java.util.HashMap<>();
+                List<User> allUsers = db.userDao().getAllUsers();
+                Map<Integer, String> userMap = new HashMap<>();
                 if (allUsers != null) {
-                    for (com.example.shoeapp.data.entity.User u : allUsers) {
+                    for (User u : allUsers) {
                         userMap.put(u.id, u.fullName);
                     }
                 }
 
-                List<com.example.shoeapp.data.entity.OrderDetail> allDetails = db.orderDao().getAllOrderDetails();
-                java.util.Map<Integer, Integer> detailsCountMap = new java.util.HashMap<>();
+                List<OrderDetail> allDetails = db.orderDao().getAllOrderDetails();
+                Map<Integer, Integer> detailsCountMap = new HashMap<>();
                 if (allDetails != null) {
-                    for (com.example.shoeapp.data.entity.OrderDetail d : allDetails) {
+                    for (OrderDetail d : allDetails) {
                         int current = detailsCountMap.containsKey(d.orderId) ? detailsCountMap.get(d.orderId) : 0;
                         detailsCountMap.put(d.orderId, current + 1);
                     }
@@ -288,30 +299,30 @@ public class AdminOrderManagementActivity extends BaseAdminActivity
         if (dateStr == null || dateStr.equals("—")) return false;
 
         try {
-            java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.US);
-            java.util.Date orderDate = sdf.parse(dateStr);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+            Date orderDate = sdf.parse(dateStr);
             if (orderDate == null) return false;
 
-            java.util.Calendar calOrder = java.util.Calendar.getInstance();
+            Calendar calOrder = Calendar.getInstance();
             calOrder.setTime(orderDate);
 
-            java.util.Calendar calToday = java.util.Calendar.getInstance();
-            calToday.set(java.util.Calendar.HOUR_OF_DAY, 0);
-            calToday.set(java.util.Calendar.MINUTE, 0);
-            calToday.set(java.util.Calendar.SECOND, 0);
-            calToday.set(java.util.Calendar.MILLISECOND, 0);
+            Calendar calToday = Calendar.getInstance();
+            calToday.set(Calendar.HOUR_OF_DAY, 0);
+            calToday.set(Calendar.MINUTE, 0);
+            calToday.set(Calendar.SECOND, 0);
+            calToday.set(Calendar.MILLISECOND, 0);
 
             if (currentTimeFilter.equals("TODAY")) {
-                return calOrder.get(java.util.Calendar.YEAR) == calToday.get(java.util.Calendar.YEAR)
-                        && calOrder.get(java.util.Calendar.DAY_OF_YEAR) == calToday.get(java.util.Calendar.DAY_OF_YEAR);
+                return calOrder.get(Calendar.YEAR) == calToday.get(Calendar.YEAR)
+                        && calOrder.get(Calendar.DAY_OF_YEAR) == calToday.get(Calendar.DAY_OF_YEAR);
             } else if (currentTimeFilter.equals("WEEK")) {
-                return calOrder.get(java.util.Calendar.YEAR) == calToday.get(java.util.Calendar.YEAR)
-                        && calOrder.get(java.util.Calendar.WEEK_OF_YEAR) == calToday.get(java.util.Calendar.WEEK_OF_YEAR);
+                return calOrder.get(Calendar.YEAR) == calToday.get(Calendar.YEAR)
+                        && calOrder.get(Calendar.WEEK_OF_YEAR) == calToday.get(Calendar.WEEK_OF_YEAR);
             } else if (currentTimeFilter.equals("MONTH")) {
-                return calOrder.get(java.util.Calendar.YEAR) == calToday.get(java.util.Calendar.YEAR)
-                        && calOrder.get(java.util.Calendar.MONTH) == calToday.get(java.util.Calendar.MONTH);
+                return calOrder.get(Calendar.YEAR) == calToday.get(Calendar.YEAR)
+                        && calOrder.get(Calendar.MONTH) == calToday.get(Calendar.MONTH);
             }
-        } catch (java.text.ParseException e) {
+        } catch (ParseException e) {
             e.printStackTrace();
         }
         return false;
@@ -402,10 +413,10 @@ public class AdminOrderManagementActivity extends BaseAdminActivity
                 }
 
                 if ("CANCELLED".equals(newStatus)) {
-                    java.util.List<com.example.shoeapp.data.entity.OrderDetail> details = db.orderDao().getDetailsByOrder(entity.id);
+                    List<OrderDetail> details = db.orderDao().getDetailsByOrder(entity.id);
                     if (details != null) {
-                        for (com.example.shoeapp.data.entity.OrderDetail detail : details) {
-                            com.example.shoeapp.data.entity.ProductVariant variant = db.productDao().getVariant(detail.productId, detail.colorId, detail.sizeId);
+                        for (OrderDetail detail : details) {
+                            ProductVariant variant = db.productDao().getVariant(detail.productId, detail.colorId, detail.sizeId);
                             if (variant != null) {
                                 variant.stock = variant.stock + detail.quantity;
                                 db.productDao().updateProductVariant(variant);

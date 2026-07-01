@@ -10,6 +10,7 @@ import com.example.shoeapp.data.entity.Cart;
 import com.example.shoeapp.data.entity.CartItem;
 import com.example.shoeapp.data.entity.User;
 import java.util.List;
+import com.example.shoeapp.data.model.UserWithStats;
 
 @Dao
 public interface UserDao {
@@ -30,13 +31,13 @@ public interface UserDao {
            "(SELECT COUNT(*) FROM orders o WHERE o.user_id = u.id) as order_count, " +
            "(SELECT COALESCE(SUM(o.grand_total), 0) FROM orders o WHERE o.user_id = u.id AND o.order_status != 'CANCELLED') as spent_amount " +
            "FROM users u")
-    List<com.example.shoeapp.data.model.UserWithStats> getAllCustomersWithStats();
+    List<UserWithStats> getAllCustomersWithStats();
 
     @Query("SELECT u.*, " +
            "(SELECT COUNT(*) FROM orders o WHERE o.user_id = u.id) as order_count, " +
            "(SELECT COALESCE(SUM(o.grand_total), 0) FROM orders o WHERE o.user_id = u.id AND o.order_status != 'CANCELLED') as spent_amount " +
            "FROM users u WHERE (u.full_name LIKE '%' || :query || '%' OR u.email LIKE '%' || :query || '%')")
-    List<com.example.shoeapp.data.model.UserWithStats> searchCustomersWithStats(String query);
+    List<UserWithStats> searchCustomersWithStats(String query);
 
     // Cart
     @Insert void insertCart(Cart cart);

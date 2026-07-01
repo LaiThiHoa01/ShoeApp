@@ -20,6 +20,9 @@ import com.example.shoeapp.R;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+import com.example.shoeapp.user.ImageLoader;
+import com.example.shoeapp.user.ProductDetailActivity;
+import com.example.shoeapp.Helper.Helpers;
 
 public class AdminProductAdapter
         extends ListAdapter<Product, AdminProductAdapter.ViewHolder> {
@@ -121,13 +124,13 @@ public class AdminProductAdapter
         }
 
         void bind(Product product, int position) {
-            com.example.shoeapp.user.ImageLoader.load(product.getImageUrl(), image, product.getImageResId());
+            ImageLoader.load(product.getImageUrl(), image, product.getImageResId());
             brand.setText(product.getBrand());
             name.setText(product.getName());
             badgeNew.setVisibility(product.isNew() ? View.VISIBLE : View.GONE);
-            price.setText(com.example.shoeapp.Helper.Helpers.formatPrice(product.getPrice()));
+            price.setText(Helpers.formatPrice(product.getPrice()));
             if (product.getOriginalPrice() > product.getPrice()) {
-                priceOriginal.setText(com.example.shoeapp.Helper.Helpers.formatPrice(product.getOriginalPrice()));
+                priceOriginal.setText(Helpers.formatPrice(product.getOriginalPrice()));
                 priceOriginal.setPaintFlags(priceOriginal.getPaintFlags() | android.graphics.Paint.STRIKE_THRU_TEXT_FLAG);
                 priceOriginal.setVisibility(View.VISIBLE);
             } else {
@@ -205,7 +208,7 @@ public class AdminProductAdapter
             rating.setText(String.format(Locale.US, "%.1f (%d)",
                     product.getRating(), product.getReviewCount()));
             itemView.setOnClickListener(v -> {
-                Intent intent = new Intent(context, com.example.shoeapp.user.ProductDetailActivity.class);
+                Intent intent = new Intent(context, ProductDetailActivity.class);
                 intent.putExtra("product_id", product.getId());
                 context.startActivity(intent);
             });

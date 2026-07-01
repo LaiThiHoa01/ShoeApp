@@ -15,6 +15,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import com.example.shoeapp.data.entity.Category;
+import com.example.shoeapp.data.entity.Brand;
+import com.example.shoeapp.data.entity.PromotionProduct;
+import com.example.shoeapp.data.entity.Promotion;
+import com.example.shoeapp.data.entity.ProductReview;
+import com.example.shoeapp.data.entity.User;
+import com.example.shoeapp.admin.DateUtils;
+import java.util.HashSet;
+import java.util.Set;
 
 public class ProductRepository {
 
@@ -39,7 +48,7 @@ public class ProductRepository {
      */
     public List<com.example.shoeapp.model.Product> getFeaturedProducts() {
         List<com.example.shoeapp.model.Product> result = new ArrayList<>();
-        java.util.Set<Integer> addedIds = new java.util.HashSet<>();
+        Set<Integer> addedIds = new HashSet<>();
 
         try {
             // B\u01b0\u1edbc 1: L\u1ea5y 2 s\u1ea3n ph\u1ea9m b\u00e1n ch\u1ea1y nh\u1ea5t
@@ -89,7 +98,7 @@ public class ProductRepository {
 
     public List<com.example.shoeapp.model.Product> getProductsByPromotion(int promotionId) {
         List<com.example.shoeapp.model.Product> result = new ArrayList<>();
-        com.example.shoeapp.data.entity.Promotion promo = productDao.getPromotionById(promotionId);
+        Promotion promo = productDao.getPromotionById(promotionId);
         
         if (promo == null) {
             return result;
@@ -107,8 +116,8 @@ public class ProductRepository {
             }
         } else {
             // "PRODUCTS" targetType
-            List<com.example.shoeapp.data.entity.PromotionProduct> pps = productDao.getProductsByPromotion(promotionId);
-            for (com.example.shoeapp.data.entity.PromotionProduct pp : pps) {
+            List<PromotionProduct> pps = productDao.getProductsByPromotion(promotionId);
+            for (PromotionProduct pp : pps) {
                 Product p = productDao.getProductById(pp.productId);
                 if (p != null && p.isAvailable && !p.isDiscontinue) {
                     result.add(toClientProduct(p));
@@ -159,25 +168,25 @@ public class ProductRepository {
         return url == null ? getThumbnailUrl(productId) : url;
     }
 
-    public List<com.example.shoeapp.data.entity.Category> getCategories() {
+    public List<Category> getCategories() {
         return productDao.getAllCategories();
     }
 
-    public List<com.example.shoeapp.data.entity.Brand> getBrands() {
+    public List<Brand> getBrands() {
         return productDao.getAllBrands();
     }
 
-    public List<com.example.shoeapp.data.entity.ProductReview> getReviewsByProduct(int productId) {
+    public List<ProductReview> getReviewsByProduct(int productId) {
         return productDao.getReviewsByProduct(productId);
     }
 
-    public com.example.shoeapp.data.entity.User getUserById(Context context, int userId) {
+    public User getUserById(Context context, int userId) {
         return AppDatabase.getDatabase(context).userDao().getUserById(userId);
     }
 
     public List<com.example.shoeapp.model.Product> getProductsByCategory(int categoryId) {
         List<com.example.shoeapp.model.Product> result = new ArrayList<>();
-        for (com.example.shoeapp.data.entity.Product p : productDao.getProductsByCategoryActive(categoryId)) {
+        for (Product p : productDao.getProductsByCategoryActive(categoryId)) {
             result.add(toClientProduct(p));
         }
         return result;
@@ -207,7 +216,7 @@ public class ProductRepository {
                 product.price,
                 product.originalPrice,
                 getStock(product.id),
-                com.example.shoeapp.admin.DateUtils.isProductNew(product.addedAt),
+                DateUtils.isProductNew(product.addedAt),
                 Arrays.asList(36, 37, 38, 39, 40, 41, 42, 43, 44, 45),
                 ratingFor(product.id),
                 reviewCountFor(product.id),

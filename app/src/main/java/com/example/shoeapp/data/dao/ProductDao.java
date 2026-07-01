@@ -238,7 +238,7 @@ public interface ProductDao {
     void deleteProductsByPromotion(int promoId);
     
     @androidx.room.Transaction
-    default void updatePromotionWithProducts(Promotion promotion, java.util.List<PromotionProduct> products) {
+    default void updatePromotionWithProducts(Promotion promotion, List<PromotionProduct> products) {
         updatePromotion(promotion);
         deleteProductsByPromotion(promotion.id);
         for (PromotionProduct pp : products) {

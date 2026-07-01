@@ -25,6 +25,11 @@ import android.widget.LinearLayout;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import com.example.shoeapp.data.entity.Color;
+import com.example.shoeapp.data.entity.Size;
+import com.example.shoeapp.data.entity.ProductVariant;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AdminProductsActivity extends BaseAdminActivity
         implements AdminProductAdapter.OnProductActionListener {
@@ -104,7 +109,7 @@ public class AdminProductsActivity extends BaseAdminActivity
 
             if (tempDbProducts != null) {
                 List<Brand> allBrands = db.productDao().getAllBrands();
-                java.util.Map<Integer, String> brandMap = new java.util.HashMap<>();
+                Map<Integer, String> brandMap = new HashMap<>();
                 if (allBrands != null) {
                     for (Brand b : allBrands) {
                         brandMap.put(b.id, b.name);
@@ -112,25 +117,25 @@ public class AdminProductsActivity extends BaseAdminActivity
                 }
 
                 List<Category> allCategories = db.categoryDao().getAllCategories();
-                java.util.Map<Integer, String> categoryMap = new java.util.HashMap<>();
+                Map<Integer, String> categoryMap = new HashMap<>();
                 if (allCategories != null) {
                     for (Category c : allCategories) {
                         categoryMap.put(c.id, c.name);
                     }
                 }
 
-                List<com.example.shoeapp.data.entity.Size> allSizes = db.productDao().getAllSizes();
-                java.util.Map<Integer, com.example.shoeapp.data.entity.Size> sizeMap = new java.util.HashMap<>();
+                List<Size> allSizes = db.productDao().getAllSizes();
+                Map<Integer, Size> sizeMap = new HashMap<>();
                 if (allSizes != null) {
-                    for (com.example.shoeapp.data.entity.Size s : allSizes) {
+                    for (Size s : allSizes) {
                         sizeMap.put(s.id, s);
                     }
                 }
 
-                List<com.example.shoeapp.data.entity.Color> allColors = db.productDao().getAllColors();
-                java.util.Map<Integer, com.example.shoeapp.data.entity.Color> colorMap = new java.util.HashMap<>();
+                List<Color> allColors = db.productDao().getAllColors();
+                Map<Integer, Color> colorMap = new HashMap<>();
                 if (allColors != null) {
-                    for (com.example.shoeapp.data.entity.Color c : allColors) {
+                    for (Color c : allColors) {
                         colorMap.put(c.id, c);
                     }
                 }
@@ -139,16 +144,16 @@ public class AdminProductsActivity extends BaseAdminActivity
                     String brandName = brandMap.containsKey(entity.brandId) ? brandMap.get(entity.brandId) : "Thương hiệu không xác định";
                     String categoryName = categoryMap.containsKey(entity.shoeCategory) ? categoryMap.get(entity.shoeCategory) : "Không xác định";
 
-                    List<com.example.shoeapp.data.entity.ProductVariant> variants =
+                    List<ProductVariant> variants =
                             db.productDao().getVariantsByProduct(entity.id);
                     int totalStock = 0;
                     List<Integer> sizeList = new ArrayList<>();
                     List<String> colorHexList = new ArrayList<>();
                     if (variants != null) {
-                        for (com.example.shoeapp.data.entity.ProductVariant v : variants) {
+                        for (ProductVariant v : variants) {
                             totalStock += v.stock;
                             
-                            com.example.shoeapp.data.entity.Size size = sizeMap.get(v.sizeId);
+                            Size size = sizeMap.get(v.sizeId);
                             if (size != null) {
                                 try {
                                     int szVal = Integer.parseInt(size.name.trim());
@@ -158,7 +163,7 @@ public class AdminProductsActivity extends BaseAdminActivity
                                 } catch (NumberFormatException ignored) {}
                             }
 
-                            com.example.shoeapp.data.entity.Color color = colorMap.get(v.colorId);
+                            Color color = colorMap.get(v.colorId);
                             if (color != null && color.hexcode != null) {
                                 String hex = color.hexcode.trim();
                                 if (!colorHexList.contains(hex)) {

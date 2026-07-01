@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import com.example.shoeapp.user.ImageLoader;
 
 public class AdminAddProductActivity extends BaseAdminActivity {
 
@@ -64,7 +65,7 @@ public class AdminAddProductActivity extends BaseAdminActivity {
                     if (uri != null) {
                         selectedImageUri = uri;
                         etProductImageUrl.setText(uri.toString());
-                        com.example.shoeapp.user.ImageLoader.load(uri.toString(), ivProductPreview, R.drawable.ic_shoe);
+                        ImageLoader.load(uri.toString(), ivProductPreview, R.drawable.ic_shoe);
                     }
                 }
             }
@@ -107,7 +108,7 @@ public class AdminAddProductActivity extends BaseAdminActivity {
             @Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
             @Override
             public void afterTextChanged(android.text.Editable s) {
-                com.example.shoeapp.user.ImageLoader.load(s.toString().trim(), ivProductPreview, R.drawable.ic_shoe);
+                ImageLoader.load(s.toString().trim(), ivProductPreview, R.drawable.ic_shoe);
             }
         });
     }
@@ -198,7 +199,7 @@ public class AdminAddProductActivity extends BaseAdminActivity {
             ProductImg thumbnail = db.productDao().getThumbnail(editingProduct.id);
             if (thumbnail != null) {
                 etProductImageUrl.setText(thumbnail.imgUrl);
-                com.example.shoeapp.user.ImageLoader.load(thumbnail.imgUrl, ivProductPreview, R.drawable.ic_shoe);
+                ImageLoader.load(thumbnail.imgUrl, ivProductPreview, R.drawable.ic_shoe);
             }
         }
     }

@@ -3,6 +3,7 @@ package com.example.shoeapp.admin;
 import android.annotation.SuppressLint;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class DateUtils {
     // kiểm tra sản phẩm mới
@@ -14,7 +15,7 @@ public class DateUtils {
             Date addedDate = sdf.parse(addedAtStr);
             if (addedDate != null) {
                 long diffInMillis = new Date().getTime() - addedDate.getTime();
-                long days = java.util.concurrent.TimeUnit.MILLISECONDS.toDays(diffInMillis);
+                long days = TimeUnit.MILLISECONDS.toDays(diffInMillis);
                 return days >= 0 && days <= 7;
             }
         } catch (Exception e) {

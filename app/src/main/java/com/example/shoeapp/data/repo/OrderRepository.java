@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import com.example.shoeapp.data.entity.ProductVariant;
 
 public class OrderRepository {
     private final AppDatabase db;
@@ -58,7 +59,7 @@ public class OrderRepository {
                 detail.orderDetailId = "ORDDET-" + orderId + "-" + i;
                 db.orderDao().insertDetail(detail);
 
-                com.example.shoeapp.data.entity.ProductVariant variant = db.productDao().getVariant(item.productId, item.colorId, item.sizeId);
+                ProductVariant variant = db.productDao().getVariant(item.productId, item.colorId, item.sizeId);
                 if (variant != null) {
                     variant.stock = Math.max(0, variant.stock - item.quantity);
                     db.productDao().updateProductVariant(variant);

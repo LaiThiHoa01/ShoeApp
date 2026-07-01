@@ -18,6 +18,7 @@ import com.example.shoeapp.ui.BottomNavHelper;
 import com.example.shoeapp.user.adapter.CartItemAdapter;
 
 import java.util.List;
+import com.example.shoeapp.data.entity.Promotion;
 
 public class CartActivity extends BaseSoleStepActivity {
     private CartRepository cartRepository;
@@ -91,7 +92,7 @@ public class CartActivity extends BaseSoleStepActivity {
     private void refreshCart() {
         new Thread(() -> {
             List<CartItemView> items = cartRepository.getItems();
-            com.example.shoeapp.data.entity.Promotion suggestedPromo = cartRepository.getSuggestedPromotion(items);
+            Promotion suggestedPromo = cartRepository.getSuggestedPromotion(items);
             int quantity = cartRepository.getQuantity();
             double subtotal = cartRepository.subtotal(items);
             double shipping = cartRepository.shipping(items);

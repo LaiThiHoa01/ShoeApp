@@ -25,6 +25,8 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.Date;
+import java.util.Locale;
 
 public class ProductReviewActivity extends BaseSoleStepActivity {
     private ImageButton[] stars;
@@ -47,7 +49,7 @@ public class ProductReviewActivity extends BaseSoleStepActivity {
         orderId = getIntent().getIntExtra("order_id", -1);
 
         ExecutorService infoExecutor =
-                java.util.concurrent.Executors.newSingleThreadExecutor();
+                Executors.newSingleThreadExecutor();
 
         infoExecutor.execute(() -> {
             AppDatabase db = AppDatabase.getDatabase(this);
@@ -235,7 +237,7 @@ public class ProductReviewActivity extends BaseSoleStepActivity {
 
         executor.execute(() -> {
             AppDatabase db = AppDatabase.getDatabase(this);
-            ProductReview review = new com.example.shoeapp.data.entity.ProductReview();
+            ProductReview review = new ProductReview();
 
             review.productId = productId;
             review.userId = userId;
@@ -249,12 +251,12 @@ public class ProductReviewActivity extends BaseSoleStepActivity {
             review.content = savedContent;
 
             SimpleDateFormat sdf =
-                    new java.text.SimpleDateFormat(
+                    new SimpleDateFormat(
                             "yyyy-MM-dd HH:mm:ss",
-                            java.util.Locale.getDefault()
+                            Locale.getDefault()
                     );
 
-            review.createdAt = sdf.format(new java.util.Date());
+            review.createdAt = sdf.format(new Date());
 
             db.productDao().insertReview(review);
 

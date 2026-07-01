@@ -25,6 +25,10 @@ import com.example.shoeapp.ui.BottomNavHelper;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import com.example.shoeapp.data.entity.User;
+import com.example.shoeapp.data.entity.ProductReview;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class ProductDetailActivity extends BaseSoleStepActivity {
     private ProductRepository productRepository;
@@ -293,7 +297,7 @@ public class ProductDetailActivity extends BaseSoleStepActivity {
             return;
         reviewsContainer.removeAllViews();
 
-        List<com.example.shoeapp.data.entity.ProductReview> reviews = productRepository.getReviewsByProduct(product.id);
+        List<ProductReview> reviews = productRepository.getReviewsByProduct(product.id);
 
         if (reviews.isEmpty()) {
             TextView emptyText = new TextView(this);
@@ -304,7 +308,7 @@ public class ProductDetailActivity extends BaseSoleStepActivity {
             return;
         }
 
-        for (com.example.shoeapp.data.entity.ProductReview review : reviews) {
+        for (ProductReview review : reviews) {
             View reviewView = getLayoutInflater().inflate(R.layout.item_product_review, reviewsContainer, false);
 
             TextView avatar = reviewView.findViewById(R.id.review_avatar_text);
@@ -313,7 +317,7 @@ public class ProductDetailActivity extends BaseSoleStepActivity {
             TextView date = reviewView.findViewById(R.id.review_date);
             TextView content = reviewView.findViewById(R.id.review_content);
 
-            com.example.shoeapp.data.entity.User user = productRepository.getUserById(this, review.userId);
+            User user = productRepository.getUserById(this, review.userId);
             if (user != null && user.fullName != null && !user.fullName.isEmpty()) {
                 name.setText(user.fullName);
                 avatar.setText(user.fullName.substring(0, 1).toUpperCase());
@@ -331,10 +335,10 @@ public class ProductDetailActivity extends BaseSoleStepActivity {
 
             if (review.createdAt != null) {
                 try {
-                    java.text.SimpleDateFormat inputFormat = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss",
+                    SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",
                             Locale.getDefault());
-                    java.util.Date d = inputFormat.parse(review.createdAt);
-                    java.text.SimpleDateFormat outputFormat = new java.text.SimpleDateFormat("dd MMM",
+                    Date d = inputFormat.parse(review.createdAt);
+                    SimpleDateFormat outputFormat = new SimpleDateFormat("dd MMM",
                             new Locale("vi", "VN"));
                     date.setText(outputFormat.format(d));
                 } catch (Exception e) {

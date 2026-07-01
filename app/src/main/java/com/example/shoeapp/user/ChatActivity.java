@@ -43,6 +43,8 @@ import org.json.JSONObject;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Locale;
+import com.example.shoeapp.BuildConfig;
+import java.util.ArrayList;
 
 public class ChatActivity extends BaseSoleStepActivity implements ChatAdapter.ChatCallback {
 
@@ -243,7 +245,7 @@ public class ChatActivity extends BaseSoleStepActivity implements ChatAdapter.Ch
 
         String productContext = ContextBuilder.buildProductContext(this, query);
 
-        List<ChatMessage> allMessages = new java.util.ArrayList<>();
+        List<ChatMessage> allMessages = new ArrayList<>();
         try {
             allMessages = db.chatMessageDao().getAllMessages();
         } catch (Exception ignored) {}
@@ -278,7 +280,7 @@ public class ChatActivity extends BaseSoleStepActivity implements ChatAdapter.Ch
                 "Trợ lý AI:";
 
         try {
-            GenerativeModel gm = new GenerativeModel("gemini-2.5-flash", com.example.shoeapp.BuildConfig.GEMINI_API_KEY);
+            GenerativeModel gm = new GenerativeModel("gemini-2.5-flash", BuildConfig.GEMINI_API_KEY);
             GenerativeModelFutures model = GenerativeModelFutures.from(gm);
 
             Content.Builder contentBuilder = new Content.Builder();

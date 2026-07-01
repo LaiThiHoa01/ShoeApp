@@ -42,6 +42,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Executors;
+import java.util.Calendar;
+import java.util.Locale;
 
 public class AdminAddPromotionActivity extends AppCompatActivity {
 
@@ -117,10 +119,10 @@ public class AdminAddPromotionActivity extends AppCompatActivity {
     }
 
     private void showDatePicker(EditText editText) {
-        java.util.Calendar calendar = java.util.Calendar.getInstance();
-        int year = calendar.get(java.util.Calendar.YEAR);
-        int month = calendar.get(java.util.Calendar.MONTH);
-        int day = calendar.get(java.util.Calendar.DAY_OF_MONTH);
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
 
         String currentText = editText.getText().toString();
         if (!currentText.isEmpty() && currentText.contains("-")) {
@@ -133,7 +135,7 @@ public class AdminAddPromotionActivity extends AppCompatActivity {
         }
 
         new android.app.DatePickerDialog(this, (view, y, m, d) -> {
-            String selectedDate = String.format(java.util.Locale.US, "%04d-%02d-%02d", y, m + 1, d);
+            String selectedDate = String.format(Locale.US, "%04d-%02d-%02d", y, m + 1, d);
             editText.setText(selectedDate);
         }, year, month, day).show();
     }
@@ -366,7 +368,7 @@ public class AdminAddPromotionActivity extends AppCompatActivity {
 
         Promotion p = new Promotion();
         p.name = name;
-        p.slug = name.toLowerCase(java.util.Locale.US).replace(" ", "-");
+        p.slug = name.toLowerCase(Locale.US).replace(" ", "-");
         p.subtitle = subtitle;
         p.description = description;
         p.bannerUrl = bannerUrl;
@@ -424,7 +426,7 @@ public class AdminAddPromotionActivity extends AppCompatActivity {
                 }
                 
                 if ("PRODUCTS".equals(p.targetType)) {
-                    List<PromotionProduct> ppList = new java.util.ArrayList<>();
+                    List<PromotionProduct> ppList = new ArrayList<>();
                     for (int productId : selectedProductIds) {
                         PromotionProduct pp = new PromotionProduct();
                         pp.promotionId = editingPromotionId;

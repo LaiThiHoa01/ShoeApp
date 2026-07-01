@@ -22,11 +22,15 @@ import com.example.shoeapp.user.adapter.OrderDetailItemAdapter;
 
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import com.example.shoeapp.data.entity.ProductReview;
 
 public class OrderDetailActivity extends BaseSoleStepActivity {
     
@@ -70,8 +74,8 @@ public class OrderDetailActivity extends BaseSoleStepActivity {
                 User user = db.userDao().getUserById(order.userId);
                 List<OrderItemView> items = db.orderDao().getOrderItems(orderId);
 
-                java.util.List<OrderItemView> unreviewedItems = new java.util.ArrayList<>();
-                java.util.Set<Integer> checkedProducts = new java.util.HashSet<>();
+                List<OrderItemView> unreviewedItems = new ArrayList<>();
+                Set<Integer> checkedProducts = new HashSet<>();
 
                 for (OrderItemView item : items) {
                     if (checkedProducts.contains(item.productId)) {
@@ -80,8 +84,8 @@ public class OrderDetailActivity extends BaseSoleStepActivity {
                     checkedProducts.add(item.productId);
                     
                     boolean isReviewed = false;
-                    List<com.example.shoeapp.data.entity.ProductReview> reviews = db.productDao().getReviewsByProduct(item.productId);
-                    for (com.example.shoeapp.data.entity.ProductReview r : reviews) {
+                    List<ProductReview> reviews = db.productDao().getReviewsByProduct(item.productId);
+                    for (ProductReview r : reviews) {
                         if (r.userId == order.userId && r.orderId != null && r.orderId.equals(order.id)) {
                             isReviewed = true;
                             break;

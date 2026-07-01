@@ -18,6 +18,7 @@ import com.google.android.material.button.MaterialButton;
 
 import java.util.List;
 import java.util.Locale;
+import com.example.shoeapp.Helper.Helpers;
 public class AdminOrderAdapter
         extends ListAdapter<Order, AdminOrderAdapter.ViewHolder> {
 
@@ -103,7 +104,7 @@ public class AdminOrderAdapter
             orderId.setText(order.getOrderId());
             customerName.setText(order.getCustomerName());
             date.setText(order.getDate());
-            total.setText(com.example.shoeapp.Helper.Helpers.formatPrice(order.getTotal()));
+            total.setText(Helpers.formatPrice(order.getTotal()));
 
             int count = order.getItemCount();
             itemCount.setText(context.getResources()

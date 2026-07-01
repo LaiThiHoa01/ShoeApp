@@ -13,6 +13,11 @@ import com.example.shoeapp.data.model.CartItemView;
 import java.text.NumberFormat;
 import java.util.List;
 import java.util.Locale;
+import com.example.shoeapp.data.entity.Product;
+import com.example.shoeapp.authentication.SessionManager;
+import com.example.shoeapp.data.entity.PromotionProduct;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class CartRepository {
     private static final double SHIPPING_FEE = 30000;
@@ -25,7 +30,7 @@ public class CartRepository {
         AppDatabase db = AppDatabase.getDatabase(context);
         cartDao = db.cartDao();
         productDao = db.productDao();
-        userId = com.example.shoeapp.authentication.SessionManager.getUserId(context);
+        userId = SessionManager.getUserId(context);
     }
 
     public Cart getCart() {
@@ -35,7 +40,7 @@ public class CartRepository {
         }
         Cart newCart = new Cart();
         newCart.userId = userId;
-        String currentDate = new java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault()).format(new java.util.Date());
+        String currentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
         newCart.createdAt = currentDate;
         newCart.updatedAt = currentDate;
         cartDao.insertCart(newCart);
@@ -47,7 +52,7 @@ public class CartRepository {
         CartItem existing = cartDao.getItem(cart.id, productId, colorId, sizeId);
         if (existing != null) {
             existing.quantity += quantity;
-            existing.updatedAt = new java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault()).format(new java.util.Date());
+            existing.updatedAt = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
             cartDao.updateItem(existing);
             return;
         }
@@ -59,7 +64,7 @@ public class CartRepository {
         item.sizeId = sizeId;
         item.quantity = quantity;
         item.unitPrice = unitPrice;
-        String currentDate = new java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault()).format(new java.util.Date());
+        String currentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
         item.createdAt = currentDate;
         item.updatedAt = currentDate;
         cartDao.insertItem(item);
@@ -88,7 +93,7 @@ public class CartRepository {
         item.sizeId = view.sizeId;
         item.quantity = nextQuantity;
         item.unitPrice = view.unitPrice;
-        String currentDate = new java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault()).format(new java.util.Date());
+        String currentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
         item.createdAt = currentDate;
         item.updatedAt = currentDate;
         cartDao.updateItem(item);
@@ -168,15 +173,15 @@ public class CartRepository {
                 
                 if ("CATEGORY".equalsIgnoreCase(promo.targetType)) {
                     for (CartItemView item : items) {
-                        com.example.shoeapp.data.entity.Product p = productDao.getProductById(item.productId);
+                        Product p = productDao.getProductById(item.productId);
                         if (p != null && promo.categoryId != null && p.shoeCategory == promo.categoryId) {
                             eligibleSubtotal += item.subtotal();
                         }
                     }
                 } else if ("PRODUCTS".equalsIgnoreCase(promo.targetType)) {
-                    List<com.example.shoeapp.data.entity.PromotionProduct> promoProducts = productDao.getProductsByPromotion(promo.id);
+                    List<PromotionProduct> promoProducts = productDao.getProductsByPromotion(promo.id);
                     for (CartItemView item : items) {
-                        for (com.example.shoeapp.data.entity.PromotionProduct pp : promoProducts) {
+                        for (PromotionProduct pp : promoProducts) {
                             if (item.productId == pp.productId) {
                                 eligibleSubtotal += item.subtotal();
                                 break;
@@ -185,7 +190,7 @@ public class CartRepository {
                     }
                 } else if ("BRAND".equalsIgnoreCase(promo.targetType)) {
                     for (CartItemView item : items) {
-                        com.example.shoeapp.data.entity.Product p = productDao.getProductById(item.productId);
+                        Product p = productDao.getProductById(item.productId);
                         if (p != null && promo.brandId != null && p.brandId == promo.brandId) {
                             eligibleSubtotal += item.subtotal();
                         }

@@ -1,0 +1,826 @@
+Reusing configuration cache.
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preDebugBuild UP-TO-DATE
+> Task :app:generateDebugBuildConfig UP-TO-DATE
+> Task :app:generateDebugResources UP-TO-DATE
+> Task :app:processDebugGoogleServices UP-TO-DATE
+> Task :app:javaPreCompileDebug UP-TO-DATE
+> Task :app:packageDebugResources UP-TO-DATE
+> Task :app:processDebugNavigationResources UP-TO-DATE
+> Task :app:parseDebugLocalResources UP-TO-DATE
+> Task :app:generateDebugRFile UP-TO-DATE
+> Task :app:compileDebugKotlin NO-SOURCE
+
+> Task :app:compileDebugJavaWithJavac FAILED
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminProductsActivity.java:29: error: a type with the same simple name is already defined by the single-type-import of Product
+import com.example.shoeapp.data.entity.Product;
+^
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminOrderManagementActivity.java:30: error: a type with the same simple name is already defined by the single-type-import of Order
+import com.example.shoeapp.data.entity.Order;
+^
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminCategoriesActivity.java:29: error: a type with the same simple name is already defined by the single-type-import of Category
+import com.example.shoeapp.data.entity.Category;
+^
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/data/repo/ProductRepository.java:19: error: a type with the same simple name is already defined by the single-type-import of Product
+import com.example.shoeapp.model.Product;
+^
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/user/ProductDetailActivity.java:28: error: a type with the same simple name is already defined by the single-type-import of Product
+import com.example.shoeapp.model.Product;
+^
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminProductsActivity.java:42: error: reference to Product is ambiguous
+    private List<Product>        allProducts = new ArrayList<>();
+                 ^
+  both class com.example.shoeapp.model.Product in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminProductsActivity.java:43: error: reference to Product is ambiguous
+    private List<Product>        filteredProducts = new ArrayList<>();
+                 ^
+  both class com.example.shoeapp.model.Product in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminProductsActivity.java:46: error: reference to Product is ambiguous
+    private List<Product> dbProducts = new ArrayList<>();
+                 ^
+  both class com.example.shoeapp.model.Product in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminProductsActivity.java:370: error: reference to Product is ambiguous
+    public void onEditClick(Product product, int position) {
+                            ^
+  both class com.example.shoeapp.model.Product in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminProductsActivity.java:377: error: reference to Product is ambiguous
+    public void onDeleteClick(Product product, int position) {
+                              ^
+  both class com.example.shoeapp.model.Product in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminProductsActivity.java:396: error: reference to Product is ambiguous
+    public void onVariantsClick(Product product, int position) {
+                                ^
+  both class com.example.shoeapp.model.Product in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminProductsActivity.java:402: error: reference to Product is ambiguous
+    private void deleteProduct(Product product) {
+                               ^
+  both class com.example.shoeapp.model.Product in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminProductsActivity.java:419: error: reference to Product is ambiguous
+    private void restoreProduct(Product product) {
+                                ^
+  both class com.example.shoeapp.model.Product in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminOrderManagementActivity.java:44: error: reference to Order is ambiguous
+    private List<Order>          allOrders = new ArrayList<>();
+                 ^
+  both class com.example.shoeapp.model.Order in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Order in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminOrderManagementActivity.java:45: error: reference to Order is ambiguous
+    private List<Order>          filteredOrders = new ArrayList<>();
+                 ^
+  both class com.example.shoeapp.model.Order in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Order in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminOrderManagementActivity.java:48: error: reference to Order is ambiguous
+    private List<Order> dbOrders = new ArrayList<>();
+                 ^
+  both class com.example.shoeapp.model.Order in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Order in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminOrderManagementActivity.java:50: error: reference to Order is ambiguous
+    private Order.Status currentStatus = null;
+            ^
+  both class com.example.shoeapp.model.Order in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Order in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminOrderManagementActivity.java:174: error: reference to Order is ambiguous
+    private Order.Status convertStatus(String s) {
+            ^
+  both class com.example.shoeapp.model.Order in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Order in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminOrderManagementActivity.java:265: error: reference to Order is ambiguous
+    private void selectStatus(Order.Status status, TextView selectedChip) {
+                              ^
+  both class com.example.shoeapp.model.Order in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Order in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminOrderManagementActivity.java:341: error: reference to Order is ambiguous
+    public void onViewDetailsClick(Order order, int position) {
+                                   ^
+  both class com.example.shoeapp.model.Order in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Order in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminOrderManagementActivity.java:360: error: reference to Order is ambiguous
+    public void onMarkShippedClick(Order order, int position) {
+                                   ^
+  both class com.example.shoeapp.model.Order in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Order in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminOrderManagementActivity.java:373: error: reference to Order is ambiguous
+    public void onMarkDeliveredClick(Order order, int position) {
+                                     ^
+  both class com.example.shoeapp.model.Order in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Order in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminOrderManagementActivity.java:386: error: reference to Order is ambiguous
+    public void onCancelOrderClick(Order order, int position) {
+                                   ^
+  both class com.example.shoeapp.model.Order in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Order in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminCategoriesActivity.java:40: error: reference to Category is ambiguous
+    private List<Category>       categories = new ArrayList<>();
+                 ^
+  both class com.example.shoeapp.model.Category in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Category in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminCategoriesActivity.java:41: error: reference to Category is ambiguous
+    private List<Category>       filteredCategories = new ArrayList<>();
+                 ^
+  both class com.example.shoeapp.model.Category in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Category in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminCategoriesActivity.java:291: error: reference to Category is ambiguous
+    public void onEditClick(Category category, int position) {
+                            ^
+  both class com.example.shoeapp.model.Category in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Category in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminCategoriesActivity.java:323: error: reference to Category is ambiguous
+    public void onToggleActiveClick(Category category, boolean isActive, int position) {
+                                    ^
+  both class com.example.shoeapp.model.Category in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Category in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminCategoriesActivity.java:345: error: reference to Category is ambiguous
+    public void onViewAllClick(Category category, int position) {
+                               ^
+  both class com.example.shoeapp.model.Category in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Category in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/data/repo/ProductRepository.java:48: error: reference to Product is ambiguous
+    public List<Product> getFeaturedProducts() {
+                ^
+  both class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity and class com.example.shoeapp.model.Product in com.example.shoeapp.model match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/data/repo/ProductRepository.java:90: error: reference to Product is ambiguous
+    public List<Product> getAllProducts() {
+                ^
+  both class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity and class com.example.shoeapp.model.Product in com.example.shoeapp.model match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/data/repo/ProductRepository.java:98: error: reference to Product is ambiguous
+    public List<Product> getProductsByPromotion(int promotionId) {
+                ^
+  both class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity and class com.example.shoeapp.model.Product in com.example.shoeapp.model match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/data/repo/ProductRepository.java:130: error: reference to Product is ambiguous
+    public Product getProductById(int id) {
+           ^
+  both class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity and class com.example.shoeapp.model.Product in com.example.shoeapp.model match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/data/repo/ProductRepository.java:186: error: reference to Product is ambiguous
+    public List<Product> getProductsByCategory(int categoryId) {
+                ^
+  both class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity and class com.example.shoeapp.model.Product in com.example.shoeapp.model match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/data/repo/ProductRepository.java:194: error: reference to Product is ambiguous
+    public List<Product> searchProducts(String keyword) {
+                ^
+  both class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity and class com.example.shoeapp.model.Product in com.example.shoeapp.model match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/data/repo/ProductRepository.java:207: error: reference to Product is ambiguous
+    public Product toClientProduct(Product product) {
+                                   ^
+  both class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity and class com.example.shoeapp.model.Product in com.example.shoeapp.model match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/data/repo/ProductRepository.java:207: error: reference to Product is ambiguous
+    public Product toClientProduct(Product product) {
+           ^
+  both class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity and class com.example.shoeapp.model.Product in com.example.shoeapp.model match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/user/ProductDetailActivity.java:35: error: reference to Product is ambiguous
+    private Product product;
+            ^
+  both class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity and class com.example.shoeapp.model.Product in com.example.shoeapp.model match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/user/ProductDetailActivity.java:36: error: reference to Product is ambiguous
+    private Product clientProduct;
+            ^
+  both class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity and class com.example.shoeapp.model.Product in com.example.shoeapp.model match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminProductsActivity.java:106: error: reference to Product is ambiguous
+            List<Product> tempDbProducts = db.productDao().getAllProducts();
+                 ^
+  both class com.example.shoeapp.model.Product in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminProductsActivity.java:107: error: reference to Product is ambiguous
+            List<Product> tempProducts = new ArrayList<>();
+                 ^
+  both class com.example.shoeapp.model.Product in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminProductsActivity.java:142: error: reference to Product is ambiguous
+                for (Product entity : tempDbProducts) {
+                     ^
+  both class com.example.shoeapp.model.Product in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminProductsActivity.java:183: error: reference to Product is ambiguous
+                    Product model = new Product(
+                    ^
+  both class com.example.shoeapp.model.Product in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminProductsActivity.java:183: error: reference to Product is ambiguous
+                    Product model = new Product(
+                                        ^
+  both class com.example.shoeapp.model.Product in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminProductsActivity.java:348: error: reference to Product is ambiguous
+        for (Product p : allProducts) {
+             ^
+  both class com.example.shoeapp.model.Product in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminProductsActivity.java:404: error: reference to Product is ambiguous
+            for (Product entity : dbProducts) {
+                 ^
+  both class com.example.shoeapp.model.Product in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminProductsActivity.java:421: error: reference to Product is ambiguous
+            for (Product entity : dbProducts) {
+                 ^
+  both class com.example.shoeapp.model.Product in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminOrderManagementActivity.java:112: error: reference to Order is ambiguous
+            List<Order> tempDbOrders = db.orderDao().getAllOrders();
+                 ^
+  both class com.example.shoeapp.model.Order in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Order in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminOrderManagementActivity.java:113: error: reference to Order is ambiguous
+            List<Order> tempOrders = new ArrayList<>();
+                 ^
+  both class com.example.shoeapp.model.Order in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Order in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminOrderManagementActivity.java:133: error: reference to Order is ambiguous
+                for (Order entity : tempDbOrders) {
+                     ^
+  both class com.example.shoeapp.model.Order in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Order in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminOrderManagementActivity.java:137: error: reference to Order is ambiguous
+                    Order.Status status = convertStatus(entity.orderStatus);
+                    ^
+  both class com.example.shoeapp.model.Order in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Order in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminOrderManagementActivity.java:141: error: reference to Order is ambiguous
+                    tempOrders.add(new Order(
+                                       ^
+  both class com.example.shoeapp.model.Order in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Order in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminOrderManagementActivity.java:175: error: reference to Order is ambiguous
+        if (s == null) return Order.Status.PROCESSING;
+                              ^
+  both class com.example.shoeapp.model.Order in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Order in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminOrderManagementActivity.java:177: error: reference to Order is ambiguous
+            case "SHIPPED":   return Order.Status.SHIPPED;
+                                     ^
+  both class com.example.shoeapp.model.Order in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Order in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminOrderManagementActivity.java:179: error: reference to Order is ambiguous
+            case "COMPLETED": return Order.Status.DELIVERED;
+                                     ^
+  both class com.example.shoeapp.model.Order in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Order in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminOrderManagementActivity.java:180: error: reference to Order is ambiguous
+            case "CANCELLED": return Order.Status.CANCELLED;
+                                     ^
+  both class com.example.shoeapp.model.Order in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Order in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminOrderManagementActivity.java:181: error: reference to Order is ambiguous
+            default:          return Order.Status.PROCESSING;
+                                     ^
+  both class com.example.shoeapp.model.Order in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Order in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminOrderManagementActivity.java:207: error: reference to Order is ambiguous
+        filterProcessing.setOnClickListener(v -> selectStatus(Order.Status.PROCESSING, filterProcessing));
+                                                              ^
+  both class com.example.shoeapp.model.Order in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Order in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminOrderManagementActivity.java:208: error: reference to Order is ambiguous
+        filterShipped.setOnClickListener(v    -> selectStatus(Order.Status.SHIPPED,    filterShipped));
+                                                              ^
+  both class com.example.shoeapp.model.Order in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Order in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminOrderManagementActivity.java:209: error: reference to Order is ambiguous
+        filterDelivered.setOnClickListener(v  -> selectStatus(Order.Status.DELIVERED,  filterDelivered));
+                                                              ^
+  both class com.example.shoeapp.model.Order in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Order in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminOrderManagementActivity.java:279: error: reference to Order is ambiguous
+        for (Order o : allOrders) {
+             ^
+  both class com.example.shoeapp.model.Order in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Order in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminOrderManagementActivity.java:326: error: reference to Order is ambiguous
+        for (Order order : allOrders) {
+             ^
+  both class com.example.shoeapp.model.Order in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Order in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminOrderManagementActivity.java:343: error: reference to Order is ambiguous
+        for (Order entity : dbOrders) {
+             ^
+  both class com.example.shoeapp.model.Order in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Order in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminOrderManagementActivity.java:399: error: reference to Order is ambiguous
+        for (Order entity : dbOrders) {
+             ^
+  both class com.example.shoeapp.model.Order in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Order in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminCategoriesActivity.java:122: error: reference to Category is ambiguous
+            List<Category> dbList =
+                 ^
+  both class com.example.shoeapp.model.Category in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Category in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminCategoriesActivity.java:124: error: reference to Category is ambiguous
+            List<Category> tempCategories = new ArrayList<>();
+                 ^
+  both class com.example.shoeapp.model.Category in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Category in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminCategoriesActivity.java:129: error: reference to Category is ambiguous
+                for (Category entity : dbList) {
+                     ^
+  both class com.example.shoeapp.model.Category in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Category in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminCategoriesActivity.java:141: error: reference to Category is ambiguous
+                for (Category entity : dbList) {
+                     ^
+  both class com.example.shoeapp.model.Category in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Category in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminCategoriesActivity.java:149: error: reference to Category is ambiguous
+                    Category entity = dbList.get(i);
+                    ^
+  both class com.example.shoeapp.model.Category in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Category in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminCategoriesActivity.java:151: error: reference to Category is ambiguous
+                    Category model = new Category(
+                    ^
+  both class com.example.shoeapp.model.Category in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Category in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminCategoriesActivity.java:151: error: reference to Category is ambiguous
+                    Category model = new Category(
+                                         ^
+  both class com.example.shoeapp.model.Category in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Category in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminCategoriesActivity.java:183: error: reference to Category is ambiguous
+        for (Category c : categories) {
+             ^
+  both class com.example.shoeapp.model.Category in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Category in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminCategoriesActivity.java:241: error: reference to Category is ambiguous
+        for (Category c : categories) totalProducts += c.getProductCount();
+             ^
+  both class com.example.shoeapp.model.Category in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Category in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminCategoriesActivity.java:261: error: reference to Category is ambiguous
+                        List<Category> existing =
+                             ^
+  both class com.example.shoeapp.model.Category in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Category in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminCategoriesActivity.java:263: error: reference to Category is ambiguous
+                        for (Category e : existing) {
+                             ^
+  both class com.example.shoeapp.model.Category in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Category in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminCategoriesActivity.java:271: error: reference to Category is ambiguous
+                        Category entity =
+                        ^
+  both class com.example.shoeapp.model.Category in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Category in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminCategoriesActivity.java:272: error: reference to Category is ambiguous
+                                new Category();
+                                    ^
+  both class com.example.shoeapp.model.Category in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Category in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminCategoriesActivity.java:303: error: reference to Category is ambiguous
+                        List<Category> all =
+                             ^
+  both class com.example.shoeapp.model.Category in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Category in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminCategoriesActivity.java:305: error: reference to Category is ambiguous
+                        for (Category e : all) {
+                             ^
+  both class com.example.shoeapp.model.Category in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Category in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminCategoriesActivity.java:325: error: reference to Category is ambiguous
+            List<Category> all =
+                 ^
+  both class com.example.shoeapp.model.Category in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Category in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminCategoriesActivity.java:327: error: reference to Category is ambiguous
+            for (Category e : all) {
+                 ^
+  both class com.example.shoeapp.model.Category in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Category in com.example.shoeapp.data.entity match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/data/repo/ProductRepository.java:49: error: reference to Product is ambiguous
+        List<Product> result = new ArrayList<>();
+             ^
+  both class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity and class com.example.shoeapp.model.Product in com.example.shoeapp.model match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/data/repo/ProductRepository.java:54: error: reference to Product is ambiguous
+            List<Product> topSelling = productDao.getTopSellingProductsActive(2);
+                 ^
+  both class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity and class com.example.shoeapp.model.Product in com.example.shoeapp.model match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/data/repo/ProductRepository.java:55: error: reference to Product is ambiguous
+            for (Product p : topSelling) {
+                 ^
+  both class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity and class com.example.shoeapp.model.Product in com.example.shoeapp.model match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/data/repo/ProductRepository.java:62: error: reference to Product is ambiguous
+            List<Product> topRated = productDao.getTopRatedProductsActive(4);
+                 ^
+  both class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity and class com.example.shoeapp.model.Product in com.example.shoeapp.model match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/data/repo/ProductRepository.java:63: error: reference to Product is ambiguous
+            for (Product p : topRated) {
+                 ^
+  both class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity and class com.example.shoeapp.model.Product in com.example.shoeapp.model match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/data/repo/ProductRepository.java:72: error: reference to Product is ambiguous
+                List<Product> newest = productDao.getProductsActiveLimited(8);
+                     ^
+  both class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity and class com.example.shoeapp.model.Product in com.example.shoeapp.model match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/data/repo/ProductRepository.java:73: error: reference to Product is ambiguous
+                for (Product p : newest) {
+                     ^
+  both class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity and class com.example.shoeapp.model.Product in com.example.shoeapp.model match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/data/repo/ProductRepository.java:91: error: reference to Product is ambiguous
+        List<Product> products = new ArrayList<>();
+             ^
+  both class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity and class com.example.shoeapp.model.Product in com.example.shoeapp.model match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/data/repo/ProductRepository.java:92: error: reference to Product is ambiguous
+        for (Product product : productDao.getAllProductsActive()) {
+             ^
+  both class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity and class com.example.shoeapp.model.Product in com.example.shoeapp.model match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/data/repo/ProductRepository.java:99: error: reference to Product is ambiguous
+        List<Product> result = new ArrayList<>();
+             ^
+  both class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity and class com.example.shoeapp.model.Product in com.example.shoeapp.model match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/data/repo/ProductRepository.java:107: error: reference to Product is ambiguous
+            List<Product> products = productDao.getProductsByCategoryActive(promo.categoryId);
+                 ^
+  both class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity and class com.example.shoeapp.model.Product in com.example.shoeapp.model match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/data/repo/ProductRepository.java:108: error: reference to Product is ambiguous
+            for (Product p : products) {
+                 ^
+  both class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity and class com.example.shoeapp.model.Product in com.example.shoeapp.model match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/data/repo/ProductRepository.java:112: error: reference to Product is ambiguous
+            List<Product> products = productDao.getProductsByBrandActive(promo.brandId);
+                 ^
+  both class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity and class com.example.shoeapp.model.Product in com.example.shoeapp.model match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/data/repo/ProductRepository.java:113: error: reference to Product is ambiguous
+            for (Product p : products) {
+                 ^
+  both class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity and class com.example.shoeapp.model.Product in com.example.shoeapp.model match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/data/repo/ProductRepository.java:120: error: reference to Product is ambiguous
+                Product p = productDao.getProductById(pp.productId);
+                ^
+  both class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity and class com.example.shoeapp.model.Product in com.example.shoeapp.model match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/data/repo/ProductRepository.java:187: error: reference to Product is ambiguous
+        List<Product> result = new ArrayList<>();
+             ^
+  both class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity and class com.example.shoeapp.model.Product in com.example.shoeapp.model match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/data/repo/ProductRepository.java:188: error: reference to Product is ambiguous
+        for (Product p : productDao.getProductsByCategoryActive(categoryId)) {
+             ^
+  both class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity and class com.example.shoeapp.model.Product in com.example.shoeapp.model match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/data/repo/ProductRepository.java:196: error: reference to Product is ambiguous
+        List<Product> all = getAllProducts();
+             ^
+  both class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity and class com.example.shoeapp.model.Product in com.example.shoeapp.model match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/data/repo/ProductRepository.java:198: error: reference to Product is ambiguous
+        List<Product> result = new ArrayList<>();
+             ^
+  both class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity and class com.example.shoeapp.model.Product in com.example.shoeapp.model match
+/Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/data/repo/ProductRepository.java:199: error: reference to Product is ambiguous
+        for (Product p : all) {
+             ^
+  both class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity and class com.example.shoeapp.model.Product in com.example.shoeapp.model match
+Note: Some input files use or override a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+100 errors
+
+[Incubating] Problems report is available at: file:///Users/laiqua/AndroidStudioProjects/ShoeApp/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':app:compileDebugJavaWithJavac'.
+> Compilation failed; see the compiler output below.
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminProductsActivity.java:42: error: reference to Product is ambiguous
+      private List<Product>        allProducts = new ArrayList<>();
+                   ^
+    both class com.example.shoeapp.model.Product in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminProductsActivity.java:43: error: reference to Product is ambiguous
+      private List<Product>        filteredProducts = new ArrayList<>();
+                   ^
+    both class com.example.shoeapp.model.Product in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminProductsActivity.java:46: error: reference to Product is ambiguous
+      private List<Product> dbProducts = new ArrayList<>();
+                   ^
+    both class com.example.shoeapp.model.Product in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminProductsActivity.java:370: error: reference to Product is ambiguous
+      public void onEditClick(Product product, int position) {
+                              ^
+    both class com.example.shoeapp.model.Product in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminProductsActivity.java:377: error: reference to Product is ambiguous
+      public void onDeleteClick(Product product, int position) {
+                                ^
+    both class com.example.shoeapp.model.Product in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminProductsActivity.java:396: error: reference to Product is ambiguous
+      public void onVariantsClick(Product product, int position) {
+                                  ^
+    both class com.example.shoeapp.model.Product in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminProductsActivity.java:402: error: reference to Product is ambiguous
+      private void deleteProduct(Product product) {
+                                 ^
+    both class com.example.shoeapp.model.Product in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminProductsActivity.java:419: error: reference to Product is ambiguous
+      private void restoreProduct(Product product) {
+                                  ^
+    both class com.example.shoeapp.model.Product in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminOrderManagementActivity.java:44: error: reference to Order is ambiguous
+      private List<Order>          allOrders = new ArrayList<>();
+                   ^
+    both class com.example.shoeapp.model.Order in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Order in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminOrderManagementActivity.java:45: error: reference to Order is ambiguous
+      private List<Order>          filteredOrders = new ArrayList<>();
+                   ^
+    both class com.example.shoeapp.model.Order in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Order in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminOrderManagementActivity.java:48: error: reference to Order is ambiguous
+      private List<Order> dbOrders = new ArrayList<>();
+                   ^
+    both class com.example.shoeapp.model.Order in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Order in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminOrderManagementActivity.java:50: error: reference to Order is ambiguous
+      private Order.Status currentStatus = null;
+              ^
+    both class com.example.shoeapp.model.Order in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Order in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminOrderManagementActivity.java:174: error: reference to Order is ambiguous
+      private Order.Status convertStatus(String s) {
+              ^
+    both class com.example.shoeapp.model.Order in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Order in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminOrderManagementActivity.java:265: error: reference to Order is ambiguous
+      private void selectStatus(Order.Status status, TextView selectedChip) {
+                                ^
+    both class com.example.shoeapp.model.Order in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Order in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminOrderManagementActivity.java:341: error: reference to Order is ambiguous
+      public void onViewDetailsClick(Order order, int position) {
+                                     ^
+    both class com.example.shoeapp.model.Order in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Order in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminOrderManagementActivity.java:360: error: reference to Order is ambiguous
+      public void onMarkShippedClick(Order order, int position) {
+                                     ^
+    both class com.example.shoeapp.model.Order in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Order in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminOrderManagementActivity.java:373: error: reference to Order is ambiguous
+      public void onMarkDeliveredClick(Order order, int position) {
+                                       ^
+    both class com.example.shoeapp.model.Order in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Order in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminOrderManagementActivity.java:386: error: reference to Order is ambiguous
+      public void onCancelOrderClick(Order order, int position) {
+                                     ^
+    both class com.example.shoeapp.model.Order in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Order in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminCategoriesActivity.java:40: error: reference to Category is ambiguous
+      private List<Category>       categories = new ArrayList<>();
+                   ^
+    both class com.example.shoeapp.model.Category in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Category in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminCategoriesActivity.java:41: error: reference to Category is ambiguous
+      private List<Category>       filteredCategories = new ArrayList<>();
+                   ^
+    both class com.example.shoeapp.model.Category in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Category in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminCategoriesActivity.java:291: error: reference to Category is ambiguous
+      public void onEditClick(Category category, int position) {
+                              ^
+    both class com.example.shoeapp.model.Category in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Category in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminCategoriesActivity.java:323: error: reference to Category is ambiguous
+      public void onToggleActiveClick(Category category, boolean isActive, int position) {
+                                      ^
+    both class com.example.shoeapp.model.Category in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Category in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminCategoriesActivity.java:345: error: reference to Category is ambiguous
+      public void onViewAllClick(Category category, int position) {
+                                 ^
+    both class com.example.shoeapp.model.Category in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Category in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/data/repo/ProductRepository.java:48: error: reference to Product is ambiguous
+      public List<Product> getFeaturedProducts() {
+                  ^
+    both class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity and class com.example.shoeapp.model.Product in com.example.shoeapp.model match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/data/repo/ProductRepository.java:90: error: reference to Product is ambiguous
+      public List<Product> getAllProducts() {
+                  ^
+    both class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity and class com.example.shoeapp.model.Product in com.example.shoeapp.model match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/data/repo/ProductRepository.java:98: error: reference to Product is ambiguous
+      public List<Product> getProductsByPromotion(int promotionId) {
+                  ^
+    both class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity and class com.example.shoeapp.model.Product in com.example.shoeapp.model match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/data/repo/ProductRepository.java:130: error: reference to Product is ambiguous
+      public Product getProductById(int id) {
+             ^
+    both class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity and class com.example.shoeapp.model.Product in com.example.shoeapp.model match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/data/repo/ProductRepository.java:186: error: reference to Product is ambiguous
+      public List<Product> getProductsByCategory(int categoryId) {
+                  ^
+    both class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity and class com.example.shoeapp.model.Product in com.example.shoeapp.model match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/data/repo/ProductRepository.java:194: error: reference to Product is ambiguous
+      public List<Product> searchProducts(String keyword) {
+                  ^
+    both class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity and class com.example.shoeapp.model.Product in com.example.shoeapp.model match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/data/repo/ProductRepository.java:207: error: reference to Product is ambiguous
+      public Product toClientProduct(Product product) {
+                                     ^
+    both class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity and class com.example.shoeapp.model.Product in com.example.shoeapp.model match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/data/repo/ProductRepository.java:207: error: reference to Product is ambiguous
+      public Product toClientProduct(Product product) {
+             ^
+    both class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity and class com.example.shoeapp.model.Product in com.example.shoeapp.model match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/user/ProductDetailActivity.java:35: error: reference to Product is ambiguous
+      private Product product;
+              ^
+    both class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity and class com.example.shoeapp.model.Product in com.example.shoeapp.model match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/user/ProductDetailActivity.java:36: error: reference to Product is ambiguous
+      private Product clientProduct;
+              ^
+    both class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity and class com.example.shoeapp.model.Product in com.example.shoeapp.model match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminProductsActivity.java:106: error: reference to Product is ambiguous
+              List<Product> tempDbProducts = db.productDao().getAllProducts();
+                   ^
+    both class com.example.shoeapp.model.Product in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminProductsActivity.java:107: error: reference to Product is ambiguous
+              List<Product> tempProducts = new ArrayList<>();
+                   ^
+    both class com.example.shoeapp.model.Product in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminProductsActivity.java:142: error: reference to Product is ambiguous
+                  for (Product entity : tempDbProducts) {
+                       ^
+    both class com.example.shoeapp.model.Product in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminProductsActivity.java:183: error: reference to Product is ambiguous
+                      Product model = new Product(
+                      ^
+    both class com.example.shoeapp.model.Product in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminProductsActivity.java:183: error: reference to Product is ambiguous
+                      Product model = new Product(
+                                          ^
+    both class com.example.shoeapp.model.Product in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminProductsActivity.java:348: error: reference to Product is ambiguous
+          for (Product p : allProducts) {
+               ^
+    both class com.example.shoeapp.model.Product in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminProductsActivity.java:404: error: reference to Product is ambiguous
+              for (Product entity : dbProducts) {
+                   ^
+    both class com.example.shoeapp.model.Product in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminProductsActivity.java:421: error: reference to Product is ambiguous
+              for (Product entity : dbProducts) {
+                   ^
+    both class com.example.shoeapp.model.Product in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminOrderManagementActivity.java:112: error: reference to Order is ambiguous
+              List<Order> tempDbOrders = db.orderDao().getAllOrders();
+                   ^
+    both class com.example.shoeapp.model.Order in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Order in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminOrderManagementActivity.java:113: error: reference to Order is ambiguous
+              List<Order> tempOrders = new ArrayList<>();
+                   ^
+    both class com.example.shoeapp.model.Order in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Order in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminOrderManagementActivity.java:133: error: reference to Order is ambiguous
+                  for (Order entity : tempDbOrders) {
+                       ^
+    both class com.example.shoeapp.model.Order in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Order in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminOrderManagementActivity.java:137: error: reference to Order is ambiguous
+                      Order.Status status = convertStatus(entity.orderStatus);
+                      ^
+    both class com.example.shoeapp.model.Order in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Order in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminOrderManagementActivity.java:141: error: reference to Order is ambiguous
+                      tempOrders.add(new Order(
+                                         ^
+    both class com.example.shoeapp.model.Order in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Order in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminOrderManagementActivity.java:175: error: reference to Order is ambiguous
+          if (s == null) return Order.Status.PROCESSING;
+                                ^
+    both class com.example.shoeapp.model.Order in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Order in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminOrderManagementActivity.java:177: error: reference to Order is ambiguous
+              case "SHIPPED":   return Order.Status.SHIPPED;
+                                       ^
+    both class com.example.shoeapp.model.Order in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Order in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminOrderManagementActivity.java:179: error: reference to Order is ambiguous
+              case "COMPLETED": return Order.Status.DELIVERED;
+                                       ^
+    both class com.example.shoeapp.model.Order in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Order in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminOrderManagementActivity.java:180: error: reference to Order is ambiguous
+              case "CANCELLED": return Order.Status.CANCELLED;
+                                       ^
+    both class com.example.shoeapp.model.Order in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Order in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminOrderManagementActivity.java:181: error: reference to Order is ambiguous
+              default:          return Order.Status.PROCESSING;
+                                       ^
+    both class com.example.shoeapp.model.Order in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Order in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminOrderManagementActivity.java:207: error: reference to Order is ambiguous
+          filterProcessing.setOnClickListener(v -> selectStatus(Order.Status.PROCESSING, filterProcessing));
+                                                                ^
+    both class com.example.shoeapp.model.Order in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Order in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminOrderManagementActivity.java:208: error: reference to Order is ambiguous
+          filterShipped.setOnClickListener(v    -> selectStatus(Order.Status.SHIPPED,    filterShipped));
+                                                                ^
+    both class com.example.shoeapp.model.Order in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Order in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminOrderManagementActivity.java:209: error: reference to Order is ambiguous
+          filterDelivered.setOnClickListener(v  -> selectStatus(Order.Status.DELIVERED,  filterDelivered));
+                                                                ^
+    both class com.example.shoeapp.model.Order in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Order in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminOrderManagementActivity.java:279: error: reference to Order is ambiguous
+          for (Order o : allOrders) {
+               ^
+    both class com.example.shoeapp.model.Order in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Order in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminOrderManagementActivity.java:326: error: reference to Order is ambiguous
+          for (Order order : allOrders) {
+               ^
+    both class com.example.shoeapp.model.Order in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Order in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminOrderManagementActivity.java:343: error: reference to Order is ambiguous
+          for (Order entity : dbOrders) {
+               ^
+    both class com.example.shoeapp.model.Order in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Order in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminOrderManagementActivity.java:399: error: reference to Order is ambiguous
+          for (Order entity : dbOrders) {
+               ^
+    both class com.example.shoeapp.model.Order in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Order in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminCategoriesActivity.java:122: error: reference to Category is ambiguous
+              List<Category> dbList =
+                   ^
+    both class com.example.shoeapp.model.Category in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Category in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminCategoriesActivity.java:124: error: reference to Category is ambiguous
+              List<Category> tempCategories = new ArrayList<>();
+                   ^
+    both class com.example.shoeapp.model.Category in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Category in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminCategoriesActivity.java:129: error: reference to Category is ambiguous
+                  for (Category entity : dbList) {
+                       ^
+    both class com.example.shoeapp.model.Category in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Category in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminCategoriesActivity.java:141: error: reference to Category is ambiguous
+                  for (Category entity : dbList) {
+                       ^
+    both class com.example.shoeapp.model.Category in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Category in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminCategoriesActivity.java:149: error: reference to Category is ambiguous
+                      Category entity = dbList.get(i);
+                      ^
+    both class com.example.shoeapp.model.Category in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Category in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminCategoriesActivity.java:151: error: reference to Category is ambiguous
+                      Category model = new Category(
+                      ^
+    both class com.example.shoeapp.model.Category in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Category in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminCategoriesActivity.java:151: error: reference to Category is ambiguous
+                      Category model = new Category(
+                                           ^
+    both class com.example.shoeapp.model.Category in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Category in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminCategoriesActivity.java:183: error: reference to Category is ambiguous
+          for (Category c : categories) {
+               ^
+    both class com.example.shoeapp.model.Category in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Category in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminCategoriesActivity.java:241: error: reference to Category is ambiguous
+          for (Category c : categories) totalProducts += c.getProductCount();
+               ^
+    both class com.example.shoeapp.model.Category in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Category in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminCategoriesActivity.java:261: error: reference to Category is ambiguous
+                          List<Category> existing =
+                               ^
+    both class com.example.shoeapp.model.Category in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Category in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminCategoriesActivity.java:263: error: reference to Category is ambiguous
+                          for (Category e : existing) {
+                               ^
+    both class com.example.shoeapp.model.Category in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Category in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminCategoriesActivity.java:271: error: reference to Category is ambiguous
+                          Category entity =
+                          ^
+    both class com.example.shoeapp.model.Category in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Category in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminCategoriesActivity.java:272: error: reference to Category is ambiguous
+                                  new Category();
+                                      ^
+    both class com.example.shoeapp.model.Category in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Category in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminCategoriesActivity.java:303: error: reference to Category is ambiguous
+                          List<Category> all =
+                               ^
+    both class com.example.shoeapp.model.Category in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Category in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminCategoriesActivity.java:305: error: reference to Category is ambiguous
+                          for (Category e : all) {
+                               ^
+    both class com.example.shoeapp.model.Category in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Category in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminCategoriesActivity.java:325: error: reference to Category is ambiguous
+              List<Category> all =
+                   ^
+    both class com.example.shoeapp.model.Category in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Category in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminCategoriesActivity.java:327: error: reference to Category is ambiguous
+              for (Category e : all) {
+                   ^
+    both class com.example.shoeapp.model.Category in com.example.shoeapp.model and class com.example.shoeapp.data.entity.Category in com.example.shoeapp.data.entity match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/data/repo/ProductRepository.java:49: error: reference to Product is ambiguous
+          List<Product> result = new ArrayList<>();
+               ^
+    both class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity and class com.example.shoeapp.model.Product in com.example.shoeapp.model match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/data/repo/ProductRepository.java:54: error: reference to Product is ambiguous
+              List<Product> topSelling = productDao.getTopSellingProductsActive(2);
+                   ^
+    both class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity and class com.example.shoeapp.model.Product in com.example.shoeapp.model match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/data/repo/ProductRepository.java:55: error: reference to Product is ambiguous
+              for (Product p : topSelling) {
+                   ^
+    both class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity and class com.example.shoeapp.model.Product in com.example.shoeapp.model match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/data/repo/ProductRepository.java:62: error: reference to Product is ambiguous
+              List<Product> topRated = productDao.getTopRatedProductsActive(4);
+                   ^
+    both class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity and class com.example.shoeapp.model.Product in com.example.shoeapp.model match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/data/repo/ProductRepository.java:63: error: reference to Product is ambiguous
+              for (Product p : topRated) {
+                   ^
+    both class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity and class com.example.shoeapp.model.Product in com.example.shoeapp.model match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/data/repo/ProductRepository.java:72: error: reference to Product is ambiguous
+                  List<Product> newest = productDao.getProductsActiveLimited(8);
+                       ^
+    both class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity and class com.example.shoeapp.model.Product in com.example.shoeapp.model match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/data/repo/ProductRepository.java:73: error: reference to Product is ambiguous
+                  for (Product p : newest) {
+                       ^
+    both class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity and class com.example.shoeapp.model.Product in com.example.shoeapp.model match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/data/repo/ProductRepository.java:91: error: reference to Product is ambiguous
+          List<Product> products = new ArrayList<>();
+               ^
+    both class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity and class com.example.shoeapp.model.Product in com.example.shoeapp.model match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/data/repo/ProductRepository.java:92: error: reference to Product is ambiguous
+          for (Product product : productDao.getAllProductsActive()) {
+               ^
+    both class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity and class com.example.shoeapp.model.Product in com.example.shoeapp.model match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/data/repo/ProductRepository.java:99: error: reference to Product is ambiguous
+          List<Product> result = new ArrayList<>();
+               ^
+    both class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity and class com.example.shoeapp.model.Product in com.example.shoeapp.model match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/data/repo/ProductRepository.java:107: error: reference to Product is ambiguous
+              List<Product> products = productDao.getProductsByCategoryActive(promo.categoryId);
+                   ^
+    both class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity and class com.example.shoeapp.model.Product in com.example.shoeapp.model match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/data/repo/ProductRepository.java:108: error: reference to Product is ambiguous
+              for (Product p : products) {
+                   ^
+    both class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity and class com.example.shoeapp.model.Product in com.example.shoeapp.model match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/data/repo/ProductRepository.java:112: error: reference to Product is ambiguous
+              List<Product> products = productDao.getProductsByBrandActive(promo.brandId);
+                   ^
+    both class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity and class com.example.shoeapp.model.Product in com.example.shoeapp.model match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/data/repo/ProductRepository.java:113: error: reference to Product is ambiguous
+              for (Product p : products) {
+                   ^
+    both class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity and class com.example.shoeapp.model.Product in com.example.shoeapp.model match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/data/repo/ProductRepository.java:120: error: reference to Product is ambiguous
+                  Product p = productDao.getProductById(pp.productId);
+                  ^
+    both class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity and class com.example.shoeapp.model.Product in com.example.shoeapp.model match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/data/repo/ProductRepository.java:187: error: reference to Product is ambiguous
+          List<Product> result = new ArrayList<>();
+               ^
+    both class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity and class com.example.shoeapp.model.Product in com.example.shoeapp.model match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/data/repo/ProductRepository.java:188: error: reference to Product is ambiguous
+          for (Product p : productDao.getProductsByCategoryActive(categoryId)) {
+               ^
+    both class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity and class com.example.shoeapp.model.Product in com.example.shoeapp.model match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/data/repo/ProductRepository.java:196: error: reference to Product is ambiguous
+          List<Product> all = getAllProducts();
+               ^
+    both class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity and class com.example.shoeapp.model.Product in com.example.shoeapp.model match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/data/repo/ProductRepository.java:198: error: reference to Product is ambiguous
+          List<Product> result = new ArrayList<>();
+               ^
+    both class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity and class com.example.shoeapp.model.Product in com.example.shoeapp.model match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/data/repo/ProductRepository.java:199: error: reference to Product is ambiguous
+          for (Product p : all) {
+               ^
+    both class com.example.shoeapp.data.entity.Product in com.example.shoeapp.data.entity and class com.example.shoeapp.model.Product in com.example.shoeapp.model match
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminProductsActivity.java:29: error: a type with the same simple name is already defined by the single-type-import of Product
+  import com.example.shoeapp.data.entity.Product;
+  ^
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminOrderManagementActivity.java:30: error: a type with the same simple name is already defined by the single-type-import of Order
+  import com.example.shoeapp.data.entity.Order;
+  ^
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/admin/AdminCategoriesActivity.java:29: error: a type with the same simple name is already defined by the single-type-import of Category
+  import com.example.shoeapp.data.entity.Category;
+  ^
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/data/repo/ProductRepository.java:19: error: a type with the same simple name is already defined by the single-type-import of Product
+  import com.example.shoeapp.model.Product;
+  ^
+  /Users/laiqua/AndroidStudioProjects/ShoeApp/app/src/main/java/com/example/shoeapp/user/ProductDetailActivity.java:28: error: a type with the same simple name is already defined by the single-type-import of Product
+  import com.example.shoeapp.model.Product;
+  ^
+  Note: Recompile with -Xlint:deprecation for details.
+  Note: Some input files use or override a deprecated API.
+  100 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+
+BUILD FAILED in 1s
+9 actionable tasks: 1 executed, 8 up-to-date
+Configuration cache entry reused.

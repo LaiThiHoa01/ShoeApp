@@ -114,7 +114,6 @@ public class CheckoutActivity extends BaseSoleStepActivity {
 
         // ZaloPay SDK Init
         ZaloPaySDK.init(553, Environment.SANDBOX);
-
         placeOrderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

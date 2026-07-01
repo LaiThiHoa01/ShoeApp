@@ -1,5 +1,6 @@
 package com.example.shoeapp.admin;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -33,6 +34,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import android.widget.Toast;
+import com.example.shoeapp.data.model.DateRevenue;
+import com.example.shoeapp.data.entity.ProductImg;
+import com.example.shoeapp.user.ImageLoader;
+import java.text.ParseException;
 
 public class AdminDashboardActivity extends BaseAdminActivity {
 
@@ -47,7 +52,7 @@ public class AdminDashboardActivity extends BaseAdminActivity {
     private final SimpleDateFormat dateFormatDb = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
     private final SimpleDateFormat dateFormatDisplay = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
 
-    private synchronized Date parseDbDate(String dateStr) throws java.text.ParseException {
+    private synchronized Date parseDbDate(String dateStr) throws ParseException {
         return dateFormatDb.parse(dateStr);
     }
 
@@ -79,9 +84,9 @@ public class AdminDashboardActivity extends BaseAdminActivity {
             });
         }
 
-        java.util.Calendar cal = java.util.Calendar.getInstance();
+        Calendar cal = Calendar.getInstance();
         endDateFilter = formatDbDate(cal.getTime());
-        cal.add(java.util.Calendar.DATE, -6);
+        cal.add(Calendar.DATE, -6);
         startDateFilter = formatDbDate(cal.getTime());
 
         btnStartDate = findViewById(R.id.btn_start_date);
@@ -208,8 +213,8 @@ public class AdminDashboardActivity extends BaseAdminActivity {
                 Double todayRevValue = db.orderDao().getRevenueByDate(today);
                 double todayRevenue = (todayRevValue != null) ? todayRevValue : 0.0;
 
-                java.util.Calendar cal = java.util.Calendar.getInstance();
-                cal.add(java.util.Calendar.DATE, -1);
+                Calendar cal = Calendar.getInstance();
+                cal.add(Calendar.DATE, -1);
                 String yesterday = new SimpleDateFormat("yyyy-MM-dd", Locale.US).format(cal.getTime());
                 Double yesterdayRevValue = db.orderDao().getRevenueByDate(yesterday);
                 double yesterdayRevenue = (yesterdayRevValue != null) ? yesterdayRevValue : 0.0;
@@ -233,7 +238,7 @@ public class AdminDashboardActivity extends BaseAdminActivity {
                 for (int i = 0; i < limit; i++) {
                     Product p = products.get(i);
                     topStocks.add(db.productDao().getProductStock(p.id));
-                    com.example.shoeapp.data.entity.ProductImg thumbnail = db.productDao().getThumbnail(p.id);
+                    ProductImg thumbnail = db.productDao().getThumbnail(p.id);
                     topImageUrls.add(thumbnail != null ? thumbnail.imgUrl : "");
                 }
 
@@ -338,7 +343,7 @@ public class AdminDashboardActivity extends BaseAdminActivity {
                                 tvStock.setText(getString(R.string.admin_stock_format, topStocks.get(i)));
                             }
                             if (ivImage != null && i < topImageUrls.size()) {
-                                com.example.shoeapp.user.ImageLoader.load(topImageUrls.get(i), ivImage, R.drawable.ic_shoe);
+                                ImageLoader.load(topImageUrls.get(i), ivImage, R.drawable.ic_shoe);
                             }
                             containerProducts.addView(itemView);
                         }
@@ -379,7 +384,7 @@ public class AdminDashboardActivity extends BaseAdminActivity {
             int month = cal.get(Calendar.MONTH);
             int day = cal.get(Calendar.DAY_OF_MONTH);
 
-            android.app.DatePickerDialog datePickerDialog = new android.app.DatePickerDialog(this,
+            DatePickerDialog datePickerDialog = new DatePickerDialog(this,
                     (view, selectedYear, selectedMonth, selectedDay) -> {
                         Calendar selectedCal = Calendar.getInstance();
                         selectedCal.set(selectedYear, selectedMonth, selectedDay);
@@ -419,18 +424,18 @@ public class AdminDashboardActivity extends BaseAdminActivity {
                     });
                 }
 
-                List<com.example.shoeapp.data.model.DateRevenue> dbData =
+                List<DateRevenue> dbData =
                         db.orderDao().getRevenueBetweenDates(startDateFilter, endDateFilter);
 
                 double totalFilteredRevenue = 0.0;
                 Map<String, Double> revenueMap = new HashMap<>();
-                for (com.example.shoeapp.data.model.DateRevenue dr : dbData) {
+                for (DateRevenue dr : dbData) {
                     revenueMap.put(dr.date, dr.revenue);
                     totalFilteredRevenue += dr.revenue;
                 }
                 final double finalTotalFilteredRevenue = totalFilteredRevenue;
 
-                List<com.example.shoeapp.data.model.DateRevenue> fullChartData = new ArrayList<>();
+                List<DateRevenue> fullChartData = new ArrayList<>();
                 Calendar startCal = Calendar.getInstance();
                 Calendar endCal = Calendar.getInstance();
 
@@ -441,7 +446,7 @@ public class AdminDashboardActivity extends BaseAdminActivity {
                     String dateKey = formatDbDate(startCal.getTime());
                     double revenue = revenueMap.containsKey(dateKey) ? revenueMap.get(dateKey) : 0.0;
 
-                    com.example.shoeapp.data.model.DateRevenue item = new com.example.shoeapp.data.model.DateRevenue();
+                    DateRevenue item = new DateRevenue();
                     item.date = dateKey;
                     item.revenue = revenue;
                     fullChartData.add(item);
@@ -450,7 +455,7 @@ public class AdminDashboardActivity extends BaseAdminActivity {
                 }
 
                 double maxRevenue = 0.0;
-                for (com.example.shoeapp.data.model.DateRevenue item : fullChartData) {
+                for (DateRevenue item : fullChartData) {
                     if (item.revenue > maxRevenue) {
                         maxRevenue = item.revenue;
                     }
@@ -478,7 +483,7 @@ public class AdminDashboardActivity extends BaseAdminActivity {
                     int maxBarHeightPx = (int) (115 * scale);
                     int minBarHeightPx = (int) (4 * scale);
 
-                    for (com.example.shoeapp.data.model.DateRevenue item : fullChartData) {
+                    for (DateRevenue item : fullChartData) {
                         View barView = LayoutInflater.from(this).inflate(R.layout.item_admin_chart_bar, layoutChartBars, false);
 
                         TextView tvAmount = barView.findViewById(R.id.tv_bar_amount);

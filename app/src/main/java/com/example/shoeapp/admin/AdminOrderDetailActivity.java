@@ -27,6 +27,7 @@ import com.google.android.material.button.MaterialButton;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import com.example.shoeapp.Helper.Helpers;
 
 public class AdminOrderDetailActivity extends BaseAdminActivity {
 
@@ -169,14 +170,14 @@ public class AdminOrderDetailActivity extends BaseAdminActivity {
         }
         updatePaymentStatusBadge(order.paymentStatus);
 
-        tvPaySubtotal.setText(com.example.shoeapp.Helper.Helpers.formatPrice(order.subTotal != null ? order.subTotal : 0.0));
-        tvPayShipping.setText(com.example.shoeapp.Helper.Helpers.formatPrice(order.shippingFee != null ? order.shippingFee : 0.0));
-        tvPayTotal.setText(com.example.shoeapp.Helper.Helpers.formatPrice(order.grandTotal != null ? order.grandTotal : 0.0));
+        tvPaySubtotal.setText(Helpers.formatPrice(order.subTotal != null ? order.subTotal : 0.0));
+        tvPayShipping.setText(Helpers.formatPrice(order.shippingFee != null ? order.shippingFee : 0.0));
+        tvPayTotal.setText(Helpers.formatPrice(order.grandTotal != null ? order.grandTotal : 0.0));
 
         List<OrderDetail> details = db.orderDao().getDetailsByOrder(order.id);
         List<OrderDetailDisplay> displayItems = new ArrayList<>();
 
-        if (details == null) details = new java.util.ArrayList<>();
+        if (details == null) details = new ArrayList<>();
         for (OrderDetail detail : details) {
             Product product = db.productDao().getProductById(detail.productId);
             String productName = (product != null) ? product.name : "Giày không xác định";

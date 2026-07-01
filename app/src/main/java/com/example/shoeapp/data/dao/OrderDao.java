@@ -12,6 +12,7 @@ import com.example.shoeapp.data.model.OrderItemView;
 import com.example.shoeapp.data.model.OrderView;
 import com.example.shoeapp.data.model.OrderWithUser;
 import java.util.List;
+import com.example.shoeapp.data.model.DateRevenue;
 
 @Dao
 public interface OrderDao {
@@ -47,7 +48,7 @@ public interface OrderDao {
            "AND SUBSTR(created_at, 1, 10) <= :endDate " +
            "GROUP BY SUBSTR(created_at, 1, 10) " +
            "ORDER BY date ASC")
-    List<com.example.shoeapp.data.model.DateRevenue> getRevenueBetweenDates(String startDate, String endDate);
+    List<DateRevenue> getRevenueBetweenDates(String startDate, String endDate);
 
     @Query("SELECT COUNT(*) FROM orders")
     int countOrders();

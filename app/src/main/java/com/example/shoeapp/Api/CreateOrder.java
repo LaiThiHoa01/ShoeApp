@@ -1,7 +1,5 @@
 package com.example.shoeapp.Api;
 
-//import com.zlpdemo.merchantDemo.Constant.AppInfo;
-//import com.zlpdemo.merchantDemo.Helper.Helpers;
 
 import com.example.shoeapp.Constant.AppInfo;
 import com.example.shoeapp.Helper.Helpers;
@@ -12,7 +10,7 @@ import java.util.Date;
 
 import okhttp3.FormBody;
 import okhttp3.RequestBody;
-//import vn.zalopay.sdk.analytic.network.http.RequestBody;
+
 
 
 public class CreateOrder {

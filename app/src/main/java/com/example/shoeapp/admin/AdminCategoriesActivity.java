@@ -26,6 +26,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class AdminCategoriesActivity extends BaseAdminActivity
         implements AdminCategoryAdapter.OnCategoryActionListener {
@@ -272,9 +274,9 @@ public class AdminCategoriesActivity extends BaseAdminActivity
                         entity.name      = name;
                         entity.isActive  = true;
                         entity.sortOrder = categories.size() + 1;
-                        entity.createdAt = new java.text.SimpleDateFormat(
+                        entity.createdAt = new SimpleDateFormat(
                                 "yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-                                .format(new java.util.Date());
+                                .format(new Date());
                         db.categoryDao().insert(entity);
                         runOnUiThread(() -> {
                             loadFromDb();

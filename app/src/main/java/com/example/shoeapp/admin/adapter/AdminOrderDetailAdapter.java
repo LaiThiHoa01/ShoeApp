@@ -14,6 +14,8 @@ import com.example.shoeapp.R;
 
 import java.util.List;
 import java.util.Locale;
+import com.example.shoeapp.user.ImageLoader;
+import com.example.shoeapp.Helper.Helpers;
 
 public class AdminOrderDetailAdapter extends RecyclerView.Adapter<AdminOrderDetailAdapter.ViewHolder> {
 
@@ -92,11 +94,11 @@ public class AdminOrderDetailAdapter extends RecyclerView.Adapter<AdminOrderDeta
             tvName.setText(item.productName != null ? item.productName : "Giày");
             tvSize.setText("Kích cỡ: " + (item.sizeName != null ? item.sizeName : "—"));
             tvColor.setText(item.colorName != null ? item.colorName : "—");
-            tvQtyPrice.setText(com.example.shoeapp.Helper.Helpers.formatPrice(item.unitPrice) + " x " + item.quantity);
-            tvSubtotal.setText(com.example.shoeapp.Helper.Helpers.formatPrice(item.subtotal));
+            tvQtyPrice.setText(Helpers.formatPrice(item.unitPrice) + " x " + item.quantity);
+            tvSubtotal.setText(Helpers.formatPrice(item.subtotal));
 
             // Load product image dynamically
-            com.example.shoeapp.user.ImageLoader.load(item.imageUrl, imgProduct, R.drawable.ic_shoe);
+            ImageLoader.load(item.imageUrl, imgProduct, R.drawable.ic_shoe);
         }
     }
 }

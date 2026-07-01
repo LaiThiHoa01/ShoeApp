@@ -8,8 +8,10 @@ import com.example.shoeapp.Helper.HMac.HMacUtil;
 import org.jetbrains.annotations.NotNull;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Objects;
 
 public class Helpers {
@@ -34,7 +36,7 @@ public class Helpers {
      }
 
     public static String formatPrice(double price) {
-        java.text.NumberFormat formatter = java.text.NumberFormat.getNumberInstance(new java.util.Locale("vi", "VN"));
+        NumberFormat formatter = NumberFormat.getNumberInstance(new Locale("vi", "VN"));
         return formatter.format(Math.round(price)) + " đ";
     }
 
