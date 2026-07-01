@@ -107,8 +107,10 @@ public class AdminAddPromotionActivity extends AppCompatActivity {
         
         rgDiscountType.setOnCheckedChangeListener((group, checkedId) -> {
             if (checkedId == R.id.rb_percentage) {
+                etDiscountValue.setHint("Nhập phần trăm giảm (Ví dụ: 10, 20, 50)");
                 etMaxDiscount.setVisibility(View.VISIBLE);
             } else {
+                etDiscountValue.setHint("Nhập số tiền giảm trực tiếp (Ví dụ: 50000, 100000)");
                 etMaxDiscount.setVisibility(View.GONE);
                 etMaxDiscount.setText("");
             }

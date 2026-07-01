@@ -85,12 +85,10 @@ public class AdminProductVariantAdapter extends ListAdapter<VariantDisplayItem, 
         }
 
         void bind(VariantDisplayItem item) {
-            // Xóa text watcher cũ để tránh chồng chéo khi tái sử dụng ViewHolder
             if (activeWatcher != null) {
                 stockInput.removeTextChangedListener(activeWatcher);
             }
 
-            // Gán dữ liệu màu sắc
             colorName.setText(item.colorName);
             try {
                 int colorInt = android.graphics.Color.parseColor(item.colorHex);
@@ -100,14 +98,8 @@ public class AdminProductVariantAdapter extends ListAdapter<VariantDisplayItem, 
                         ContextCompat.getColor(context, R.color.brand_orange)
                 ));
             }
-
-            // Gán kích thước
             sizeName.setText("Size " + item.sizeName);
-
-            // Gán số lượng tồn kho hiện tại
             stockInput.setText(String.valueOf(item.variant.stock));
-
-            // Đăng ký TextWatcher mới cho ô nhập số lượng
             activeWatcher = new TextWatcher() {
                 @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
                 @Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
@@ -126,14 +118,12 @@ public class AdminProductVariantAdapter extends ListAdapter<VariantDisplayItem, 
             };
             stockInput.addTextChangedListener(activeWatcher);
 
-            // Nút bấm tăng giảm nhanh số lượng
             btnMinus.setOnClickListener(v -> {
                 int pos = getAdapterPosition();
                 if (pos != RecyclerView.NO_POSITION && listener != null) {
                     listener.onAdjustStock(pos, -1);
                 }
             });
-
             btnPlus.setOnClickListener(v -> {
                 int pos = getAdapterPosition();
                 if (pos != RecyclerView.NO_POSITION && listener != null) {

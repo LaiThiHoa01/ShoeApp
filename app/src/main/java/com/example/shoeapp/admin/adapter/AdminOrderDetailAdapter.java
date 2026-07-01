@@ -96,8 +96,6 @@ public class AdminOrderDetailAdapter extends RecyclerView.Adapter<AdminOrderDeta
             tvColor.setText(item.colorName != null ? item.colorName : "—");
             tvQtyPrice.setText(Helpers.formatPrice(item.unitPrice) + " x " + item.quantity);
             tvSubtotal.setText(Helpers.formatPrice(item.subtotal));
-
-            // Load product image dynamically
             ImageLoader.load(item.imageUrl, imgProduct, R.drawable.ic_shoe);
         }
     }

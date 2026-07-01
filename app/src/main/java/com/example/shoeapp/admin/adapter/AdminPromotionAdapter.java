@@ -108,8 +108,6 @@ public class AdminPromotionAdapter extends RecyclerView.Adapter<AdminPromotionAd
             if (startStr != null && !startStr.isEmpty() && endStr != null && !endStr.isEmpty()) {
                 Date start = dateFormatDb.parse(startStr);
                 Date end = dateFormatDb.parse(endStr);
-                
-                // End date inclusive by setting it to end of day
                 if (end != null) {
                     end.setHours(23); end.setMinutes(59); end.setSeconds(59);
                 }
