@@ -111,6 +111,31 @@ public class AdminAddPromotionActivity extends AppCompatActivity {
                 etMaxDiscount.setText("");
             }
         });
+
+        etStartDate.setOnClickListener(v -> showDatePicker(etStartDate));
+        etEndDate.setOnClickListener(v -> showDatePicker(etEndDate));
+    }
+
+    private void showDatePicker(EditText editText) {
+        java.util.Calendar calendar = java.util.Calendar.getInstance();
+        int year = calendar.get(java.util.Calendar.YEAR);
+        int month = calendar.get(java.util.Calendar.MONTH);
+        int day = calendar.get(java.util.Calendar.DAY_OF_MONTH);
+
+        String currentText = editText.getText().toString();
+        if (!currentText.isEmpty() && currentText.contains("-")) {
+            try {
+                String[] parts = currentText.split("-");
+                year = Integer.parseInt(parts[0]);
+                month = Integer.parseInt(parts[1]) - 1;
+                day = Integer.parseInt(parts[2]);
+            } catch (Exception ignored) {}
+        }
+
+        new android.app.DatePickerDialog(this, (view, y, m, d) -> {
+            String selectedDate = String.format(java.util.Locale.US, "%04d-%02d-%02d", y, m + 1, d);
+            editText.setText(selectedDate);
+        }, year, month, day).show();
     }
 
     private void initViews() {

@@ -98,6 +98,12 @@ public interface ProductDao {
     @Query("SELECT p.* FROM product p INNER JOIN category c ON p.shoe_category = c.id INNER JOIN order_detail od ON p.id = od.product_id WHERE p.is_available = 1 AND p.is_discontinue = 0 AND c.is_active = 1 GROUP BY p.id ORDER BY SUM(od.quantity) DESC LIMIT :limit")
     List<Product> getTopSellingProductsActive(int limit);
 
+    /**
+     * Lấy sản phẩm có rating cao nhất (dựa trên bảng product_review)
+     */
+    @Query("SELECT p.* FROM product p WHERE p.is_available = 1 AND p.is_discontinue = 0 AND (SELECT COUNT(*) FROM product_review WHERE product_id = p.id) > 0 ORDER BY (SELECT AVG(rating) FROM product_review WHERE product_id = p.id) DESC, (SELECT COUNT(*) FROM product_review WHERE product_id = p.id) DESC LIMIT :limit")
+    List<Product> getTopRatedProductsActive(int limit);
+
     // Brand
     @Update
     void updateBrand(Brand brand);

@@ -110,7 +110,7 @@ public class LoginActivity extends AppCompatActivity {
         passwordField    = findViewById(R.id.passwordField);
         ImageButton passwordVisibility = findViewById(R.id.passwordVisibility);
 
-        // Removed autofill for admin credentials
+
 
         passwordInput.setOnFocusChangeListener((view, focused) ->
                 passwordField.setBackgroundResource(

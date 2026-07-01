@@ -13,9 +13,9 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shoeapp.R;
-import com.example.shoeapp.admin.AdminDashboardActivity;
 import com.example.shoeapp.data.entity.Brand;
 import com.example.shoeapp.data.entity.Category;
+import com.example.shoeapp.data.repo.ProductRepository;
 import com.example.shoeapp.model.Product;
 import com.example.shoeapp.ui.BaseSoleStepActivity;
 import com.example.shoeapp.ui.BottomNavHelper;
@@ -49,14 +49,14 @@ public class MainActivity extends BaseSoleStepActivity {
             }
         }
     };
-    private ClientProductRepository productRepository;
+    private ProductRepository productRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        productRepository = new ClientProductRepository(this);
+        productRepository = new ProductRepository(this);
         productRepository.ensureSeedData();
 
         setupScreen(BottomNavHelper.TAG_HOME);

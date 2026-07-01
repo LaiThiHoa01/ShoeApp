@@ -11,17 +11,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shoeapp.R;
 import com.example.shoeapp.data.model.CartItemView;
-import com.example.shoeapp.user.ClientCartRepository;
+import com.example.shoeapp.data.repo.CartRepository;
 import com.example.shoeapp.user.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CheckoutItemAdapter extends RecyclerView.Adapter<CheckoutItemAdapter.ViewHolder> {
-    private final ClientCartRepository cartRepository;
+    private final CartRepository cartRepository;
     private final List<CartItemView> items = new ArrayList<>();
 
-    public CheckoutItemAdapter(ClientCartRepository cartRepository) {
+    public CheckoutItemAdapter(CartRepository cartRepository) {
         this.cartRepository = cartRepository;
     }
 
