@@ -14,7 +14,7 @@ import java.util.List;
 @Dao
 public interface UserDao {
 
-    // ── User ──────────────────────────────────────────
+    //User
     @Insert void insert(User user);
     @Update void update(User user);
     @Delete void delete(User user);
@@ -38,14 +38,14 @@ public interface UserDao {
            "FROM users u WHERE (u.full_name LIKE '%' || :query || '%' OR u.email LIKE '%' || :query || '%')")
     List<com.example.shoeapp.data.model.UserWithStats> searchCustomersWithStats(String query);
 
-    // ── Cart ──────────────────────────────────────────
+    // Cart
     @Insert void insertCart(Cart cart);
     @Update void updateCart(Cart cart);
     @Delete void deleteCart(Cart cart);
     @Query("SELECT * FROM carts WHERE user_id = :userId LIMIT 1")
     Cart getCartByUser(int userId);
 
-    // ── CartItem ──────────────────────────────────────
+    //CartItem
     @Insert void insertCartItem(CartItem item);
     @Update void updateCartItem(CartItem item);
     @Delete void deleteCartItem(CartItem item);
@@ -54,7 +54,7 @@ public interface UserDao {
     @Query("DELETE FROM cart_items WHERE cart_id = :cartId")
     void clearCart(int cartId);
 
-    // ── Auth ──────────────────────────────────────
+    //Auth
     @Query("SELECT COUNT(*) FROM users WHERE email = :email")
     int countByEmail(String email);
 
