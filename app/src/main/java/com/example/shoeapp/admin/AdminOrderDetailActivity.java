@@ -73,7 +73,6 @@ public class AdminOrderDetailActivity extends BaseAdminActivity {
             finish();
             return;
         }
-
         setupEdgeToEdge();
         bindViews();
         loadOrderData();
@@ -294,7 +293,6 @@ public class AdminOrderDetailActivity extends BaseAdminActivity {
                 return;
             }
         }
-
         btnAction.setVisibility(View.VISIBLE);
         btnAction.setActivated(false);
         btnAction.setSelected(false);
@@ -335,11 +333,9 @@ public class AdminOrderDetailActivity extends BaseAdminActivity {
     private void updateOrderStatus(String newStatus) {
         if (order != null) {
             order.orderStatus = newStatus;
-            
             if ("DELIVERED".equals(newStatus)) {
                 order.paymentStatus = "PAID";
             }
-            
             if ("CANCELLED".equals(newStatus)) {
                 List<OrderDetail> details = db.orderDao().getDetailsByOrder(order.id);
                 if (details != null) for (OrderDetail detail : details) {
@@ -350,7 +346,6 @@ public class AdminOrderDetailActivity extends BaseAdminActivity {
                     }
                 }
             }
-
             db.orderDao().update(order);
             String statusStr = newStatus;
             if ("SHIPPED".equals(newStatus)) statusStr = "Đang giao hàng";
