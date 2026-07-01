@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- PAID: Green (state_enabled="false") -->
+    <item android:state_enabled="false" android:drawable="@drawable/bg_badge_success" />
+    
+    <!-- FAILED: Red (state_selected="true") -->
+    <item android:state_selected="true" android:drawable="@drawable/bg_badge_error" />
+    
+    <!-- UNPAID: Yellow (default) -->
+    <item android:drawable="@drawable/bg_badge_warning" />
+</selector>

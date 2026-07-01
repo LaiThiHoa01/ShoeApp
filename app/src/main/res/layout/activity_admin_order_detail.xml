@@ -68,7 +68,7 @@
             android:id="@+id/detail_status_badge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_admin_status_processing"
+            android:background="@drawable/bg_admin_status_selector"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingStart="@dimen/space_6"
@@ -82,7 +82,8 @@
                 android:layout_height="14dp"
                 android:contentDescription="@null"
                 android:src="@drawable/ic_clock"
-                android:tint="@color/status_warning" />
+                android:tint="@color/color_admin_status"
+                android:duplicateParentState="true" />
 
             <TextView
                 android:id="@+id/detail_status_text"
@@ -90,9 +91,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/space_2"
                 android:text="@string/status_processing"
-                android:textColor="@color/status_warning"
+                android:textColor="@color/color_admin_status"
                 android:textSize="12sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:duplicateParentState="true" />
         </LinearLayout>
     </LinearLayout>
 
@@ -334,12 +336,12 @@
                         android:id="@+id/pay_status"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/bg_badge_orange"
+                        android:background="@drawable/bg_admin_pay_status_selector"
                         android:paddingStart="@dimen/space_4"
                         android:paddingTop="2dp"
                         android:paddingEnd="@dimen/space_4"
                         android:paddingBottom="2dp"
-                        android:textColor="@color/brand_white"
+                        android:textColor="@color/color_admin_pay_status"
                         android:textSize="11sp"
                         android:textStyle="bold"
                         tools:text="UNPAID" />
@@ -455,7 +457,10 @@
             android:text="@string/admin_mark_shipped"
             app:icon="@drawable/ic_truck"
             app:iconGravity="textStart"
-            app:iconPadding="8dp" />
+            app:iconPadding="8dp"
+            app:backgroundTint="@color/color_admin_btn_action_bg"
+            android:textColor="@color/color_admin_btn_action_text"
+            app:iconTint="@color/color_admin_btn_action_text" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

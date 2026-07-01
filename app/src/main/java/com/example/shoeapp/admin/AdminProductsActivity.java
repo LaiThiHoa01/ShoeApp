@@ -271,7 +271,6 @@ public class AdminProductsActivity extends BaseAdminActivity
             chip.setGravity(android.view.Gravity.CENTER);
             chip.setPadding(paddingHorizontalPx, 0, paddingHorizontalPx, 0);
             
-            // Đặt background dựa trên việc chip này có đang được chọn hay không
             if (currentCategory.equals(c.name)) {
                 chip.setBackgroundResource(R.drawable.bg_admin_chip_selected);
                 chip.setTextColor(getColor(R.color.brand_white));
@@ -291,7 +290,6 @@ public class AdminProductsActivity extends BaseAdminActivity
             dynamicChips.add(chip);
         }
         
-        // Reset trạng thái chọn của nút All nếu All đang active
         if (currentCategory.equals("All")) {
             filterAll.setBackgroundResource(R.drawable.bg_admin_chip_selected);
             filterAll.setTextColor(getColor(R.color.brand_white));

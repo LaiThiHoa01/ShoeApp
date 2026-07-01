@@ -81,7 +81,6 @@ public class AdminProductVariantActivity extends BaseAdminActivity
 
         btnBack.setOnClickListener(v -> finish());
         btnSave.setOnClickListener(v -> {
-            // Force keyboard to hide and clear focus to trigger any active text inputs
             View currentFocus = getCurrentFocus();
             if (currentFocus != null) {
                 currentFocus.clearFocus();
@@ -114,14 +113,10 @@ public class AdminProductVariantActivity extends BaseAdminActivity
         }
     }
 
-    // ── Adapter Listeners ───────────────────────────────────────────────────
-
     @Override
     public void onAdjustStock(int position, int delta) {
         viewModel.adjustStock(position, delta);
     }
-
-    // ── ViewModel Listeners ──────────────────────────────────────────────────
 
     @Override
     public void onStateChanged(List<VariantDisplayItem> items) {
@@ -139,15 +134,12 @@ public class AdminProductVariantActivity extends BaseAdminActivity
         finish();
     }
 
-    // ── Dialog Thêm biến thể mới ─────────────────────────────────────────────
-
     private void showAddVariantDialog() {
         View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_add_variant, null);
         Spinner spinnerColor = dialogView.findViewById(R.id.dialog_variant_spinner_color);
         Spinner spinnerSize = dialogView.findViewById(R.id.dialog_variant_spinner_size);
         EditText inputStock = dialogView.findViewById(R.id.dialog_variant_input_stock);
 
-        // Load colors & sizes
         List<Color> colors = db.productDao().getAllColors();
         List<Size> sizes = db.productDao().getAllSizes();
 
@@ -166,7 +158,6 @@ public class AdminProductVariantActivity extends BaseAdminActivity
             sizeNames.add("Size " + s.name);
         }
 
-        // Tạo adapter sử dụng custom dark-theme layout của dự án
         ArrayAdapter<String> colorAdapter = new ArrayAdapter<>(this, R.layout.item_spinner_selected, colorNames);
         colorAdapter.setDropDownViewResource(R.layout.item_spinner_dropdown);
         spinnerColor.setAdapter(colorAdapter);

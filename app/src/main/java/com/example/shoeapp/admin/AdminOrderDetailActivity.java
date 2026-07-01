@@ -130,18 +130,14 @@ public class AdminOrderDetailActivity extends BaseAdminActivity {
             return;
         }
 
-        // Set order title / ID
         tvOrdersId.setText(String.format(Locale.US, "#%d — %s", order.id,
                 order.ordersId != null ? order.ordersId : "N/A"));
 
-        // Set Date
         tvOrderDate.setText(String.format(Locale.US, "Ngày đặt: %s",
                 order.createdAt != null ? order.createdAt : "N/A"));
 
-        // Setup status badge
         updateStatusBadge(order.orderStatus);
 
-        // Load customer User details
         User customer = db.userDao().getUserById(order.userId);
         if (customer != null) {
             tvCustName.setText(customer.fullName != null ? customer.fullName : "N/A");
@@ -157,7 +153,6 @@ public class AdminOrderDetailActivity extends BaseAdminActivity {
         tvCustNote.setText(order.orderNote != null && !order.orderNote.trim().isEmpty() ?
                 order.orderNote : "Không có ghi chú");
 
-        // Load Payment details
         String method = order.paymentMethod != null ? order.paymentMethod : "COD";
         if ("ZALOPAY".equalsIgnoreCase(method)) {
             tvPayMethod.setText("Ví ZaloPay");
@@ -178,7 +173,6 @@ public class AdminOrderDetailActivity extends BaseAdminActivity {
         tvPayShipping.setText(com.example.shoeapp.Helper.Helpers.formatPrice(order.shippingFee != null ? order.shippingFee : 0.0));
         tvPayTotal.setText(com.example.shoeapp.Helper.Helpers.formatPrice(order.grandTotal != null ? order.grandTotal : 0.0));
 
-        // Load order details / items
         List<OrderDetail> details = db.orderDao().getDetailsByOrder(order.id);
         List<OrderDetailDisplay> displayItems = new ArrayList<>();
 
@@ -201,7 +195,6 @@ public class AdminOrderDetailActivity extends BaseAdminActivity {
             Size size = db.productDao().getSizeById(detail.sizeId);
             String sizeName = (size != null) ? size.name : "N/A";
 
-            // Find thumbnail
             String imageUrl = "";
             ProductImg thumbnail = db.productDao().getThumbnail(detail.productId);
             if (thumbnail != null) {
@@ -228,45 +221,39 @@ public class AdminOrderDetailActivity extends BaseAdminActivity {
         AdminOrderDetailAdapter adapter = new AdminOrderDetailAdapter(this, displayItems);
         recyclerProducts.setAdapter(adapter);
 
-        // Setup bottom action button
         setupActionButton(order.orderStatus);
     }
 
     private void updateStatusBadge(String status) {
         if (status == null) status = "PROCESSING";
 
+        layoutStatusBadge.setActivated(false);
+        layoutStatusBadge.setSelected(false);
+        layoutStatusBadge.setEnabled(true);
+
         switch (status) {
             case "SHIPPED":
-                layoutStatusBadge.setBackgroundResource(R.drawable.bg_admin_status_shipped);
+                layoutStatusBadge.setActivated(true);
                 imgStatusIcon.setImageResource(R.drawable.ic_truck);
-                imgStatusIcon.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.status_info)));
                 tvStatusText.setText(getString(R.string.status_shipped));
-                tvStatusText.setTextColor(ContextCompat.getColor(this, R.color.status_info));
                 break;
 
             case "DELIVERED":
             case "COMPLETED":
-                layoutStatusBadge.setBackgroundResource(R.drawable.bg_admin_status_delivered);
+                layoutStatusBadge.setEnabled(false);
                 imgStatusIcon.setImageResource(R.drawable.ic_check_circle);
-                imgStatusIcon.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.status_success)));
                 tvStatusText.setText(getString(R.string.status_delivered));
-                tvStatusText.setTextColor(ContextCompat.getColor(this, R.color.status_success));
                 break;
 
             case "CANCELLED":
-                layoutStatusBadge.setBackgroundResource(R.drawable.bg_admin_status_processing); // Reuse layout
+                layoutStatusBadge.setSelected(true);
                 imgStatusIcon.setImageResource(R.drawable.ic_clock);
-                imgStatusIcon.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.status_error)));
                 tvStatusText.setText("ĐÃ HỦY");
-                tvStatusText.setTextColor(ContextCompat.getColor(this, R.color.status_error));
                 break;
 
             default: // NEW, PENDING, PROCESSING
-                layoutStatusBadge.setBackgroundResource(R.drawable.bg_admin_status_processing);
                 imgStatusIcon.setImageResource(R.drawable.ic_clock);
-                imgStatusIcon.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.status_warning)));
                 tvStatusText.setText(getString(R.string.status_processing));
-                tvStatusText.setTextColor(ContextCompat.getColor(this, R.color.status_warning));
                 break;
         }
     }
@@ -274,18 +261,18 @@ public class AdminOrderDetailActivity extends BaseAdminActivity {
     private void updatePaymentStatusBadge(String paymentStatus) {
         if (paymentStatus == null) paymentStatus = "UNPAID";
 
+        tvPayStatus.setActivated(false);
+        tvPayStatus.setSelected(false);
+        tvPayStatus.setEnabled(true);
+
         switch (paymentStatus) {
             case "PAID":
-                tvPayStatus.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.status_success)));
-                tvPayStatus.setTextColor(ContextCompat.getColor(this, R.color.brand_white));
+                tvPayStatus.setEnabled(false);
                 break;
             case "FAILED":
-                tvPayStatus.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.status_error)));
-                tvPayStatus.setTextColor(ContextCompat.getColor(this, R.color.brand_white));
+                tvPayStatus.setSelected(true);
                 break;
             default: // UNPAID, REFUNDED
-                tvPayStatus.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.status_warning)));
-                tvPayStatus.setTextColor(ContextCompat.getColor(this, R.color.text_primary));
                 break;
         }
     }
@@ -293,49 +280,53 @@ public class AdminOrderDetailActivity extends BaseAdminActivity {
     private void setupActionButton(String status) {
         if (status == null) status = "PROCESSING";
 
+        if ("ZALOPAY".equalsIgnoreCase(order.paymentMethod) && !"PAID".equalsIgnoreCase(order.paymentStatus)) {
+            if ("PROCESSING".equals(status) || "SHIPPED".equals(status)) {
+                btnAction.setVisibility(View.VISIBLE);
+                btnAction.setEnabled(false);
+                if ("FAILED".equalsIgnoreCase(order.paymentStatus)) {
+                    btnAction.setText("Thanh toán thất bại");
+                } else {
+                    btnAction.setText("Chờ thanh toán ZaloPay");
+                }
+                btnAction.setIconResource(R.drawable.ic_clock);
+                btnAction.setOnClickListener(null);
+                return;
+            }
+        }
+
+        btnAction.setVisibility(View.VISIBLE);
+        btnAction.setActivated(false);
+        btnAction.setSelected(false);
+        btnAction.setEnabled(true);
+
         switch (status) {
             case "SHIPPED":
-                btnAction.setVisibility(View.VISIBLE);
+                btnAction.setActivated(true);
                 btnAction.setText(getString(R.string.admin_mark_delivered));
                 btnAction.setIconResource(R.drawable.ic_check_circle);
-                btnAction.setEnabled(true);
-                btnAction.setBackgroundTintList(
-                        ContextCompat.getColorStateList(this, R.color.status_info));
-                btnAction.setTextColor(ContextCompat.getColor(this, R.color.brand_white));
                 btnAction.setOnClickListener(v -> updateOrderStatus("DELIVERED"));
                 break;
 
             case "DELIVERED":
             case "COMPLETED":
-                btnAction.setVisibility(View.VISIBLE);
+                btnAction.setEnabled(false);
                 btnAction.setText(getString(R.string.admin_order_completed));
                 btnAction.setIconResource(R.drawable.ic_check_circle);
-                btnAction.setEnabled(false);
-                btnAction.setBackgroundTintList(
-                        ContextCompat.getColorStateList(this, R.color.status_success_bg));
-                btnAction.setTextColor(ContextCompat.getColor(this, R.color.status_success));
                 btnAction.setOnClickListener(null);
                 break;
 
             case "CANCELLED":
-                btnAction.setVisibility(View.VISIBLE);
+                btnAction.setEnabled(false);
+                btnAction.setSelected(true);
                 btnAction.setText("Đơn hàng đã hủy");
                 btnAction.setIconResource(R.drawable.ic_clock);
-                btnAction.setEnabled(false);
-                btnAction.setBackgroundTintList(
-                        ContextCompat.getColorStateList(this, R.color.status_error_bg));
-                btnAction.setTextColor(ContextCompat.getColor(this, R.color.status_error));
                 btnAction.setOnClickListener(null);
                 break;
 
             default: // NEW, PENDING, PROCESSING
-                btnAction.setVisibility(View.VISIBLE);
                 btnAction.setText(getString(R.string.admin_mark_shipped));
                 btnAction.setIconResource(R.drawable.ic_truck);
-                btnAction.setEnabled(true);
-                btnAction.setBackgroundTintList(
-                        ContextCompat.getColorStateList(this, R.color.brand_orange));
-                btnAction.setTextColor(ContextCompat.getColor(this, R.color.brand_white));
                 btnAction.setOnClickListener(v -> updateOrderStatus("SHIPPED"));
                 break;
         }
@@ -345,7 +336,6 @@ public class AdminOrderDetailActivity extends BaseAdminActivity {
         if (order != null) {
             order.orderStatus = newStatus;
             
-            // Auto update payment status if marked as delivered
             if ("DELIVERED".equals(newStatus)) {
                 order.paymentStatus = "PAID";
             }
@@ -368,7 +358,6 @@ public class AdminOrderDetailActivity extends BaseAdminActivity {
             else if ("CANCELLED".equals(newStatus)) statusStr = "Đã hủy";
             Toast.makeText(this, "Đã cập nhật trạng thái đơn hàng thành: " + statusStr, Toast.LENGTH_SHORT).show();
             
-            // Reload screen
             loadOrderData();
         }
     }

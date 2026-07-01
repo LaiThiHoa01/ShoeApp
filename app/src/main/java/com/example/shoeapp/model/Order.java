@@ -13,16 +13,21 @@ public class Order {
     private final int    itemCount;
     private       Status status;
     private final String date;         // Ví dụ: "May 19, 2026"
+    private final String paymentMethod;
+    private final String paymentStatus;
 
     public Order(String orderId, String customerName,
                  double total, int itemCount,
-                 Status status, String date) {
+                 Status status, String date,
+                 String paymentMethod, String paymentStatus) {
         this.orderId      = orderId;
         this.customerName = customerName;
         this.total        = total;
         this.itemCount    = itemCount;
         this.status       = status;
         this.date         = date;
+        this.paymentMethod = paymentMethod;
+        this.paymentStatus = paymentStatus;
     }
 
     public String getOrderId()      { return orderId; }
@@ -31,6 +36,8 @@ public class Order {
     public int    getItemCount()    { return itemCount; }
     public Status getStatus()       { return status; }
     public String getDate()         { return date; }
+    public String getPaymentMethod() { return paymentMethod; }
+    public String getPaymentStatus() { return paymentStatus; }
 
     /** Dùng khi admin bấm "Mark as Shipped" hoặc "Mark as Delivered" */
     public void setStatus(Status status) { this.status = status; }
