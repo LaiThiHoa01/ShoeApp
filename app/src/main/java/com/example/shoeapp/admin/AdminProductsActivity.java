@@ -184,7 +184,7 @@ public class AdminProductsActivity extends BaseAdminActivity
                             entity.price,
                             entity.originalPrice > 0 ? entity.originalPrice : entity.price,
                             totalStock,
-                            com.example.shoeapp.Helper.Helpers.isProductNew(entity.addedAt),
+                            DateUtils.isProductNew(entity.addedAt),
                             sizeList,
                             rating,
                             reviewCount,
