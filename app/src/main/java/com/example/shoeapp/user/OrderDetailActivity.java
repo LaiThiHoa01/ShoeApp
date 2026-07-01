@@ -36,14 +36,12 @@ public class OrderDetailActivity extends BaseSoleStepActivity {
         setContentView(R.layout.activity_order_detail);
         setupScreen(BottomNavHelper.TAG_ORDERS);
 
-        // Set up listener later in populateData
         // Setup RecyclerView
         RecyclerView recyclerView = findViewById(R.id.order_items_recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new OrderDetailItemAdapter(this);
         recyclerView.setAdapter(adapter);
 
-        // Fetch Data
         int orderId = getIntent().getIntExtra("order_id", -1);
         if (orderId == -1) {
             Toast.makeText(this, "Không tìm thấy đơn hàng", Toast.LENGTH_SHORT).show();
@@ -108,7 +106,7 @@ public class OrderDetailActivity extends BaseSoleStepActivity {
     }
     
     private void populateData(Order order, User user, List<OrderItemView> items, List<OrderItemView> unreviewedItems) {
-        // Order Reference and Date
+        // Order and Date
         ((TextView) findViewById(R.id.order_detail_id_text)).setText(order.ordersId);
         ((TextView) findViewById(R.id.order_reference_text)).setText(order.ordersId);
 
@@ -131,7 +129,7 @@ public class OrderDetailActivity extends BaseSoleStepActivity {
             dateText.setText(order.createdAt);
         }
 
-        // Status Badge
+        // Status
         TextView statusBadge = findViewById(R.id.order_detail_status_badge);
         if ("PENDING".equalsIgnoreCase(order.orderStatus)) {
             statusBadge.setText(R.string.orders_tab_pending);
